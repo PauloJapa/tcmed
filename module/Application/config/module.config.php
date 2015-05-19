@@ -16,6 +16,16 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'Application\Controller\Index',
+                        'action'     => 'loged',
+                    ),
+                ),
+            ),
+            'login' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/loged',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
                     ),
                 ),
