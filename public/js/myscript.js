@@ -1,3 +1,5 @@
+var GLOBALSIS=[];
+
 $(function () {
 
 });
@@ -29,30 +31,42 @@ function getInputsForm(idDoForm) {
 }
 
 function processa(obj) {
-    var ajax;
     if (!obj.ret) {
         obj.ret = 'inter';
     }
 
-    if (obj.frm) { //Se houver formulario
-        ajax = $.ajax({
-            method: "POST",
-            url: obj.url,
-            data: getInputsForm(obj.frm) //Retorna JSON com os dados do form
-        });
-    } else { //Se não houver formulario
-        ajax = $.ajax({
-            method: "GET",
-            url: obj.url
-        });
-    }
+    var ajax = initAjax(obj.frm);
 
     ajax.done(function (msg) {
-        $("#" + obj.ret).html(msg);
+        if(target){
+            $("#" + obj.ret).html(msg);
+        }
     });
 
     ajax.fail(function () {
         alert("Não foi possível enviar requisição para o servidor: \n" + obj.url);
     });
 }
-;
+
+function initAjax(idForm){
+    if (idForm) { //Se houver formulario
+        return $.ajax({
+            method: "POST",
+            url: obj.url,
+            data: getInputsForm(obj.frm) //Retorna JSON com os dados do form
+        });
+    } else { //Se não houver formulario
+        return $.ajax({
+            method: "GET",
+            url: obj.url
+        });
+    }
+}
+
+function setGlobal(key,vlr){
+    GLOBALSIS[key] = vlr;
+}
+
+function getGlobal(key){
+    return GLOBALSIS[key] ;
+}
