@@ -2,6 +2,10 @@ $(function () {
 
 });
 
+function testeCommit(){
+    alert("Ola mundo!");
+}
+
 function getInputsForm(idDoForm) {
     var dadosDoForm = {};
     var form = $('#' + idDoForm);
