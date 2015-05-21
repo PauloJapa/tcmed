@@ -7,47 +7,48 @@ function getInputsForm(idDoForm) {
     var form = $('#' + idDoForm);
 
     form.find('input').each(function () {
-        if($(this).attr('type') == 'checkbox' || $(this).attr('type') == 'radio'){
-            if($(this).is(':checked')){
+        if ($(this).attr('type') == 'checkbox' || $(this).attr('type') == 'radio') {
+            if ($(this).is(':checked')) {
                 dadosDoForm[$(this).attr('name')] = $(this).val();
             }
-        }else{
+        } else {
             dadosDoForm[$(this).attr('name')] = $(this).val();
         }
     });
 
-/*
-    form.find('select').find('option:selected').each(function () {
-        dadosDoForm["'" + this.attr('name') + "'"] = this.val();
-    });
-*/
+    /*
+     form.find('select').find('option:selected').each(function () {
+     dadosDoForm["'" + this.attr('name') + "'"] = this.val();
+     });
+     */
     return dadosDoForm;
 }
 
-function processa(url, idForm, target) {
+function processa(obj) {
     var ajax;
+    if (!obj.ret) {
+        obj.ret = 'inter';
+    }
 
-    if (idForm) { //Se houver formulario
+    if (obj.frm) { //Se houver formulario
         ajax = $.ajax({
             method: "POST",
-            url: url,
-            data: getInputsForm(idForm) //Retorna JSON com os dados do form
+            url: obj.url,
+            data: getInputsForm(obj.frm) //Retorna JSON com os dados do form
         });
     } else { //Se não houver formulario
         ajax = $.ajax({
             method: "GET",
-            url: url
+            url: obj.url
         });
     }
 
     ajax.done(function (msg) {
-        if(target){
-            $("#" + target).html(msg);
-        }
+        $("#" + obj.ret).html(msg);
     });
 
     ajax.fail(function () {
-        alert("Não foi possível enviar requisição para o servidor: \n" + url);
+        alert("Não foi possível enviar requisição para o servidor: \n" + obj.url);
     });
 }
 ;
