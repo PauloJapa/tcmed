@@ -2,10 +2,6 @@ $(function () {
 
 });
 
-function hello(){
-    alert("hello world: It's works!");
-}
-
 function getInputsForm(idDoForm) {
     var dadosDoForm = {};
     var form = $('#' + idDoForm);
