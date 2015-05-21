@@ -2,6 +2,10 @@ $(function () {
 
 });
 
+function hello(){
+    alert("hello world: It's works!");
+}
+
 function getInputsForm(idDoForm) {
     var dadosDoForm = {};
     var form = $('#' + idDoForm);
@@ -24,7 +28,7 @@ function getInputsForm(idDoForm) {
     return dadosDoForm;
 }
 
-function processaAjax(url, idForm, target) {
+function processa(url, idForm, target) {
     var ajax;
 
     if (idForm) { //Se houver formulario
