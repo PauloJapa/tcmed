@@ -20,7 +20,10 @@ class IndexController extends AbstractActionController
 
     public function cadastroAction()
     {
-        return new ViewModel();
+        
+        $view = new ViewModel();
+        $view->setTerminal(true);
+        return $view;
     }
 
 
