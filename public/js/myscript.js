@@ -35,12 +35,10 @@ function processa(obj) {
         obj.ret = 'inter';
     }
 
-    var ajax = initAjax(obj.frm);
+    var ajax = initAjax(obj);
 
     ajax.done(function (msg) {
-        if(target){
-            $("#" + obj.ret).html(msg);
-        }
+        $("#" + obj.ret).html(msg);
     });
 
     ajax.fail(function () {
@@ -48,8 +46,8 @@ function processa(obj) {
     });
 }
 
-function initAjax(idForm){
-    if (idForm) { //Se houver formulario
+function initAjax(obj){
+    if (obj.frm) { //Se houver formulario
         return $.ajax({
             method: "POST",
             url: obj.url,
