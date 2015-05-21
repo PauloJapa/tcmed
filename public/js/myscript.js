@@ -1,3 +1,5 @@
+var GLOBALSIS = new Array();
+
 $(function () {
 
 });
@@ -25,20 +27,7 @@ function getInputsForm(idDoForm) {
 }
 
 function processaAjax(url, idForm, target) {
-    var ajax;
-
-    if (idForm) { //Se houver formulario
-        ajax = $.ajax({
-            method: "POST",
-            url: url,
-            data: getInputsForm(idForm) //Retorna JSON com os dados do form
-        });
-    } else { //Se não houver formulario
-        ajax = $.ajax({
-            method: "GET",
-            url: url
-        });
-    }
+    var ajax = initAjax(idForm);
 
     ajax.done(function (msg) {
         if(target){
@@ -50,4 +39,26 @@ function processaAjax(url, idForm, target) {
         alert("Não foi possível enviar requisição para o servidor: \n" + url);
     });
 }
-;
+
+function initAjax(idForm){
+    if (idForm) { //Se houver formulario
+        return $.ajax({
+            method: "POST",
+            url: url,
+            data: getInputsForm(idForm) //Retorna JSON com os dados do form
+        });
+    } else { //Se não houver formulario
+        return $.ajax({
+            method: "GET",
+            url: url
+        });
+    }
+}
+
+function setGlobal(key,vlr){
+    GLOBALSIS[key] = vlr;
+}
+
+function getGlobal(key){
+    return GLOBALSIS[key] ;
+}
