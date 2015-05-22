@@ -4,10 +4,6 @@ $(function () {
 
 });
 
-function testeCommit(){
-    alert("Ola mundo!");
-}
-
 function getInputsForm(idDoForm) {
     var dadosDoForm = {};
     var form = $('#' + idDoForm);
@@ -37,8 +33,8 @@ function processa(obj) {
 
     var ajax = initAjax(obj);
 
-    ajax.done(function (msg) {
-        $("#" + obj.ret).html(msg);
+    ajax.done(function (data) {
+        $("#" + obj.ret).html(data);
     });
 
     ajax.fail(function () {
