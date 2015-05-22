@@ -5,8 +5,15 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class IndexController extends AbstractActionController
+class CrudController extends AbstractActionController
 {
+    
+    protected $view;
+    
+    public function __construct() {
+        $this->view = new ViewModel();
+        $this->view->setTerminal(true);
+    }
 
     public function indexAction()
     {
@@ -20,10 +27,7 @@ class IndexController extends AbstractActionController
 
     public function cadastroAction()
     {
-        
-        $view = new ViewModel();
-        $view->setTerminal(true);
-        return $view;
+        return $this->view;
     }
 
 
