@@ -1,8 +1,14 @@
-var GLOBALSIS=[];
+var GLOBALSIS = [];
+var canClick = true;
+
 
 $(function () {
-
 });
+
+function initTimeOut(time, funcao) {
+    var timeOut = setTimeout(funcao, time);
+    return timeOut;
+}
 
 function getInputsForm(idDoForm) {
     var dadosDoForm = {};
@@ -26,6 +32,13 @@ function getInputsForm(idDoForm) {
     return dadosDoForm;
 }
 
+function proccess(obj) {
+    obj.ret = (!obj.ret) ? 'inter' : obj.ret;
+
+}
+
+
+
 function processa(obj) {
     if (!obj.ret) {
         obj.ret = 'inter';
@@ -33,34 +46,54 @@ function processa(obj) {
 
     var ajax = initAjax(obj);
 
-    ajax.done(function (data) {
-        $("#" + obj.ret).html(data);
-    });
 
     ajax.fail(function () {
         alert("Não foi possível enviar requisição para o servidor: \n" + obj.url);
     });
+    
+    ajax.complete(function(){
+        alert("Finalizando");
+    });
 }
 
-function initAjax(obj){
+function ajaxControl(obj) {
+    var ajax;
+    
     if (obj.frm) { //Se houver formulario
-        return $.ajax({
+        ajax = $.ajax({
             method: "POST",
             url: obj.url,
             data: getInputsForm(obj.frm) //Retorna JSON com os dados do form
         });
     } else { //Se não houver formulario
-        return $.ajax({
+        ajax = $.ajax({
             method: "GET",
-            url: obj.url + "?" + Math.ceil ( Math.random() * 100000 )
+            url: obj.url + "?" + Math.ceil(Math.random() * 100000)
         });
     }
-}
+    ;
 
-function setGlobal(key,vlr){
+    ajax.fail(function(){
+        alert("Não foi possível encontrar o servidor");
+    });
+    
+    ajax.complete(function(){
+        alert("Ajax completo");
+    });
+    
+   
+    ajax.done(function (data) {
+        if(obj.ret){
+            $("#" + obj.ret).html(data);
+        }
+    });
+}
+;
+
+function setGlobal(key, vlr) {
     GLOBALSIS[key] = vlr;
 }
 
-function getGlobal(key){
-    return GLOBALSIS[key] ;
+function getGlobal(key) {
+    return GLOBALSIS[key];
 }

@@ -22,8 +22,8 @@ class IndexController extends AbstractActionController
 
     public function cadastroAction()
     {
-         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-         var_dump($em);
+         //$em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
+         //var_dump($em);
         $view = new ViewModel();
         $view->setTerminal(true);
         return $view;
