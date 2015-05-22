@@ -56,7 +56,7 @@ function initAjax(obj){
     } else { //Se não houver formulario
         return $.ajax({
             method: "GET",
-            url: obj.url
+            url: obj.url + "?" + Math.ceil ( Math.random() * 100000 )
         });
     }
 }
