@@ -7,7 +7,7 @@ var GLOBALSIS = {
 $(function () {
     $(document).on("click", "#bot", function () {
         alert(getInputsForm("#frm"));
-    })
+    });
 });
 
 
@@ -55,11 +55,11 @@ function showLoader(visible) {
 
 function lockClick(time) {
     GLOBALSIS.canClick = false;
-    
+
     //Se for definido um tempo (time), seta timeout para o tempo definido
     //Se nao houver, seta o timeout com o default
-    var timeout = (time)?time:GLOBALSIS.timeOutButton;
-    
+    var timeout = (time) ? time : GLOBALSIS.timeOutButton;
+
     initTimeOut(timeout, function () {
         unlockClick();
     });
@@ -87,7 +87,6 @@ function initAjax(obj) {
         params.type = "GET";
         params.url = GLOBALSIS.path + obj.url + "?" + Math.ceil(Math.random() * 100000)
     }
-    ;
 
     return $.ajax(params);
 }
@@ -122,11 +121,10 @@ function processa(obj) {
     });
 
     //Completa a requisição se for sucedida ou não
-    ajax.aways(function () {
+    ajax.complete(function () {
         showLoader(false);
     });
 }
-;
 
 function setGlobal(key, vlr) {
     GLOBALSIS[key] = vlr;
