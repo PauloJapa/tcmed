@@ -47,6 +47,12 @@ function processa(obj) {
     var ajax = initAjax(obj);
 
 
+    ajax.done(function (data) {
+        if(obj.ret){
+            $("#" + obj.ret).html(data);
+        }
+    });
+
     ajax.fail(function () {
         alert("Não foi possível enviar requisição para o servidor: \n" + obj.url);
     });
@@ -56,39 +62,37 @@ function processa(obj) {
     });
 }
 
-function ajaxControl(obj) {
+function initAjax(obj) {
     var ajax;
     
     if (obj.frm) { //Se houver formulario
-        ajax = $.ajax({
+        return $.ajax({
             method: "POST",
             url: obj.url,
             data: getInputsForm(obj.frm) //Retorna JSON com os dados do form
         });
     } else { //Se não houver formulario
-        ajax = $.ajax({
+        return $.ajax({
             method: "GET",
             url: obj.url + "?" + Math.ceil(Math.random() * 100000)
         });
     }
-    ;
 
-    ajax.fail(function(){
-        alert("Não foi possível encontrar o servidor");
-    });
-    
-    ajax.complete(function(){
-        alert("Ajax completo");
-    });
-    
-   
-    ajax.done(function (data) {
-        if(obj.ret){
-            $("#" + obj.ret).html(data);
-        }
-    });
+//    ajax.fail(function(){
+//        alert("Não foi possível encontrar o servidor");
+//    });
+//    
+//    ajax.complete(function(){
+//        alert("Ajax completo");
+//    });
+//    
+//   
+//    ajax.done(function (data) {
+//        if(obj.ret){
+//            $("#" + obj.ret).html(data);
+//        }
+//    });
 }
-;
 
 function setGlobal(key, vlr) {
     GLOBALSIS[key] = vlr;
