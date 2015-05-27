@@ -108,7 +108,7 @@ class MappingDriverChain implements MappingDriver
             $this->defaultDriver->loadMetadataForClass($className, $metadata);
             return;
         }
-
+        
         throw MappingException::classNotFoundInNamespaces($className, array_keys($this->drivers));
     }
 
