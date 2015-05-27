@@ -5,6 +5,7 @@ return array(
         'Application',    
         'DoctrineModule',
         'DoctrineORMModule',
+        'DoctrineDataFixtureModule',
     ),
 
     // These are various options for the listeners attached to the ModuleManager
@@ -62,5 +63,5 @@ return array(
 
    // Initial configuration with which to seed the ServiceManager.
    // Should be compatible with Zend\ServiceManager\Config.
-   // 'service_manager' => array(),
+   // 'service_manager' => array(),  
 );

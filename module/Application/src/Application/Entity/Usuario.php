@@ -8,11 +8,13 @@ use Zend\Math\Rand,
 
 use Zend\Stdlib\Hydrator;
 
+ // (name="usuario", indexes={@ORM\Index(name="fk_usuario_funcionario1_idx", columns={"funcionario_id_funcionario"}), @ORM\Index(name="fk_usuario_nivelAcesso1_idx", columns={"nivelAcesso_id_nivelAcesso"}), @ORM\Index(name="fk_usuario_funcionario_ocorrencia1_idx", columns={"funcionario_ocorrencia_id_funcionario_ocorr"})})
 /**
  * Usuario
  *
- * @ORM\Table(name="usuario", indexes={@ORM\Index(name="fk_usuario_funcionario1_idx", columns={"funcionario_id_funcionario"}), @ORM\Index(name="fk_usuario_nivelAcesso1_idx", columns={"nivelAcesso_id_nivelAcesso"}), @ORM\Index(name="fk_usuario_funcionario_ocorrencia1_idx", columns={"funcionario_ocorrencia_id_funcionario_ocorr"})})
+ * @ORM\Table(name="usuario")
  * @ORM\Entity
+ *  
  */
 class Usuario
 {
@@ -103,38 +105,16 @@ class Usuario
      *   @ORM\JoinColumn(name="funcionario_id_funcionario", referencedColumnName="id_funcionario")
      * })
      */
-    private $funcionarioFuncionario;
-
-    /**
-     * @var \UsuarioOcorrencia
-     *
-     * @ORM\ManyToOne(targetEntity="UsuarioOcorrencia")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="funcionario_ocorrencia_id_funcionario_ocorr", referencedColumnName="id_usuario_ocorr")
-     * })
-     */
-    private $funcionarioOcorrenciaFuncionarioOcorr;
-
-    /**
-     * @var \Nivelacesso
-     *
-     * @ORM\ManyToOne(targetEntity="Nivelacesso")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="nivelAcesso_id_nivelAcesso", referencedColumnName="id_nivelAcesso")
-     * })
-     */
-    private $nivelacessoNivelacesso;
-
     
     public function __construct(array $options = []) 
     {
-        $hydrator = new Hydrator\ClassMethods;
+        (new Hydrator\ClassMethods)->hydrate($options, $this);
         
         $this->createdAt = new \DateTime('now');
         $this->updatedAt = new \DateTime('now');
         
         $this->salt = base64_encode(Rand::getBytes(8, true));
-        $this->activationKey = md5($this->email . $this->salt);
+        $this->activationKey = md5($this->emailUsuario . $this->salt);
     }    
     
     function getIdUsuario() {
@@ -181,18 +161,6 @@ class Usuario
         return $this->lembreteSenha;
     }
 
-    function getFuncionarioFuncionario() {
-        return $this->funcionarioFuncionario;
-    }
-
-    function getFuncionarioOcorrenciaFuncionarioOcorr() {
-        return $this->funcionarioOcorrenciaFuncionarioOcorr;
-    }
-
-    function getNivelacessoNivelacesso() {
-        return $this->nivelacessoNivelacesso;
-    }
-
     function setIdUsuario($idUsuario) {
         $this->idUsuario = $idUsuario;
         return $this;
@@ -227,13 +195,17 @@ class Usuario
         return $this;
     }
 
-    function setCreatedAt(\DateTime $createdAt) {
-        $this->createdAt = $createdAt;
+    function setCreatedAt() {
+        $this->createdAt = new \DateTime('now');
         return $this;
     }
 
-    function setUpdatedAt(\DateTime $updatedAt) {
-        $this->updatedAt = $updatedAt;
+    /**
+     * @ORM\prePersist
+     * @return \Application\Entity\Usuario
+     */
+    function setUpdatedAt() {
+        $this->updatedAt = new \DateTime('now');
         return $this;
     }
 
@@ -251,23 +223,6 @@ class Usuario
         $this->lembreteSenha = $lembreteSenha;
         return $this;
     }
-
-    function setFuncionarioFuncionario(\Funcionario $funcionarioFuncionario) {
-        $this->funcionarioFuncionario = $funcionarioFuncionario;
-        return $this;
-    }
-
-    function setFuncionarioOcorrenciaFuncionarioOcorr(\UsuarioOcorrencia $funcionarioOcorrenciaFuncionarioOcorr) {
-        $this->funcionarioOcorrenciaFuncionarioOcorr = $funcionarioOcorrenciaFuncionarioOcorr;
-        return $this;
-    }
-
-    function setNivelacessoNivelacesso(\Nivelacesso $nivelacessoNivelacesso) {
-        $this->nivelacessoNivelacesso = $nivelacessoNivelacesso;
-        return $this;
-    }
-
-
 
 }
 

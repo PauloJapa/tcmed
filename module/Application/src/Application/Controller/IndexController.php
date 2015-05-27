@@ -5,7 +5,7 @@ namespace Application\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-use Doctrine\ORM\EntityManager ;
+use Application\Entity\Usuario ;
 
 class IndexController extends AbstractActionController
 {
@@ -23,7 +23,15 @@ class IndexController extends AbstractActionController
     public function cadastroAction()
     {
         $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
-         //var_dump($em);
+        
+        $user = new Usuario();
+        $user->setNomeUsuario('Administrador')
+                ->setEmailUsuario('admin@admin.com.br')
+                ->setSenhaUsuario('123')
+                ->setSituacao('A');        
+        $em->persist($user);
+        $em->flush();
+        
         $view = new ViewModel();
         $view->setTerminal(true);
         return $view;
