@@ -1,97 +1,81 @@
-var GLOBALSIS = [];
-var canClick = true;
-
+var GLOBALSIS = {
+    path: "app/",
+    canClick: true,
+    timeOutButton: 30000,
+    fila: {
+        first: 0,
+        last: 9,
+        cursor: 0,
+        virtualCursor:0,
+    },
+    navegacao:{},
+};
 
 $(function () {
+    $(document).on("click", "#bot", function () {
+        alert($play.getInputsForm("#frm"));
+    });
+
+    $play.managerPag($('.godown'), $('.goup'), $('#inter'));
+
 });
 
-function initTimeOut(time, funcao) {
-    var timeOut = setTimeout(funcao, time);
-    return timeOut;
-}
+function lockClick(time) {
+    GLOBALSIS.canClick = false;
 
-function getInputsForm(idDoForm) {
-    var dadosDoForm = {};
-    var form = $('#' + idDoForm);
+    //Se for definido um tempo (time), seta timeout para o tempo definido
+    //Se nao houver, seta o timeout com o default
+    var timeout = (time) ? time : GLOBALSIS.timeOutButton;
 
-    form.find('input').each(function () {
-        if ($(this).attr('type') == 'checkbox' || $(this).attr('type') == 'radio') {
-            if ($(this).is(':checked')) {
-                dadosDoForm[$(this).attr('name')] = $(this).val();
-            }
-        } else {
-            dadosDoForm[$(this).attr('name')] = $(this).val();
-        }
+    $play.initTimeOut(timeout, function () {
+        unlockClick();
     });
-
-    /*
-     form.find('select').find('option:selected').each(function () {
-     dadosDoForm["'" + this.attr('name') + "'"] = this.val();
-     });
-     */
-    return dadosDoForm;
 }
 
-function proccess(obj) {
-    obj.ret = (!obj.ret) ? 'inter' : obj.ret;
-
+function unlockClick() {
+    GLOBALSIS.canClick = true;
 }
 
 
-
+/**
+ * Método de envio/recebimento de dados para o servidor
+ * @param {type} obj
+ * @returns {undefined}
+ */
 function processa(obj) {
-    if (!obj.ret) {
-        obj.ret = 'inter';
+    if (!GLOBALSIS.canClick) {
+        return;
     }
+    
+    $play.addPage($("#inter").html());
 
-    var ajax = initAjax(obj);
+    $play.showLoader(true);
 
+    //Verifica se há o param ret. Se não há, seta como inter
+    obj.ret = (!obj.ret) ? "inter" : obj.ret;
 
+    var ajax = $play.sendToServer(obj);
+    //var ajax = initAjax(obj);
+
+    //Conexão falhou
+    ajax.fail(function (data) {
+        alert("Não foi possível enviar requisição para o servidor: \n");
+        $("#inter").html(data);
+    });
+
+    //Conexão sucedida
     ajax.done(function (data) {
-        if(obj.ret){
-            $("#" + obj.ret).html(data);
+        if (obj.ret) {
+            var data = $("#" + obj.ret).html(data);
+            //addSessionStorage(data.html());
+            
         }
     });
 
-    ajax.fail(function () {
-        alert("Não foi possível enviar requisição para o servidor: \n" + obj.url);
+    //Completa a requisição se for sucedida ou não
+    ajax.complete(function () {
+        $play.showLoader(false);
     });
-    
-    ajax.complete(function(){
-        alert("Finalizando");
-    });
-}
-
-function initAjax(obj) {
-    var ajax;
-    
-    if (obj.frm) { //Se houver formulario
-        return $.ajax({
-            method: "POST",
-            url: obj.url,
-            data: getInputsForm(obj.frm) //Retorna JSON com os dados do form
-        });
-    } else { //Se não houver formulario
-        return $.ajax({
-            method: "GET",
-            url: obj.url + "?" + Math.ceil(Math.random() * 100000)
-        });
-    }
-
-//    ajax.fail(function(){
-//        alert("Não foi possível encontrar o servidor");
-//    });
-//    
-//    ajax.complete(function(){
-//        alert("Ajax completo");
-//    });
-//    
-//   
-//    ajax.done(function (data) {
-//        if(obj.ret){
-//            $("#" + obj.ret).html(data);
-//        }
-//    });
 }
 
 function setGlobal(key, vlr) {
