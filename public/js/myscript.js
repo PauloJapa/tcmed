@@ -2,13 +2,61 @@ var GLOBALSIS = {
     path: "app/",
     canClick: true,
     timeOutButton: 30000,
+    fila: {
+        first: 0,
+        last: 9,
+        cursor: 0,
+        virtualCursor:0,
+    },
+    navegacao:{},
 };
+
+
 
 $(function () {
     $(document).on("click", "#bot", function () {
         alert(getInputsForm("#frm"));
     });
+
+    $(document).on("click", ".go", function(){
+        if($(this).hasClass("goup")){
+            if(GLOBALSIS.fila.virtualCursor < GLOBALSIS.fila.cursor){
+                $("#inter").html(getSessionStorage(GLOBALSIS.fila.virtualCursor));
+                GLOBALSIS.fila.virtualCursor++;
+                alert(GLOBALSIS.fila.virtualCursor);
+            }
+        }else{
+            if(GLOBALSIS.fila.virtualCursor > GLOBALSIS.fila.first){
+                GLOBALSIS.fila.virtualCursor--;
+                $("#inter").html(getSessionStorage(GLOBALSIS.fila.virtualCursor));
+                alert(GLOBALSIS.fila.virtualCursor);
+            }
+        }
+    });
+    
 });
+
+function addSessionStorage(data){
+    //sessionStorage.setItem(GLOBALSIS.fila.cursor, data);
+    GLOBALSIS.navegacao[GLOBALSIS.fila.cursor] = data;
+    
+    if(GLOBALSIS.fila.cursor > GLOBALSIS.fila.last){
+        //Deleta o primeiro item
+        //sessionStorage.removeItem(GLOBALSIS.fila.first);
+        GLOBALSIS.navegacao[GLOBALSIS.fila.first] = "";
+        
+        GLOBALSIS.fila.first++;
+        GLOBALSIS.fila.cursor++;
+        GLOBALSIS.fila.virtualCursor ++;
+    }else{
+        GLOBALSIS.fila.cursor++;
+    }
+}
+
+function getSessionStorage(key){
+    //return sessionStorage.getItem(key);
+    return GLOBALSIS.navegacao[key];
+}
 
 
 /**
@@ -116,7 +164,8 @@ function processa(obj) {
     //Conexão sucedida
     ajax.done(function (data) {
         if (obj.ret) {
-            $("#" + obj.ret).html(data);
+            var data = $("#" + obj.ret).html(data);
+            addSessionStorage(data.html());
         }
     });
 
