@@ -21,13 +21,23 @@ return array(
                     ),
                 ),
             ),
-            'login' => array(
+            'user-register' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/auth',
+                    'route'    => '/register',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Auth',
-                        'action'     => 'index',
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'register',
+                    ),
+                ),
+            ),
+            'user-activate' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/register/activate[/:key]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\index',
+                        'action'     => 'activate',
                     ),
                 ),
             ),
@@ -86,7 +96,8 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Auth' => 'Application\Controller\AuthController'
+            'Application\Controller\Auth' => 'Application\Controller\AuthController',
+            'Application\Controller\Users' => 'Application\Controller\UsersController',
         ),
     ),
     'view_manager' => array(

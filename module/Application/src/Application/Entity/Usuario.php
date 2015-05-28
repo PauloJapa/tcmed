@@ -14,6 +14,7 @@ use Zend\Stdlib\Hydrator;
  *
  * @ORM\Table(name="usuario")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="SONUser\Entity\UsuarioRepository")
  *  
  */
 class Usuario
@@ -98,13 +99,11 @@ class Usuario
     private $lembreteSenha;
 
     /**
-     * @var \Funcionario
+     * @var string
      *
-     * @ORM\ManyToOne(targetEntity="Funcionario")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="funcionario_id_funcionario", referencedColumnName="id_funcionario")
-     * })
+     * @ORM\Column(name="activation_key", type="string", length=255, nullable=false)
      */
+    private $activationKey;
     
     public function __construct(array $options = []) 
     {
@@ -221,6 +220,15 @@ class Usuario
 
     function setLembreteSenha($lembreteSenha) {
         $this->lembreteSenha = $lembreteSenha;
+        return $this;
+    }
+
+    public function getActivationKey() {
+        return $this->activationKey;
+    }
+
+    public function setActivationKey($activationKey) {
+        $this->activationKey = $activationKey;
         return $this;
     }
 
