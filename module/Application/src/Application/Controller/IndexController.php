@@ -2,24 +2,20 @@
 
 namespace Application\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Application\Form\User as FormUser;
 
-use Application\Form\User as FormUser ;
-
-class IndexController extends AbstractActionController
-{
+class IndexController extends CrudController {
 
     public function registerAction() {
         $form = new FormUser();
         $request = $this->getRequest();
-        
-        if($request->isPost()){
+
+        if ($request->isPost()) {
             $form->setData($request->getPost());
-            if($form->isValid()){
+            if ($form->isValid()) {
                 $service = $this->getServiceLocator()->get("Application\Service\User");
                 $entity = $service->insert($request->getPost()->toArray());
-                if($entity){
+                if ($entity) {
                     $fm = $this->flashMessenger()
                             ->setNamespace("Application")
                             ->addMessage("Usuario cadastrado com sucesso");
@@ -27,49 +23,40 @@ class IndexController extends AbstractActionController
                 //return $this->redirect()->toRoute('user-register');
             }
         }
-        
+
         $messages = $this->flashMessenger()
                 ->setNamespace("Application")
                 ->getMessages();
-        
-        $view = new ViewModel(array('form'=>$form,'messages'=>$messages));
+
+        $view = new ViewModel(array('form' => $form, 'messages' => $messages));
         $view->setTerminal(true);
         return $view;
     }
-    
-    public function activateAction()
-    {
+
+    public function activateAction() {
         $activationKey = $this->params()->fromRoute('key');
-        
+
         $userService = $this->getServiceLocator()->get('SONUser\Service\User');
         $result = $userService->activate($activationKey);
-        
-        if($result)
-            $view = new ViewModel(array('user'=>$result));
+
+        if ($result)
+            $view = new ViewModel(array('user' => $result));
         else
             $view = new ViewModel();
-        
+
         $view->setTerminal(true);
         return $view;
-    }  
-    
-    
-    
-    
-    
-    
-    public function indexAction()
-    {
+    }
+
+    public function indexAction() {
         return new ViewModel();
     }
 
-    public function logedAction()
-    {
+    public function logedAction() {
         return new ViewModel();
     }
 
-    public function cadastroAction()
-    {
+    public function cadastroAction() {
 //        $em = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager');
 //        
 //        $user = new Usuario();
@@ -79,12 +66,10 @@ class IndexController extends AbstractActionController
 //                ->setSituacao('A');        
 //        $em->persist($user);
 //        $em->flush();
-        
+
         $view = new ViewModel();
         $view->setTerminal(true);
         return $view;
     }
 
-
 }
-

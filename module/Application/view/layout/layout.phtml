@@ -40,6 +40,7 @@
         <?php
         echo $this->headScript()
                 ->prependFile($this->basePath('js/myscript.js'))
+                ->prependFile($this->basePath('js/playplugin.js'))
                 ->prependFile($this->basePath('js/sb-admin-2.js'))
                 ->prependFile($this->basePath('js/metisMenu.min.js'))
                 ->prependFile($this->basePath('bootstrap/dist/js/bootstrap.min.js'))
@@ -51,7 +52,8 @@
     </head>
 
     <body>
-
+        
+        
         <div id="wrapper">
 
             <?php echo $this->content; ?>
