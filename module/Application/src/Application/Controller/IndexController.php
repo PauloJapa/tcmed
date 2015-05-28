@@ -28,9 +28,7 @@ class IndexController extends CrudController {
                 ->setNamespace("Application")
                 ->getMessages();
 
-        $view = new ViewModel(array('form' => $form, 'messages' => $messages));
-        $view->setTerminal(true);
-        return $view;
+        return $this->makeView(array('form' => $form, 'messages' => $messages));
     }
 
     public function activateAction() {
@@ -39,21 +37,19 @@ class IndexController extends CrudController {
         $userService = $this->getServiceLocator()->get('SONUser\Service\User');
         $result = $userService->activate($activationKey);
 
-        if ($result)
-            $view = new ViewModel(array('user' => $result));
-        else
-            $view = new ViewModel();
-
-        $view->setTerminal(true);
-        return $view;
+        if ($result) {
+            return $this->makeView(array('user' => $result));
+        } else {
+            return $this->makeView();
+        }
     }
 
     public function indexAction() {
-        return new ViewModel();
+        return $this->makeView([],FALSE);
     }
 
     public function logedAction() {
-        return new ViewModel();
+        return $this->makeView([],FALSE);
     }
 
     public function cadastroAction() {
@@ -67,9 +63,7 @@ class IndexController extends CrudController {
 //        $em->persist($user);
 //        $em->flush();
 
-        $view = new ViewModel();
-        $view->setTerminal(true);
-        return $view;
+        return $this->makeView();
     }
 
 }
