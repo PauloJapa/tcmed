@@ -1,5 +1,5 @@
 var GLOBALSIS = {
-    path: "app/",
+    path: "",
     canClick: true,
     timeOutButton: 30000,
     fila: {
@@ -43,6 +43,9 @@ function unlockClick() {
  * @returns {undefined}
  */
 function processa(obj) {
+    if(obj.url == "" || obj.url == "#"){
+        return;
+    }
     if (!GLOBALSIS.canClick) {
         return;
     }
