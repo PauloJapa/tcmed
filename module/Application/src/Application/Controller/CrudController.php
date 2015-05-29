@@ -39,18 +39,18 @@ abstract class CrudController extends AbstractActionController {
     }
 
     public function indexAction() {
-echo $this->entity;
-$em = $this->getEm();die;
+//echo $this->entity;
+//$em = $this->getEm();die;
         $list = $this->getEm()
                 ->getRepository($this->entity)
                 ->findAll();
-        var_dump($list);die;
+//        var_dump($list);die;
         
         $page = $this->params()->fromRoute('page');
 
         $paginator = new Paginator(new ArrayAdapter($list));
         $paginator->setCurrentPageNumber($page)
-                ->setDefaultItemCountPerPage(10);
+                ->setDefaultItemCountPerPage(1);
 
         return $this->makeView(['data' => $paginator, 'page' => $page]);
     }

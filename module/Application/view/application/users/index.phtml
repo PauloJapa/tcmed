@@ -17,15 +17,15 @@
     <?php foreach($this->data as $entity): ?>
     <tr>
     
-        <td><?php echo $entity->getId(); ?></td>
-        <td><?php echo $entity->getNome(); ?></td>
-        <td><?php echo $entity->getEmail(); ?></td>
+        <td><?php echo $entity->getIdUsuario(); ?></td>
+        <td><?php echo $entity->getNomeUsuario(); ?></td>
+        <td><?php echo $entity->getEmailUsuario(); ?></td>
         <td>
             <a href="<?php echo $this->url('app/default',
-                    array('controller'=>'users','action'=>'edit','id'=>$entity->getId()));?>">Editar</a>
+                    array('controller'=>'users','action'=>'edit','id'=>$entity->getIdUsuario()));?>">Editar</a>
             
             <a href="<?php echo $this->url('app/default',
-                    array('controller'=>'users','action'=>'delete','id'=>$entity->getId()));?>">Delete</a>
+                    array('controller'=>'users','action'=>'delete','id'=>$entity->getIdUsuario()));?>">Delete</a>
             
         </td>
     </tr>
@@ -33,4 +33,4 @@
 </table>
 <br />
 
-<?php //echo $this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
+<?php echo $this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
