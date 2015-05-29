@@ -14,7 +14,7 @@ use Zend\Stdlib\Hydrator;
  *
  * @ORM\Table(name="usuario")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="SONUser\Entity\UsuarioRepository")
+ * @ORM\Entity(repositoryClass="UsuarioRepository")
  *  
  */
 class Usuario

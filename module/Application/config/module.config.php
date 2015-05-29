@@ -46,7 +46,7 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'application' => array(
+            'app' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/app',
@@ -58,6 +58,19 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'paginator' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action[/page/:page]]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                            )
+                        )
+                    ),
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
