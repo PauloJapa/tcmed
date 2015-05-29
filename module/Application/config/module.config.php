@@ -21,13 +21,23 @@ return array(
                     ),
                 ),
             ),
-            'login' => array(
+            'user-register' => array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
-                    'route'    => '/auth',
+                    'route'    => '/register',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Auth',
-                        'action'     => 'index',
+                        'controller' => 'Application\Controller\Index',
+                        'action'     => 'register',
+                    ),
+                ),
+            ),
+            'user-activate' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'    => '/register/activate[/:key]',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\index',
+                        'action'     => 'activate',
                     ),
                 ),
             ),
@@ -36,7 +46,7 @@ return array(
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'application' => array(
+            'app' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/app',
@@ -48,6 +58,19 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
+                    'paginator' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action[/page/:page]]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                            )
+                        )
+                    ),
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -86,7 +109,8 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
-            'Application\Controller\Auth' => 'Application\Controller\AuthController'
+            'Application\Controller\Auth' => 'Application\Controller\AuthController',
+            'Application\Controller\Users' => 'Application\Controller\UsersController',
         ),
     ),
     'view_manager' => array(
@@ -112,17 +136,24 @@ return array(
             ),
         ),
     ),
-    // Doctrine configuration  'doctrine' => array(
-    'driver' => array(
-        __NAMESPACE__ . '_driver' => array(
-            'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
-            'cache' => 'array',
-            'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
-        ),
-        'orm_default' => array(
-            'drivers' => array(
-                __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+    // Doctrine configuration  
+    'doctrine' => array(
+        'driver' => array(
+            __NAMESPACE__ . '_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/' . __NAMESPACE__ . '/Entity')
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+                )
             )
-        )
+        ),
+        'data-fixture' => array(
+            __NAMESPACE__ . '_fixture' => __DIR__ . '/../src/' . __NAMESPACE__ . '/Fixture',
+           'Application2_fixture' => __DIR__ . '/../src/Application/Fixture',
+           'Application3_fixture' => '/var/www/tcmed/module/Application/src/Application/Fixture',
+        ),
     ),
 );
