@@ -14,28 +14,29 @@ var _pag = {
 $(function () {
     $play = new play({
         loader: {
-            img:"/img/loader.gif"
+            img: "/img/loader.gif",
         }
     });
 
 });
 
 function play(params) {
-    
-    if(params.loader){
-        $("body").prepend("<img id='loader' src='"+params.loader.img+"'>");
+    if (params.loader) {
+        $("body").prepend("<img id='loader' src='" + params.loader.img + "'>");
         
-        $("#loader").css({
-            position:"absolute",
-            width:"50px",
-            heigth:"50px",
+        var novoCss = {
+            position: "absolute",
+            width: "50px",
+            heigth: "50px",
             top: "50%",
             right: "40%",
             display: "none"
-        });
-    };
-}
-;
+        };        
+        params.css = (params.css)? params.css:novoCss;
+
+        $("#loader").css(novoCss);
+    }
+};
 
 /**
  * 
@@ -132,7 +133,7 @@ play.prototype.getInputsForm = function (obj) {
  * @param {type} obj
  * @returns {jqXHR}
  */
-play.prototype.sendToServer = function(obj){
+play.prototype.sendToServer = function (obj) {
     var params = {};
 
     if (obj.frm) { //Se houver dados para enviar
@@ -153,7 +154,7 @@ play.prototype.sendToServer = function(obj){
  * @param {type} funcao
  * @returns {initTimeOut.timeOut}
  */
-play.prototype.initTimeOut = function(time, funcao) {
+play.prototype.initTimeOut = function (time, funcao) {
     var timeOut = setTimeout(funcao, time);
     return timeOut;
 };
@@ -163,7 +164,7 @@ play.prototype.initTimeOut = function(time, funcao) {
  * @param {type} visible
  * @returns {undefined}
  */
-play.prototype.showLoader = function(visible) {
+play.prototype.showLoader = function (visible) {
     if (visible) {
         $("#loader").fadeIn("fast");
         lockClick();
