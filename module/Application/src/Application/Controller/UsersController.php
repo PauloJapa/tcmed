@@ -17,15 +17,15 @@ class UsersController extends CrudController{
 
     public function __construct() {
         parent::__construct();
-        $this->entity = $this->modulo . "\Entity\Usuario";
-        $this->form = $this->modulo . "\Form\User";
-        $this->service = $this->modulo . "\Service\User";
+        $this->entity = $this->moduloName . "\Entity\Usuario";
+        $this->form = $this->moduloName . "\Form\User";
+        $this->service = $this->moduloName . "\Service\User";
         $this->controller = "users";
-        $this->route = "sonuser-admin";
+        $this->route = "app/default";
     }
 
-    public function editAction() {
-        $form = new $this->form();
+    public function editAction() {        
+        $form = new $this->form();        
         $request = $this->getRequest();
         $repository = $this->getEm()->getRepository($this->entity);
         $entity = $repository->find($this->params()->fromRoute('id', 0));
@@ -47,7 +47,9 @@ class UsersController extends CrudController{
             }
         }
 
-        return new ViewModel(array('form' => $form));
+        $view = $this->makeView(compact("form"));
+        $view->setTemplate("application/users/new.phtml");
+        return $view;
     }
 
 }

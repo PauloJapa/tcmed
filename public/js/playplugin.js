@@ -57,7 +57,6 @@ function play(params) {
         this.registerParam(params.pagination, _pagination);
         managerPag();
     }
-    ;
 }
 ;
 
@@ -71,7 +70,7 @@ function play(params) {
 function managerPag() {
     //Adiciona a primeira pagina no array (log)
     _pagination.pages[0] = $(_pagination.container).html();
-    
+
     //Desabilita os botoes para impedir que o usuario clique-os
     $(_pagination.back).attr("disabled", "true");
     $(_pagination.next).attr("disabled", "true");
@@ -151,12 +150,12 @@ play.prototype.addPage = function (page) {
 play.prototype.getInputsForm = function (obj) {
     var o = {};
 
-    var a = $(obj).serializeArray();
+    var a = $("#" + obj).serializeArray();
 
     $.each(a, function () {
         o[this.name] = this.value || '';
     });
-    return JSON.stringify(o);
+    return o;
 };
 
 /**
