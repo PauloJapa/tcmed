@@ -8,14 +8,14 @@ var _pag = {
     initial: 0,
     final: 0,
     limit: 9,
-    pages: {},
+    pages: {}
 };
 
 $(function () {
     $play = new play({
         loader: {
-            img:"/img/loader.gif",
-        },
+            img:"/img/loader.gif"
+        }
     });
 
 });
@@ -31,7 +31,7 @@ function play(params) {
             heigth:"50px",
             top: "50%",
             right: "40%",
-            display: "none",
+            display: "none"
         });
     };
 }
@@ -119,12 +119,12 @@ play.prototype.addPage = function (page) {
 play.prototype.getInputsForm = function (obj) {
     var o = {};
 
-    var a = $(obj).serializeArray();
+    var a = $("#" + obj).serializeArray();
 
     $.each(a, function () {
         o[this.name] = this.value || '';
     });
-    return JSON.stringify(o);
+    return o;
 };
 
 /**
@@ -141,7 +141,7 @@ play.prototype.sendToServer = function(obj){
         params.url = GLOBALSIS.path + obj.url;
     } else {
         params.type = "GET";
-        params.url = GLOBALSIS.path + obj.url + "?" + Math.ceil(Math.random() * 100000)
+        params.url = GLOBALSIS.path + obj.url + "?" + Math.ceil(Math.random() * 100000);
     }
 
     return $.ajax(params);
@@ -171,4 +171,4 @@ play.prototype.showLoader = function(visible) {
         $("#loader").fadeOut("fast");
         unlockClick();
     }
-}
+};

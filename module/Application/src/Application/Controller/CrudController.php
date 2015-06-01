@@ -18,16 +18,20 @@ abstract class CrudController extends AbstractActionController {
      * O nome do Modulo
      * @var string
      */
-    protected $modulo;
+    protected $moduloName;
     protected $service;
     protected $entity;
     protected $form;
     protected $route;
     protected $controller;
+    /**
+     *
+     * @var Zend\View\Model\ViewModel 
+     */
     protected $view;
     
     public function __construct() {
-        $this->modulo = "Application";        
+        $this->moduloName = "Application";        
     }
 
     public function logedAction() {
@@ -39,12 +43,9 @@ abstract class CrudController extends AbstractActionController {
     }
 
     public function indexAction() {
-//echo $this->entity;
-//$em = $this->getEm();die;
         $list = $this->getEm()
                 ->getRepository($this->entity)
                 ->findAll();
-//        var_dump($list);die;
         
         $page = $this->params()->fromRoute('page');
 
@@ -58,8 +59,8 @@ abstract class CrudController extends AbstractActionController {
     public function newAction() {
         $form = new $this->form();
         $request = $this->getRequest();
-
         if ($request->isPost()) {
+var_dump($request->getPost()->toArray());die;
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $service = $this->getServiceLocator()->get($this->service);

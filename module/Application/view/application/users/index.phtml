@@ -3,7 +3,7 @@
 <br />
 
 <p>
-    <a href="<?php echo $this->url('app/default',array('action'=>'new')); ?>">Novo</a>
+    <a href="<?php echo $this->url('app/default',array('controller'=>'users','action'=>'new')); ?>">Novo</a>
 </p>
 
 <table class="table">
@@ -33,4 +33,6 @@
 </table>
 <br />
 
-<?php echo $this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
+<center>
+    <?php echo $this->paginationControl($this->data,'Sliding','partials/paginator'); ?>    
+</center>

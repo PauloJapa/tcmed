@@ -6,9 +6,9 @@ var GLOBALSIS = {
         first: 0,
         last: 9,
         cursor: 0,
-        virtualCursor:0,
+        virtualCursor:0
     },
-    navegacao:{},
+    navegacao:{}
 };
 
 $(function () {
@@ -88,3 +88,37 @@ function setGlobal(key, vlr) {
 function getGlobal(key) {
     return GLOBALSIS[key];
 }
+
+function saveForm(buttonEle) {
+    if (buttonEle) {
+        var frm = getFormName(buttonEle);
+        var act = getFormAction(buttonEle);
+        if (isValid()) {
+            eval(attachmentParamInAction(act, 'frm', frm));
+        }
+    } else {
+        alert('Botão sem formulario.');
+    }
+    return false;
+}
+
+function attachmentParamInAction(act, key, vlr) {
+    var ind = act.indexOf('})');
+    return act.substr(0, ind) + "," + key + ":'" + vlr + "'" + act.substr(ind);
+}
+
+function getFormName(obj) {
+    return getAtrrFromForm(obj, 'name');
+}
+
+function getFormAction(obj) {
+    return getAtrrFromForm(obj, 'action');
+}
+
+function getAtrrFromForm(obj, atr) {
+    return getAtrrFromParentTag(obj, 'form', atr);
+}
+
+function getAtrrFromParentTag(obj, tag, atr) {
+    return $(obj).closest(tag).attr(atr);
+}  
