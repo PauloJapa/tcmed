@@ -232,5 +232,10 @@ class Usuario
         return $this;
     }
 
+    public function toArray()
+    {
+        return (new Hydrator\ClassMethods())->extract($this);
+    }
+
 }
 

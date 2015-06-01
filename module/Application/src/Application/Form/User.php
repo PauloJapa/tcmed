@@ -8,14 +8,12 @@
 
 namespace Application\Form;
 
-use Zend\Form\Form;
-
 /**
  * Description of User
  *
  * @author Paulo Watakabe
  */
-class User extends Form{
+class User extends AbstractForm{
     
     
     public function __construct($name = null, $options = array()) {
@@ -55,15 +53,9 @@ class User extends Form{
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
+                
+        $this->setInputSubmit('submit', 'Salvar: ');
         
-        $this->add(array(
-            'name' => 'submit',
-            'type' => 'Zend\Form\Element\Submit',
-            'attributes' => array(
-                'value' => 'Salvar',
-                'class' => 'btn-success',
-            ),
-        ));
         
     }
 }
