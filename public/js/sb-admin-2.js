@@ -28,40 +28,72 @@ $(function () {
         }
     });
 
-    var last;
-    var lastCont;
     $(document).on("click", "#side-menu a", function () {
-        // Se for um menu ou submenu...
         if ($(this).attr("href") == undefined) {
-            var item = (last) ? last.parent().html() : "001100";
-            var container = $(this).parent();
-            var itemDeContainer = (container.html().indexOf(item) > 0);
 
-            //Se for aberto...
-            if ($(this).parent().hasClass("active")) {
-                $(this).removeClass("active");
-                if (!itemDeContainer && !container.find("ul:first").hasClass("nav-third-level")) {
-                    $("#side-menu").children("li").each(function () {
-                        if ($(this).find(".active").html() != undefined) {
-                            $(this).find("a:first").addClass("active");
-                        }
-                    });
+            if ($("a.active").parent().parent().hasClass("nav-third-level")) {
+                if (!$("a.active").parent().parent().parent().hasClass("active")) {
+                    $("a.active").parent().parent().parent().find("a:first").addClass("active");
                 }
             }
-            //Se for fechado...
-            else {
-                //Se o item estiver dentro do menu
-                if (itemDeContainer) {
-                    lastCont = $(this).addClass("active");
-                }
+
+            if ($(this).parent().hasClass("primary")) {
+
+            } else {
+
             }
+
+            var dad = $("a.active").closest("li.primary");
+
+            if ($("a.active").closest("li.primary").hasClass("active")) {
+                dad.find("a:first").removeClass("active");
+            } else {
+                dad.find("a:first").addClass("active");
+            }
+
         }
-        // Senao, apenas selecionar o item
         else {
-            $("#side-menu").find(".active").not("li").removeClass("active");
-            last = $(this).addClass("active"); //Armazena o ultimo selecionado
+            $("#side-menu").find("a").removeClass("active");
+            $(this).addClass("active");
         }
     });
+
+
+//
+//    var last;
+//    var lastCont;
+//    $(document).on("click", "#side-menu a", function () {
+//        // Se for um menu ou submenu...
+//        if ($(this).attr("href") == undefined) {
+//            var item = (last) ? last.parent().html() : "001100";
+//            var container = $(this).parent();
+//            var itemDeContainer = (container.html().indexOf(item) > 0);
+//
+//            //Se for aberto...
+//            if ($(this).parent().hasClass("active")) {
+//                $(this).removeClass("active");
+//                if (!itemDeContainer && !container.find("ul:first").hasClass("nav-third-level")) {
+//                    $("#side-menu").children("li").each(function () {
+//                        if ($(this).find(".active").html() != undefined) {
+//                            $(this).find("a:first").addClass("active");
+//                        }
+//                    });
+//                }
+//            }
+//            //Se for fechado...
+//            else {
+//                //Se o item estiver dentro do menu
+//                if (itemDeContainer) {
+//                    lastCont = $(this).addClass("active");
+//                }
+//            }
+//        }
+//        // Senao, apenas selecionar o item
+//        else {
+//            $("#side-menu").find(".active").not("li").removeClass("active");
+//            last = $(this).addClass("active"); //Armazena o ultimo selecionado
+//        }
+//    });
 
     /*
      var url = window.location;
