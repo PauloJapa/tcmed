@@ -8,13 +8,12 @@
 
 namespace Application\Form\Filter;
 
-use Zend\InputFilter\InputFilter;
 /**
- * Description of userFilter
+ * Validação do form do Users
  *
- * @author user
+ * @author Paulo Cordeiro Watakabe <watakabe05@gmail.com>
  */
-class userFilter extends InputFilter{
+class userFilter extends AbstractFilter{
     
     public function __construct() {
         

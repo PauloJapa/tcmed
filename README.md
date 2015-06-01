@@ -1,6 +1,15 @@
 ZendSkeletonApplication
 =======================
 
+New instrutuction
+
+in /var/www/tcmed/vendor/zendframework/zendframework/library/Zend/View/Helper/Url.php
+
+change line:
+return $this->router->assemble($params, $options);
+for
+return "javascript:processa({url:'" . $this->router->assemble($params, $options) . "'});";
+
 Introduction
 ------------
 This is a simple, skeleton application using the ZF2 MVC layer and module
