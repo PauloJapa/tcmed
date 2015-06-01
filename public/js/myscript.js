@@ -13,11 +13,8 @@ var GLOBALSIS = {
 
 $(function () {
     $(document).on("click", "#bot", function () {
-        alert($play.getInputsForm("#frm"));
+        $play.getInputsForm("frm");
     });
-
-   // $play.managerPag($('.godown'), $('.goup'), $('#inter'));
-
 });
 
 function lockClick(time) {

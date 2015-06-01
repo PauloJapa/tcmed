@@ -30,17 +30,14 @@ $(function () {
 
     $(document).on("click", "#side-menu a", function () {
         if ($(this).attr("href") == undefined) {
-
+            
+            var cache = $("a.active").parent().parent().parent().find("a:first");
             if ($("a.active").parent().parent().hasClass("nav-third-level")) {
                 if (!$("a.active").parent().parent().parent().hasClass("active")) {
-                    $("a.active").parent().parent().parent().find("a:first").addClass("active");
+                    cache.addClass("active");
+                }else{
+                    cache.removeClass("active");
                 }
-            }
-
-            if ($(this).parent().hasClass("primary")) {
-
-            } else {
-
             }
 
             var dad = $("a.active").closest("li.primary");
