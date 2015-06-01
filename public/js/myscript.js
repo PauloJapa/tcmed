@@ -16,7 +16,7 @@ $(function () {
         alert($play.getInputsForm("#frm"));
     });
 
-    $play.managerPag($('.godown'), $('.goup'), $('#inter'));
+   // $play.managerPag($('.godown'), $('.goup'), $('#inter'));
 
 });
 
@@ -50,7 +50,7 @@ function processa(obj) {
         return;
     }
     
-    $play.addPage($("#inter").html());
+    
 
     $play.showLoader(true);
 
@@ -70,14 +70,14 @@ function processa(obj) {
     ajax.done(function (data) {
         if (obj.ret) {
             var data = $("#" + obj.ret).html(data);
-            //addSessionStorage(data.html());
             
         }
     });
 
     //Completa a requisição se for sucedida ou não
     ajax.complete(function () {
-        $play.showLoader(false);
+        $play.showLoader(false);  //Desabilita gif de carregamento
+        $play.addPage(); //Adiciona esta pagina no log
     });
 }
 

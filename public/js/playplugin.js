@@ -1,6 +1,6 @@
 var $play;
 
-var _pag = {
+var _pagination = {
     back: "",
     next: "",
     container: "",
@@ -8,7 +8,20 @@ var _pag = {
     initial: 0,
     final: 0,
     limit: 9,
-    pages: {},
+    pages: {}
+};
+
+var _loader = {
+    id: "#loader",
+    img: "",
+    css: {
+        position: "absolute",
+        width: "50px",
+        heigth: "50px",
+        top: "50%",
+        right: "40%",
+        display: "none"
+    }
 };
 
 $(function () {
@@ -16,102 +29,118 @@ $(function () {
         loader: {
             img: "/img/loader.gif",
         },
+        pagination: {
+            back: ".godown",
+            next: ".goup",
+            container: "#inter",
+        }
     });
-
 });
 
 function play(params) {
-    if (params.loader) {
-        $("body").prepend("<img id='loader' src='" + params.loader.img + "'>");
-        
-        var novoCss = {
-            position: "absolute",
-            width: "50px",
-            heigth: "50px",
-            top: "50%",
-            right: "40%",
-            display: "none",
-        };
-        params.css = (params.css)? params.css:novoCss;
 
-        $("#loader").css(novoCss);
+    this.registerParam = function (localvar, globalvar) {
+        $.each(localvar, function (key, value) {
+            globalvar[key] = value;
+        });
+    };
+
+    if (params.loader) {
+        this.registerParam(params.loader, _loader);
+
+        $("body").prepend("<img id='" + _loader.id.replace("#", "") + "' src='" + _loader.img + "'>");
+        $(_loader.id).css(_loader.css);
+    }
+    ;
+
+    if (params.pagination) {
+        this.registerParam(params.pagination, _pagination);
+        managerPag();
     }
     ;
 }
 ;
 
 /**
- * 
- * @param {type} back : objeto 'voltar pagina'
- * @param {type} next : objeto 'avancar pagina'
- * @param {type} container : objeto que ira receber resultado
+ * Metodo de gerenciamento do log de paginas, que contem
+ * os eventos responsaveis por voltar/avancar, alem de 
+ * possuir a instrucao de adicionar a primeira pagina no log
+ *  
  * @returns {undefined}
  */
-play.prototype.managerPag = function (back, next, container) {
-    //Registra os objetos da pagina na api
-    _pag.back = back;
-    _pag.next = next;
-    _pag.container = container;
+function managerPag() {
+    //Adiciona a primeira pagina no array (log)
+    _pagination.pages[0] = $(_pagination.container).html();
+    
+    //Desabilita os botoes para impedir que o usuario clique-os
+    $(_pagination.back).attr("disabled", "true");
+    $(_pagination.next).attr("disabled", "true");
 
-    $(_pag.back).attr("disabled", "true");
-    $(_pag.next).attr("disabled", "true");
+    //Eventos de back (voltar pagina) e next (avancar pagina)
+    $(_pagination.back).click(function () {
+        $(_pagination.next).removeAttr("disabled");
 
-    var getPage = function (position) {
-        _pag.container.html(_pag.pages[position]);
-    };
+        //decrementa cursor e chama pagina armazenada no log
+        _pagination.cursor--;
+        $(_pagination.container).html(_pagination.pages[_pagination.cursor]);
 
-    //Eventos de back e next
-    $(_pag.back).click(function () {
-        _pag.next.removeAttr("disabled");
-
-        _pag.cursor--;
-
-        getPage(_pag.cursor);
-
-        if (_pag.cursor == _pag.initial) {
-            _pag.back.attr("disabled", "true");
-        }
-        ;
-
-    });
-
-    $(_pag.next).click(function () {
-        _pag.back.removeAttr("disabled");
-
-        _pag.cursor++;
-        getPage(_pag.cursor);
-
-        if (_pag.cursor == _pag.final) {
-            _pag.next.attr("disabled", "true");
+        //Se for a primeira pagina do log, entao deve ser 
+        //desabilitado o botao de voltar
+        if (_pagination.cursor == _pagination.initial) {
+            $(_pagination.back).attr("disabled", "true");
         }
         ;
     });
-};
+
+    $(_pagination.next).click(function () {
+        $(_pagination.back).removeAttr("disabled");
+
+        //Incrementa cursor e chama pagina armazenada no log
+        _pagination.cursor++;
+        $(_pagination.container).html(_pagination.pages[_pagination.cursor]);
+
+        //Se for a ultima pagina do log, entao deve ser
+        //desabilitado o botao de voltar
+        if (_pagination.cursor == _pagination.final) {
+            $(_pagination.next).attr("disabled", "true");
+        }
+        ;
+    });
+}
+;
 
 /**
+ * Método de adicao de paginas no array _pagination.pages
+ * OBS: Faz controle do array
  * 
- * @param {type} page
+ * @param {string} page pagina 
  * @returns {undefined}
  */
 play.prototype.addPage = function (page) {
-    //habilita o botao back
-    $(_pag.back).removeAttr("disabled");
-
-    if (_pag.cursor == _pag.limit) {
-        _pag.pages[_pag.initial] = "";
-        _pag.initial++;
-        _pag.limit++;
+    // Se não for passada a pagina como parametro, 
+    // pegar conteudo do container default para salvar
+    if (!page) {
+        page = $(_pagination.container).html();
     }
 
-    if (_pag.cursor < _pag.final) {
-        _pag.final = _pag.cursor;
+    //habilita o botao back e desabilita o botao next
+    $(_pagination.back).removeAttr("disabled");
+    $(_pagination.next).attr("disabled", "true");
+
+    //Incrementa cursor e armazena a pagina no array
+    _pagination.cursor++;
+    _pagination.pages[_pagination.cursor] = page;
+
+    //Define o final do array
+    _pagination.final = _pagination.cursor;
+
+    //Gerencia o estouro do array (Se o tamanho do array for maior que o 
+    //limite estabelecido como default, entao deve ser excluido os primeiros 
+    //dados para permitir a adicao de novos
+    if (_pagination.final - _pagination.initial > _pagination.limit) {
+        _pagination.pages[_pagination.initial] = "";
+        _pagination.initial++;
     }
-
-    _pag.pages[_pag.cursor] = page;
-    _pag.cursor++;
-    _pag.final++;
-
-    $(_pag.next.attr("disabled", "true"));
 };
 
 /**
@@ -144,7 +173,7 @@ play.prototype.sendToServer = function (obj) {
         params.url = GLOBALSIS.path + obj.url;
     } else {
         params.type = "GET";
-        params.url = GLOBALSIS.path + obj.url + "?" + Math.ceil(Math.random() * 100000)
+        params.url = GLOBALSIS.path + obj.url + "?" + Math.ceil(Math.random() * 100000);
     }
 
     return $.ajax(params);
@@ -174,4 +203,4 @@ play.prototype.showLoader = function (visible) {
         $("#loader").fadeOut("fast");
         unlockClick();
     }
-}
+};
