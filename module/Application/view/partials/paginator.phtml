@@ -1,4 +1,4 @@
-<?php
+<?php 
 $urlPattern = $_SERVER['REQUEST_URI'];
 $urls = explode("?", $urlPattern);
 $urlPattern = $urls[0];
@@ -13,7 +13,11 @@ $formatUrl = function ($page) use ($urlPattern) {
 
 if ($this->pageCount):
     ?>
+<div class="noPrint">
     <div class="pagination pagination-centered">
+        <p>Total de Registros Encontrados <?php echo $this->totalItemCount; ?>
+        , Itens por pagina <?php echo $this->currentItemCount; ?>
+        , Total de paginas <?php echo $this->pageCount; ?></p>
         <ul>
             <?php if (isset($this->previous)): ?>
                 <li><a href="<?php echo $formatUrl($this->previous); ?>">«</a></li>
@@ -38,4 +42,5 @@ if ($this->pageCount):
             <?php endif; ?>
         </ul>
     </div>
+</div>
 <?php endif; ?>
