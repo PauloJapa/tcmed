@@ -104,7 +104,15 @@ class Usuario
      * @ORM\Column(name="activation_key", type="string", length=255, nullable=false)
      */
     private $activationKey;
-    
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean", nullable=true)
+     */
+    private $active;
+
+        
     public function __construct(array $options = []) 
     {
         (new Hydrator\ClassMethods)->hydrate($options, $this);
@@ -124,6 +132,10 @@ class Usuario
         return $this->nomeUsuario;
     }
 
+    function getNome() {
+        return $this->getNomeUsuario();
+    }
+
     function getNickname() {
         return $this->nickname;
     }
@@ -132,8 +144,16 @@ class Usuario
         return $this->senhaUsuario;
     }
 
+    function getPassword() {
+        return $this->getSenhaUsuario();
+    }
+
     function getEmailUsuario() {
         return $this->emailUsuario;
+    }
+
+    function getEmail() {
+        return $this->getEmailUsuario();
     }
 
     function getSalt() {
@@ -229,6 +249,15 @@ class Usuario
 
     public function setActivationKey($activationKey) {
         $this->activationKey = $activationKey;
+        return $this;
+    }
+    
+    function getActive() {
+        return $this->active;
+    }
+
+    function setActive($active) {
+        $this->active = $active;
         return $this;
     }
 
