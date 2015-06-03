@@ -2,7 +2,8 @@
 namespace Application\Mail;
 
 use Zend\Mail\Transport\Smtp as SmtpTransport;
-use ZenView\Model\ViewModel;
+use Zend\Mail\Message;
+use Zend\View\Model\ViewModel;
 
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Part as MimePart;
@@ -52,7 +53,7 @@ class Mail {
     public function renderView($page, array $data) {
         $model = new ViewModel;
         $model->setTemplate("mailer/{$page}.phtml");
-        $model->setOption('has_parente', true);
+        $model->setOption('has_parent', true);
         $model->setVariables($data);
         
         return $this->view->render($model);
@@ -60,16 +61,19 @@ class Mail {
     
     public function prepare() {
         $html = new MimePart($this->renderView($this->page, $this->data));
+        
         $html->type = "text/html";
         $body = new MimeMessage();
         $body->setParts(array($html));
         $this->body = $body;
         
         $config = $this->transport->getOptions()->toArray();
+        $this->message = new Message;
         $this->message->addFrom($config['connection_config']['from'])
                 ->addto($this->to)
                 ->setSubject($this->subject)
-                ->setBody($this->body);
+                ->setBody($this->body)
+                ->setEncoding('UTF-8');
         
         return $this;        
     }

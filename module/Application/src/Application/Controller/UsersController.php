@@ -11,17 +11,13 @@ namespace Application\Controller;
 /**
  * Description of UsersController
  *
- * @author user
+ * @author Paulo Watakabe <email watakabe05@gmail.com >
  */
 class UsersController extends CrudController{
 
     public function __construct() {
-        parent::__construct();
+        parent::__construct('user');
         $this->entity = $this->moduloName . "\Entity\Usuario";
-        $this->form = $this->moduloName . "\Form\User";
-        $this->service = $this->moduloName . "\Service\User";
-        $this->controller = "users";
-        $this->route = "app/default";
     }
 
     public function editAction() {        
@@ -47,9 +43,7 @@ class UsersController extends CrudController{
             }
         }
 
-        $view = $this->makeView(compact("form"));
-        $view->setTemplate("application/users/new.phtml");
-        return $view;
+        return $this->makeView(compact("form"),TRUE, $this->getPathViewDefault() . 'new.phtml');
     }
 
 }

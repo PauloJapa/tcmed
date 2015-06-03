@@ -31,13 +31,14 @@ class User extends AbstractService{
     }
     
     public function insert(array $data) {
+        /** @var $entity Application/Entity/Usuario */
         $entity = parent::insert($data);
-        $dataEmail = array('nome'=>$data['nome'], 'activationKey'=> $entity->getActivationKey());
+        $dataEmail = array('nome'=>$entity->getNome(), 'activationKey'=> $entity->getActivationKey());
         
         if($entity){
             $mail = new Mail($this->transport, $this->view, 'add-user');
             $mail->setSubject('Confirmação de cadastro')
-                    ->setTo($data['email'])
+                    ->setTo($entity->getEmail())
                     ->setData($dataEmail)
                     ->prepare()
                     ->send();
@@ -67,9 +68,10 @@ class User extends AbstractService{
     {
         $entity = $this->em->getReference($this->entity, $data['id']);
         
-        if(empty($data['senha_usuario']))
+        if (empty($data['senha_usuario'])) {
             unset($data['senha_usuario']);
-        
+        }
+
         (new Hydrator\ClassMethods())->hydrate($data, $entity);
         
         $this->em->persist($entity);

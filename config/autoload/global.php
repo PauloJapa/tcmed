@@ -13,15 +13,15 @@
 
 return array(
     'mail' => array(
-        'name' => 'smtp.googlemail.com',
-        'host' => 'smtp.googlemail.com',
+        'name' => 'smtp.tcmed.com.br',
+        'host' => 'smtp.tcmed.com.br',
         'connection_class' => 'login',
+        'port' => 587,
         'connection_config' => array(
-            'username' => 'watakabe05@gmail.com',
-            'password' => '35413541',
-            'ssl' => 'tls',
-            'port' => 465,
-            'from' => 'watakabe05@gmail.com'
+            'username' => 'paulo@tcmed.com.br',
+            'password' => 'japa12!!',
+//            'ssl' => 'tls',
+            'from' => 'paulo@tcmed.com.br'
         )
     )
 );

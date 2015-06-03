@@ -176,7 +176,6 @@ play.prototype.getInputsForm = function (obj) {
 
     $.each(a, function () {
         o[this.name] = this.value || '';
-        alert(this.name + ": " + o[this.name]);
     });
     return o;
 };
