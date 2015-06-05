@@ -18,18 +18,16 @@ class UsuarioRepository extends EntityRepository {
    
     public function findByEmailAndPassword($email, $password)
     {
-        $user = $this->findOneByEmail($email);
+        /* @var $user \Application\Entity\Usuario */
+        $user = $this->findOneByEmailUsuario($email);
         
-        if($user)
-        {
+        if ($user) {
             $hashSenha = $user->encryptPassword($password);
-            if($hashSenha == $user->getPassword())
+            if ($hashSenha == $user->getPassword()) {
                 return $user;
-            else
-                return false;
+            }
         }
-        else
-            return false;
+        return false;
     }
     
     public function findArray()
