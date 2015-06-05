@@ -3,7 +3,7 @@ var $play;
 var _pagination = {
     back: "",
     next: "",
-    container: "",
+    container: "#inter",
     cursor: 0,
     initial: 0,
     final: 0,
@@ -51,7 +51,6 @@ function play(params) {
         $("body").prepend("<img id='" + _loader.id.replace("#", "") + "' src='" + _loader.img + "'>");
         $(_loader.id).css(_loader.css);
     }
-    ;
 
     if (params.pagination) {
         this.registerParam(params.pagination, _pagination);
@@ -59,6 +58,28 @@ function play(params) {
     }
 }
 ;
+
+var setForm = function (cont) {
+    $(cont).find("input").each(function () {
+        /* radio e check */
+        if ($(this).prop("checked")) {
+            $(this).attr("checked", "checked");
+        } else {
+            $(this).removeAttr("checked");
+        }
+        /* text, pass... */
+        $(this).attr("value", $(this).val());
+    });
+
+    $(cont).find("select").each(function () {
+        $(this).find("option").not($(this).find("option:selected")).removeAttr("selected");
+        $(this).find("option:selected").attr("selected", "selected");
+    });
+
+    $(cont).find("textarea").each(function () {
+        $(this).text($(this).val());
+    });
+};
 
 /**
  * Metodo de gerenciamento do log de paginas, que contem
@@ -69,7 +90,7 @@ function play(params) {
  */
 function managerPag() {
     //Adiciona a primeira pagina no array (log)
-    _pagination.pages[0] = $(_pagination.container).html();
+    //_pagination.pages[0] = $(_pagination.container).html();
 
     //Desabilita os botoes para impedir que o usuario clique-os
     $(_pagination.back).attr("disabled", "true");
@@ -80,6 +101,8 @@ function managerPag() {
         $(_pagination.next).removeAttr("disabled");
 
         //decrementa cursor e chama pagina armazenada no log
+        setForm(_pagination.container);
+        _pagination.pages[_pagination.cursor] = $(_pagination.container).html();
         _pagination.cursor--;
         $(_pagination.container).html(_pagination.pages[_pagination.cursor]);
 
@@ -95,6 +118,8 @@ function managerPag() {
         $(_pagination.back).removeAttr("disabled");
 
         //Incrementa cursor e chama pagina armazenada no log
+        setForm(_pagination.container);
+        _pagination.pages[_pagination.cursor] = $(_pagination.container).html();
         _pagination.cursor++;
         $(_pagination.container).html(_pagination.pages[_pagination.cursor]);
 
@@ -115,23 +140,20 @@ function managerPag() {
  * @param {string} page pagina 
  * @returns {undefined}
  */
-play.prototype.addPage = function (page) {
+play.prototype.addPage = function (pos) {
     // Se não for passada a pagina como parametro, 
     // pegar conteudo do container default para salvar
-    if (!page) {
-        page = $(_pagination.container).html();
-    }
+    setForm(_pagination.container);
+    var page = $(_pagination.container).html();
 
     //habilita o botao back e desabilita o botao next
     $(_pagination.back).removeAttr("disabled");
     $(_pagination.next).attr("disabled", "true");
 
     //Incrementa cursor e armazena a pagina no array
-    _pagination.cursor++;
     _pagination.pages[_pagination.cursor] = page;
-
-    //Define o final do array
     _pagination.final = _pagination.cursor;
+    _pagination.cursor++;
 
     //Gerencia o estouro do array (Se o tamanho do array for maior que o 
     //limite estabelecido como default, entao deve ser excluido os primeiros 
@@ -203,3 +225,4 @@ play.prototype.showLoader = function (visible) {
         unlockClick();
     }
 };
+

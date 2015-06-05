@@ -4,6 +4,10 @@ $(function () {
 
 });
 
+function teste() {
+    //$("")
+}
+
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
@@ -16,6 +20,7 @@ $(function () {
             $('div.navbar-collapse').addClass('collapse');
             topOffset = 100; // 2-row-menu
         } else {
+            
             $('div.navbar-collapse').removeClass('collapse');
         }
 
@@ -54,43 +59,6 @@ $(function () {
             $(this).addClass("active");
         }
     });
-
-
-//
-//    var last;
-//    var lastCont;
-//    $(document).on("click", "#side-menu a", function () {
-//        // Se for um menu ou submenu...
-//        if ($(this).attr("href") == undefined) {
-//            var item = (last) ? last.parent().html() : "001100";
-//            var container = $(this).parent();
-//            var itemDeContainer = (container.html().indexOf(item) > 0);
-//
-//            //Se for aberto...
-//            if ($(this).parent().hasClass("active")) {
-//                $(this).removeClass("active");
-//                if (!itemDeContainer && !container.find("ul:first").hasClass("nav-third-level")) {
-//                    $("#side-menu").children("li").each(function () {
-//                        if ($(this).find(".active").html() != undefined) {
-//                            $(this).find("a:first").addClass("active");
-//                        }
-//                    });
-//                }
-//            }
-//            //Se for fechado...
-//            else {
-//                //Se o item estiver dentro do menu
-//                if (itemDeContainer) {
-//                    lastCont = $(this).addClass("active");
-//                }
-//            }
-//        }
-//        // Senao, apenas selecionar o item
-//        else {
-//            $("#side-menu").find(".active").not("li").removeClass("active");
-//            last = $(this).addClass("active"); //Armazena o ultimo selecionado
-//        }
-//    });
 
     /*
      var url = window.location;
