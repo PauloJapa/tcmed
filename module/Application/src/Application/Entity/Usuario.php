@@ -112,16 +112,22 @@ class Usuario
      */
     private $active;
 
-        
-    public function __construct(array $options = []) 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo_usuario", type="string", length=50, nullable=false)
+     */
+    private $tipo;
+
+        public function __construct(array $options = []) 
     {
-        (new Hydrator\ClassMethods)->hydrate($options, $this);
-        
         $this->createdAt = new \DateTime('now');
         $this->updatedAt = new \DateTime('now');
         
         $this->salt = base64_encode(Rand::getBytes(8, true));
         $this->activationKey = md5($this->emailUsuario . $this->salt);
+        
+        (new Hydrator\ClassMethods)->hydrate($options, $this);
     }    
     
     function getIdUsuario() {
@@ -261,6 +267,16 @@ class Usuario
         return $this;
     }
 
+
+    function getTipo() {
+        return $this->tipo;
+    }
+
+    function setTipo($tipo) {
+        $this->tipo = $tipo;
+        return $this;
+    }
+    
     public function toArray()
     {
         return (new Hydrator\ClassMethods())->extract($this);

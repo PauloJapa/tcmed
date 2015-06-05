@@ -48,7 +48,9 @@ abstract class AbstractForm extends Form {
     public function __construct($name = null, $options=array()) {
         $this->moduloName = "Application";  
         
-        parent::__construct($name,$options);
+        parent::__construct($name,$options);        
+        
+        $this->setAttribute('method', 'post');
         
         $this->setInputHidden('subOpcao');
         $this->setInputHidden('ajaxStatus');
@@ -169,16 +171,21 @@ abstract class AbstractForm extends Form {
      * @param string $name
      * @param string $label
      * @param array  $attributes
+     * @param boolean  $ajax     Inserir ou não chamada Ajax default true
      */
-    public function setInputSubmit($name,$label,array $attributes = []){
+    public function setInputSubmit($name,$label,array $attributes = [], $ajax = TRUE){
            
         $input['type'] = 'Zend\Form\Element\Submit';
         $input['name'] = $name;
         
-        $attrib = array('id' => $name,
-                        'value' => $label,
-                        'class' => 'btn btn-success',
-                        'onClick' => 'return saveForm(this);');
+        $attrib = array(
+            'id' => $name,
+            'value' => $label,
+            'class' => 'btn btn-success',
+        );
+        if($ajax){
+            $attrib['onClick'] = 'return saveForm(this);';
+        }
         
         if(empty($attributes)){
             $input['attributes'] = $attrib;
@@ -283,13 +290,12 @@ abstract class AbstractForm extends Form {
     }
     
     public function setIsAdmin(){
-        if(!$this->getIdentidade()){
-            $this->isAdmin = FALSE;
-            return;
-        }
-        if($this->getIdentidade()->getTipo() == 'admin')
+        /* @var $user \Application\Entity\Usuario toArray() */
+        $user = $this->getIdentidade();
+        if(isset($user['is_admin']) AND !is_null($user['is_admin'])){
             $this->isAdmin = TRUE;
-        else
-            $this->isAdmin = FALSE;
+        }  else {
+            $this->isAdmin = FALSE;            
+        }
     }
 }
