@@ -6,32 +6,48 @@ var GLOBALSIS = {
         first: 0,
         last: 9,
         cursor: 0,
-        virtualCursor:0
+        virtualCursor: 0
     },
-    navegacao:{}
+    navegacao: {}
 };
 
+var $play;
+
 $(function () {
+
+    $play = new play({
+        pagin: {
+            back: ".godown",
+            next: ".goup",
+            menu: "#side-menu",
+        },
+        sender: {},
+        loader: {}
+    });
+    
+    $play.init();
+
     $(document).on("click", "#bot", function () {
         $play.getInputsForm("frm");
     });
+
 });
 
-function lockClick(time) {
-    GLOBALSIS.canClick = false;
-
-    //Se for definido um tempo (time), seta timeout para o tempo definido
-    //Se nao houver, seta o timeout com o default
-    var timeout = (time) ? time : GLOBALSIS.timeOutButton;
-
-    $play.initTimeOut(timeout, function () {
-        unlockClick();
-    });
-}
-
-function unlockClick() {
-    GLOBALSIS.canClick = true;
-}
+//function lockClick(time) {
+//    GLOBALSIS.canClick = false;
+//
+//    //Se for definido um tempo (time), seta timeout para o tempo definido
+//    //Se nao houver, seta o timeout com o default
+//    var timeout = (time) ? time : GLOBALSIS.timeOutButton;
+//
+//    $play.initTimeOut(timeout, function () {
+//        unlockClick();
+//    });
+//}
+//
+//function unlockClick() {
+//    GLOBALSIS.canClick = true;
+//}
 
 
 /**
@@ -40,21 +56,21 @@ function unlockClick() {
  * @returns {undefined}
  */
 function processa(obj) {
-    if(obj.url == "" || obj.url == "#"){
+    if (obj.url == "" || obj.url == "#") {
         return;
     }
     if (!GLOBALSIS.canClick) {
         return;
     }
-    
-    
-
-    $play.showLoader(true);
 
     //Verifica se há o param ret. Se não há, seta como inter
     obj.ret = (!obj.ret) ? "inter" : obj.ret;
 
+    $play.showLoader(true);
+    $play.savePage();
+
     var ajax = $play.sendToServer(obj);
+    //var ajax = $play.sendToServer(obj);
     //var ajax = initAjax(obj);
 
     //Conexão falhou
@@ -67,14 +83,14 @@ function processa(obj) {
     ajax.done(function (data) {
         if (obj.ret) {
             var data = $("#" + obj.ret).html(data);
-            
+
         }
     });
 
     //Completa a requisição se for sucedida ou não
     ajax.complete(function () {
         $play.showLoader(false);  //Desabilita gif de carregamento
-        $play.addPage(); //Adiciona esta pagina no log
+        $play.addPage();
     });
 }
 
@@ -118,4 +134,4 @@ function getAtrrFromForm(obj, atr) {
 
 function getAtrrFromParentTag(obj, tag, atr) {
     return $(obj).closest(tag).attr(atr);
-}  
+}
