@@ -6,9 +6,20 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Entrar</h3>
                 </div>
+                <?php if($this->error): ?>
+                <p>Usuário ou senha inválidos</p>
+                <?php endif; ?>
                 <div class="panel-body">
-                    <form id="form1" role="form" action="/auth" method="POST">
-                        <fieldset>
+<?php
+$form = $this->form;
+$form->setAttribute('action',$this->url('application-auth',[],[],FALSE,FALSE));
+$form->prepare();
+?>
+
+                    <?php echo $this->form()->openTag($form); ?>
+                        <fieldset>                           
+                            <?php echo $this->formCollection($form); ?>
+<!-- 
                             <div class="form-group">
                                 <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
                             </div>
@@ -20,12 +31,20 @@
                                     <input name="remember" type="checkbox" value="lembrar">Lembrar
                                 </label>
                             </div>
-
                             <input type="submit" class='btn btn-lg btn-success btn-block'>
+-->                            
                         </fieldset>
-                    </form>
+                    <?php echo $this->form()->closeTag($form); ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script lang="javascritp">   
+    
+    
+    function isValid(){
+        return true;
+    }
+    
+</script>
