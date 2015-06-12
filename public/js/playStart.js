@@ -1,7 +1,9 @@
-var play = function (args) {
+var play = function () {
     var _pagin = null;
     var _loader = null;
     var _sender = null;
+    var _mailbox = null;
+    var _messenger = null;
 
     /* ============================= PAGIN ================================== */
     /**
@@ -18,7 +20,7 @@ var play = function (args) {
 
     /**
      * Salva a pagina atual no cache
-     * (Alternativa para ser chamado de fora da classe)
+     * (Alternativa para ser chamado de dentro da classe)
      * 
      * @returns {undefined}
      */
@@ -29,7 +31,7 @@ var play = function (args) {
 
     /**
      * Salva a pagina atual no cache
-     * (Alternativa para ser chamado de dentro da classe)
+     * (Alternativa para ser chamado de fora da classe)
      * 
      * @returns {undefined}
      */
@@ -97,7 +99,6 @@ var play = function (args) {
             savePageCache();
             //Salva o item de menu da pagina
             _pagin.pages.menu[_pagin.cursor] = $(_pagin.menu).find("a.active");
-
             //Controla tamanho do array
             if (_pagin.endArray - _pagin.iniArray > _pagin.lenghtArray) {
                 _pagin.iniArray++;
@@ -114,52 +115,49 @@ var play = function (args) {
      * @returns {undefined}
      */
     var managerClickPagin = function () {
-        if (_pagin) {
-            //Transforma os params em objetos JQuery
-            var next = $(_pagin.next);
-            var back = $(_pagin.back);
-            var cont = $(_pagin.cont);
+        //Transforma os params em objetos JQuery
+        var next = $(_pagin.next);
+        var back = $(_pagin.back);
+        var cont = $(_pagin.cont);
 
-            //Desabilita os botoes de back e next
-            back.attr("disabled", true);
-            next.attr("disabled", true);
+        //Desabilita os botoes de back e next
+        back.attr("disabled", true);
+        next.attr("disabled", true);
 
-            //Eventos do botao back
-            $(document).on("click", _pagin.back, function () {
-                //Habilita o botao next
-                next.attr("disabled", false);
-                //Salva a pagina atual
-                savePageCache();
-                //decrementa cursor
-                _pagin.cursor--;
-                //Retorna a pagina salva anterior
-                cont.html(_pagin.pages.data[_pagin.cursor]);
-                //Clica no item de menu respectivo a pagina
-                $(_pagin.pages.menu[_pagin.cursor]).click();
-                //Se for a primeira posicao, desabilita o botao voltar
-                if (_pagin.cursor == _pagin.iniArray) {
-                    back.attr("disabled", true);
-                }
-            });
+        //Eventos do botao back
+        $(document).on("click", _pagin.back, function () {
+            //Habilita o botao next
+            next.attr("disabled", false);
+            //Salva a pagina atual
+            savePageCache();
+            //decrementa cursor
+            _pagin.cursor--;
+            //Retorna a pagina salva anterior
+            cont.html(_pagin.pages.data[_pagin.cursor]);
+            //Clica no item de menu respectivo a pagina
+            $(_pagin.pages.menu[_pagin.cursor]).click();
+            //Se for a primeira posicao, desabilita o botao voltar
+            if (_pagin.cursor == _pagin.iniArray) {
+                back.attr("disabled", true);
+            }
+        });
 
-            $(document).on("click", _pagin.next, function () {
-                //Habilita o botao back
-                back.attr("disabled", false);
-                //Salva a pagina atual
-                savePageCache();
-                //Incrementa cursor
-                _pagin.cursor++;
-                //Retorna a proxima pagina salva 
-                cont.html(_pagin.pages.data[_pagin.cursor]);
-                //Clica no item de menu respectivo a pagina
-                $(_pagin.pages.menu[_pagin.cursor]).click();
-                //Se for a ultima posicao, desabilita o botao avancar
-                if (_pagin.cursor == _pagin.endArray) {
-                    next.attr("disabled", true);
-                }
-            });
-        }
-        ;
+        $(document).on("click", _pagin.next, function () {
+            //Habilita o botao back
+            back.attr("disabled", false);
+            //Salva a pagina atual
+            savePageCache();
+            //Incrementa cursor
+            _pagin.cursor++;
+            //Retorna a proxima pagina salva 
+            cont.html(_pagin.pages.data[_pagin.cursor]);
+            //Clica no item de menu respectivo a pagina
+            $(_pagin.pages.menu[_pagin.cursor]).click();
+            //Se for a ultima posicao, desabilita o botao avancar
+            if (_pagin.cursor == _pagin.endArray) {
+                next.attr("disabled", true);
+            }
+        });
     };
     /* ====================================================================== */
     /* ================================= LOAD =============================== */
@@ -188,6 +186,7 @@ var play = function (args) {
 
     /**
      * Transforma os campos de um formulario em objeto
+     * (para quem acessa de dentro da classe)
      * 
      * @param {type} form
      * @returns {play.transformFormToObject@pro;value|String}
@@ -201,6 +200,17 @@ var play = function (args) {
             aux[this.name] = this.value || '';
         });
         return aux;
+    };
+
+    /**
+     * Transforma os campos de um formulario em objeto
+     * (Para quem acessa de fora da classe)
+     * 
+     * @param {type} form
+     * @returns {undefined}
+     */
+    this.getInputsForm = function (form) {
+        return transformFormToObject(form);
     };
 
     /**
@@ -229,18 +239,40 @@ var play = function (args) {
     };
 
     /* ====================================================================== */
+    /* ================================= MAIL =============================== */
+    this.addMail = function (mail) {
+        _mailbox.push(mail);
+    };
+
+    this.getMails = function () {
+        var mails = "";
+        for (var i = 0; i < _mailbox.length; i++) {
+            mails += "<li><a href='#'>";
+            mails += "<div>";
+            mails += "<strong>"+_mailbox[i].name+"</strong>";
+            mails += "<span class='pull-right text-muted'><em>"+_mailbox[i].date+"</em></span>";
+            mails += "</div>";
+            mails += "<div>"+_mailbox[i].content+"</div>"
+            mails += "</a></li>";
+            mails += "<li class='divider'></li>";
+        }
+        
+        $(".dropdown-messages").prepend(mails);
+    };
+
+    /* ====================================================================== */
 
     /**
      * Método construtor da classe play
      * 
      * @type Function|undefined
      */
-    this.init = function () {
+    this.init = function (args) {
         /*
          * Construtor do objeto _pagin
          */
         if (args.pagin) {
-            
+
             _pagin = {
                 next: "#gnext",
                 back: "#gback",
@@ -308,6 +340,28 @@ var play = function (args) {
             $("body").prepend("<img id='" + _loader.id.replace("#", "") + "' src='" + _loader.img + "'>");
             //Define as regras de css
             $(_loader.id).css(_loader.css);
+        }
+
+        if (args.mailbox) {
+            _mailbox = [];
+        }
+        
+        if(args.messenger){
+            _messenger = {
+                
+            };
+            
+            $(".container-fluid").append("<div id='messenger-box'>");
+            $("#messenger-box").css({
+                "background-color": "#eee",
+                "border-left": "1px solid #ddd",
+                "border-bottom": "1px solid #ddd",
+                width: "270px",
+                height: "500px",
+                right: "0px",
+                position: "absolute",
+                top: "0px"
+            });
         }
     };
 };
