@@ -351,16 +351,12 @@ var play = function () {
                 
             };
             
-            $(".container-fluid").append("<div id='messenger-box'>");
-            $("#messenger-box").css({
-                "background-color": "#eee",
-                "border-left": "1px solid #ddd",
-                "border-bottom": "1px solid #ddd",
-                width: "270px",
-                height: "500px",
-                right: "0px",
-                position: "absolute",
-                top: "0px"
+            $("body").append("<div id='msg'></div>");
+            
+            $("#msg").messenger({
+                nameUser: "Danilo",
+                userId: "danilo_tcmed",
+                topDifference: $("#wrapper").find(".navbar").height()
             });
         }
     };
