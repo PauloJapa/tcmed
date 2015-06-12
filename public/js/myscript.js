@@ -15,43 +15,50 @@ var $play;
 
 $(function () {
 
-    $play = new play({
+    $play = new play();
+
+    $play.init({
         pagin: {
             back: ".godown",
             next: ".goup",
             menu: "#side-menu",
         },
         sender: {},
-        loader: {}
+        loader: {},
+        mailbox: {},
+        messenger: {}
     });
     
-    $play.init();
+    $play.addMail({
+       name: "danilo",
+       date: "05/06/2015",
+       content: "Olá, Jaime! como você vai?"
+    });
+    
+    $play.addMail({
+       name: "Paulo",
+       date: "05/06/2015",
+       content: "Olá, Jaime! como você vai?"
+    });
+    
+    $play.addMail({
+       name: "Miriam",
+       date: "05/06/2015",
+       content: "Este é um teste?"
+    });
+    
+    $play.getMails();
 
     $(document).on("click", "#bot", function () {
-        $play.getInputsForm("frm");
+        var inputs = JSON.stringify($play.getInputsForm($("#inter").find("form")));
+        alert(inputs);
     });
 
 });
 
-//function lockClick(time) {
-//    GLOBALSIS.canClick = false;
-//
-//    //Se for definido um tempo (time), seta timeout para o tempo definido
-//    //Se nao houver, seta o timeout com o default
-//    var timeout = (time) ? time : GLOBALSIS.timeOutButton;
-//
-//    $play.initTimeOut(timeout, function () {
-//        unlockClick();
-//    });
-//}
-//
-//function unlockClick() {
-//    GLOBALSIS.canClick = true;
-//}
-
-
 /**
  * Método de envio/recebimento de dados para o servidor
+ * 
  * @param {type} obj
  * @returns {undefined}
  */
@@ -70,13 +77,10 @@ function processa(obj) {
     $play.savePage();
 
     var ajax = $play.sendToServer(obj);
-    //var ajax = $play.sendToServer(obj);
-    //var ajax = initAjax(obj);
 
     //Conexão falhou
-    ajax.fail(function (data) {
-        alert("Não foi possível enviar requisição para o servidor: \n");
-        $("#inter").html(data);
+    ajax.fail(function (data, status, erro) {
+        alert("Não foi possível enviar requisição para o servidor: ");
     });
 
     //Conexão sucedida
