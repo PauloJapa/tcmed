@@ -253,37 +253,37 @@
                     </button>-->
                 </li>
                 <li>
-                    <a href="javascript:processa({url:'app/index/cadastro'});"><i class="fa fa-dashboard fa-fw"></i> Home</a>
+                    <a href="javascript:processa({url:'/app/index/cadastro'});"><i class="fa fa-dashboard fa-fw"></i> Home</a>
                 </li>
                 <li>
-                    <a href="javascript:processa({url:'app/index/cadastro'});"><i class="fa fa-pencil fa-fw"></i> Cadastro</a>
+                    <a href="<?php echo $this->url('app/default',array('controller'=>'index','action'=>'cadastro')); ?>"><i class="fa fa-pencil fa-fw"></i> Cadastro</a>
                 </li>
                 <li>
-                    <a href="javascript:processa({url:'app/users/index'});"><i class="fa fa-search fa-fw"></i> Lista Users</a>
+                    <a href="<?php echo $this->url('app/default',array('controller'=>'users','action'=>'index')); ?>"><i class="fa fa-search fa-fw"></i> Lista Users</a>
                 </li>
                 <li class="primary">
                     <a><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="javascript:processa({url:'app/index/cadastro'});">Second Level Item</a>
+                            <a href="javascript:processa({url:'/app/index/cadastro'});">Second Level Item</a>
                         </li>
                         <li>
-                            <a href="javascript:processa({url:'app/index/cadastro'});">Second Level Item</a>
+                            <a href="javascript:processa({url:'/app/index/cadastro'});">Second Level Item</a>
                         </li>
                         <li>
                             <a>Third Level <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li>
-                                    <a href="javascript:processa({url:'app/index/cadastro'});">Third Level Item</a>
+                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:processa({url:'app/index/cadastro'});">Third Level Item</a>
+                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:processa({url:'app/index/cadastro'});">Third Level Item</a>
+                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:processa({url:'app/index/cadastro'});">Third Level Item</a>
+                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
                                 </li>
                             </ul>
                             <!-- /.nav-third-level -->
@@ -295,10 +295,10 @@
                     <a><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="javascript:processa({url:'app/index/cadastro'});">Relatório Mensal</a>
+                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Mensal</a>
                         </li>
                         <li>
-                            <a href="javascript:processa({url:'app/index/cadastro'});">Relatório Anual</a>
+                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Anual</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
@@ -307,15 +307,20 @@
                     <a><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="javascript:processa({url:'app/index/cadastro'});">Relatório Mensal</a>
+                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Mensal</a>
                         </li>
                         <li>
-                            <a href="javascript:processa({url:'app/index/cadastro'});">Relatório Anual</a>
+                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Anual</a>
                         </li>
                     </ul>
 
                     <!-- /.nav-second-level -->
                 </li>
+                <?php  if($this->UserIdentity() != FALSE): ?>
+                <li>
+                    <a href="<?php echo $this->url('app/default',array('controller'=>'auth','action'=>'logout'),[],FALSE,FALSE); ?>"><i class="fa fa-eject fa-fw"></i> Sair</a>
+                </li>
+                <?php  endif; ?>
             </ul>
         </div>
         <!-- /.sidebar-collapse -->
@@ -323,15 +328,4 @@
     <!-- /.navbar-static-side -->
 </nav>
 
-
-<!-- Page Content -->
-<div id="page-wrapper">
-    <div class="container-fluid">
-        <div id="inter">
-
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</div>
-<!-- /#page-wrapper -->        
+     

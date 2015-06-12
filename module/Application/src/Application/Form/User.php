@@ -21,8 +21,6 @@ class User extends AbstractForm{
         
         $this->setInputFilter(new Filter\userFilter);
         
-        $this->setAttribute('methos', 'post');
-        
         $id = new \Zend\Form\Element\Hidden('id');
         $this->add($id);
         

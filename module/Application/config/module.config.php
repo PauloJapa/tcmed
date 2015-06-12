@@ -41,7 +41,28 @@ return array(
                     ),
                 ),
             ),
-
+            'application-auth' => array(
+              'type' => 'Literal',
+                'options' => array(
+                    'route'=>'/auth',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller' => 'Auth',
+                        'action' => 'index'
+                    )
+                )
+            ),
+            'application-logout' => array(
+              'type' => 'Literal',
+                'options' => array(
+                    'route'=>'/auth/logout',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Application\Controller',
+                        'controller' => 'Auth',
+                        'action' => 'logout'
+                    )
+                )
+            ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -152,8 +173,6 @@ return array(
         ),
         'data-fixture' => array(
             __NAMESPACE__ . '_fixture' => __DIR__ . '/../src/' . __NAMESPACE__ . '/Fixture',
-           'Application2_fixture' => __DIR__ . '/../src/Application/Fixture',
-           'Application3_fixture' => '/var/www/tcmed/module/Application/src/Application/Fixture',
         ),
     ),
 );
