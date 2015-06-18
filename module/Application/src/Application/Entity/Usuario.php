@@ -115,7 +115,7 @@ class Usuario
     /**
      * @var string
      *
-     * @ORM\Column(name="tipo_usuario", type="string", length=50, nullable=false)
+     * @ORM\Column(name="tipo_usuario", type="string", length=50, nullable=true)
      */
     private $tipo;
 

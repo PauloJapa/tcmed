@@ -41,6 +41,12 @@ abstract class AbstractForm extends Form {
     
     /**
      * O nome do Modulo
+     * @var array
+     */
+    protected $defaultAttributes;
+    
+    /**
+     * O nome do Modulo
      * @var string
      */
     protected $moduloName;
@@ -52,15 +58,30 @@ abstract class AbstractForm extends Form {
         
         $this->setAttribute('method', 'post');
         
-        $this->setInputHidden('subOpcao');
-        $this->setInputHidden('ajaxStatus');
-        $this->setInputHidden('autoComp');
-        $this->setInputHidden('scrolX');
-        $this->setInputHidden('scrolY');
+        $this->setDefaultAttributes(['onKeyDown' => 'return changeEnterToTab(this,event)']);
+//        
+//        $this->setInputHidden('subOpcao');
+//        $this->setInputHidden('ajaxStatus');
+//        $this->setInputHidden('autoComp');
+//        $this->setInputHidden('scrolX');
+//        $this->setInputHidden('scrolY');
         
         $this->setIsAdmin();
     }
     
+    function getDefaultAttributes($onBlur=FALSE) {
+        if($onBlur){
+            return array_merge($this->defaultAttributes, ['onBlur' => 'toUp(this)']);            
+        }
+        return $this->defaultAttributes;
+    }
+
+    function setDefaultAttributes(array $defaultAttributes = []) {
+        $this->defaultAttributes = $defaultAttributes;
+        return $this;
+    }
+
+        
     /**
      * Nome do campo oculto do form
      * @param string $name
@@ -237,6 +258,44 @@ abstract class AbstractForm extends Form {
         $this->add($input);        
        
     }
+    
+    /**
+     * Funçao basica para inserir um checkbox no formulario
+     * 
+     * @param string $name   
+     * @param string $label
+     * @param array $options
+     * @param array $attributes
+     * @return \Zend\Form\Element\Checkbox
+     */
+    public function setInputCheckbox($name, $label, array $options, array $attributes=[]){
+        $checkbox = new \Zend\Form\Element\Checkbox();
+        $checkbox->setAttributes(['name'=> $name, 'id' => $name]);
+        $checkbox->setAttributes($this->getDefaultAttributes());
+        $checkbox->setUseHiddenElement(FALSE);
+        if(!empty($attributes)){
+            $checkbox->setAttributes($attributes);
+        }
+        $checkbox->setLabel($label)->setOptions($options);
+        $this->add($checkbox); 
+        return $checkbox;
+    }
+    
+    public function setInputMultiCheckbox($name, $label, array $options, array $attributes = []) {
+        $mCheckebox = new \Zend\Form\Element\MultiCheckbox();
+        $mCheckebox->setAttributes(['name'=> $name, 'id' => $name]);
+        $mCheckebox->setAttributes($this->getDefaultAttributes());
+        $mCheckebox->setUseHiddenElement(FALSE);
+        if(!empty($attributes)){
+            $mCheckebox->setAttributes($attributes);
+        }
+        $mCheckebox->setLabel($label)->setOptions(['value_options' => $options]);
+        $this->add($mCheckebox);
+        return $mCheckebox;
+    }
+    
+    
+    
     /**
      * Função para setar varios inputs com com algo padrão
      * Por padrão o array são os inputs visiveis na tela

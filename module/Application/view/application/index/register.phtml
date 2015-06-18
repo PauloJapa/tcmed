@@ -7,7 +7,7 @@
 <?php else: ?>
     <?php
         $form = $this->form;
-        $form->setAttribute('action', $this->url('user-register',array('controller'=>'index', 'action' => 'register')));
+        $form->setAttribute('action', $this->url('user-register',array('controller'=>'index', 'action' => 'register'),[],FALSE,FALSE));
         $form->prepare();
         echo $this->form()->openTag($form);
         echo $this->formCollection($form);

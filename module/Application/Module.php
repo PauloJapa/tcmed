@@ -91,6 +91,8 @@ class Module {
         return [
             'invokables' => [
                 'UserIdentity' => new View\Helper\UserIdentity(),
+                'Table' => new View\Helper\Table(),
+                'FormHelp' => new View\Helper\FormHelp(),
             ]
         ];
     }

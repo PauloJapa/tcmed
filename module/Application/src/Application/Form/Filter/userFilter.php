@@ -17,73 +17,14 @@ class userFilter extends AbstractFilter{
     
     public function __construct() {
         
-        $this->add(array(
-            'name' => 'nome_usuario',
-            'required' => true,
-            'filters' => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array('name' => 'NotEmpty',
-                    'options' => array(
-                        'messages' => array(
-                            'isEmpty' => 'Não poder ficar em branco',
-                        ),
-                    )
-                ),
-            )
-        ));
+        $this->notEmpty('nome_usuario');  
         
-        $validator = new \Zend\Validator\EmailAddress();
-        $validator->setOptions(array('domain'=>false));
+        $this->notEmpty('nickname');        
         
-        $this->add(array(
-            'name' => 'email_usuario',
-            'validators' => array($validator)
-        ));
+        $this->email('email_usuario');
         
-        
-        $this->add(array(
-            'name' => 'senha_usuario',
-            'required' => true,
-            'filters' => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array('name' => 'NotEmpty',
-                    'options' => array(
-                        'messages' => array(
-                            'isEmpty' => 'Não poder ficar em branco',
-                        ),
-                    )
-                ),
-            )
-        ));
-        
-        
-        $this->add(array(
-            'name' => 'confirmation',
-            'required' => true,
-            'filters' => array(
-                array('name' => 'StripTags'),
-                array('name' => 'StringTrim'),
-            ),
-            'validators' => array(
-                array(
-                    'name' => 'NotEmpty',
-                    'options' => array(
-                        'messages' => array(
-                            'isEmpty' => 'Não poder ficar em branco',
-                        ),                        
-                    ),
-                    'name' => 'Identical',
-                    'options' => array(
-                        'token' => 'senha_usuario',
-                    ),
-                ),
-            )
-        ));
+        $this->notEmpty('senha_usuario');
+               
+        $this->identical('confirmation', 'senha_usuario');
     }
 }
