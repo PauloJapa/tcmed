@@ -1,38 +1,43 @@
+<?php
+/* @var $table \Application\View\Helper\Table */
+$table = $this->table();
+?>
 <h1>Users</h1>
-
 <br />
-
 <p>
     <a href="<?php echo $this->url('app/default',array('controller'=>'users','action'=>'new')); ?>">Novo</a>
 </p>
+<?php
 
-<table class="table">
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Email</th>
-        <th>Ação</th>
-    </tr>
-    
-    <?php foreach($this->data as $entity): ?>
-    <tr>
-    
-        <td><?php echo $entity->getIdUsuario(); ?></td>
-        <td><?php echo $entity->getNomeUsuario(); ?></td>
-        <td><?php echo $entity->getEmailUsuario(); ?></td>
-        <td>
-            <a href="<?php echo $this->url('app/default',
-                    array('controller'=>'users','action'=>'edit','id'=>$entity->getIdUsuario()));?>">Editar</a>
-            
-            <a href="<?php echo $this->url('app/default',
-                    array('controller'=>'users','action'=>'delete','id'=>$entity->getIdUsuario()));?>">Delete</a>
-            
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</table>
+    $table->openTable(TRUE)  ; 
+    $table->renderThead(['ID','Nome','Email','Ação'])  ;     
+    foreach($this->data as $entity){
+        $data = [];
+        $data[]= $entity->getIdUsuario();
+        $data[]= $entity->getNomeUsuario();
+        $data[]= $entity->getEmailUsuario();
+        $data[]= $entity->getIdUsuario();       
+        $table->renderLine($data);
+    } 
+    $table->renderCloseTable();
+?>
 <br />
 
 <center>
     <?php echo $this->paginationControl($this->data,'Sliding','partials/paginator'); ?>    
 </center>
+
+<script lang="javascript">      
+    function edit(key){
+        var data = {url : "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'edit'),[],FALSE,FALSE);?>" + "/" + key };
+        processa(data);
+    }
+    function del(key){
+        var msg = "Deseja mesmo excluir este registro?";
+        if(!confirm(msg)){
+            return;
+        }
+        var data = {url : "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'delete'),[],FALSE,FALSE);?>" + "/" + key };
+        processa(data);
+    }    
+</script>

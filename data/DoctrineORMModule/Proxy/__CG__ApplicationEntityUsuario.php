@@ -64,10 +64,10 @@ class Usuario extends \Application\Entity\Usuario implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active');
+            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'tipo');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active');
+        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'tipo');
     }
 
     /**
@@ -505,6 +505,28 @@ class Usuario extends \Application\Entity\Usuario implements \Doctrine\ORM\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setActive', array($active));
 
         return parent::setActive($active);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTipo()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTipo', array());
+
+        return parent::getTipo();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTipo($tipo)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTipo', array($tipo));
+
+        return parent::setTipo($tipo);
     }
 
     /**

@@ -37,6 +37,43 @@ class AbstractFilter extends InputFilter {
     }
     
     /**
+     * Verifica se um campo do form é igual ao outro
+     * @param string $name
+     * @param string $to
+     * @param string $msg opcional padrão é para senhas
+     */
+    public function identical($name,$to,$msg='A senha não confere') {           
+        $this->add(array(
+            'name' => $name,
+            'validators' => array(
+                array(
+                    'name' => 'Identical',
+                    'options' => array(
+                        'token' => $to,
+//                        'messages' => array('isEmpty' => $msg),
+                        'message' => $msg,
+                    ),
+                ),
+            )
+        ));
+    }
+    
+    /**
+     * Valida o formato do email
+     * @param type $name
+     * @param type $messageString opcional padrão é para email
+     */
+    public function email($name, $messageString='Digite um email valido') {           
+        $validator = new \Zend\Validator\EmailAddress();
+//        $validator->setOptions(array('domain'=>false));   
+        $validator->setMessage($messageString);
+        $this->add(array(
+            'name' => $name,
+            'validators' => array($validator)
+        ));
+    }
+    
+    /**
      * Forçar a não validar estes campos
      * Especie do bug no zf2 que força a validação dos campos selects
      * @param string $name
