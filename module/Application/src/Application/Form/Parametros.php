@@ -23,11 +23,11 @@ class Parametros extends AbstractForm{
         
         $this->setInputHidden('idParame');
         
-        $this->setInputText('chave', 'Chave : ',['placeholder'=>'Digite chave']);
+        $this->setInputText2('chave', 'Chave : ',['placeholder'=>'Digite chave']);
         
-        $this->setInputText('conteudo', 'Conteudo : ',['placeholder'=>'Digite conteudo']);
+        $this->setInputText2('conteudo', 'Conteudo : ',['placeholder'=>'Digite conteudo']);
         
-        $this->setInputText('descricao', 'Descricao : ',['placeholder'=>'Digite descriçao']);
+        $this->setInputText2('descricao', 'Descricao : ',['placeholder'=>'Digite descriçao']);
         
         $selectOptions = ["A" => "Ativo","C" => "Cancelado"];
         $this->setInputSelect('status', 'Status: ', $selectOptions);

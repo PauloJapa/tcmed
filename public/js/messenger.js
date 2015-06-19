@@ -13,7 +13,7 @@
             settings = {
                 userId: "username",
                 status: "online",
-                server: "managerChat.php",
+                server: "/app/messenger",
                 interval: 5000,
                 notify: true,
                 topDifference: 0,
@@ -218,9 +218,12 @@
      * @returns {undefined}
      */
     var requestServer = function (data) {
+        var actions = {
+            getHtml : '/index'
+        };
         return $.ajax({
             type: 'POST',
-            url: settings.server,
+            url: settings.server + actions[data.type],
             data: data
         }).fail(function () {
             errors.serverNotFound(settings.server);
