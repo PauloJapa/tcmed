@@ -13,7 +13,7 @@ namespace Application\Form;
  *
  * @author Paulo Watakabe
  */
-class Parametros extends AbstractForm{
+class User extends AbstractForm{
     
     
     public function __construct($name = 'user', $options = array()) {
@@ -23,35 +23,27 @@ class Parametros extends AbstractForm{
         
         $this->setInputHidden('id');
         
-        $this->setInputText('nome_usuario', 'Nome: ',['placeholder'=>'Entre com o nome']);
+        $this->setInputText2('nome_usuario', 'Nome: ',['placeholder'=>'Entre com o nome']);
         
-        $this->setInputText('nickname', 'Login: ',['placeholder'=>'Entre com o Login']);
+        $this->setInputText2('nickname', 'Login: ',['placeholder'=>'Entre com o Login']);
         
         $this->setInputText2('senha_usuario', 'Password: ',['placeholder'=>'Entre com o senha']);
         
         $this->setInputText2('confirmation', 'Redigite: ',['placeholder'=>'Redigite a senha']);
         
-        $this->setInputText('email_usuario', 'Email: ',['placeholder'=>'Entre com o email']);
+        $this->setInputText2('email_usuario', 'Email: ',['placeholder'=>'Entre com o email']);
         
         $selectOptions = ["A" => "Ativo","C" => "Cancelado"];
         $this->setInputSelect('situacao', 'Status: ', $selectOptions);
         
         $this->setInputText('lembreteSenha', 'Lembrete: ',['placeholder'=>'Entre com o lembrete para senha']);
         
-        $this->setInputText('tipo', 'Tipo de Usuario: ',['placeholder'=>'Se é Admin, Guest, recepção e etc...']);
+        $selectOptionsTipo = ["admin" => "Administrador","guest" => "Visitante","recep" => "Recepção","adm" => "Adiministradora"];
+        $this->setInputSelect('tipo', 'Tipo de Usuario: ', $selectOptionsTipo,['placeholder'=>'Se é Admin, Guest, recepção e etc...']);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
         
-        $radioOptions = ["A" => "Ativo","B" => "Bloqueado","C" => "Cancelado"];
-        $this->setInputRadio('teste', 'testando radio', $radioOptions, ['disabled' => true]);
-        
-        $this->setInputCheckbox('teste2', 'test checkbox:', ['value' => 'pqp!'], ['disabled' => false]);
-        
-        $this->setInputMultiCheckbox('teste3', 'multi box', $radioOptions);
-        
-        $this->setInputTextArea('teste4', 'obs:');
-                
         $this->setInputSubmit('submit', 'Salvar: ');
         
     }

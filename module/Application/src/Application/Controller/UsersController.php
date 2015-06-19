@@ -43,7 +43,7 @@ class UsersController extends CrudController{
             }
         }
 
-        return $this->makeView(compact("form"),TRUE, $this->getPathViewDefault() . 'new.phtml');
+        return $this->makeView(compact("form"),TRUE, $this->getPathViewDefault() . 'form.phtml');
     }
 
 }

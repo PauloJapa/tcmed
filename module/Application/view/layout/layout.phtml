@@ -58,21 +58,29 @@
 
     </head>
     <body>  
-        <div id="messenger"></div>
+        
+    <?php  if($this->UserIdentity() != FALSE): ?>
+        <div id="messenger"></div>    
         <div id="wrapper">
             <?php echo $this->content; ?>
-        <!-- Page Content -->
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div id="inter">
-
-                </div>
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div id="inter">
+                        <!-- AJAX conteudo -->
+                    </div>
                 <!-- /.row -->
-            </div>
+                </div>
             <!-- /.container-fluid -->
-        </div>
+            </div>
         <!-- /#page-wrapper -->   
         </div>
-        <!-- /#wrapper -->
+        <!-- /#wrapper -->      
+    <?php  else: ?>
+        <?php echo $this->content; ?>
+    <?php  endif; ?>
+        
+        
+        
     </body>
 </html>
