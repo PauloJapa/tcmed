@@ -321,7 +321,7 @@ var play = function () {
         if (args.loader) {
             _loader = {
                 id: "#loader",
-                img: "img/loader.gif",
+                img: "/img/loader.gif",
                 css: {
                     position: "absolute",
                     width: "50px",
@@ -351,9 +351,7 @@ var play = function () {
                 
             };
             
-            $("body").append("<div id='msg'></div>");
-            
-            $("#msg").messenger({
+            $("#messenger").messenger({
                 nameUser: "Danilo",
                 userId: "danilo_tcmed",
                 topDifference: $("#wrapper").find(".navbar").height()

@@ -133,6 +133,7 @@ return array(
             'Application\Controller\Auth' => 'Application\Controller\AuthController',
             'Application\Controller\Users' => 'Application\Controller\UsersController',
             'Application\Controller\Parametros' => 'Application\Controller\ParametrosController',
+            'Application\Controller\Messenger' => 'Application\Controller\MessengerController',
         ),
     ),
     'view_manager' => array(
