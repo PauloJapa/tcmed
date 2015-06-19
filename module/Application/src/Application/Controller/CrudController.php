@@ -115,8 +115,10 @@ abstract class CrudController extends AbstractActionController {
                 return $this->redirect()->toRoute($this->route, array('controller' => $this->controller));
             }
         }
+        $data['titulo'] = 'Novo ' . $this->name;
+        $data['action'] = 'new';
 
-        return $this->makeView(['form' => $form]);
+        return $this->makeView(compact("form","data"),TRUE, $this->getPathViewDefault() . 'form.phtml');
     }
 
     public function editAction() {
@@ -126,20 +128,24 @@ abstract class CrudController extends AbstractActionController {
         $repository = $this->getEm()->getRepository($this->entity);
         $entity = $repository->find($this->params()->fromRoute('id', 0));
 
-        if ($this->params()->fromRoute('id', 0))
+        if ($this->params()->fromRoute('id', 0)) {
             $form->setData($entity->toArray());
+        }
 
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $service = $this->getServiceLocator()->get($this->service);
                 $service->update($request->getPost()->toArray());
-
+                
                 return $this->redirect()->toRoute($this->route, array('controller' => $this->controller));
             }
         }
 
-        return $this->makeView(['form' => $form]);
+        $data['titulo'] = 'Editando ' . $this->name;
+        $data['action'] = 'edit';
+        
+        return $this->makeView(compact("form","data"),TRUE, $this->getPathViewDefault() . 'form.phtml');
     }
 
     public function deleteAction() {

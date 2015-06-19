@@ -84,7 +84,7 @@ class ORMExecutorSharedFixtureTest extends BaseTest
         $this->assertEquals('admin', $roleReference->getName());
 
         $userReference = $referenceRepository->getReference('admin');
-        $this->assertTrue($userReference instanceof User);
+        $this->assertTrue($userReference instanceof Parametros);
         $this->assertEquals('admin@example.com', $userReference->getEmail());
     }
 

@@ -1,0 +1,24 @@
+<h3><?php echo $this->data['titulo']; ?></h3>
+<br />
+<?php
+/* @var $fh \Application\View\Helper\FormHelp */
+
+$fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=>'parametros','action'=>$this->data['action'])));
+$fh->setHorizontal(true);
+$fh->formInit('Cadastro Parametros');
+            $fh->openCol('12')->text('chave')->closeCol();
+$fh->lineDown()->openCol('12')->text('conteudo')->closeCol();
+$fh->lineDown()->openCol('12')->text('descricao')->closeCol();
+$fh->lineDown()->openCol('12')->select('status')->closeCol();
+$fh->lineDown()->openCol('12')->Submit('submit')->closeCol();
+$fh->closeLine()->formEnd();
+
+?>
+
+<script lang="javascritp">   
+    
+    function isValid(){
+        return true;
+    }
+    
+</script>
