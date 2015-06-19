@@ -13,7 +13,7 @@ namespace Application\Form;
  *
  * @author Paulo Watakabe
  */
-class User extends AbstractForm{
+class Parametros extends AbstractForm{
     
     
     public function __construct($name = 'user', $options = array()) {

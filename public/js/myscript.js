@@ -38,7 +38,7 @@ $(function () {
         sender: {},
         loader: {},
         mailbox: {},
-        messenger: {}
+//        messenger: {}
     });
     
     $play.addMail({

@@ -82,6 +82,9 @@ class Module {
                 },
                 'Application\Auth\Adapter' => function($sm) {
                     return new AuthAdapter($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Application\Service\Parametros' => function($sm) {
+                    return new Service\Parametros($sm->get('Doctrine\ORM\EntityManager'));
                 }
             )
         );

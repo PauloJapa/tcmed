@@ -132,6 +132,7 @@ return array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Auth' => 'Application\Controller\AuthController',
             'Application\Controller\Users' => 'Application\Controller\UsersController',
+            'Application\Controller\Parametros' => 'Application\Controller\ParametrosController',
         ),
     ),
     'view_manager' => array(

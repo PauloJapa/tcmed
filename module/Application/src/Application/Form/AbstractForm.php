@@ -59,16 +59,15 @@ abstract class AbstractForm extends Form {
         $this->setAttribute('method', 'post');
         
         $this->setDefaultAttributes(['onKeyDown' => 'return changeEnterToTab(this,event)']);
-//        
-//        $this->setInputHidden('subOpcao');
-//        $this->setInputHidden('ajaxStatus');
-//        $this->setInputHidden('autoComp');
-//        $this->setInputHidden('scrolX');
-//        $this->setInputHidden('scrolY');
         
         $this->setIsAdmin();
     }
     
+    /**
+     * Retorna um array com as opções padrão de um formulario.
+     * @param boolean $onBlur
+     * @return array
+     */
     function getDefaultAttributes($onBlur=FALSE) {
         if($onBlur){
             return array_merge($this->defaultAttributes, ['onBlur' => 'toUp(this)']);            
@@ -87,14 +86,9 @@ abstract class AbstractForm extends Form {
      * @param string $name
      */
     public function setInputHidden($name){
-        
-        $this->add(array(
-            'name'      => $name,
-            'attributes' => array(
-                'id'    => $name,
-                'type'  => 'hidden'
-            )
-        ));
+        $hidden = new \Zend\Form\Element\Hidden();
+        $hidden->setAttributes(['name' => $name, 'id' => $name]);
+        $this->add($hidden);
     }
     
     /**
@@ -281,6 +275,14 @@ abstract class AbstractForm extends Form {
         return $checkbox;
     }
     
+    /**
+     * 
+     * @param string $name
+     * @param string $label
+     * @param array $options
+     * @param array $attributes
+     * @return \Zend\Form\Element\MultiCheckbox
+     */
     public function setInputMultiCheckbox($name, $label, array $options, array $attributes = []) {
         $mCheckebox = new \Zend\Form\Element\MultiCheckbox();
         $mCheckebox->setAttributes(['name'=> $name, 'id' => $name]);
