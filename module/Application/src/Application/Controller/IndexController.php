@@ -2,7 +2,7 @@
 
 namespace Application\Controller;
 
-use Application\Form\Parametros as FormUser;
+use Application\Form\User as FormUser;
 
 class IndexController extends CrudController {
 
@@ -28,7 +28,11 @@ class IndexController extends CrudController {
                 ->setNamespace($this->moduloName)
                 ->getMessages();
 
-        return $this->makeView(array('form' => $form, 'messages' => $messages));
+        $data['titulo'] = 'Novo ' . $this->name;
+        $data['action'] = 'new';
+        $data['ajax'] = FALSE;
+        
+        return $this->makeView(compact('form','messages','data'), FALSE, $this->getPathViewDefault('users') . 'form.phtml');
     }
 
     public function activateAction() {

@@ -228,10 +228,10 @@ var play = function () {
                 //Transforma o form em objeto
                 params.data = transformFormToObject(form);
                 params.type = "POST";
-                params.url = _sender.path + obj.url;
+                params.url = _sender.path + obj.url + "?ajax=ok&";
             } else {
                 params.type = "GET";
-                params.url = _sender.path + obj.url + "?" + Math.ceil(Math.random() * 100000);
+                params.url = _sender.path + obj.url + "?ajax=ok&" + Math.ceil(Math.random() * 100000);
             }
 
             return $.ajax(params);

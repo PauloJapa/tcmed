@@ -172,8 +172,14 @@ abstract class CrudController extends AbstractActionController {
      * @param boolean $terminal
      * @return Zend\View\Model\ViewModel
      */
-    protected function makeView($params,$terminal=true,$layout=''){
+    protected function makeView($params,$terminal='',$layout=''){
         $this->view = new ViewModel($params);
+        if(empty($terminal)){
+            $terminal = FALSE;
+            if(isset($_GET['ajax']) AND $_GET['ajax'] == 'ok'){
+                $terminal = TRUE;
+            }
+        }
         $this->view->setTerminal($terminal);
         if(!empty($layout)){            
             $this->view->setTemplate($layout);
@@ -185,8 +191,11 @@ abstract class CrudController extends AbstractActionController {
      * Pega o caminho padrão para os arquivos phtml do controller atual
      * @return string
      */
-    protected function getPathViewDefault() {
-        return strtolower($this->moduloName) . "/" . $this->controller . "/";
+    protected function getPathViewDefault($controller='') {
+        if(empty($controller)){
+            return strtolower($this->moduloName) . "/" . $this->controller . "/";
+        }
+        return strtolower($this->moduloName) . "/" . $controller . "/";
     }
     
     /**

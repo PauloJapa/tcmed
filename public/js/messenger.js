@@ -223,7 +223,7 @@
         };
         return $.ajax({
             type: 'POST',
-            url: settings.server + actions[data.type],
+            url: settings.server + actions[data.type] + '?ajax=ok',
             data: data
         }).fail(function () {
             errors.serverNotFound(settings.server);
