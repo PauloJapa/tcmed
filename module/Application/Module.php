@@ -60,9 +60,9 @@ class Module {
         
         $controller = $e->getTarget();
         $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
-//        echo '<pre>', var_dump($matchedRoute);die;
         if(!$auth->hasIdentity() and $matchedRoute == "app/default"){
-            return $controller->redirect()->toRoute("application-auth");
+            $ajax = $controller->params()->fromRoute('ajax', 'no');
+            return $controller->redirect()->toRoute("application-auth", array('ajax'=>$ajax));
         }
     }
 
@@ -93,10 +93,29 @@ class Module {
     public function getViewHelperConfig() {
         return [
             'invokables' => [
-                'UserIdentity' => new View\Helper\UserIdentity(),
-                'Table' => new View\Helper\Table(),
-                'FormHelp' => new View\Helper\FormHelp(),
-            ]
+                'UserIdentity' => 'Application\View\Helper\UserIdentity',
+                'Table' => 'Application\View\Helper\Table',
+                'FormHelp' => 'Application\View\Helper\FormHelp',
+//                'Url' =>  'Application\View\Helper\Url',
+            ],
+            'factories' => [
+                'Url'            => function ($helperPluginManager) {
+                    $serviceLocator = $helperPluginManager->getServiceLocator();
+                    $view_helper =  new \Application\View\Helper\Url();
+                    $router = \Zend\Console\Console::isConsole() ? 'HttpRouter' : 'Router';
+                    $view_helper->setRouter($serviceLocator->get($router));
+
+                    $match = $serviceLocator->get('application')
+                        ->getMvcEvent()
+                        ->getRouteMatch();
+
+                    if ($match instanceof RouteMatch) {
+                        $view_helper->setRouteMatch($match);
+                    }
+
+                    return $view_helper;
+                }
+            ],
         ];
     }
 

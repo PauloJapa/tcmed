@@ -7,8 +7,9 @@
  * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
 
-namespace Zend\View\Helper;
+namespace Application\View\Helper;
 
+use Zend\View\Helper\AbstractHelper;
 use Traversable;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\Router\RouteMatch;
@@ -99,7 +100,7 @@ class Url extends AbstractHelper
         $options['name'] = $name;
         
         if ($ajaxfunction){
-            return "javascript:processa({url:'/" . $this->router->assemble($params, $options) . "'});";            
+            return "javascript:processa({url:'" . $this->router->assemble($params, $options) . "'});";            
         }else{
             return $this->router->assemble($params, $options);            
         }            
@@ -127,5 +128,9 @@ class Url extends AbstractHelper
     {
         $this->routeMatch = $routeMatch;
         return $this;
+    }
+    
+    public function __toString() {
+        return 'Application\View\Helper\Url';
     }
 }
