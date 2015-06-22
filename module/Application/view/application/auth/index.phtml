@@ -1,7 +1,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-5 col-md-offset-5">
+        <div class="col-md-6 col-md-offset-6">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Entrar</h3>
@@ -10,39 +10,22 @@
                 <h2>Usuário ou senha inválidos</h2>
                 <?php endif; ?>
                 <div class="panel-body">
-<?php
-/* @var $fh \Application\View\Helper\FormHelp */
-$fh = $this->formHelp($this,$this->form,$this->url('application-auth',[],[],FALSE,FALSE));
+                <?php
+                /* @var $fh \Application\View\Helper\FormHelp */                
+                $fh = $this->formHelp($this,$this->form,$this->url('application-auth',[],[],FALSE,$this->dataView['ajax']));
 
-$fh->setHorizontal(true);
-$fh->formInit('Login do Sistema');
-    $fh->openCol('12')->text('email')->closeCol();
-$fh->lineDown();
-    $fh->openCol('12')->password('password')->closeCol();
-$fh->lineDown();                                      
-    $fh->openCol('12')->Submit('submit')->closeCol();
-$fh->closeLine()->formEnd();
-?>
+                $fh->setHorizontal(true);
+                $fh->formInit('Login do Sistema');
+                    $fh->openCol('12')->text('email')->closeCol();
+                $fh->lineDown();
+                    $fh->openCol('12')->password('password')->closeCol();
+                $fh->lineDown(); 
+                    $fh->openCol('12')->checkbox('remember')->closeCol();
+                $fh->lineDown();                                      
+                    $fh->openCol('12')->Submit('submit')->closeCol();
+                $fh->closeLine()->formEnd();
+                ?>
 
-<!-- 
-                    <?php //echo $this->form()->openTag($form); ?>
-                        <fieldset>                           
-                            <?php //echo $this->formCollection($form); ?>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Password" name="password" type="password" value="">
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input name="remember" type="checkbox" value="lembrar">Lembrar
-                                </label>
-                            </div>
-                            <input type="submit" class='btn btn-lg btn-success btn-block'>
-                        </fieldset>
-                    <?php //echo $this->form()->closeTag($form); ?>
--->                            
                 </div>
             </div>
         </div>
