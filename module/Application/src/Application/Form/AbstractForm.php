@@ -267,10 +267,11 @@ abstract class AbstractForm extends Form {
         $checkbox->setAttributes(['name'=> $name, 'id' => $name]);
         $checkbox->setAttributes($this->getDefaultAttributes());
         $checkbox->setUseHiddenElement(FALSE);
+        $checkbox->setLabel($label);
         if(!empty($attributes)){
             $checkbox->setAttributes($attributes);
         }
-        $checkbox->setLabel($label)->setOptions($options);
+        $checkbox->setOptions($options);
         $this->add($checkbox); 
         return $checkbox;
     }
