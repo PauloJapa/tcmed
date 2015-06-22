@@ -42,9 +42,9 @@ return array(
                 ),
             ),
             'application-auth' => array(
-              'type' => 'Literal',
+              'type' => 'Segment',
                 'options' => array(
-                    'route'=>'/auth',
+                    'route'=>'/auth[/:ajax]',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller' => 'Auth',

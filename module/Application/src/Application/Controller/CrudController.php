@@ -179,6 +179,9 @@ abstract class CrudController extends AbstractActionController {
             if(isset($_GET['ajax']) AND $_GET['ajax'] == 'ok'){
                 $terminal = TRUE;
             }
+            if($this->params()->fromRoute('ajax', 'no') == 'ok'){
+                $terminal = TRUE;                
+            }
         }
         $this->view->setTerminal($terminal);
         if(!empty($layout)){            
