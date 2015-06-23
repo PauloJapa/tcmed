@@ -42,12 +42,13 @@
         <!-- Meu script -->
         <?php
         echo $this->headScript()
-                ->prependFile($this->basePath('js/messenger.js'))
+//                ->prependFile($this->basePath('js/messenger.js'))
+                ->prependFile($this->basePath('js/pagination.js'))
                 ->prependFile($this->basePath('js/jquery.maskMoney.js'))
                 ->prependFile($this->basePath('locales/bootstrap-datepicker.pt-BR.min.js'))
                 ->prependFile($this->basePath('js/bootstrap-datepicker.js'))
                 ->prependFile($this->basePath('js/myscript.js'))
-                ->prependFile($this->basePath('js/playStart.js'))
+                ->prependFile($this->basePath('js/Modules.js'))
                 ->prependFile($this->basePath('js/sb-admin-2.js'))
                 ->prependFile($this->basePath('js/metisMenu.min.js'))
                 ->prependFile($this->basePath('bootstrap/dist/js/bootstrap.min.js'))

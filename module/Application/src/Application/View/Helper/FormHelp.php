@@ -545,6 +545,13 @@ class FormHelp extends AbstractHelper {
             $this->iconClean($name, $element),
             $this->iconCalend($name, $element),
             $this->closeDivInput(),
+            PHP_EOL .
+            '<script language="javascript">'.
+            'var obj = {format: "dd/mm/yyyy", todayBtn: "linked", language: "pt-BR", forceParse: false, autoclose: true, todayHighlight: true};'.
+            "$('.date').find('input').datepicker(obj);" .
+            "$('.calendar').datepicker(obj);" .
+            '</script>'. 
+            PHP_EOL .
             $this->showError();      
         return $this;       
     }

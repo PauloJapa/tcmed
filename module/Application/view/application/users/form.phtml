@@ -10,7 +10,7 @@ if(isset($this->data['ajax']) AND $this->data['ajax'] === FALSE){
 $fh->setHorizontal(true);
 $fh->formInit('Cadastro Usuario');
     $fh->openCol('6')->text('nome_usuario')->closeCol();
-    $fh->openCol('6')->text('nickname')->closeCol();
+    $fh->openCol('6')->calend('nickname')->closeCol();
 $fh->lineDown();
     $fh->openCol('6')->text('email_usuario')->closeCol();
     $fh->openCol('6')->select('situacao')->closeCol();
@@ -26,6 +26,12 @@ $fh->lineDown();
 $fh->closeLine()->formEnd();
 
 ?>
+
+<div class="input-daterange">
+    <input type="text" class="input-small" value="2012-04-05" />
+    <span class="add-on">to</span>
+    <input type="text" class="input-small" value="2012-04-19" />
+</div>
 
 <script lang="javascritp">   
     
