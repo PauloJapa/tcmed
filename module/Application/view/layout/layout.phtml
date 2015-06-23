@@ -43,7 +43,6 @@
         <?php
         echo $this->headScript()
 //                ->prependFile($this->basePath('js/messenger.js'))
-                ->prependFile($this->basePath('js/pagination.js'))
                 ->prependFile($this->basePath('js/jquery.maskMoney.js'))
                 ->prependFile($this->basePath('locales/bootstrap-datepicker.pt-BR.min.js'))
                 ->prependFile($this->basePath('js/bootstrap-datepicker.js'))
@@ -61,7 +60,6 @@
     <body>  
         
     <?php  if($this->UserIdentity() != FALSE): ?>
-        <div id="messenger"></div>    
         <div id="wrapper">
             <?php echo $this->content; ?>
             <!-- Page Content -->
@@ -82,7 +80,5 @@
     <?php  endif; ?>
         
     <?php // echo $this->inlineScript() ?>
-
-        
     </body>
 </html>
