@@ -1,116 +1,88 @@
-var GLOBALSIS = {
-    path: "",
-    canClick: true,
-    timeOutButton: 30000,
-    fila: {
-        first: 0,
-        last: 9,
-        cursor: 0,
-        virtualCursor: 0
-    },
-    navegacao: {}
-};
-
-function setGlobal(key, vlr) {
-    GLOBALSIS[key] = vlr;
-}
-
-function getGlobal(key) {
-    try{
-        return GLOBALSIS[key];        
-    }catch(e){
-        return false;
-    }
-}
-
 var $play;
 
-$(function () {
+//Método que irá substituir o GLOBALSIS
+var settings = {
+    ola: "mundo"
+};
 
-    $play = new play();
+/**
+ * Centralizador de erros 
+ * 
+ * @type type
+ */
+var warn = {
+    serverNotFound: function (server) {
+        var error = "Servidor '" + server + "' não pode ser localizado!:"
+                + " Verifique o endereco do servidor";
+        console.error(error);
+    }
+};
 
-    $play.init({
-        pagin: {
-            back: ".godown",
-            next: ".goup",
-            menu: "#side-menu",
-        },
-        sender: {},
-        loader: {},
-        mailbox: {},
-        messenger: {}
-    });
-    
-    $play.addMail({
-       name: "danilo",
-       date: "05/06/2015",
-       content: "Olá, Jaime! como você vai?"
-    });
-    
-    $play.addMail({
-       name: "Paulo",
-       date: "05/06/2015",
-       content: "Olá, Jaime! como você vai?"
-    });
-    
-    $play.addMail({
-       name: "Miriam",
-       date: "05/06/2015",
-       content: "Este é um teste?"
-    });
-    
-    $play.getMails();
+/**
+ * 
+ * 
+ * @returns {undefined}
+ */
+var loader = function (mode) {
+    if ($(".loader").html() === undefined) {
+        $("body").append('<i class="loader fa fa-3x fa-spinner fa-spin"></i>');
+        $(".loader").css({
+            position: "absolute",
+            left: "50%",
+            top: "50%"
+        });
+    }
 
-    $(document).on("click", "#bot", function () {
-        var inputs = JSON.stringify($play.getInputsForm($("#inter").find("form")));
-        alert(inputs);
+    if (mode) {
+        $(".loader").show();
+    } else {
+        $(".loader").hide();
+    }
+}
+;
+
+/**
+ * Transforma os campos de um formulario em objeto
+ * (para quem acessa de dentro da classe)
+ * 
+ * @param {type} form
+ * @returns {play.transformFormToObject@pro;value|String}
+ */
+var transformFormToObject = function (form) {
+    var aux = {};
+
+    var form = $(form).serializeArray();
+
+    $.each(form, function () {
+        aux[this.name] = this.value || '';
     });
-    
+    return aux;
+};
 
-    // Visualizar Calendario do Date Picker
-    var obj = {
-        format: "dd/mm/yyyy",
-        todayBtn: "linked",
-        language: "pt-BR",
-        forceParse: false,
-        autoclose: true,
-        todayHighlight: true
-    };
-    $('.date').find('input').datepicker(obj);
-    $('.calendar').datepicker(obj);
-    // Limpar campos da tela
-    $(document).on('click','.clean',function(){  
-       var obj = $(this).parent().parent();
-       obj.find('input[type=text]').val('').focus();
-       obj.find('textarea').val('').focus();
-       obj.find('input[type=checkbox]').removeAttr('checked').focus();
-       obj.find('input[type=radio]').removeAttr('checked').focus();
-       var select = obj.find('select');
-       if(select){
-           select.val(jQuery('options:first',select).val()).focus();               
-       }
-    });
+/**
+ * Request data to server
+ * 
+ * type: [POST, GET, '']
+ * url: [ip/hostname:port]
+ * data: [data to send/receive]
+ * 
+ * @returns {undefined}
+ */
+var requestServer = function (arg) {
+    arg.url = settings.path + arg.url; //Adiciona dir (se houver) 
+    arg.url = arg.url + "?ajax=ok&";  //Trata erro de ajax
 
-    // Evita que Acidentalmente a tecla backspace execute a função voltar do navegador
-    var rx = /INPUT|TEXTAREA/i;
-    var rxT = /RADIO|CHECKBOX|SUBMIT/i;
-    $(document).bind("keydown keypress", function (e) {
-        var preventKeyPress;
-        if (e.keyCode == 8) {
-            var d = e.srcElement || e.target;
-            if (rx.test(e.target.tagName)) {
-                var preventPressBasedOnType = false;
-                if (d.attributes["type"]) {
-                    preventPressBasedOnType = rxT.test(d.attributes["type"].value);
-                }
-                preventKeyPress = d.readOnly || d.disabled || preventPressBasedOnType;
-            } else {preventKeyPress = true;}
-        } else { preventKeyPress = false; }
+    if (arg.type !== "POST") {
+        arg.type = "GET";
+        arg.url = arg.url + "?ajax=ok&" + Math.ceil(Math.random() * 100000);
+    }
 
-        if (preventKeyPress) e.preventDefault();
-    });
+    return $.ajax(arg)
+            .fail(function () {
+                warn.serverNotFound(arg.url);
+            });
+};
 
-});
 
 /**
  * Método de envio/recebimento de dados para o servidor
@@ -118,41 +90,128 @@ $(function () {
  * @param {type} obj
  * @returns {undefined}
  */
-function processa(obj) {
-    if (obj.url == "" || obj.url == "#") {
-        return;
-    }
-    if (!GLOBALSIS.canClick) {
+var processa = function (obj) {
+    if (obj.url === "" || obj.url === "#") {
         return;
     }
 
-    //Verifica se há o param ret. Se não há, seta como inter
-    obj.ret = (!obj.ret) ? "inter" : obj.ret;
+    //Verifica se há o param ret. Se não há, seta o default
+    obj.ret = (obj.ret) ? obj.ret : settings.defReturn;
 
-    $play.showLoader(true);
-    $play.savePage();
+    modules.Pagination.savePage();
 
-    var ajax = $play.sendToServer(obj);
-
-    //Conexão falhou
-    ajax.fail(function (data, status, erro) {
-        alert("Não foi possível enviar requisição para o servidor: ");
+    var ret = requestServer({
+        url: settings.path + obj.url,
+        data: transformFormToObject($("#" + obj.frm)),
+        type: "POST"
+    }).done(function (data) {
+        $(obj.ret).html(data);
+        
+    }).complete(function () {
+        loader(false); //Desliga o loader
+        modules.Pagination.addPage();
+        
     });
+}
+;
 
-    //Conexão sucedida
-    ajax.done(function (data) {
-        if (obj.ret) {
-            var data = $("#" + obj.ret).html(data);
+/**
+ * Transform lower case to upper case
+ * 
+ * @returns {undefined}
+ */
+$.fn.toUp = function () {
+    $(this).val($(this).val().toUpperCase());
+};
 
+/**
+ * 
+ * @returns {undefined}
+ */
+var events = function () {
+    //defaultPrevented
+
+    // Limpar campos da tela
+    $(document).on('click', '.clean', function (e) {
+        e.defaultPrevented;
+
+        var obj = $(this).parent().parent();
+
+        obj.find('input[type=text]').val('').focus();
+        obj.find('textarea').val('').focus();
+        obj.find('input[type=checkbox]').removeAttr('checked').focus();
+        obj.find('input[type=radio]').removeAttr('checked').focus();
+        var select = obj.find('select');
+        if (select) {
+            select.val(jQuery('options:first', select).val()).focus();
         }
     });
 
-    //Completa a requisição se for sucedida ou não
-    ajax.complete(function () {
-        $play.showLoader(false);  //Desabilita gif de carregamento
-        $play.addPage();
+    // Evita que Acidentalmente a tecla backspace execute a função voltar do navegador
+    $(document).bind("keydown keypress", function (e) {
+        var preventKeyPress;
+
+        var rx = /INPUT|TEXTAREA/i;
+        var rxT = /RADIO|CHECKBOX|SUBMIT/i;
+
+        if (e.keyCode === 8) {
+            var d = e.srcElement || e.target;
+            if (rx.test(e.target.tagName)) {
+                var preventPressBasedOnType = false;
+                if (d.attributes["type"]) {
+                    preventPressBasedOnType = rxT.test(d.attributes["type"].value);
+                }
+                preventKeyPress = d.readOnly || d.disabled || preventPressBasedOnType;
+            } else {
+                preventKeyPress = true;
+            }
+        } else {
+            preventKeyPress = false;
+        }
+
+        if (preventKeyPress)
+            e.defaultPrevented;
     });
-}
+};
+
+/**
+ *
+ *  
+ * @param {type} options
+ * @returns {Generator}
+ */
+var Generator = function (options) {
+    //Configuracoes defaults
+    var defaults = {
+        defReturn: "#inter", //Div de retorno do ajax (processa)
+        path: ""
+    };
+
+    settings = $.extend({}, options, defaults);
+    settings = $.extend({}, options, settings);
+
+    this.init();
+};
+
+/**
+ * Public functions
+ * 
+ * @type type
+ */
+Generator.prototype = {
+    init: function () {
+    }
+};
+
+
+$(function () {
+    var gen = new Generator({
+        pagination: true
+    });
+
+    //Inicializador do Pagination
+    modules.Pagination.init();
+});
 
 function saveForm(buttonEle) {
     if (buttonEle) {
@@ -188,71 +247,71 @@ function getAtrrFromParentTag(obj, tag, atr) {
     return $(obj).closest(tag).attr(atr);
 }
 
-    
-function toUp(o){
+function toUp(o) {
+    console.warn("funçao toUp() deve ser modificada por $(elemento).toUp() ou $.toUp(elemento)");
     o.value = o.value.toUpperCase();
 }
 
-function toTab(o,e){
+function toTab(o, e) {
 
-}    
-    
+}
+
 // Modificar a tecla enter para tab e 
 // Verificar se tem função a ser executada
-function changeEnterToTab(obj,e){
+function changeEnterToTab(obj, e) {
     var keycode;
-    if (window.event){ 
+    if (window.event) {
         keycode = window.event.keyCode;
-    }else if (e){ 
+    } else if (e) {
         keycode = e.which;
-    }else{
+    } else {
         return true;
-    } 
-    if((keycode == 13)||(keycode == 9)){
-        pressEnterOrTab(obj,e);
     }
-    if(keycode == 9){
+    if ((keycode == 13) || (keycode == 9)) {
+        pressEnterOrTab(obj, e);
+    }
+    if (keycode == 9) {
         nextFocus(obj);
-        pressTab(obj,e);
+        pressTab(obj, e);
         return false;
     }
-    if(keycode == 13){
+    if (keycode == 13) {
         nextFocus(obj);
-        pressEnter(obj,e);
+        pressEnter(obj, e);
         return false;
     }
     return true;
 }
 //FUNCAO PARA SER SOBREESCRITA SE NECESSARIO
-function pressEnterOrTab(obj,e){
+function pressEnterOrTab(obj, e) {
     return true;
 }
 //FUNCAO PARA SER SOBREESCRITA SE NECESSARIO
-function pressEnter(obj,e){
+function pressEnter(obj, e) {
     return true;
 }
 //FUNCAO PARA SER SOBREESCRITA SE NECESSARIO
-function pressTab(obj,e){
+function pressTab(obj, e) {
     return true;
 }
-function nextFocus(obj){
+function nextFocus(obj) {
     var inputs = $(obj).closest('form').find(':input:visible');
-    var ind    = inputs.index(obj);
-    var i      = 1;
-    var flag   = true;
-    while(flag){
+    var ind = inputs.index(obj);
+    var i = 1;
+    var flag = true;
+    while (flag) {
         ele = inputs.eq(ind + i);
         tp = ele.prop('type');
-        if(ele.prop('disabled')){
+        if (ele.prop('disabled')) {
             i++;
-        }else{
-            switch(tp){
-                case 'button':  
+        } else {
+            switch (tp) {
+                case 'button':
                     i++;
-                    break;  
-                default:    
+                    break;
+                default:
                     ele.focus();
-                    flag = false;          
+                    flag = false;
             }
         }
     }
@@ -285,8 +344,8 @@ function filtraCampo(campo) {
         }
     }
     campo.value = s;
-    cp = campo.value ;
-    return cp ;
+    cp = campo.value;
+    return cp;
 }
 
 // retira caracteres invalidos da string
@@ -302,9 +361,9 @@ function LimparMoeda(valor, validos) {
     return result;
 }
 
-function setInputDisabledMulti(name){
+function setInputDisabledMulti(name) {
     var inp = document.getElementsByName(name);
-    for(i=0; i<inp.length; i++){
+    for (i = 0; i < inp.length; i++) {
         inp[i].disabled = true;
     }
 }
@@ -312,23 +371,23 @@ function setInputDisabledMulti(name){
 function retira_acentos(palavra) {
     com_acento = 'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÖÔÚÙÛÜÇ';
     sem_acento = 'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC';
-    nova='';
-    for(i=0;i<palavra.length;i++) {
-        if (com_acento.search(palavra.substr(i,1))>=0) {
-            nova+=sem_acento.substr(com_acento.search(palavra.substr(i,1)),1);
-        }else{
-            nova+=palavra.substr(i,1);
+    nova = '';
+    for (i = 0; i < palavra.length; i++) {
+        if (com_acento.search(palavra.substr(i, 1)) >= 0) {
+            nova += sem_acento.substr(com_acento.search(palavra.substr(i, 1)), 1);
+        } else {
+            nova += palavra.substr(i, 1);
         }
     }
     return nova;
 }
 // verifica se o valor esta no array
-function in_Array(array,vlr){
+function in_Array(array, vlr) {
     for (key in array) {
         if (array[key] == vlr) {
             return true;
         }
     }
-    return false ;
+    return false;
 }
  

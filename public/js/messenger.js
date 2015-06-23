@@ -615,9 +615,9 @@
     Plugin.prototype = {
         init: function () {
 
-            buildHtml();
-            receiveContacts();
-            events();
+//            buildHtml();
+//            receiveContacts();
+//            events();
 
         },
         sendMsg: function (msg) {
