@@ -98,6 +98,8 @@ var processa = function (obj) {
     //Verifica se há o param ret. Se não há, seta o default
     obj.ret = (obj.ret) ? obj.ret : settings.defReturn;
 
+    loader(true); //liga o loader
+
     modules.Pagination.savePage();
 
     var ret = requestServer({
@@ -106,11 +108,11 @@ var processa = function (obj) {
         type: "POST"
     }).done(function (data) {
         $(obj.ret).html(data);
-        
+
     }).complete(function () {
         loader(false); //Desliga o loader
-        modules.Pagination.addPage();
-        
+        modules.Pagination.addPage()
+
     });
 }
 ;
@@ -174,6 +176,149 @@ var events = function () {
     });
 };
 
+
+/**
+ * Passa o foco do campo para o proximo
+ * -
+ * @param {type} obj
+ * @returns {undefined}
+ */
+function nextFocus(obj) {
+    var inputs = $(obj).closest('form').find(':input:visible');
+    var ind = inputs.index(obj);
+    var i = 1;
+    var flag = true;
+    while (flag) {
+        ele = inputs.eq(ind + i);
+        tp = ele.prop('type');
+        if (ele.prop('disabled')) {
+            i++;
+        } else {
+            switch (tp) {
+                case 'button':
+                    i++;
+                    break;
+                default:
+                    ele.focus();
+                    flag = false;
+            }
+        }
+    }
+    return;
+}
+
+/**
+ * Formata data no padrão DDMMAAAA
+ * 
+ * @param {type} campo
+ * @returns {undefined}
+ */
+function formataData(campo) {
+    campo.value = filtraCampo(campo);
+    var vr = LimparMoeda(campo.value, "0123456789");
+    tam = vr.length;
+    if (tam <= 1)
+        campo.value = vr;
+    if (tam > 2 && tam < 5)
+        campo.value = vr.substr(0, tam - 2) + '/' + vr.substr(tam - 2, tam);
+    if (tam >= 5 && tam <= 10)
+        campo.value = vr.substr(0, 2) + '/' + vr.substr(2, 2) + '/' + vr.substr(4, 4);
+}
+
+/**
+ * limpa todos os caracteres especiais do campo solicitado
+ * -
+ * @param {type} campo
+ * @returns {String}
+ */
+function filtraCampo(campo) {
+    var s = "";
+    var vr = campo;
+    tam = vr.length;
+    for (i = 0; i < tam; i++) {
+        switch (vr[i]) {
+            case "/":
+            case "-":
+            case ".":
+            case ",":
+                continue;
+            default :
+                s += vr[i];
+                break;
+        }
+    }
+    campo = s;
+    return campo;
+}
+
+/**
+ * retira caracteres invalidos da string
+ * -
+ * @param {type} valor
+ * @param {type} validos
+ * @returns {String}
+ */
+function LimparMoeda(valor, validos) {
+    var result = "";
+    var aux;
+    for (var i = 0; i < valor.length; i++) {
+        aux = validos.indexOf(valor.substring(i, i + 1));
+        if (aux >= 0) {
+            result += aux;
+        }
+    }
+    return result;
+}
+
+/**
+ * Desabilita o input
+ * -
+ * @param {type} name
+ * @returns {undefined}
+ */
+function setInputDisabledMulti(name) {
+    var inp = document.getElementsByName(name);
+    for (i = 0; i < inp.length; i++) {
+        inp[i].disabled = true;
+    }
+}
+
+/**
+ * retira os acentos da palavra
+ * -
+ * @param {type} palavra
+ * @returns {String|nova}
+ */
+function retira_acentos(palavra) {
+    com_acento = 'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÖÔÚÙÛÜÇ';
+    sem_acento = 'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC';
+    nova = '';
+    for (i = 0; i < palavra.length; i++) {
+        if (com_acento.search(palavra.substr(i, 1)) >= 0) {
+            nova += sem_acento.substr(com_acento.search(palavra.substr(i, 1)), 1);
+        } else {
+            nova += palavra.substr(i, 1);
+        }
+    }
+    return nova;
+}
+
+/**
+ * verifica se o valor esta no array
+ * -
+ * @param {type} array
+ * @param {type} vlr
+ * @returns {Boolean}
+ */
+function in_Array(array, vlr) {
+    for (key in array) {
+        if (array[key] == vlr) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  *
  *  
@@ -204,15 +349,12 @@ Generator.prototype = {
 };
 
 
-$(function () {
-    var gen = new Generator({
-        pagination: true
-    });
-
-    //Inicializador do Pagination
-    modules.Pagination.init();
-});
-
+/**
+ * Prepara o formulario para enviar ao servidor
+ * -
+ * @param {type} buttonEle
+ * @returns {Boolean}
+ */
 function saveForm(buttonEle) {
     if (buttonEle) {
         var frm = getFormName(buttonEle);
@@ -226,38 +368,26 @@ function saveForm(buttonEle) {
     return false;
 }
 
-function attachmentParamInAction(act, key, vlr) {
-    var ind = act.indexOf('})');
-    return act.substr(0, ind) + "," + key + ":'" + vlr + "'" + act.substr(ind);
-}
 
-function getFormName(obj) {
-    return getAtrrFromForm(obj, 'name');
-}
-
-function getFormAction(obj) {
-    return getAtrrFromForm(obj, 'action');
-}
-
-function getAtrrFromForm(obj, atr) {
-    return getAtrrFromParentTag(obj, 'form', atr);
-}
-
-function getAtrrFromParentTag(obj, tag, atr) {
-    return $(obj).closest(tag).attr(atr);
-}
-
+/**
+ * Transforma o campo parametrizado em toUpperCase
+ * -
+ * @param {type} o
+ * @returns {undefined}
+ */
 function toUp(o) {
     console.warn("funçao toUp() deve ser modificada por $(elemento).toUp() ou $.toUp(elemento)");
     o.value = o.value.toUpperCase();
 }
 
-function toTab(o, e) {
-
-}
-
-// Modificar a tecla enter para tab e 
-// Verificar se tem função a ser executada
+/**
+ * Modificar a tecla enter para tab e
+ * Verificar se tem função a ser executada
+ * -
+ * @param {type} obj
+ * @param {type} e
+ * @returns {Boolean}
+ */
 function changeEnterToTab(obj, e) {
     var keycode;
     if (window.event) {
@@ -282,6 +412,37 @@ function changeEnterToTab(obj, e) {
     }
     return true;
 }
+
+/**
+ * 
+ * 
+ * @param {type} act
+ * @param {type} key
+ * @param {type} vlr
+ * @returns {String}
+ */
+function attachmentParamInAction(act, key, vlr) {
+    var ind = act.indexOf('})');
+    return act.substr(0, ind) + "," + key + ":'" + vlr + "'" + act.substr(ind);
+}
+/* ... */
+function getFormName(obj) {
+    return getAtrrFromForm(obj, 'name');
+}
+/* ... */
+function getFormAction(obj) {
+    return getAtrrFromForm(obj, 'action');
+}
+/* ... */
+function getAtrrFromForm(obj, atr) {
+    return getAtrrFromParentTag(obj, 'form', atr);
+}
+/* ... */
+function getAtrrFromParentTag(obj, tag, atr) {
+    return $(obj).closest(tag).attr(atr);
+}
+
+
 //FUNCAO PARA SER SOBREESCRITA SE NECESSARIO
 function pressEnterOrTab(obj, e) {
     return true;
@@ -294,100 +455,19 @@ function pressEnter(obj, e) {
 function pressTab(obj, e) {
     return true;
 }
-function nextFocus(obj) {
-    var inputs = $(obj).closest('form').find(':input:visible');
-    var ind = inputs.index(obj);
-    var i = 1;
-    var flag = true;
-    while (flag) {
-        ele = inputs.eq(ind + i);
-        tp = ele.prop('type');
-        if (ele.prop('disabled')) {
-            i++;
-        } else {
-            switch (tp) {
-                case 'button':
-                    i++;
-                    break;
-                default:
-                    ele.focus();
-                    flag = false;
-            }
-        }
-    }
-    return;
-}
-// FIM Modificar a tecla enter para tab e 
 
-// Formata data no padrão DDMMAAAA
-function formataData(campo) {
-    campo.value = filtraCampo(campo);
-    var vr = LimparMoeda(campo.value, "0123456789");
-    tam = vr.length;
-    if (tam <= 1)
-        campo.value = vr;
-    if (tam > 2 && tam < 5)
-        campo.value = vr.substr(0, tam - 2) + '/' + vr.substr(tam - 2, tam);
-    if (tam >= 5 && tam <= 10)
-        campo.value = vr.substr(0, 2) + '/' + vr.substr(2, 2) + '/' + vr.substr(4, 4);
-}
+// -----------------------------------------------------------------------------
+$(function () {
 
-// limpa todos os caracteres especiais do campo solicitado
-function filtraCampo(campo) {
-    var s = "";
-    var cp = "";
-    vr = campo.value;
-    tam = vr.length;
-    for (i = 0; i < tam; i++) {
-        if (vr.substring(i, i + 1) != "/" && vr.substring(i, i + 1) != "-" && vr.substring(i, i + 1) != "." && vr.substring(i, i + 1) != ",") {
-            s = s + vr.substring(i, i + 1);
-        }
-    }
-    campo.value = s;
-    cp = campo.value;
-    return cp;
-}
+    var gen = new Generator({
+        pagination: true
+    });
 
-// retira caracteres invalidos da string
-function LimparMoeda(valor, validos) {
-    var result = "";
-    var aux;
-    for (var i = 0; i < valor.length; i++) {
-        aux = validos.indexOf(valor.substring(i, i + 1));
-        if (aux >= 0) {
-            result += aux;
-        }
-    }
-    return result;
-}
-
-function setInputDisabledMulti(name) {
-    var inp = document.getElementsByName(name);
-    for (i = 0; i < inp.length; i++) {
-        inp[i].disabled = true;
-    }
-}
-
-function retira_acentos(palavra) {
-    com_acento = 'áàãâäéèêëíìîïóòõôöúùûüçÁÀÃÂÄÉÈÊËÍÌÎÏÓÒÕÖÔÚÙÛÜÇ';
-    sem_acento = 'aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC';
-    nova = '';
-    for (i = 0; i < palavra.length; i++) {
-        if (com_acento.search(palavra.substr(i, 1)) >= 0) {
-            nova += sem_acento.substr(com_acento.search(palavra.substr(i, 1)), 1);
-        } else {
-            nova += palavra.substr(i, 1);
-        }
-    }
-    return nova;
-}
-// verifica se o valor esta no array
-function in_Array(array, vlr) {
-    for (key in array) {
-        if (array[key] == vlr) {
-            return true;
-        }
-    }
-    return false;
-}
- 
+    //Inicializador do Pagination
+    modules.Pagination.init();
+    
+    //Inicializador do Messenger
+    modules.Messenger.init({
+        topDifference: 50
+    });
+});
