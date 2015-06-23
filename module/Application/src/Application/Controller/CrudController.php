@@ -173,16 +173,21 @@ abstract class CrudController extends AbstractActionController {
      * @return Zend\View\Model\ViewModel
      */
     protected function makeView($params,$terminal='',$layout=''){
-        $this->view = new ViewModel($params);
+//        echo '<pre>', var_dump($params);
         if(empty($terminal)){
             $terminal = FALSE;
+            $params['dataView']['ajax'] = FALSE;
             if(isset($_GET['ajax']) AND $_GET['ajax'] == 'ok'){
                 $terminal = TRUE;
+                $params['dataView']['ajax'] = TRUE;
             }
             if($this->params()->fromRoute('ajax', 'no') == 'ok'){
                 $terminal = TRUE;                
+                $params['dataView']['ajax'] = TRUE;
             }
         }
+//        echo '<pre>', var_dump($params);die;
+        $this->view = new ViewModel($params);
         $this->view->setTerminal($terminal);
         if(!empty($layout)){            
             $this->view->setTemplate($layout);
