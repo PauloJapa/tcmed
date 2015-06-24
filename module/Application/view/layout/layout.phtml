@@ -42,12 +42,12 @@
         <!-- Meu script -->
         <?php
         echo $this->headScript()
-                ->prependFile($this->basePath('js/messenger.js'))
+//                ->prependFile($this->basePath('js/messenger.js'))
                 ->prependFile($this->basePath('js/jquery.maskMoney.js'))
                 ->prependFile($this->basePath('locales/bootstrap-datepicker.pt-BR.min.js'))
                 ->prependFile($this->basePath('js/bootstrap-datepicker.js'))
                 ->prependFile($this->basePath('js/myscript.js'))
-                ->prependFile($this->basePath('js/playStart.js'))
+                ->prependFile($this->basePath('js/Modules.js'))
                 ->prependFile($this->basePath('js/sb-admin-2.js'))
                 ->prependFile($this->basePath('js/metisMenu.min.js'))
                 ->prependFile($this->basePath('bootstrap/dist/js/bootstrap.min.js'))
@@ -60,7 +60,6 @@
     <body>  
         
     <?php  if($this->UserIdentity() != FALSE): ?>
-        <div id="messenger"></div>    
         <div id="wrapper">
             <?php echo $this->content; ?>
             <!-- Page Content -->
@@ -81,7 +80,5 @@
     <?php  endif; ?>
         
     <?php // echo $this->inlineScript() ?>
-
-        
     </body>
 </html>

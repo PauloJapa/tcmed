@@ -31,7 +31,7 @@ class AuthController extends CrudController {
                 }
             }
         }
-        return $this->makeView(['form' => $form, 'error' => $error],FALSE);
+        return $this->makeView(['form' => $form, 'error' => $error]);
     }
 
     public function logoutAction() {
