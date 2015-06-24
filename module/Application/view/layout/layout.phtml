@@ -74,6 +74,12 @@
                         topDifference: 50,
                         open: false
                     });
+
+                    //
+                    module.Cookie.save({
+                       key: "PHPSESSID",
+                       value: module.Cookie.get("PHPSESSID")
+                    });
                 });
             </script>
 
