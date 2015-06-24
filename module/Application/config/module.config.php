@@ -92,6 +92,19 @@ return array(
                             )
                         )
                     ),
+                    'ajax' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action[/ajax/:ajax]]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                            )
+                        )
+                    ),
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -131,9 +144,10 @@ return array(
         'invokables' => array(
             'Application\Controller\Index' => 'Application\Controller\IndexController',
             'Application\Controller\Auth' => 'Application\Controller\AuthController',
-            'Application\Controller\Users' => 'Application\Controller\UsersController',
+            'Application\Controller\Usuarios' => 'Application\Controller\UsuariosController',
             'Application\Controller\Parametros' => 'Application\Controller\ParametrosController',
             'Application\Controller\Messenger' => 'Application\Controller\MessengerController',
+            'Application\Controller\Users' => 'Application\Controller\UsersController',
         ),
     ),
     'view_manager' => array(

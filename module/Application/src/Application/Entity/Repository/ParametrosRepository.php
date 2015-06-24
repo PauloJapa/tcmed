@@ -6,15 +6,15 @@
  * and open the template in the editor.
  */
 
-namespace Application\Entity;
+namespace Application\Entity\Repository;
 
-use Doctrine\ORM\EntityRepository;
+
 /**
  * Description of ParametrosRepository
  *
  * @author Paulo Watakabe
  */
-class ParametrosRepository extends EntityRepository {
+class ParametrosRepository extends AbstractRepository {
 
     
 }
