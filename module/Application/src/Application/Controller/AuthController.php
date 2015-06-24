@@ -31,7 +31,8 @@ class AuthController extends CrudController {
                 }
             }
         }
-        return $this->makeView(['form' => $form, 'error' => $error]);
+        $dataView = $this->getDataView('Login no Sistema.');
+        return $this->makeView(compact("form","error","dataView"));
     }
 
     public function logoutAction() {

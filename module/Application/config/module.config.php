@@ -148,6 +148,7 @@ return array(
             'Application\Controller\Parametros' => 'Application\Controller\ParametrosController',
             'Application\Controller\Messenger' => 'Application\Controller\MessengerController',
             'Application\Controller\Users' => 'Application\Controller\UsersController',
+            'Application\Controller\Grupos' => 'Application\Controller\GruposController',
         ),
     ),
     'view_manager' => array(

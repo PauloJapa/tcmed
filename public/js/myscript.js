@@ -122,7 +122,7 @@ var processa = function (obj) {
     var ret = action.requestServer({
         url: settings.path + obj.url,
         data: transformFormToObject($("#" + obj.frm)),
-        type: "POST"
+        type: (obj.frm)? "POST":"GET"
     }).done(function (data) {
         $(obj.ret).html(data);
 
