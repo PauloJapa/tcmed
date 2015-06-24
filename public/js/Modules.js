@@ -1,11 +1,18 @@
-window.App = {
-    settings: {},
-    modules: {},
-};
 
-var modules = window.App.modules;
+if (!window.App) {
+    window.App = {
+        settings: {},
+        modules: {},
+    };
+}
+else {
+    window.App.modules = {};
+}
+;
 
-modules.Pagination = (function (window, document, $, settings) {
+var module = window.App.modules;
+
+module.Pagination = (function (window, document, $, settings) {
 
     /**
      * Definiçoes default do Pagination
@@ -197,7 +204,7 @@ modules.Pagination = (function (window, document, $, settings) {
 
 
 // =============================================================================
-modules.Messenger = (function (window, document, $, settings) {
+module.Messenger = (function (window, document, $, options) {
 
     var settings = {
         element: "messenger",
@@ -208,7 +215,7 @@ modules.Messenger = (function (window, document, $, settings) {
         notify: true,
         topDifference: 0,
         userTo: "nobody",
-        defaultChatOpen: true,
+        open: true,
         contacts: {
         }
     };
@@ -346,17 +353,17 @@ modules.Messenger = (function (window, document, $, settings) {
 
         /*Gerenciador de toggle da janela de chat*/
         $(document).on("click", "#drop-chat", function () {
-            if (!settings.defaultChatOpen) {
+            if (!settings.open) {
                 $(".messenger").width($("#drop-chat").width() + $("#messenger-box").width() + 300);
                 $("#drop-chat").css("margin-right", "0px");
             }
             $("#messenger-box").toggle("show", function () {
-                if (!settings.defaultChatOpen) {
+                if (!settings.open) {
                     $(".messenger").width($("#drop-chat").width());
                     $("#drop-chat").css("margin-right", "3px");
                 }
             });
-            settings.defaultChatOpen = !settings.defaultChatOpen;
+            settings.open = !settings.open;
         });
     };
 
@@ -696,15 +703,12 @@ modules.Messenger = (function (window, document, $, settings) {
         });
     };
 
-
-    /**
-     * 
-     * 
-     * @returns {undefined}
-     */
     var buildHtml = function () {
-        var data = requestServer({
-            type: "getHtml"
+        var data = action.requestServer({
+            url: settings.server + "/index",
+            data: {
+                type: "getHtml"
+            }
         });
 
         data.success(function (data) {
@@ -717,15 +721,16 @@ modules.Messenger = (function (window, document, $, settings) {
             $("#drop-chat").addClass("online");
 
             var tamChatList = $('.chat-header-list').height();
-            var tamDocument = $(document).height() - settings.topDifference - 150;
+            var tamDocument = $(document).height() - settings.topDifference;
 
-            $("#messenger-box").css({
+            $(".messenger").css({
                 "height": tamDocument,
-                "margin-top": settings.topDifference
+                "top": settings.topDifference
             });
+
             $("#chat-contacts").css("height", tamDocument - tamChatList - 20);
 
-            if (!settings.defaultChatOpen) {
+            if (!settings.open) {
                 $("#messenger-box").hide();
                 $("#drop-chat").width($("#drop-chat").width());
             }
@@ -810,5 +815,47 @@ modules.Messenger = (function (window, document, $, settings) {
 
         }
     };
+
+})(window, document, jQuery, window.App.settings);
+
+module.Cookie = (function (window, document, $, settings) {
+
+    var Defaults = function () {
+        this.name = "phpsession";
+        this.expires = 1;
+        this.value = "";
+    }
+
+    var d = new Date();
+    var cookie = new Defaults();
+    d.setTime(d.getTime() + (cookie.expires * 24 * 60 * 60 * 1000));
+
+    function setCookie(cvalue) {
+        cookie.value = cvalue;
+        cookie.expires = d.toGMTString();
+        settings.cookie = cookie;
+
+        document.cookie = cookie.name + "=" + cookie.value + "; " + cookie.expires;
+    }
+
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ')
+                c = c.substring(1);
+            if (c.indexOf(name) == 0)
+                return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+    ;
+
+    return {
+        set: setCookie,
+        get: getCookie
+    }
 
 })(window, document, jQuery, window.App.settings);
