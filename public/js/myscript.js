@@ -462,10 +462,7 @@ $(function () {
         pagination: true
     });
 
-    //Inicializador do Pagination
-    module.Pagination.init();
-    //Seta o cookie
-    module.Cookie.set("mundo");
     
-    alert(module.Cookie.get("phpsession"))
+    //Seta o cookie
+    //alert(module.Cookie.get("PHPSESSID"));
 });

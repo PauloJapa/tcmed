@@ -31,6 +31,9 @@ action = (function ($, options) {
         serverNotFound: function (url, e) {
             console.error("Servidor '" + url + "' não pode ser localizado!\n"
                     + " Verifique o endereco do servidor! " + e);
+        },
+        accessDanied: function () {
+            console.error("Acesso não permitido");
         }
     };
 
