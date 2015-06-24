@@ -44,7 +44,7 @@ action = (function ($, options) {
          * @param {type} arg
          * @returns {unresolved}
          */
-        requestServer: function (arg) {
+        _requestServer: function (arg) {
             arg.url = arg.url + "?ajax=ok&"; //Trata erro de ajax
 
             if (arg.type !== "POST") {
@@ -56,7 +56,26 @@ action = (function ($, options) {
                     .fail(function (e, status) {
                         errors.serverNotFound(arg.url, status);
                     });
+        },
+        _notification: function (options) {
+            if (!("Notification" in window)) {
+                console.log("Este browser não suporta notificações de desktop");
+            }
+            else if (Notification.permission === "granted") {
+                var notification = new Notification(options.title, options);
+            }
+            else if (Notification.permission !== 'denied') {
+                Notification.requestPermission(function (permission) {
+                    if (!('permission' in Notification)) {
+                        Notification.permission = permission;
+                    }
+
+                    if (permission === "granted") {
+                        var notification = new Notification(options.title, options);
+                    }
+                });
+            }
         }
-    }
+    };
 
 })(jQuery, App.settings);
