@@ -1,23 +1,28 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
+$controller = 'users';
 ?>
 <h1>Users</h1>
 <br />
 <p>
-    <a href="<?php echo $this->url('app/default',array('controller'=>'users','action'=>'new')); ?>">Novo</a>
+    <a href="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</a>
 </p>
 <?php
 
     $table->openTable(TRUE)  ; 
-    $table->renderThead(['ID','Nome','Email','Ação'])  ;     
+    $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
     foreach($this->data as $entity){
-        $data = [];
-        $data[]= $entity->getIdUsuario();
-        $data[]= $entity->getNomeUsuario();
-        $data[]= $entity->getEmailUsuario();
-        $data[]= $entity->getIdUsuario();       
-        $table->renderLine($data);
+        $table->renderLine([
+            $entity->getId(),
+            $entity->getNome(),
+            $entity->getStatusMsg(),
+            $entity->getStatusChat(),
+            $entity->getStatusDatetime(),
+            $entity->getUsuarioId(),
+            $entity->getStatus(),
+            $entity->getId(),
+        ]);
     } 
     $table->renderCloseTable();
 ?>
@@ -29,7 +34,7 @@ $table = $this->table();
 
 <script lang="javascript">      
     function edit(key){
-        var data = {url : "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'edit'),[],FALSE,FALSE);?>" + "/" + key };
+        var data = {url : "<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'edit'),[],FALSE,FALSE);?>" + "/" + key };
         processa(data);
     }
     function del(key){
@@ -37,7 +42,7 @@ $table = $this->table();
         if(!confirm(msg)){
             return;
         }
-        var data = {url : "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'delete'),[],FALSE,FALSE);?>" + "/" + key };
+        var data = {url : "<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'delete'),[],FALSE,FALSE);?>" + "/" + key };
         processa(data);
     }    
 </script>

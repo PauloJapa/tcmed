@@ -66,18 +66,6 @@ $(function () {
         alert(inputs);
     });
     
-
-    // Visualizar Calendario do Date Picker
-    var obj = {
-        format: "dd/mm/yyyy",
-        todayBtn: "linked",
-        language: "pt-BR",
-        forceParse: false,
-        autoclose: true,
-        todayHighlight: true
-    };
-    $('.date').find('input').datepicker(obj);
-    $('.calendar').datepicker(obj);
     // Limpar campos da tela
     $(document).on('click','.clean',function(){  
        var obj = $(this).parent().parent();
