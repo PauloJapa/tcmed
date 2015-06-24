@@ -18,6 +18,21 @@ var warn = {
     }
 };
 
+function events(){
+        // Limpar campos da tela
+    $(document).on('click','.clean',function(){  
+       var obj = $(this).parent().parent();
+       obj.find('input[type=text]').val('').focus();
+       obj.find('textarea').val('').focus();
+       obj.find('input[type=checkbox]').removeAttr('checked').focus();
+       obj.find('input[type=radio]').removeAttr('checked').focus();
+       var select = obj.find('select');
+       if(select){
+           select.val(jQuery('options:first',select).val()).focus();               
+       }
+    });
+}
+
 /**
  * 
  * 
@@ -56,6 +71,8 @@ var transformFormToObject = function (form) {
     $.each(form, function () {
         aux[this.name] = this.value || '';
     });
+    
+
     return aux;
 };
 

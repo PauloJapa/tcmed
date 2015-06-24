@@ -244,7 +244,7 @@ class FormHelp extends AbstractHelper {
             $css .=  ' has-error';
         }
         if($setFormControl){
-            $element->setAttribute('class','form-control' . $css);            
+            $element->setAttribute('class','form-control' . (($css == ' date')?'':$css));            
         }
         if($this->horizontal){            
             $element->setLabelAttributes(['class'=> 'col-md-'. $this->getLargForLabelHorizontal() .' control-label']);
@@ -540,8 +540,9 @@ class FormHelp extends AbstractHelper {
     public function renderInputCalend($name) {
         /* @var $element \Zend\Form\Element\Text */
         $element = $this->getEle($name);
-        echo $this->openDivInput($name, $element,' date'),
-            $this->formView->formText($element),
+        echo $this->openDivInput($name, $element,' date');
+        $element->setAttribute('onmouseenter', 'loadCalend(this)');        
+        echo $this->formView->formText($element),
             $this->iconClean($name, $element),
             $this->iconCalend($name, $element),
             $this->closeDivInput(),
@@ -723,41 +724,5 @@ class FormHelp extends AbstractHelper {
         return $this;   
     }
     
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
 
 }
