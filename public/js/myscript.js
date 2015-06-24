@@ -100,9 +100,9 @@ var processa = function (obj) {
 
     loader(true); //liga o loader
 
-    modules.Pagination.savePage();
+    module.Pagination.savePage();
 
-    var ret = requestServer({
+    var ret = action.requestServer({
         url: settings.path + obj.url,
         data: transformFormToObject($("#" + obj.frm)),
         type: "POST"
@@ -111,7 +111,7 @@ var processa = function (obj) {
 
     }).complete(function () {
         loader(false); //Desliga o loader
-        modules.Pagination.addPage()
+        module.Pagination.addPage()
 
     });
 }
@@ -458,16 +458,14 @@ function pressTab(obj, e) {
 
 // -----------------------------------------------------------------------------
 $(function () {
-
     var gen = new Generator({
         pagination: true
     });
 
     //Inicializador do Pagination
-    modules.Pagination.init();
+    module.Pagination.init();
+    //Seta o cookie
+    module.Cookie.set("mundo");
     
-    //Inicializador do Messenger
-    modules.Messenger.init({
-        topDifference: 50
-    });
+    alert(module.Cookie.get("phpsession"))
 });

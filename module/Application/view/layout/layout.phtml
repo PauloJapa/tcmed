@@ -47,6 +47,7 @@
                 ->prependFile($this->basePath('locales/bootstrap-datepicker.pt-BR.min.js'))
                 ->prependFile($this->basePath('js/bootstrap-datepicker.js'))
                 ->prependFile($this->basePath('js/myscript.js'))
+                ->prependFile($this->basePath('js/Actions.js'))
                 ->prependFile($this->basePath('js/Modules.js'))
                 ->prependFile($this->basePath('js/sb-admin-2.js'))
                 ->prependFile($this->basePath('js/metisMenu.min.js'))
@@ -58,27 +59,40 @@
 
     </head>
     <body>  
-        
-    <?php  if($this->UserIdentity() != FALSE): ?>
-        <div id="wrapper">
-            <?php echo $this->content; ?>
-            <!-- Page Content -->
-            <div id="page-wrapper">
-                <div class="container-fluid">
-                    <div id="inter">
-                        <!-- AJAX conteudo -->
+
+        <?php if ($this->UserIdentity() != FALSE): ?>
+            <script type="text/javascript">
+                /**
+                 * Scripts de Inicializaçao pos login
+                 */
+                $(function () {
+                    //Inicializador do Messenger
+                    module.Messenger.init({
+                        topDifference: 50,
+                        open: false
+                    });
+                });
+            </script>
+
+            <div id="wrapper">
+                <?php echo $this->content; ?>
+                <!-- Page Content -->
+                <div id="page-wrapper">
+                    <div class="container-fluid">
+                        <div id="inter">
+                            <!-- AJAX conteudo -->
+                        </div>
+                        <!-- /.row -->
                     </div>
-                <!-- /.row -->
+                    <!-- /.container-fluid -->
                 </div>
-            <!-- /.container-fluid -->
+                <!-- /#page-wrapper -->   
             </div>
-        <!-- /#page-wrapper -->   
-        </div>
-        <!-- /#wrapper -->      
-    <?php  else: ?>
-        <?php echo $this->content; ?>
-    <?php  endif; ?>
-        
-    <?php // echo $this->inlineScript() ?>
+            <!-- /#wrapper -->      
+        <?php else: ?>
+            <?php echo $this->content; ?>
+        <?php endif; ?>
+
+        <?php // echo $this->inlineScript() ?>
     </body>
 </html>
