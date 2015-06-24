@@ -824,7 +824,7 @@ module.Cookie = (function (window, document, $, settings) {
         this.name = "phpsession";
         this.expires = 1;
         this.value = "";
-    }
+    };
 
     var d = new Date();
     var cookie = new Defaults();
@@ -835,8 +835,9 @@ module.Cookie = (function (window, document, $, settings) {
         cookie.expires = d.toGMTString();
         settings.cookie = cookie;
 
-        document.cookie = cookie.name + "=" + cookie.value + "; " + cookie.expires;
+        //document.cookie = cookie.name + "=" + cookie.value + "; " + cookie.expires;
     }
+    ;
 
 
     function getCookie(cname) {
