@@ -2,7 +2,7 @@
 
 namespace Application\Controller;
 
-use Application\Form\User as FormUser;
+use Application\Form\Usuario as FormUser;
 
 class IndexController extends CrudController {
 

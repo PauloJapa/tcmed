@@ -19,27 +19,21 @@ class User extends AbstractForm{
     public function __construct($name = 'user', $options = array()) {
         parent::__construct($name, $options);
         
-        $this->setInputFilter(new Filter\userFilter);
+//        $this->setInputFilter(new Filter\userFilter);
         
-        $this->setInputHidden('id');
+        $this->setInputHidden('idUser');
         
-        $this->setInputText2('nome_usuario', 'Nome: ',['placeholder'=>'Entre com o nome']);
+        $this->setInputText2('usuarioId', 'ID do usuario: ',['placeholder'=>'Valor numerico']);
         
-        $this->setInputText2('nickname', 'Login: ',['placeholder'=>'Entre com o Login']);
+        $this->setInputText2('nome', 'Nome: ',['placeholder'=>'Entre com o nome visivel no chat']);
         
-        $this->setInputText2('senha_usuario', 'Password: ',['placeholder'=>'Entre com o senha']);
+        $selectOptionsTipo = ["on" => "onLine","off" => "offLine","ausente" => "Ausente","busy" => "Ocupado"];
+        $this->setInputSelect('statusChat', 'Status no chat: ', $selectOptionsTipo,['placeholder'=>'Se é Online, Off, ausente e etc...']);
         
-        $this->setInputText2('confirmation', 'Redigite: ',['placeholder'=>'Redigite a senha']);
-        
-        $this->setInputText2('email_usuario', 'Email: ',['placeholder'=>'Entre com o email']);
+        $this->setInputText2('statusMsg', 'Mensagem de Status: ',['placeholder'=>'Digite aqui']);       
         
         $selectOptions = ["A" => "Ativo","C" => "Cancelado"];
-        $this->setInputSelect('situacao', 'Status: ', $selectOptions);
-        
-        $this->setInputText('lembreteSenha', 'Lembrete: ',['placeholder'=>'Entre com o lembrete para senha']);
-        
-        $selectOptionsTipo = ["admin" => "Administrador","guest" => "Visitante","recep" => "Recepção","adm" => "Adiministradora"];
-        $this->setInputSelect('tipo', 'Tipo de Usuario: ', $selectOptionsTipo,['placeholder'=>'Se é Admin, Guest, recepção e etc...']);
+        $this->setInputSelect('status', 'Status: ', $selectOptions);  
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);

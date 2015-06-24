@@ -10,8 +10,6 @@ namespace Application\Service;
 
 use Doctrine\ORM\EntityManager;
 use Zend\Stdlib\Hydrator;
-use Zend\Mail\Transport\Smtp as SmtpTransport;
-use Application\Mail\Mail;
 /**
  * Description of User
  *
@@ -19,63 +17,12 @@ use Application\Mail\Mail;
  */
 class User extends AbstractService{
 
-    protected $transport;
-    protected $view;
-
-    public function __construct(EntityManager $em, SmtpTransport $transport, $view) {
+    public function __construct(EntityManager $em) {
         parent::__construct($em);
         
-        $this->entity = "Application\Entity\Usuario";
-        $this->transport= $transport;
-        $this->view = $view;
+        $this->entity = $this->basePath . "User";        
+        $this->id = 'idUser';
     }
+        
     
-    public function insert(array $data) {
-        /** @var $entity Application/Entity/Usuario */
-        $entity = parent::insert($data);
-        $dataEmail = array('nome'=>$entity->getNome(), 'activationKey'=> $entity->getActivationKey());
-        
-        if($entity){
-            $mail = new Mail($this->transport, $this->view, 'add-user');
-            $mail->setSubject('Confirmação de cadastro')
-                    ->setTo($entity->getEmail())
-                    ->setData($dataEmail)
-                    ->prepare()
-                    ->send();
-            
-            return $entity;
-        }
-    }
-    
-    public function activate($key)
-    {
-        $repo = $this->em->getRepository($this->entity);
-        
-        $user = $repo->findOneByActivationKey($key);
-        
-        if($user && !$user->getActive())
-        {
-            $user->setActive(true);
-            
-            $this->em->persist($user);
-            $this->em->flush();
-            
-            return $user;
-        }
-    }
-    
-    public function update(array $data)
-    {
-        $entity = $this->em->getReference($this->entity, $data['id']);
-        
-        if (empty($data['senha_usuario'])) {
-            unset($data['senha_usuario']);
-        }
-
-        (new Hydrator\ClassMethods())->hydrate($data, $entity);
-        
-        $this->em->persist($entity);
-        $this->em->flush();
-        return $entity;
-    }
 }

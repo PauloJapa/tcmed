@@ -60,8 +60,14 @@ class Module {
         
         $controller = $e->getTarget();
         $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
-        if(!$auth->hasIdentity() and $matchedRoute == "app/default"){
-            $ajax = $controller->params()->fromRoute('ajax', 'no');
+        if(!$auth->hasIdentity() and ($matchedRoute == "app/default" OR $matchedRoute == "app/ajax")){
+            $ajax = 'no';
+            if(isset($_GET['ajax']) AND $_GET['ajax'] == 'ok'){
+                $ajax = 'ok';       
+            }
+            if($controller->params()->fromRoute('ajax', 'no') == 'ok'){
+                $ajax = 'ok';       
+            }
             return $controller->redirect()->toRoute("application-auth", array('ajax'=>$ajax));
         }
     }
@@ -77,14 +83,17 @@ class Module {
 
                     return $transport;
                 },
-                'Application\Service\User' => function ($sm) {
-                    return new Service\User($sm->get('Doctrine\ORM\EntityManager'), $sm->get('Application\Mail\Transport'), $sm->get('View'));
+                'Application\Service\Usuario' => function ($sm) {
+                    return new Service\Usuario($sm->get('Doctrine\ORM\EntityManager'), $sm->get('Application\Mail\Transport'), $sm->get('View'));
                 },
                 'Application\Auth\Adapter' => function($sm) {
                     return new AuthAdapter($sm->get('Doctrine\ORM\EntityManager'));
                 },
                 'Application\Service\Parametros' => function($sm) {
                     return new Service\Parametros($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Application\Service\User' => function($sm) {
+                    return new Service\User($sm->get('Doctrine\ORM\EntityManager'));
                 }
             )
         );

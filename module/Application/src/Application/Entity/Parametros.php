@@ -9,7 +9,7 @@ use Zend\Stdlib\Hydrator;
  * Parametros
  *
  * @ORM\Table(name="parametros")
- * @ORM\Entity(repositoryClass="ParametrosRepository")
+ * @ORM\Entity(repositoryClass="\Application\Entity\Repository\ParametrosRepository")
  */
 class Parametros
 {
