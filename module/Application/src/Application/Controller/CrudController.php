@@ -117,8 +117,7 @@ abstract class CrudController extends AbstractActionController {
                 return $this->setRedirect();
             }
         }
-        $dataView['titulo'] = 'Novo ' . $this->name;
-        $dataView['action'] = 'new';
+        $dataView = $this->getDataView('Novo ' . $this->name, 'new');
 
         return $this->makeView(compact("form","dataView"), $this->getPathViewDefault() . 'form.phtml');
     }
@@ -143,8 +142,7 @@ abstract class CrudController extends AbstractActionController {
             }
         }
 
-        $dataView['titulo'] = 'Editando ' . $this->name;
-        $dataView['action'] = 'edit';
+        $dataView = $this->getDataView('Editando ' . $this->name, 'edit');
         
         return $this->makeView(compact("form","dataView"),$this->getPathViewDefault() . 'form.phtml');
     }
@@ -242,6 +240,14 @@ abstract class CrudController extends AbstractActionController {
         return strtolower($this->moduloName) . "/" . $controller . "/";
     }
     
+    protected function getDataView($titulo='', $action = 'index') {
+        return [
+            'titulo' => $titulo,
+            'action' => $action,
+        ];
+    }
+
+
     /**
      * Setar o controller para retorna ou não um view para tela
      * @param boolean $render default TRUE
