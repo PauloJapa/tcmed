@@ -1,9 +1,8 @@
 
 /*
- * Project:
- * Name:
- * Date:
- * Function:
+ * Project: Actions.js
+ * Description: Centralizador de Ações do sistema
+ * Date: 24_06_2015
  */
 
 /**
@@ -44,7 +43,7 @@ action = (function ($, options) {
          * @param {type} arg
          * @returns {unresolved}
          */
-        _requestServer: function (arg) {
+        requestServer: function (arg) {
             arg.url = arg.url + "?ajax=ok&"; //Trata erro de ajax
 
             if (arg.type !== "POST") {
@@ -57,7 +56,7 @@ action = (function ($, options) {
                         errors.serverNotFound(arg.url, status);
                     });
         },
-        _notification: function (options) {
+        notification: function (options) {
             if (!("Notification" in window)) {
                 console.log("Este browser não suporta notificações de desktop");
             }
