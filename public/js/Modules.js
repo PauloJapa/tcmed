@@ -1,4 +1,14 @@
 
+/*
+ * Project: Modules.js
+ * Description: Centralizador de Módulos do sistema
+ * Date: 24_06_2015
+ */
+
+/**
+ * Initialize Actions
+ * 
+ */
 if (!window.App) {
     window.App = {
         settings: {},
@@ -201,9 +211,6 @@ module.Pagination = (function (window, document, $, settings) {
 
 })(window, document, jQuery, window.App.settings);
 
-
-
-// =============================================================================
 module.Messenger = (function (window, document, $, options) {
 
     var settings = {
@@ -378,53 +385,6 @@ module.Messenger = (function (window, document, $, options) {
     };
 
     /**
-     * Sistema de notificações Desktop
-     * -
-     * @param {object} options: {title, body, icon, dir}
-     * @returns {undefined}
-     */
-    var notification = function (options) {
-        if (settings.notify) {
-            if (!("Notification" in window)) {
-                errors.notificationError();
-            }
-            else if (Notification.permission === "granted") {
-                var notification = new Notification(options.title, options);
-            }
-            else if (Notification.permission !== 'denied') {
-                Notification.requestPermission(function (permission) {
-                    if (!('permission' in Notification)) {
-                        Notification.permission = permission;
-                    }
-
-                    if (permission === "granted") {
-                        var notification = new Notification(options.title, options);
-                    }
-                });
-            }
-        }
-
-    };
-
-    /**
-     * Envia requisicoes ao servidor
-     * 
-     * @returns {undefined}
-     */
-    var requestServer = function (data) {
-        var actions = {
-            getHtml: '/index'
-        };
-        return $.ajax({
-            type: 'POST',
-            url: settings.server + actions[data.type] + '?ajax=ok',
-            data: data
-        }).fail(function () {
-            errors.serverNotFound(settings.server);
-        });
-    };
-
-    /**
      * Enviar Mensagem
      * 
      * @returns {undefined}
@@ -519,7 +479,7 @@ module.Messenger = (function (window, document, $, options) {
                 }
                 else {
                     // Notifica a mensagem
-                    notification({
+                    action.Notification({
                         title: settings.contacts[msgbody.userto].name,
                         body: "(" + msgbody.userby + ") " + msgbody.msg + " - " + msgbody.dtime,
                         dir: "ltr"
@@ -618,7 +578,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var receiveStatus = function (tdata) {
-//        var data = action._requestServer({
+//        var data = action.requestServer({
 //            type: "receiveStatus",
 //            userId: settings.userId
 //        });
@@ -646,7 +606,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var receiveContacts = function () {
-//        var data = action._requestServer({
+//        var data = action.requestServer({
 //            type: "receiveContacts",
 //            userId: settings.userId
 //        });
@@ -703,7 +663,7 @@ module.Messenger = (function (window, document, $, options) {
     };
 
     var buildHtml = function () {
-        var data = action._requestServer({
+        var data = action.requestServer({
             url: settings.server + "/index",
             data: {
                 type: "getHtml"
