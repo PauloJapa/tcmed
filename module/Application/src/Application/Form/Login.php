@@ -6,7 +6,7 @@ namespace Application\Form;
 class Login  extends AbstractForm
 {
 
-    public function __construct($name = 'Login', $options = array()) {
+    public function __construct($terminal = false, $name = 'Login', $options = array()) {
         parent::__construct($name, $options);
         
         $this->setInputFilter(new Filter\loginFilter);
@@ -16,7 +16,7 @@ class Login  extends AbstractForm
         
         $this->setInputCheckbox('remember', 'Lembrar:', ['checked_value' => 'remember','unchecked_value' => 'noremember']);
 
-        $this->setInputSubmit('submit', 'Entrar no Sistema', [], FALSE);                      
+        $this->setInputSubmit('submit', 'Entrar no Sistema', [], $terminal);                      
        
     }
     

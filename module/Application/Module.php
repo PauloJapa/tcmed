@@ -97,6 +97,9 @@ class Module {
                 },
                 'Application\Service\Grupo' => function($sm) {
                     return new Service\Grupo($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Application\Service\Contato' => function($sm) {
+                    return new Service\Contato($sm->get('Doctrine\ORM\EntityManager'));
                 }
             )
         );
