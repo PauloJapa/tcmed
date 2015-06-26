@@ -77,14 +77,11 @@ var processa = function (obj) {
         type: (obj.frm) ? "POST" : "GET"
     }).done(function (data) {
         $(obj.ret).html(data);
-
     }).complete(function () {
-        action.loader(false); //Desliga o loader
-        module.Pagination.addPage()
-
+        loader(false); //Desliga o loader
+        module.Pagination.addPage();
     });
-}
-;
+};
 
 /**
  * Transform lower case to upper case

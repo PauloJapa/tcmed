@@ -13,7 +13,7 @@ class IndexController extends CrudController {
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $service = $this->getServiceLocator()->get($this->moduloName . "\Service\User");
+                $service = $this->getServiceLocator()->get($this->moduloName . "\Service\Usuario");
                 $entity = $service->insert($request->getPost()->toArray());
                 if ($entity) {
                     $fm = $this->flashMessenger()
@@ -32,32 +32,32 @@ class IndexController extends CrudController {
         $data['action'] = 'new';
         $data['ajax'] = FALSE;
         
-        return $this->makeView(compact('form','messages','data'), FALSE, $this->getPathViewDefault('users') . 'form.phtml');
+        return $this->makeView(compact('form','messages','data'), FALSE, $this->getPathViewDefault('usuarios') . 'form.phtml');
     }
 
     public function activateAction() {
         $activationKey = $this->params()->fromRoute('key');
 
-        $userService = $this->getServiceLocator()->get($this->moduloName . '\Service\User');
+        $userService = $this->getServiceLocator()->get($this->moduloName . '\Service\Usuario');
         $result = $userService->activate($activationKey);
 
         if ($result) {
-            return $this->makeView(array('user' => $result),FALSE);
+            return $this->makeView(array('usuarios' => $result),FALSE);
         } else {
             return $this->makeView([],FALSE);
         }
     }
 
     public function indexAction() {
-        return $this->makeView([],FALSE);
+        return $this->makeView([]);
     }
 
     public function logedAction() {
-        return $this->makeView([],FALSE);
+        return $this->makeView([]);
     }
 
     public function cadastroAction() {
-        return $this->makeView();
+        return $this->makeView([]);
     }
 
 }
