@@ -1,4 +1,14 @@
 
+/*
+ * Project: Modules.js
+ * Description: Centralizador de Módulos do sistema
+ * Date: 24_06_2015
+ */
+
+/**
+ * Initialize Actions
+ * 
+ */
 if (!window.App) {
     window.App = {
         settings: {},
@@ -201,9 +211,6 @@ module.Pagination = (function (window, document, $, settings) {
 
 })(window, document, jQuery, window.App.settings);
 
-
-
-// =============================================================================
 module.Messenger = (function (window, document, $, options) {
 
     var settings = {
@@ -378,54 +385,6 @@ module.Messenger = (function (window, document, $, options) {
     };
 
     /**
-     * Sistema de notificações Desktop
-     * 
-     * @param {object} options: {title, body, icon, dir}
-     * @returns {undefined}
-     */
-    var notification = function (options) {
-        if (settings.notify) {
-            if (!("Notification" in window)) {
-                errors.notificationError();
-            }
-            else if (Notification.permission === "granted") {
-
-                var notification = new Notification(options.title, options);
-            }
-            else if (Notification.permission !== 'denied') {
-                Notification.requestPermission(function (permission) {
-                    if (!('permission' in Notification)) {
-                        Notification.permission = permission;
-                    }
-
-                    if (permission === "granted") {
-                        var notification = new Notification(options.title, options);
-                    }
-                });
-            }
-        }
-
-    };
-
-    /**
-     * Envia requisicoes ao servidor
-     * 
-     * @returns {undefined}
-     */
-    var requestServer = function (data) {
-        var actions = {
-            getHtml: '/index'
-        };
-        return $.ajax({
-            type: 'POST',
-            url: settings.server + actions[data.type] + '?ajax=ok',
-            data: data
-        }).fail(function () {
-            errors.serverNotFound(settings.server);
-        });
-    };
-
-    /**
      * Enviar Mensagem
      * 
      * @returns {undefined}
@@ -442,7 +401,7 @@ module.Messenger = (function (window, document, $, options) {
             type: "sendMsg"
         };
 
-        var data = requestServer(message);
+        var data = action._requestServer(message);
 
         data.success(function () {
             settings.contacts[settings.userTo].logMsg.push(message);
@@ -494,7 +453,7 @@ module.Messenger = (function (window, document, $, options) {
      */
     var receiveMessage = function () {
 
-//        var data = requestServer({
+//        var data = action._requestServer({
 //            type: "receiveMsg",
 //            userId: settings.userId
 //        });
@@ -520,7 +479,7 @@ module.Messenger = (function (window, document, $, options) {
                 }
                 else {
                     // Notifica a mensagem
-                    notification({
+                    action.Notification({
                         title: settings.contacts[msgbody.userto].name,
                         body: "(" + msgbody.userby + ") " + msgbody.msg + " - " + msgbody.dtime,
                         dir: "ltr"
@@ -555,7 +514,7 @@ module.Messenger = (function (window, document, $, options) {
      */
     var sendStatus = function (status) {
         settings.status = status;
-        requestServer({
+        action._requestServer({
             type: "sendStatus",
             status: status,
             userId: settings.userId
@@ -619,7 +578,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var receiveStatus = function (tdata) {
-//        var data = requestServer({
+//        var data = action.requestServer({
 //            type: "receiveStatus",
 //            userId: settings.userId
 //        });
@@ -647,7 +606,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var receiveContacts = function () {
-//        var data = requestServer({
+//        var data = action.requestServer({
 //            type: "receiveContacts",
 //            userId: settings.userId
 //        });
@@ -721,7 +680,7 @@ module.Messenger = (function (window, document, $, options) {
             $("#drop-chat").addClass("online");
 
             var tamChatList = $('.chat-header-list').height();
-            var tamDocument = $(document).height() - settings.topDifference;
+            var tamDocument = $(document).height() - settings.topDifference - 1;
 
             $(".messenger").css({
                 "height": tamDocument,
@@ -820,43 +779,54 @@ module.Messenger = (function (window, document, $, options) {
 
 module.Cookie = (function (window, document, $, settings) {
 
-    var Defaults = function () {
-        this.name = "phpsession";
-        this.expires = 1;
-        this.value = "";
+    var defaults = {
+        expires: 1,
     };
 
-    var d = new Date();
-    var cookie = new Defaults();
-    d.setTime(d.getTime() + (cookie.expires * 24 * 60 * 60 * 1000));
-
-    function setCookie(cvalue) {
-        cookie.value = cvalue;
-        cookie.expires = d.toGMTString();
-        settings.cookie = cookie;
-
-        //document.cookie = cookie.name + "=" + cookie.value + "; " + cookie.expires;
+    var getExpires = function (val) {
+        var d = new Date();
+        d.setTime(d.getTime() + (val * 24 * 60 * 60 * 1000));
+        return d.toGMTString();
     }
-    ;
 
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ')
-                c = c.substring(1);
-            if (c.indexOf(name) == 0)
-                return c.substring(name.length, c.length);
-        }
-        return "";
-    }
-    ;
-
+    /**
+     * Métodos Públicos
+     * -
+     * @param {type} obj
+     * @returns {undefined}
+     */
     return {
-        set: setCookie,
-        get: getCookie
+        save: function (obj) {
+            if (settings.cookies == undefined) {
+                settings.cookies = {}
+            }
+            ;
+
+            settings.cookies[obj.key] = obj.value;
+        },
+        set: function (cookie) {
+            cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
+            cookie.expires = d.toGMTString(cookie.expires);
+
+            document.cookie =
+                    cookie.name
+                    + "="
+                    + cookie.value
+                    + "; expires="
+                    + cookie.expires;
+        },
+        get: function (cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ')
+                    c = c.substring(1);
+                if (c.indexOf(name) == 0)
+                    return c.substring(name.length, c.length);
+            }
+            return "";
+        }
     }
 
 })(window, document, jQuery, window.App.settings);
