@@ -1,9 +1,8 @@
 
 /*
- * Project:
- * Name:
- * Date:
- * Function:
+ * Project: Actions.js
+ * Description: Centralizador de Ações do sistema
+ * Date: 24_06_2015
  */
 
 /**
@@ -56,7 +55,26 @@ action = (function ($, options) {
                     .fail(function (e, status) {
                         errors.serverNotFound(arg.url, status);
                     });
+        },
+        notification: function (options) {
+            if (!("Notification" in window)) {
+                console.log("Este browser não suporta notificações de desktop");
+            }
+            else if (Notification.permission === "granted") {
+                var notification = new Notification(options.title, options);
+            }
+            else if (Notification.permission !== 'denied') {
+                Notification.requestPermission(function (permission) {
+                    if (!('permission' in Notification)) {
+                        Notification.permission = permission;
+                    }
+
+                    if (permission === "granted") {
+                        var notification = new Notification(options.title, options);
+                    }
+                });
+            }
         }
-    }
+    };
 
 })(jQuery, App.settings);

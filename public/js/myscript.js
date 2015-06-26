@@ -18,18 +18,18 @@ var warn = {
     }
 };
 
-function events(){
-        // Limpar campos da tela
-    $(document).on('click','.clean',function(){  
-       var obj = $(this).parent().parent();
-       obj.find('input[type=text]').val('').focus();
-       obj.find('textarea').val('').focus();
-       obj.find('input[type=checkbox]').removeAttr('checked').focus();
-       obj.find('input[type=radio]').removeAttr('checked').focus();
-       var select = obj.find('select');
-       if(select){
-           select.val(jQuery('options:first',select).val()).focus();               
-       }
+function events() {
+    // Limpar campos da tela
+    $(document).on('click', '.clean', function () {
+        var obj = $(this).parent().parent();
+        obj.find('input[type=text]').val('').focus();
+        obj.find('textarea').val('').focus();
+        obj.find('input[type=checkbox]').removeAttr('checked').focus();
+        obj.find('input[type=radio]').removeAttr('checked').focus();
+        var select = obj.find('select');
+        if (select) {
+            select.val(jQuery('options:first', select).val()).focus();
+        }
     });
 }
 
@@ -71,7 +71,7 @@ var transformFormToObject = function (form) {
     $.each(form, function () {
         aux[this.name] = this.value || '';
     });
-    
+
 
     return aux;
 };
@@ -122,17 +122,14 @@ var processa = function (obj) {
     var ret = action.requestServer({
         url: settings.path + obj.url,
         data: transformFormToObject($("#" + obj.frm)),
-        type: (obj.frm)? "POST":"GET"
+        type: (obj.frm) ? "POST" : "GET"
     }).done(function (data) {
         $(obj.ret).html(data);
-
     }).complete(function () {
         loader(false); //Desliga o loader
-        module.Pagination.addPage()
-
+        module.Pagination.addPage();
     });
-}
-;
+};
 
 /**
  * Transform lower case to upper case
@@ -479,7 +476,7 @@ $(function () {
         pagination: true
     });
 
-    
+
     //Seta o cookie
     //alert(module.Cookie.get("PHPSESSID"));
 });
