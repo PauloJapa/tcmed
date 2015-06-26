@@ -34,32 +34,9 @@ function events() {
 }
 
 /**
- * 
- * 
- * @returns {undefined}
- */
-var loader = function (mode) {
-    if ($(".loader").html() === undefined) {
-        $("body").append('<i class="loader fa fa-3x fa-spinner fa-spin"></i>');
-        $(".loader").css({
-            position: "absolute",
-            left: "50%",
-            top: "50%"
-        });
-    }
-
-    if (mode) {
-        $(".loader").show();
-    } else {
-        $(".loader").hide();
-    }
-}
-;
-
-/**
  * Transforma os campos de um formulario em objeto
  * (para quem acessa de dentro da classe)
- * 
+ * -
  * @param {type} form
  * @returns {play.transformFormToObject@pro;value|String}
  */
@@ -77,31 +54,6 @@ var transformFormToObject = function (form) {
 };
 
 /**
- * Request data to server
- * 
- * type: [POST, GET, '']
- * url: [ip/hostname:port]
- * data: [data to send/receive]
- * 
- * @returns {undefined}
- */
-var requestServer = function (arg) {
-    arg.url = settings.path + arg.url; //Adiciona dir (se houver) 
-    arg.url = arg.url + "?ajax=ok&";  //Trata erro de ajax
-
-    if (arg.type !== "POST") {
-        arg.type = "GET";
-        arg.url = arg.url + "?ajax=ok&" + Math.ceil(Math.random() * 100000);
-    }
-
-    return $.ajax(arg)
-            .fail(function () {
-                warn.serverNotFound(arg.url);
-            });
-};
-
-
-/**
  * Método de envio/recebimento de dados para o servidor
  * 
  * @param {type} obj
@@ -115,11 +67,11 @@ var processa = function (obj) {
     //Verifica se há o param ret. Se não há, seta o default
     obj.ret = (obj.ret) ? obj.ret : settings.defReturn;
 
-    loader(true); //liga o loader
+    action.loader(true); //liga o loader
 
     module.Pagination.savePage();
 
-    var ret = action._requestServer({
+    var ret = action.requestServer({
         url: settings.path + obj.url,
         data: transformFormToObject($("#" + obj.frm)),
         type: (obj.frm) ? "POST" : "GET"
@@ -127,7 +79,7 @@ var processa = function (obj) {
         $(obj.ret).html(data);
 
     }).complete(function () {
-        loader(false); //Desliga o loader
+        action.loader(false); //Desliga o loader
         module.Pagination.addPage()
 
     });
@@ -143,55 +95,31 @@ $.fn.toUp = function () {
     $(this).val($(this).val().toUpperCase());
 };
 
-/**
- * 
- * @returns {undefined}
- */
-var events = function () {
-    //defaultPrevented
+// Evita que Acidentalmente a tecla backspace execute a função voltar do navegador
+$(document).bind("keydown keypress", function (e) {
+    var preventKeyPress;
 
-    // Limpar campos da tela
-    $(document).on('click', '.clean', function (e) {
-        e.defaultPrevented;
+    var rx = /INPUT|TEXTAREA/i;
+    var rxT = /RADIO|CHECKBOX|SUBMIT/i;
 
-        var obj = $(this).parent().parent();
-
-        obj.find('input[type=text]').val('').focus();
-        obj.find('textarea').val('').focus();
-        obj.find('input[type=checkbox]').removeAttr('checked').focus();
-        obj.find('input[type=radio]').removeAttr('checked').focus();
-        var select = obj.find('select');
-        if (select) {
-            select.val(jQuery('options:first', select).val()).focus();
-        }
-    });
-
-    // Evita que Acidentalmente a tecla backspace execute a função voltar do navegador
-    $(document).bind("keydown keypress", function (e) {
-        var preventKeyPress;
-
-        var rx = /INPUT|TEXTAREA/i;
-        var rxT = /RADIO|CHECKBOX|SUBMIT/i;
-
-        if (e.keyCode === 8) {
-            var d = e.srcElement || e.target;
-            if (rx.test(e.target.tagName)) {
-                var preventPressBasedOnType = false;
-                if (d.attributes["type"]) {
-                    preventPressBasedOnType = rxT.test(d.attributes["type"].value);
-                }
-                preventKeyPress = d.readOnly || d.disabled || preventPressBasedOnType;
-            } else {
-                preventKeyPress = true;
+    if (e.keyCode === 8) {
+        var d = e.srcElement || e.target;
+        if (rx.test(e.target.tagName)) {
+            var preventPressBasedOnType = false;
+            if (d.attributes["type"]) {
+                preventPressBasedOnType = rxT.test(d.attributes["type"].value);
             }
+            preventKeyPress = d.readOnly || d.disabled || preventPressBasedOnType;
         } else {
-            preventKeyPress = false;
+            preventKeyPress = true;
         }
+    } else {
+        preventKeyPress = false;
+    }
 
-        if (preventKeyPress)
-            e.defaultPrevented;
-    });
-};
+    if (preventKeyPress)
+        e.defaultPrevented;
+});
 
 
 /**
@@ -201,6 +129,8 @@ var events = function () {
  * @returns {undefined}
  */
 function nextFocus(obj) {
+    console.warn("nextFocus() em myscript está sendo substituido por actions.nextFocus(object). Atualizar");
+    
     var inputs = $(obj).closest('form').find(':input:visible');
     var ind = inputs.index(obj);
     var i = 1;
@@ -226,7 +156,7 @@ function nextFocus(obj) {
 
 /**
  * Formata data no padrão DDMMAAAA
- * 
+ * -
  * @param {type} campo
  * @returns {undefined}
  */
@@ -478,8 +408,4 @@ $(function () {
     var gen = new Generator({
         pagination: true
     });
-
-
-    //Seta o cookie
-    //alert(module.Cookie.get("PHPSESSID"));
 });

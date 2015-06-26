@@ -11,15 +11,15 @@
  */
 if (!window.App) {
     window.App = {
-        settings: {},
-        actions: {}
+        SETTINGS: {},
+        ACTIONS: {}
     };
 }
 else {
-    window.App.actions = {};
+    window.App.ACTIONS = {};
 }
 ;
-var action = window.App.actions;
+var action = window.App.ACTIONS;
 
 /**
  * Actions
@@ -74,7 +74,47 @@ action = (function ($, options) {
                     }
                 });
             }
+        },
+        loader: function (status) {
+            if ($(".loader").html() === undefined) {
+                $("body").append('<i class="loader fa fa-3x fa-spinner fa-spin"></i>');
+                $(".loader").css({
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%"
+                });
+            }
+
+            if (status) {
+                $(".loader").show();
+            } else {
+                $(".loader").hide();
+            }
+        },
+        nextFocus: function (obj) {
+            var inputs = $(obj).closest('form').find(':input:visible');
+            var ind = inputs.index(obj);
+            var i = 1;
+            var flag = true;
+            while (flag) {
+                ele = inputs.eq(ind + i);
+                tp = ele.prop('type');
+                if (ele.prop('disabled')) {
+                    i++;
+                } else {
+                    switch (tp) {
+                        case 'button':
+                            i++;
+                            break;
+                        default:
+                            ele.focus();
+                            flag = false;
+                    }
+                }
+            }
+            return;
         }
+
     };
 
-})(jQuery, App.settings);
+})(jQuery, App.SETTINGS);
