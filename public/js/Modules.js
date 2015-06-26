@@ -258,8 +258,10 @@ module.Messenger = (function (window, document, $, options) {
         /*Enviar mensagem com enter*/
         $(document).on("keyup", "#msg-chat", function (e) {
             if (e.keyCode === 13) {
-                $("#chat-send").click();
-                e.preventDefault();
+                if ($("#send-enter").is(":checked")) {
+                    $("#chat-send").click();
+                    e.preventDefault();
+                }
             }
         });
 
@@ -401,7 +403,7 @@ module.Messenger = (function (window, document, $, options) {
             type: "sendMsg"
         };
 
-        var data = action._requestServer(message);
+        var data = action.requestServer(message);
 
         data.success(function () {
             settings.contacts[settings.userTo].logMsg.push(message);
@@ -529,7 +531,6 @@ module.Messenger = (function (window, document, $, options) {
      */
     var changeStatus = function (data, canNotify) {
         canNotify = (canNotify == false) ? canNotify : true;
-        console.info(JSON.stringify(data));
 
         var state = {
             "online": "success",
@@ -561,11 +562,11 @@ module.Messenger = (function (window, document, $, options) {
                 switch (status) {
                     case "offline":
                         aux.body = "Saiu do chat";
-                        //notification(aux);
+                        action.notification(aux);
                         break;
                     default:
                         aux.body = "Entrou no chat";
-                        //notification(aux);
+                        action.notification(aux);
                         break;
                 }
             }
@@ -582,10 +583,7 @@ module.Messenger = (function (window, document, $, options) {
 //            type: "receiveStatus",
 //            userId: settings.userId
 //        });
-        var data = {
-            "paulo_tcmed": "busy",
-            "alan_tcmed": "offline"
-        };
+        var data;
 
         if (tdata) {
             data = tdata;
@@ -700,6 +698,7 @@ module.Messenger = (function (window, document, $, options) {
                 $("#messenger-box").hide();
                 $("#drop-chat").width($("#drop-chat").width());
             }
+
             //Armazena o chat em backup, para restaurar 
             //sempre que a janela do usuario for aberta
             settings.backupChat = $(".chat-window").html();
@@ -748,7 +747,7 @@ module.Messenger = (function (window, document, $, options) {
         var row4 = $(".row-4").height();
         //TODO: Espacamentos da div
         var espacos = 2 * 15 + 2 * 6 + 22;
-        $(".chat-view").height( sizeTotal - (heading + row0 + row2 + row3 + row4 + espacos) );
+        $(".chat-view").height(sizeTotal - (heading + row0 + row2 + row3 + row4 + espacos));
 
 
         //Define o usuário desta conversa no modo global
@@ -758,7 +757,7 @@ module.Messenger = (function (window, document, $, options) {
         setTimeout(function () { //Trata erro de exibicao: temporario
             var aux = {};
             aux[user] = settings.contacts[user].status;
-            changeStatus(aux);
+            changeStatus(aux, false);
         }, 1);
 
         //Pra cada mensagem, printar na tela
@@ -789,6 +788,10 @@ module.Messenger = (function (window, document, $, options) {
             buildHtml();
             receiveContacts();
             events();
+
+            setTimeout(function () {
+                receiveStatus({"paulo_tcmed": "online"});
+            }, 5000);
 
         }
     };
