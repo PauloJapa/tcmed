@@ -14,7 +14,7 @@ namespace Application\Form;
 class Grupo extends AbstractForm{
     
     
-    public function __construct($name = 'user', $options = array()) {
+    public function __construct($name = 'grupo', $options = array()) {
         parent::__construct($name, $options);
         
         $this->setInputFilter(new Filter\grupoFilter);

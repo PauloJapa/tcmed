@@ -161,10 +161,11 @@ abstract class CrudController extends AbstractActionController {
      */    
     public function setRedirect($param=[]) {
         $param['action'] = isset($param['action'])? $param['action']:'index';
+        $param['controller'] = isset($param['controller'])? $param['controller']:$this->controller;
         if($this->getTerminalBoolean()){
-            return $this->redirect()->toRoute($this->routeAjax, array('controller' => $this->controller, 'action' => $param['action'], 'ajax'=> $this->getTerminalStr()));
+            return $this->redirect()->toRoute($this->routeAjax, array('controller' => $param['controller'], 'action' => $param['action'], 'ajax'=> $this->getTerminalStr()));
         }else{
-            return $this->redirect()->toRoute($this->route, array('controller' => $this->controller, 'action' => $param['action']));
+            return $this->redirect()->toRoute($this->route, array('controller' => $param['controller'], 'action' => $param['action']));
         }
     }
 

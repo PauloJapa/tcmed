@@ -149,6 +149,7 @@ return array(
             'Application\Controller\Messenger' => 'Application\Controller\MessengerController',
             'Application\Controller\Users' => 'Application\Controller\UsersController',
             'Application\Controller\Grupos' => 'Application\Controller\GruposController',
+            'Application\Controller\Contatos' => 'Application\Controller\ContatosController',
         ),
     ),
     'view_manager' => array(
