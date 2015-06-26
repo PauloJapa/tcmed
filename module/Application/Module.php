@@ -60,13 +60,13 @@ class Module {
         
         $controller = $e->getTarget();
         $matchedRoute = $controller->getEvent()->getRouteMatch()->getMatchedRouteName();
-        if(!$auth->hasIdentity() and ($matchedRoute == "app/default" OR $matchedRoute == "app/ajax")){
+        if(!$auth->hasIdentity() and ($matchedRoute == "app/default" OR $matchedRoute == "app/ajax" OR $matchedRoute == "home")){
             $ajax = 'no';
             if(isset($_GET['ajax']) AND $_GET['ajax'] == 'ok'){
                 $ajax = 'ok';       
             }
             if($controller->params()->fromRoute('ajax', 'no') == 'ok'){
-                $ajax = 'ok';       
+                $ajax = 'ok';  
             }
             return $controller->redirect()->toRoute("application-auth", array('ajax'=>$ajax));
         }
@@ -94,6 +94,12 @@ class Module {
                 },
                 'Application\Service\User' => function($sm) {
                     return new Service\User($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Application\Service\Grupo' => function($sm) {
+                    return new Service\Grupo($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Application\Service\Contato' => function($sm) {
+                    return new Service\Contato($sm->get('Doctrine\ORM\EntityManager'));
                 }
             )
         );

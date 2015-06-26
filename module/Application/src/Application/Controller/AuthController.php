@@ -9,7 +9,7 @@ use Application\Form\Login as LoginForm;
 class AuthController extends CrudController {
 
     public function indexAction() {
-        $form = new LoginForm;
+        $form = new LoginForm($this->getTerminalBoolean());
         $error = false;
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -25,13 +25,14 @@ class AuthController extends CrudController {
                 $result = $auth->authenticate($authAdapter);
                 if ($result->isValid()) {
                     $sessionStorage->write($auth->getIdentity()['user'], null);
-                    return $this->redirect()->toRoute('app/default', array('controller' => 'index'));
+                    return $this->setRedirect(['controller' => 'index']);
                 } else {
                     $error = true;
                 }
             }
         }
-        return $this->makeView(['form' => $form, 'error' => $error]);
+        $dataView = $this->getDataView('Login no Sistema.');
+        return $this->makeView(compact("form","error","dataView"));
     }
 
     public function logoutAction() {

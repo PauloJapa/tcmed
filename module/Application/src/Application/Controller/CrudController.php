@@ -117,8 +117,7 @@ abstract class CrudController extends AbstractActionController {
                 return $this->setRedirect();
             }
         }
-        $dataView['titulo'] = 'Novo ' . $this->name;
-        $dataView['action'] = 'new';
+        $dataView = $this->getDataView('Novo ' . $this->name, 'new');
 
         return $this->makeView(compact("form","dataView"), $this->getPathViewDefault() . 'form.phtml');
     }
@@ -143,8 +142,7 @@ abstract class CrudController extends AbstractActionController {
             }
         }
 
-        $dataView['titulo'] = 'Editando ' . $this->name;
-        $dataView['action'] = 'edit';
+        $dataView = $this->getDataView('Editando ' . $this->name, 'edit');
         
         return $this->makeView(compact("form","dataView"),$this->getPathViewDefault() . 'form.phtml');
     }
@@ -163,10 +161,11 @@ abstract class CrudController extends AbstractActionController {
      */    
     public function setRedirect($param=[]) {
         $param['action'] = isset($param['action'])? $param['action']:'index';
+        $param['controller'] = isset($param['controller'])? $param['controller']:$this->controller;
         if($this->getTerminalBoolean()){
-            return $this->redirect()->toRoute($this->routeAjax, array('controller' => $this->controller, 'action' => $param['action'], 'ajax'=> $this->getTerminalStr()));
+            return $this->redirect()->toRoute($this->routeAjax, array('controller' => $param['controller'], 'action' => $param['action'], 'ajax'=> $this->getTerminalStr()));
         }else{
-            return $this->redirect()->toRoute($this->route, array('controller' => $this->controller, 'action' => $param['action']));
+            return $this->redirect()->toRoute($this->route, array('controller' => $param['controller'], 'action' => $param['action']));
         }
     }
 
@@ -242,6 +241,14 @@ abstract class CrudController extends AbstractActionController {
         return strtolower($this->moduloName) . "/" . $controller . "/";
     }
     
+    protected function getDataView($titulo='', $action = 'index') {
+        return [
+            'titulo' => $titulo,
+            'action' => $action,
+        ];
+    }
+
+
     /**
      * Setar o controller para retorna ou não um view para tela
      * @param boolean $render default TRUE

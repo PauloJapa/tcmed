@@ -12,12 +12,13 @@ namespace Application\Controller;
  * @author Paulo Watakabe <email>watakabe05@gmail.com</email>
  */
 
-class UsersController extends CrudController
+
+class ContatosController extends CrudController
 {
 
     public function __construct() {
-        parent::__construct('user');
+        parent::__construct('contato');
     }
-    
+
 }
 
