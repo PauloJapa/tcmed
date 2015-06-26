@@ -1,36 +1,56 @@
 <div id="messenger-box">
 
+
+    <!-- CHAT-WINDOW -->
+
     <div class="chat-window">
         <div class="col-md-12">
+
             <div class="row">
+
                 <div class="panel panel-usr">
+
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             <i class="fa fa-user"></i>&nbsp;&nbsp;&nbsp; <em id="nameusr">Danilo Dorotheu</em>
-                            <i id="chat-back" class="fa fa-arrow-left pull-right"></i></h3>
-                    </div>
+                            <i id="chat-back" class="fa fa-arrow-left pull-right"></i>
+                        </h3>
+                    </div><!-- panel-top -->
+
                     <div class="panel-body">
-                        <div id="chat-group-users" class="row">
-                        </div>
-                        <div class="row">
+
+                        <div id="chat-group-users" class="row row-0"></div>
+
+                        <div class="row row-1">
                             <div class="chat-view"></div>
                         </div>
-                        <!--
-                        <div class="checkbox">
-                            <label><input id="send-enter" type="checkbox" checked="true" value="">Enviar mensagem com enter</label>
+
+                        <div class="row row-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input id="send-enter" type="checkbox" checked="true" value="">
+                                    <i class="fa fa-paper-plane"></i>&nbsp; 
+                                </label>
+                            </div>
                         </div>
-                        -->
-                        <div class="row">
+
+
+                        <div class="row row-3">
                             <textarea  id="msg-chat" class="form-control" rows="4"></textarea>
                         </div>
-                        <div class="row">
+
+                        <div class="row row-4">
                             <button id="chat-send" type="button" class="btn btn-sm btn-block btn-usr">Enviar</button>
                         </div>
-                    </div>
+
+                    </div><!-- panel-bottom -->
+
                 </div>
-            </div>
+
+            </div><!-- Linha -->
         </div>
     </div>
+
 
     <div class="chat-list">
         <div class="col-md-12">
@@ -62,10 +82,13 @@
                         <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" height="110" width="110">
                     </div>
                 </div>
+
                 <div class="row">&nbsp;</div>
+
                 <div class="row">
                     <h3 id="username" class="text-center"></h3>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div class="input-group">
@@ -76,6 +99,7 @@
                         </div>
                     </div>
                 </div>
+
                 <br>
                 <div class="row">
                     <div class="col-md-12 text-center">
@@ -94,6 +118,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
+    </div><!-- col-md-12 -->
 </div>
 

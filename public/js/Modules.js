@@ -11,16 +11,16 @@
  */
 if (!window.App) {
     window.App = {
-        settings: {},
-        modules: {},
+        SETTINGS: {},
+        MODULES: {}
     };
 }
 else {
-    window.App.modules = {};
+    window.App.MODULES = {};
 }
 ;
 
-var module = window.App.modules;
+var module = window.App.MODULES;
 
 module.Pagination = (function (window, document, $, settings) {
 
@@ -209,7 +209,7 @@ module.Pagination = (function (window, document, $, settings) {
         }
     };
 
-})(window, document, jQuery, window.App.settings);
+})(window, document, jQuery, App.SETTINGS);
 
 module.Messenger = (function (window, document, $, options) {
 
@@ -361,7 +361,7 @@ module.Messenger = (function (window, document, $, options) {
         /*Gerenciador de toggle da janela de chat*/
         $(document).on("click", "#drop-chat", function () {
             if (!settings.open) {
-                $(".messenger").width($("#drop-chat").width() + $("#messenger-box").width() + 300);
+                $(".messenger").width($("#drop-chat").width() + $("#messenger-box").width() + 25);
                 $("#drop-chat").css("margin-right", "0px");
             }
             $("#messenger-box").toggle("show", function () {
@@ -413,7 +413,7 @@ module.Messenger = (function (window, document, $, options) {
 
     $.getPositionArray = function (array, key) {
         for (var i = 0; i < array.length; i++) {
-            if (array[i] == key) {
+            if (array[i] === key) {
                 return i;
             }
         }
@@ -561,11 +561,11 @@ module.Messenger = (function (window, document, $, options) {
                 switch (status) {
                     case "offline":
                         aux.body = "Saiu do chat";
-                        notification(aux);
+                        //notification(aux);
                         break;
                     default:
                         aux.body = "Entrou no chat";
-                        notification(aux);
+                        //notification(aux);
                         break;
                 }
             }
@@ -635,7 +635,6 @@ module.Messenger = (function (window, document, $, options) {
                     "paulo_tcmed",
                     "alan_tcmed",
                     "danilo_tcmed",
-                    "kalini_tcmed"
                 ]
             }
         };
@@ -662,7 +661,16 @@ module.Messenger = (function (window, document, $, options) {
         });
     };
 
+    $.fn.outerHTML = function () {
+        return $('<a>').append(this.eq(0).clone()).html();
+    };
+
+    $.fn.top = function (top) {
+        $(this).css("top", top);
+    }
+
     var buildHtml = function () {
+        //Recebe o html
         var data = action.requestServer({
             url: settings.server + "/index",
             data: {
@@ -670,26 +678,25 @@ module.Messenger = (function (window, document, $, options) {
             }
         });
 
+
         data.success(function (data) {
             $(".messenger").append(data);
 
-            $(".chat-list").show();
+            var topo = $(".navbar").height();
+            var doc = $(document).height() - topo - 5;
+
+            //Calcula tamanho da janela de contatos
+            $(".messenger").height(doc).top(topo);
+            $("#messenger-box").height(doc).top(topo);
+
             $(".chat-window").hide();
 
             $('.messenger').append('<div id="drop-chat"><i class="fa fa-weixin fa-2x"></i></div>');
             $("#drop-chat").addClass("online");
 
-            var tamChatList = $('.chat-header-list').height();
-            var tamDocument = $(document).height() - settings.topDifference - 1;
-
-            $(".messenger").css({
-                "height": tamDocument,
-                "top": settings.topDifference
-            });
-
-            $("#chat-contacts").css("height", tamDocument - tamChatList - 20);
 
             if (!settings.open) {
+                $(".messenger").width($("#drop.chat").width() + 35);
                 $("#messenger-box").hide();
                 $("#drop-chat").width($("#drop-chat").width());
             }
@@ -733,6 +740,17 @@ module.Messenger = (function (window, document, $, options) {
             icon = "<i class='fa fa-user'></i>&nbsp;&nbsp;&nbsp;";
         }
 
+        var sizeTotal = $("#page-wrapper").height();
+        var heading = $(".panel-heading").height() + 2 * 10;
+        var row0 = $(".row-0").height();
+        var row2 = $(".row-2").height();
+        var row3 = $(".row-3").height();
+        var row4 = $(".row-4").height();
+        //TODO: Espacamentos da div
+        var espacos = 2 * 15 + 2 * 6 + 22;
+        $(".chat-view").height( sizeTotal - (heading + row0 + row2 + row3 + row4 + espacos) );
+
+
         //Define o usuário desta conversa no modo global
         settings.userTo = user;
 
@@ -775,19 +793,19 @@ module.Messenger = (function (window, document, $, options) {
         }
     };
 
-})(window, document, jQuery, window.App.settings);
+})(window, document, jQuery, App.SETTINGS);
 
 module.Cookie = (function (window, document, $, settings) {
 
     var defaults = {
-        expires: 1,
+        expires: 1
     };
 
     var getExpires = function (val) {
         var d = new Date();
         d.setTime(d.getTime() + (val * 24 * 60 * 60 * 1000));
         return d.toGMTString();
-    }
+    };
 
     /**
      * Métodos Públicos
@@ -829,4 +847,4 @@ module.Cookie = (function (window, document, $, settings) {
         }
     }
 
-})(window, document, jQuery, window.App.settings);
+})(window, document, jQuery, window.App.SETTINGS);

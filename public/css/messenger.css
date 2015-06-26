@@ -15,11 +15,10 @@ and open the template in the editor.
 }
 
 #messenger-box{
-    background-color: #ddd;
     width: 270px;
     float: right;
-    border-left: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
+    border: 1px solid #ddd;
+    background-color: #eee;
 }
 
 #chat-contacts{
@@ -83,23 +82,21 @@ and open the template in the editor.
 .chat-view {
     border: 1px solid #CCC;
     border-radius: 5px;
-    height:250px;
     margin-bottom: 20px;
     overflow-y: scroll;
 }
 
 .panel{
     padding: 5px;
-    border: 1px solid #aaa;
+    margin-bottom: 0px;
+    border-color: #fff;
+    border-radius: 5px;
 }
 
 .fa{
     cursor: pointer;
 }
 
-.checkbox{
-    margin-top: -10px !important;
-}
 
 .msg-me{
     border-radius: 5px;
