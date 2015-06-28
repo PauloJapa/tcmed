@@ -9,6 +9,8 @@ use Zend\Paginator\Paginator,
     Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator,
     DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 
+use Application\View\Helper\UserIdentity;
+
 abstract class CrudController extends AbstractActionController {
 
     /**
@@ -28,6 +30,7 @@ abstract class CrudController extends AbstractActionController {
     protected $route;
     protected $routeAjax;
     protected $controller;
+    protected $user;
     /**
      *
      * @var Zend\View\Model\ViewModel 
@@ -59,8 +62,7 @@ abstract class CrudController extends AbstractActionController {
     public function cadastroAction() {
         return $this->view;
     }
-    
-    
+        
     /**
      * Faz listagem dos dados baseado nos parametros passados
      * @param array $filtro
@@ -108,11 +110,10 @@ abstract class CrudController extends AbstractActionController {
         $form = new $this->form();
         $request = $this->getRequest();
         if ($request->isPost()) {
-            
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $service = $this->getServiceLocator()->get($this->service);
-                $service->insert($request->getPost()->toArray());
+                $service->insert($this->getDataWeb($request));
                 
                 return $this->setRedirect();
             }
@@ -137,7 +138,7 @@ abstract class CrudController extends AbstractActionController {
             $form->setData($request->getPost());
             if ($form->isValid()) {
                 $service = $this->getServiceLocator()->get($this->service);
-                $service->update($request->getPost()->toArray());
+                $service->update($this->getDataWeb($request,'editedBy'));
                 return $this->setRedirect();
             }
         }
@@ -145,6 +146,22 @@ abstract class CrudController extends AbstractActionController {
         $dataView = $this->getDataView('Editando ' . $this->name, 'edit');
         
         return $this->makeView(compact("form","dataView"),$this->getPathViewDefault() . 'form.phtml');
+    }
+    
+    /**
+     * Pegar os dados do formulario e acrecenta os id do usuario que esta trabalhando no registro
+     * @param \Zend\Http\Request $request
+     * @param string $option
+     * @return array
+     */
+    public function getDataWeb(\Zend\Http\Request $request, $option='createBy') {
+        $data = $request->getPost()->toArray();
+        $user = $this->getUser();
+        if($user){
+            $data[$option] = $user['id_usuario'];
+            $data['dataUser'] = $user;
+        }
+        return $data;
     }
 
     public function deleteAction() {
@@ -278,4 +295,12 @@ abstract class CrudController extends AbstractActionController {
         }
     }
 
+    public function getUser(){
+        if(!is_null($this->user)){
+            return $this->user;
+        }
+        $user = new UserIdentity();
+        $this->user = $user();
+        return $this->user;
+    }
 }

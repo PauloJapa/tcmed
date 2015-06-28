@@ -64,6 +64,9 @@ class Contato extends AbstractEntity
     }
 
     public function getUserUser() {
+        if(is_null($this->userUser)){
+            return '-';
+        }
         return $this->userUser;
     }
 
@@ -72,6 +75,9 @@ class Contato extends AbstractEntity
     }
 
     public function getGrupoGrupo() {
+        if(is_null($this->grupoGrupo)){
+            return '-';
+        }
         return $this->grupoGrupo;
     }
 
@@ -80,17 +86,32 @@ class Contato extends AbstractEntity
         return $this;
     }
 
-    public function setUserUser(\Application\Entity\User $userUser) {
+    /**
+     * 
+     * @param \Application\Entity\User $userUser
+     * @return \Application\Entity\Contato
+     */
+    public function setUserUser($userUser) {
         $this->userUser = $userUser;
         return $this;
     }
 
+    /**
+     * 
+     * @param \Application\Entity\User $contatoUser
+     * @return \Application\Entity\Contato
+     */
     public function setContatoUser(\Application\Entity\User $contatoUser) {
         $this->contatoUser = $contatoUser;
         return $this;
     }
 
-    public function setGrupoGrupo(\Application\Entity\Grupo $grupoGrupo) {
+    /**
+     * 
+     * @param \Application\Entity\Grupo $grupoGrupo
+     * @return \Application\Entity\Contato
+     */
+    public function setGrupoGrupo($grupoGrupo) {
         $this->grupoGrupo = $grupoGrupo;
         return $this;
     }

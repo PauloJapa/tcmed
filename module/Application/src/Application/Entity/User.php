@@ -68,6 +68,10 @@ class User extends AbstractEntity
         parent::__construct($options);
     }
     
+    public function __toString() {
+        return $this->getNome();
+    }
+    
     public function getId() {
         return $this->getIdUser();
     }

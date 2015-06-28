@@ -78,7 +78,7 @@ var processa = function (obj) {
     }).done(function (data) {
         $(obj.ret).html(data);
     }).complete(function () {
-        loader(false); //Desliga o loader
+        action.loader(false); //Desliga o loader
         module.Pagination.addPage();
     });
 };

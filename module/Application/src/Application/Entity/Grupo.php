@@ -49,6 +49,10 @@ class Grupo extends AbstractEntity
      */
     private $status;
     
+    public function __toString() {
+        return $this->getNome();
+    }
+
     public function getId() {
         return $this->getIdGrupo();
     }

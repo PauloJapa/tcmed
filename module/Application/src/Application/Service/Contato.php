@@ -21,6 +21,11 @@ class Contato extends AbstractService{
         
         $this->entity = $this->basePath . "Contato";        
         $this->id = 'idContato';
+        $this->setDataRefArray([
+            'userUser' => $this->basePath . 'User', 
+            'contatoUser' => $this->basePath . 'User', 
+            'grupoGrupo' => $this->basePath . 'Grupo', 
+        ]);
     }
         
     
