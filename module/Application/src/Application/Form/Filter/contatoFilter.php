@@ -15,7 +15,7 @@ class contatoFilter extends AbstractFilter{
     
     public function __construct() {
         
-        $this->notEmpty('contatoIdUser');  
+        $this->notEmpty('contatoUser');  
         
     }
 }

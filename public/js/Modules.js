@@ -788,11 +788,6 @@ module.Messenger = (function (window, document, $, options) {
             buildHtml();
             receiveContacts();
             events();
-
-            setTimeout(function () {
-                receiveStatus({"paulo_tcmed": "online"});
-            }, 5000);
-
         }
     };
 
