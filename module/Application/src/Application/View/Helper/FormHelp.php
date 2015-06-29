@@ -368,13 +368,10 @@ class FormHelp extends AbstractHelper {
     }
     
     public function getSpan($name, array $attributes=[]) {
-        if(empty($attributes)){
+        if(empty($attributes) OR !isset($attributes['span_id'])){
             return '';
         }        
-        if (!isset($attributes['span_id'])) {
-            return '';
-        }
-        return '<span name="span_' . $name . '" id="' . $attributes['span_id'] . '"></span>';
+        return '<span name="span_' . $name . '" id="' . $attributes['span_id'] . '" class="' . $attributes['class'] . '" style="' . $attributes['style'] . '"></span>';
     }
     
     public function iconCalend($name, &$element){
@@ -398,31 +395,26 @@ class FormHelp extends AbstractHelper {
     public function renderInputHidden($name) {
         echo $this->formView->formHidden($this->getEle($name)), PHP_EOL;          
     }
+    
     /**
      * Renderiza um input com botão de limpar e outro botão passado por parametro 
      * Caso exista o parametro span renderiza sua tag
-     * @param array $options
+     * 
+     * @param string $name
+     * @param array $options Obrigatorio para ser um campo com input
+     * @param array $attributes
+     * @return \Application\View\Helper\FormHelp
      */
-    public function renderInpuIcone($options) {
-        $element = $this->form->get($options['name']);
-        $this->checkError($element);
-        if ($element->getAttribute('readOnly')) {
-            $options['name'] = '';
-        }
-        echo
-        '<div class="input-append" id="pop' . $options['name'] . '">',
-            $this->formView->formLabel($element),
-            $this->formView->formText($element),
-            '<span class="add-on hand" onClick="cleanInput(\'', $options['name'] ,'\')"><i class="fa fa-remove"></i></span>',
-            
-        "</div>", PHP_EOL;
-        $this->checkError();        
+    public function renderInputIcone($name, array $options, array $attributes=[]) {
+        return $this->renderInputText($name, $options, $attributes);
     }
 
     /**
      * Renderiza o input text com um botao para limpar o conteudo
      * Caso exista msg de erro sera exibo em vermelho
      * @param String $name
+     * @param array $options
+     * @param array $attributes
      * @return \Application\View\Helper\FormHelp
      */
     public function renderInputText($name, array $options=[], array $attributes=[]) {
@@ -434,10 +426,10 @@ class FormHelp extends AbstractHelper {
         echo $this->openDivInput($name, $element),
             $this->formView->formText($element),
             $this->iconClean($name, $element),
-            $this->closeDivInput(),
-            $this->getIcons($name, $options);            
+            $this->getIcons($name, $options),            
+            $this->closeDivInput();
         echo
-            $this->getSpan($options),
+            $this->getSpan($name, $options),
             $this->showError();      
         return $this;
     }

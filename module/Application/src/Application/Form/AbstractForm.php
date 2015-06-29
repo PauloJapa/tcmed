@@ -60,6 +60,9 @@ abstract class AbstractForm extends Form {
         
         $this->setDefaultAttributes(['onKeyDown' => 'return changeEnterToTab(this,event)']);
         
+        $this->setInputHidden('autoComp');
+        $this->setInputHidden('ajaxStatus');
+        
         $this->setIsAdmin();
     }
     
@@ -205,8 +208,9 @@ abstract class AbstractForm extends Form {
         if(empty($attributes)){
             $input['attributes'] = $attrib;
         }else{
-            if(isset($attributes['onClick']))
-                unset ($attrib['onClick']);
+            if (isset($attributes['onClick'])) {
+                unset($attrib['onClick']);
+            }
             $input['attributes'] = array_merge($attrib,$attributes); 
         }
         
@@ -326,9 +330,10 @@ abstract class AbstractForm extends Form {
      */
     public function getParametroSelect($key,$shift=false){
         $array = $this->em->getRepository($this->moduloName . '\Entity\ParametroSis')->fetchPairs($key);
-        if($shift)
+        if ($shift) {
             $retira = array_shift($array);
-        
+        }
+
         return $array;
     }
  
@@ -345,8 +350,9 @@ abstract class AbstractForm extends Form {
             $sessionStorage = new SessionStorage($this->moduloName);
             $this->authService = new AuthenticationService;
             $this->authService->setStorage($sessionStorage);
-            if ($this->authService->hasIdentity()) 
+            if ($this->authService->hasIdentity()) {
                 return $this->authService->getIdentity();
+            }
         }
         return FALSE;
     }

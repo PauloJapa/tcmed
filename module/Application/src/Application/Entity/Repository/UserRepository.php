@@ -14,5 +14,23 @@ namespace Application\Entity\Repository;
  * @author user
  */
 class UserRepository extends AbstractRepository {
-    //put your code here
+
+    /**
+     * Auto complete em ajax esta função retorna as entitys encontradas
+     * com a ocorrencia passada por parametro
+     * @param string $user
+     * @return array
+     */
+    public function autoComp($user){
+        $query = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select('u')
+                ->from('Application\Entity\User', 'u')
+                ->where("u.nome LIKE :nome")
+                ->setParameter('nome', trim($user))
+                ->setMaxResults(20)
+                ->getQuery()
+                ;
+        return $query->getResult();
+    }
 }

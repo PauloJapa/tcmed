@@ -21,11 +21,17 @@ class Contato extends AbstractForm{
         
         $this->setInputHidden('idContato');
         
-        $this->setInputText2('userUser', 'User: ',['placeholder'=>'id']);
+        $this->setInputHidden('userUser');
+        $attributes = ['placeholder' => 'Digite aqui nome PESQUISAR!',
+                       'onKeyUp' => 'autoCompUser();',
+                       'autoComplete'=>'off']; 
+        $this->setInputText2('userUser_nome', 'User: ',$attributes);
         
-        $this->setInputText2('grupoGrupo', 'Grupo: ',['placeholder'=>'id']);
+        $this->setInputHidden('grupoGrupo');
+        $this->setInputText2('grupoGrupo_nome', 'Grupo: ',['placeholder'=>'nome']);
         
-        $this->setInputText2('contatoUser', 'Contato: ',['placeholder'=>'id']);
+        $this->setInputHidden('contatoUser');
+        $this->setInputText2('contatoUser_nome', 'Contato: ',['placeholder'=>'nome']);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
