@@ -1,15 +1,18 @@
-<h3><?php echo $this->dataView['titulo']; ?></h3>
+<h3><?php 
+$controller = 'contatos';
+echo $this->dataView['titulo']; ?></h3>
 <br />
 <?php
 /* @var $fh \Application\View\Helper\FormHelp */
-$fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=>'contatos','action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
+$fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=> $controller, 'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
 $fh->setHorizontal(true);
 $fh->formInit('Cadastro User');
-    $fh->openCol('12')->text('userUser')->closeCol();
+    $opt = ['js' => 'autoCompUser()','icone' => 'search', 'span_id' => 'popUser','class' => '','style'=>'position:absolute;z-index: 9999999;'];
+    $fh->openCol('12')->icone('userUser_nome',$opt)->closeCol();
 $fh->lineDown();
-    $fh->openCol('12')->text('grupoGrupo')->closeCol();
+    $fh->openCol('12')->text('grupoGrupo_nome')->closeCol();
 $fh->lineDown();
-    $fh->openCol('12')->text('contatoUser')->closeCol();
+    $fh->openCol('12')->text('contatoUser_nome')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->Submit('submit')->closeCol();
 $fh->closeLine()->formEnd();
@@ -19,6 +22,22 @@ $fh->closeLine()->formEnd();
     
     function isValid(){
         return true;
+    }
+    
+    function autoCompUser(){
+//        if(statusLocatario == 'ini'){            
+//            $('#nwLocatario').show();
+//            statusLocatario = '';
+//        }            
+//        if ($('#locatarioNome').prop('disabled') && op != 'lupa'){
+//            return;
+//        }
+        document.getElementById('autoComp').value = 'userUser_nome';
+        var filtros = 'userUser_nome,autoComp';
+        var servico = "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'autoComp'),[],FALSE,FALSE);?>";
+        var returns = Array('userUser','userUser_nome');
+        var functionCall = '';
+        autoComp2(filtros,servico,'popUser',returns,'2',functionCall,'tipo2');
     }
     
 </script>

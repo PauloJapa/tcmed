@@ -303,4 +303,26 @@ abstract class CrudController extends AbstractActionController {
         $this->user = $user();
         return $this->user;
     }
+    
+    
+    /**
+     * 
+     * Configura um chamada para o repositorio que
+     * Faz uma busca no BD pela requisição Ajax com parametro de busca
+     * Na view retorna os dados no formato texto para o js exibir para o usuario
+     * 
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function autoCompAction(){
+        $subOpcao = $this->getRequest()->getPost('subOpcao','');
+        $autoComp = $this->getRequest()->getPost('autoComp');
+        $param = trim($this->getRequest()->getPost($autoComp,''));
+        $repository = $this->getEm()->getRepository($this->entity);
+        $resultSet = $repository->autoComp($param .'%');
+        if (!$resultSet) {// Caso não encontre nada ele tenta pesquisar em toda a string
+            $resultSet = $repository->autoComp('%' . $param . '%');
+        }
+        // instancia uma view sem o layout da tela
+        return $this->makeView(compact("resultSet","subOpcao"),TRUE);
+    }
 }
