@@ -54,7 +54,10 @@ module.exports = function (grunt) {
                 files: [{
                         expand: true,
                         cwd: 'public/css',
-                        src: ['pagination.css'],
+                        src: [
+                            'pagination.css', 
+                            'bootstrap-datepicker3.standalone.css'
+                        ],
                         dest: 'public/css',
                         ext: '.min.css'
                     }]
@@ -70,8 +73,7 @@ module.exports = function (grunt) {
                     'public/css/metisMenu.min.css',
                     'public/css/sb-admin-2.min.css',
                     'public/css/mycss.min.css',
-//                    'public/css/bootstrap-datepicker3.min.css',
-//                    'public/css/bootstrap-datepicker3.standalone.min.css',
+                    'public/css/bootstrap-datepicker3.standalone.min.css',
                     'public/css/main.css'
                 ],
                 dest: 'public/css/styles.css'
@@ -100,6 +102,7 @@ module.exports = function (grunt) {
                     'public/js/Actions.js',
                     'public/js/Modules.js',
                     'public/js/Events.js',
+                    'gruntfile.js'
                 ],
                 tasks: ['jsdoc', 'uglify', 'sass', 'concat']
             }
