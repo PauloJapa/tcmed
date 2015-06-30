@@ -100,7 +100,7 @@ class Url extends AbstractHelper
         $options['name'] = $name;
         
         if ($ajaxfunction){
-            return "javascript:processa({url:'" . $this->router->assemble($params, $options) . "'});";            
+            return "javascript:action.processa({url:'" . $this->router->assemble($params, $options) . "'});";            
         }else{
             return $this->router->assemble($params, $options);            
         }            
