@@ -3,16 +3,10 @@ $(function () {
     $('#side-menu').metisMenu();
 
 });
-
-function teste() {
-    //$("")
-}
-
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.
 // Sets the min-height of #page-wrapper to window size
 $(function () {
-
     $(window).bind("load resize", function () {
         topOffset = 50;
         width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
@@ -20,7 +14,7 @@ $(function () {
             $('div.navbar-collapse').addClass('collapse');
             topOffset = 100; // 2-row-menu
         } else {
-            
+
             $('div.navbar-collapse').removeClass('collapse');
         }
 
@@ -35,12 +29,12 @@ $(function () {
 
     $(document).on("click", "#side-menu a", function () {
         if ($(this).attr("href") == undefined) {
-            
+
             var cache = $("a.active").parent().parent().parent().find("a:first");
             if ($("a.active").parent().parent().hasClass("nav-third-level")) {
                 if (!$("a.active").parent().parent().parent().hasClass("active")) {
                     cache.addClass("active");
-                }else{
+                } else {
                     cache.removeClass("active");
                 }
             }
@@ -58,6 +52,57 @@ $(function () {
             $("#side-menu").find("a").removeClass("active");
             $(this).addClass("active");
         }
+    });
+
+    var state = true;
+    var defWid;
+    $(document).on("click", "#menu-hide", function () {
+        if (!defWid) {
+            defWid = $(".sidebar").width();
+        }
+
+        if (state) {
+            //para fechar
+            $(".sidebar").width(60);
+            $("#page-wrapper").css("margin-left", "60px");
+            $(".sidebar-search").hide();
+            var item = 0;
+
+            $("#side-menu").find("li").each(function () {
+                var classe = $(this).find("a");
+                if (classe.find("i").attr("class") !== undefined) {
+                    classe.hide();
+                    var drop = "";
+                    var href = classe.attr("href");
+                    if (classe.parent().hasClass("primary")) {
+                        drop = "<i class='fa arrow'></i>";
+                        href = "";
+                    }
+
+                    classe.after('<a class="tmp" href="'
+                            + href + '" data-num="'
+                            + item + '"><i class="'
+                            + classe.find("i").attr("class")
+                            + '"></i>' + drop + '</a>');
+                    item++;
+                }
+
+            });
+        } else {
+            //para abrir
+            $(".sidebar").width(defWid);
+            $("#page-wrapper").css("margin-left", defWid + "px");
+            $(".sidebar-search").show();
+
+            $(".tmp").remove();
+            $("#side-menu").find("li").find("a").show();
+        }
+        state = !state;
+    });
+
+    $(document).on("click", ".tmp", function () {
+        $("#menu-hide").click();
+        var posDiv = $(this).attr("data-num");
     });
 
     /*
