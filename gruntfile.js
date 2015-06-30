@@ -18,17 +18,9 @@ module.exports = function (grunt) {
             my_target: {
                 files: {
                     'public/js/main.min.js': [
-                        'public/js/jquery.min.js',
                         'public/js/Actions.js',
                         'public/js/Modules.js',
-                        'public/js/Events.js',
-                        'public/js/bootstrap.min.js',
-                        'public/js/metisMenu.min.js',
-                        'public/js/metisMenu.min.js',
-                        'public/js/sb-admin-2.js',
-                        'public/js/myscript.js',
-                        'public/js/bootstrap-datepicker.js',
-                        'public/js/jquery.maskMoney.js',
+                        'public/js/Events.js'
                     ]
                 }
             }
@@ -102,7 +94,8 @@ module.exports = function (grunt) {
                     'public/js/Actions.js',
                     'public/js/Modules.js',
                     'public/js/Events.js',
-                    'gruntfile.js'
+                    'gruntfile.js',
+                    'sb-admin-2.js'
                 ],
                 tasks: ['jsdoc', 'uglify', 'sass', 'concat']
             }

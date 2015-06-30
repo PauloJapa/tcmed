@@ -19,7 +19,6 @@
         <!-- Custom Fonts -->
         <?php
         echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
-                ->prependStylesheet($this->basePath('css/bootstrap-datepicker3.css'))
                 ->prependStylesheet($this->basePath('css/styles.css'))
         ?>
 
@@ -41,10 +40,10 @@
                 ->prependFile($this->basePath('locales/bootstrap-datepicker.pt-BR.min.js'))
                 ->prependFile($this->basePath('js/bootstrap-datepicker.js'))
                 ->prependFile($this->basePath('js/myscript.js'))
-                ->prependFile($this->basePath('js/main.min.js'))
                 ->prependFile($this->basePath('js/sb-admin-2.js'))
                 ->prependFile($this->basePath('js/metisMenu.min.js'))
                 ->prependFile($this->basePath('bootstrap/dist/js/bootstrap.min.js'))
+                ->prependFile($this->basePath('js/main.min.js'))
                 ->prependFile($this->basePath('js/jquery.min.js'))
         ;
         ?>
