@@ -1,3 +1,5 @@
+var options = {};
+
 $(function () {
 
     $('#side-menu').metisMenu();
@@ -54,14 +56,9 @@ $(function () {
         }
     });
 
-    var state = true;
-    var defWid;
+    options.state = true;
     $(document).on("click", "#menu-hide", function () {
-        if (!defWid) {
-            defWid = $(".sidebar").width();
-        }
-
-        if (state) {
+        if (options.state) {
             //para fechar
             $(".sidebar").width(60);
             $("#page-wrapper").css("margin-left", "60px");
@@ -71,9 +68,19 @@ $(function () {
             $("#side-menu").find("li").each(function () {
                 var classe = $(this).find("a");
                 if (classe.find("i").attr("class") !== undefined) {
+                    
                     classe.hide();
+                    
+                    if($(this).hasClass("active")){
+                        $(this).click();
+                        
+                        
+                        
+                    }
+
                     var drop = "";
                     var href = classe.attr("href");
+
                     if (classe.parent().hasClass("primary")) {
                         drop = "<i class='fa arrow'></i>";
                         href = "";
@@ -86,23 +93,37 @@ $(function () {
                             + '"></i>' + drop + '</a>');
                     item++;
                 }
-
+                options.state = false;
             });
         } else {
             //para abrir
-            $(".sidebar").width(defWid);
-            $("#page-wrapper").css("margin-left", defWid + "px");
+            $(".sidebar").width(250);
+            $("#page-wrapper").css("margin-left", 250 + "px");
             $(".sidebar-search").show();
 
             $(".tmp").remove();
             $("#side-menu").find("li").find("a").show();
+            $("#side-menu").find("li").find("ul").show();
+            
+            options.state = true;
         }
-        state = !state;
     });
 
     $(document).on("click", ".tmp", function () {
-        $("#menu-hide").click();
-        var posDiv = $(this).attr("data-num");
+        if ($(this).parent().hasClass("primary")) {
+            //para abrir
+            $(".sidebar").width(250);
+            $("#page-wrapper").css("margin-left", 250 + "px");
+            $(".sidebar-search").show();
+
+            $(".tmp").remove();
+            $("#side-menu").find("li").find("a").show();
+
+            options.state = true;
+        }
+
+//        $("#menu-hide").click();
+//        var posDiv = $(this).attr("data-num");
     });
 
     /*
