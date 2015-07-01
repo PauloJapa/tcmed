@@ -1,4 +1,3 @@
-
 /*
  * Project: Actions.js
  * Description: Centralizador de Ações do sistema

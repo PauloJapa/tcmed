@@ -97,7 +97,7 @@ module.exports = function (grunt) {
                     'public/js/Modules.js',
                     'public/js/Events.js',
                     'gruntfile.js',
-                    'sb-admin-2.js'
+                    'public/js/sb-admin-2.js'
                 ],
                 tasks: ['jsdoc', 'uglify', 'sass', 'concat']
             }
