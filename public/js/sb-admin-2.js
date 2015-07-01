@@ -102,8 +102,7 @@ $(function () {
             $(".sidebar-search").show();
 
             $(".tmp").remove();
-            $("#side-menu").find("li").find("a").show();
-            $("#side-menu").find("li").find("ul").show();
+             $("#side-menu").find("li").find("a").show();
             
             options.state = true;
         }
