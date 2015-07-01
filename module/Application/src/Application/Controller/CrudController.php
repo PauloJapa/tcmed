@@ -42,10 +42,24 @@ abstract class CrudController extends AbstractActionController {
      */
     protected $paginator;
     protected $page;
+    /**
+     *
+     * @var boolean 
+     */
     protected $render = TRUE;
+    /**
+     *
+     * @var boolean
+     */
+    protected $haveServiceLocatorService = FALSE;
+    /**
+     *
+     * @var boolean 
+     */
+    protected $formWithEntityManager = FALSE;
     
     public function __construct($name='') {
-        $this->name = strtolower($name);
+        $this->name = ($name);
         $this->moduloName = "Application";  
         $this->entity = $this->moduloName . "\Entity\\" . ucfirst($this->name);
         $this->form = $this->moduloName . "\Form\\" . ucfirst($this->name);
@@ -107,12 +121,12 @@ abstract class CrudController extends AbstractActionController {
     }
 
     public function newAction() {
-        $form = new $this->form();
+        $form = $this->getForm();
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $service = $this->getServiceLocator()->get($this->service);
+                $service = $this->getService();
                 $service->insert($this->getDataWeb($request));
                 
                 return $this->setRedirect();
@@ -124,7 +138,7 @@ abstract class CrudController extends AbstractActionController {
     }
 
     public function editAction() {
-        $form = new $this->form();
+        $form = $this->getForm();
         $request = $this->getRequest();
 
         $repository = $this->getEm()->getRepository($this->entity);
@@ -137,7 +151,7 @@ abstract class CrudController extends AbstractActionController {
         if ($request->isPost()) {
             $form->setData($request->getPost());
             if ($form->isValid()) {
-                $service = $this->getServiceLocator()->get($this->service);
+                $service = $this->getService();
                 $service->update($this->getDataWeb($request,'editedBy'));
                 return $this->setRedirect();
             }
@@ -148,7 +162,44 @@ abstract class CrudController extends AbstractActionController {
         return $this->makeView(compact("form","dataView"),$this->getPathViewDefault() . 'form.phtml');
     }
     
+    public function getService() {
+        if($this->haveServiceLocatorService){
+            return $this->getServiceLocator()->get($this->service);
+        }
+        return new $this->service($this->getEm());
+    }
+    
+    public function getForm() {
+        if($this->formWithEntityManager){
+            return new $this->form($this->getEm());
+        }
+        return new $this->form();
+    }
+    
     /**
+     * Seta se a instancia do servico desse controller vem do service locator ou 
+     * Se instancia uma classe padrão com entity manager
+     * Padrão é um serviço padrão com entity manager
+     * @param boolean $haveServiceLocatorService
+     * @return \Application\Controller\CrudController
+     */
+    public function setHaveServiceLocatorService($haveServiceLocatorService) {
+        $this->haveServiceLocatorService = $haveServiceLocatorService;
+        return $this;
+    }
+
+    /**
+     * Seta se a instancia do form desse controller com ou sem entity manager 
+     * Padrão é sem entity Manager
+     * @param boolean $formWithEntityManager
+     * @return \Application\Controller\CrudController
+     */
+    public function setFormWithEntityManager($formWithEntityManager) {
+        $this->formWithEntityManager = $formWithEntityManager;
+        return $this;
+    }
+
+     /**
      * Pegar os dados do formulario e acrecenta os id do usuario que esta trabalhando no registro
      * @param \Zend\Http\Request $request
      * @param string $option
@@ -165,7 +216,7 @@ abstract class CrudController extends AbstractActionController {
     }
 
     public function deleteAction() {
-        $service = $this->getServiceLocator()->get($this->service);
+        $service = $this->getService();
         if ($service->delete($this->params()->fromRoute('id', 0))) {
             return $this->setRedirect();
         }
@@ -253,7 +304,14 @@ abstract class CrudController extends AbstractActionController {
      */
     protected function getPathViewDefault($controller='') {
         if(empty($controller)){
-            return strtolower($this->moduloName) . "/" . $this->controller . "/";
+            $controller = $this->controller;
+        }
+        $arr = preg_split('/(?=[A-Z])/',$controller);
+        if(count($arr) > 1){
+            $controller = '';
+            foreach ($arr as $key => $value) {
+                $controller .=  (($key > 0)? '-' : '') . strtolower($value);
+            }
         }
         return strtolower($this->moduloName) . "/" . $controller . "/";
     }
