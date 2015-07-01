@@ -1,9 +1,9 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
-$controller = 'appResources';
+$controller = 'appPrivileges';
 ?>
-<h1>Recursos</h1>
+<h1>Privilegios</h1>
 <br />
 <p>
     <a href="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</a>
@@ -11,12 +11,14 @@ $controller = 'appResources';
 <?php
 
     $table->openTable(TRUE)  ; 
-    $table->renderThead(['ID','Nome','Criado','Atualizado','Ação'])  ;     
-    /* @var $entity \Application\Entity\AppResource */
+    $table->renderThead(['ID','Nome','Regra Para','Recurso','Criado','Atualizado','Ação'])  ;     
+    /* @var $entity \Application\Entity\AppPrivilege */
     foreach($this->data as $entity){
         $table->renderLine([
             $entity->getId(),
-            $entity->getName(),
+            $entity->getNome(),
+            $entity->getRole(),
+            $entity->getResource(),
             $entity->getCreatedAt(),
             $entity->getUpdatedAt(),
             $entity->getId(),

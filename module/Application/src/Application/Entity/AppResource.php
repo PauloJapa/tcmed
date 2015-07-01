@@ -52,6 +52,14 @@ class AppResource extends AbstractEntity
         $this->updatedAt = new \DateTime('now');
         parent::__construct($options);
     }
+    
+    /**
+     * A descrição do Recurso
+     * @return string
+     */
+    public function __toString() {
+        return $this->getName();
+    }
 
     /**
      * Metodo padrão para o campo key da tabela

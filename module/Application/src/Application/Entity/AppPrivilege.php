@@ -5,24 +5,24 @@ namespace Application\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AppRole
+ * AppPrivilege
  *
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="app_role", indexes={@ORM\Index(name="fk_app_role_app_role", columns={"parent_id"})})
- * @ORM\Entity(repositoryClass="\Application\Entity\Repository\AppRoleRepository")
+ * @ORM\Table(name="app_privilege", indexes={@ORM\Index(name="fk_app_privilege_app_role1", columns={"role_id"}), @ORM\Index(name="fk_app_privilege_app_resource1", columns={"resource_id"})})
+ * @ORM\Entity(repositoryClass="\Application\Entity\Repository\AppPrivilegeRepository")
  * @author Paulo Watakabe <email>watakabe05@gmail.com</email>
  */
-class AppRole  extends AbstractEntity
+class AppPrivilege extends AbstractEntity
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_role", type="integer", nullable=false)
+     * @ORM\Column(name="id_privilege", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idRole;
+    private $idPrivilege;
 
     /**
      * @var string
@@ -30,13 +30,6 @@ class AppRole  extends AbstractEntity
      * @ORM\Column(name="nome", type="string", length=45, nullable=false)
      */
     private $nome;
-
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_admin", type="boolean", nullable=true)
-     */
-    private $isAdmin;
 
     /**
      * @var \DateTime
@@ -57,10 +50,20 @@ class AppRole  extends AbstractEntity
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\AppRole")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="parent_id", referencedColumnName="id_role")
+     *   @ORM\JoinColumn(name="role_id", referencedColumnName="id_role")
      * })
      */
-    private $parent;
+    private $role;
+
+    /**
+     * @var \Application\Entity\AppResource
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\AppResource")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="resource_id", referencedColumnName="id_resource")
+     * })
+     */
+    private $resource;
 
     public function __construct(array $options = []) {
         $this->createdAt = new \DateTime('now');
@@ -69,21 +72,11 @@ class AppRole  extends AbstractEntity
     }
     
     /**
-     * A descrição da Regra para
+     * A descrição do privilegio
      * @return string
      */
     public function __toString() {
         return $this->getNome();
-    }
-    
-    public function toArray() {
-        return [
-            'id' => $this->idRole,
-            'idRole' => $this->idRole,
-            'nome' => $this->nome,
-            'isAdmin' => $this->isAdmin,
-            'parent' => isset($this->parent) ? $this->parent->getId() : FALSE,
-        ];
     }
 
     /**
@@ -91,24 +84,24 @@ class AppRole  extends AbstractEntity
      * @return integer
      */
     public function getId() {
-        return $this->getIdRole();
+        return $this->getIdPrivilege();
     }
     
     /**
      * Metodo padrão para setar o campo key da tabela
      * @param type $id
-     * @return \Application\Entity\AppRole
+     * @return \Application\Entity\AppPrivilege
      */
     public function setId($id) {
-        return $this->setIdRole($id);
+        return $this->setIdPrivilege($id);
     }
 
     /**
      * 
      * @return integer
      */
-    public function getIdRole() {
-        return $this->idRole;
+    public function getIdPrivilege() {
+        return $this->idPrivilege;
     }
 
     /**
@@ -117,14 +110,6 @@ class AppRole  extends AbstractEntity
      */
     public function getNome() {
         return $this->nome;
-    }
-
-    /**
-     * 
-     * @return boolean
-     */
-    public function getIsAdmin() {
-        return $this->isAdmin;
     }
 
     /**
@@ -153,39 +138,37 @@ class AppRole  extends AbstractEntity
 
     /**
      * 
-     * @return \Application\AppRole
+     * @return \Application\Entity\AppRole
      */
-    public function getParent() {
-        return $this->parent;
+    public function getRole() {
+        return $this->role;
     }
 
     /**
      * 
-     * @param type $idRole
-     * @return \Application\Entity\AppRole
+     * @return \Application\Entity\AppResource
      */
-    public function setIdRole($idRole) {
-        $this->idRole = $idRole;
+    public function getResource() {
+        return $this->resource;
+    }
+
+    /**
+     * 
+     * @param integer $idPrivilege
+     * @return \Application\Entity\AppPrivilege
+     */
+    public function setIdPrivilege($idPrivilege) {
+        $this->idPrivilege = $idPrivilege;
         return $this;
     }
 
     /**
      * 
-     * @param type $nome
-     * @return \Application\Entity\AppRole
+     * @param string $nome
+     * @return \Application\Entity\AppPrivilege
      */
     public function setNome($nome) {
         $this->nome = $nome;
-        return $this;
-    }
-
-    /**
-     * 
-     * @param type $isAdmin
-     * @return \Application\Entity\AppRole
-     */
-    public function setIsAdmin($isAdmin) {
-        $this->isAdmin = $isAdmin;
         return $this;
     }
 
@@ -214,13 +197,24 @@ class AppRole  extends AbstractEntity
 
     /**
      * 
-     * @param \Application\AppRole | NULL $parent
-     * @return \Application\Entity\AppRole
+     * @param \Application\Entity\AppRole $role
+     * @return \Application\Entity\AppPrivilege
      */
-    public function setParent($parent) {
-        $this->parent = $parent;
+    public function setRole(\Application\Entity\AppRole $role) {
+        $this->role = $role;
         return $this;
     }
+
+    /**
+     * 
+     * @param \Application\Entity\AppResource $resource
+     * @return \Application\Entity\AppPrivilege
+     */
+    public function setResource(\Application\Entity\AppResource $resource) {
+        $this->resource = $resource;
+        return $this;
+    }
+
 
 }
 
