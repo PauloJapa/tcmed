@@ -107,6 +107,7 @@ $(function () {
 
         $(".tmp").remove();
         $("#side-menu").find("li").find("a").show();
+        $("#side-menu").find("li").find("a").eq(options.itemSel).parent().addClass("active");
 
         options.state = true;
     };
@@ -128,9 +129,10 @@ $(function () {
     });
 
     $(document).on("click", ".tmp", function () {
-            if($(this).attr("href") === undefined ){
-                showMenu();
-            } 
+        options.itemSel = $(this).attr("data-num");
+        if ($(this).attr("href") === undefined) {
+            showMenu();
+        }
 //        if ($(this).attr('href') !== undefined) {
 //            showMenu();
 //        }
