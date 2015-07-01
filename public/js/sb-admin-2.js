@@ -48,7 +48,6 @@ $(function () {
             } else {
                 dad.find("a:first").addClass("active");
             }
-
         }
         else {
             $("#side-menu").find("a").removeClass("active");
@@ -56,44 +55,52 @@ $(function () {
         }
     });
 
-
     var hideMenu = function () {
-        //para fechar
         $(".sidebar").width(60);
         $("#page-wrapper").css("margin-left", "60px");
         $(".sidebar-search").hide();
 
-        var item = 0;
+        var item = 0; //Contador
+
         $("#side-menu").find("li").each(function () {
             var classe = $(this).find("a");
             if (classe.find("i").attr("class") !== undefined) {
 
                 classe.hide();
-                if ($(this).hasClass("active")) {
-                    $(this).click();
-                }
 
                 var drop = "";
                 var href = classe.attr("href");
 
-                if (classe.parent().hasClass("primary")) {
+                //Caso for um item de menu composto
+                if (href !== undefined) {
+                    //href="href='"+classe.attr("href")+"'";
+                    href = classe.attr("href").toString();
+                    href = href.replace(/'/g, "\'");
+                    href = 'href="' + href + '"';
+                } else {
+                    href = '';
                     drop = "<i class='fa arrow'></i>";
-                    href = "";
                 }
 
-                classe.after('<a class="tmp" href="'
-                        + href + '" data-num="'
-                        + item + '"><i class="'
+                var active = "";
+                if (classe.hasClass("active")) {
+                    active = "active";
+                }
+
+                //Adiciona o icone no menu
+                classe.after('<a class=\"tmp ' + active + '" '
+                        + ' data-num="'
+                        + item + '" ' + href + '><i class="'
                         + classe.find("i").attr("class")
                         + '"></i>' + drop + '</a>');
                 item++;
             }
+            //Altera o status
             options.state = false;
         });
     };
 
     var showMenu = function () {
-        //para abrir
         $(".sidebar").width(250);
         $("#page-wrapper").css("margin-left", 250 + "px");
         $(".sidebar-search").show();
@@ -107,19 +114,27 @@ $(function () {
     options.state = true;
     options.canClick = true;
     $(document).on("click", "#menu-hide", function () {
-        if (options.state) {
+        if (options.canClick) {
             $(this).addClass("active");
+
             hideMenu();
             options.canClick = false;
         } else {
             $(this).removeClass("active");
+
             showMenu();
             options.canClick = true;
         }
     });
 
     $(document).on("click", ".tmp", function () {
-        showMenu();
+            if($(this).attr("href") === undefined ){
+                showMenu();
+            } 
+//        if ($(this).attr('href') !== undefined) {
+//            showMenu();
+//        }
+
 //        if ($(this).parent().hasClass("primary")) {
 //            //para abrir
 //            $(".sidebar").width(250);
@@ -138,7 +153,7 @@ $(function () {
 
     $(document).on("click", "#page-wrapper", function () {
         if (!options.canClick) {
-            if(options.state){
+            if (options.state) {
                 hideMenu();
             }
         }

@@ -49,7 +49,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: 'public/css',
                         src: [
-                            'pagination.css', 
+                            'pagination.css',
                             'bootstrap-datepicker3.standalone.css'
                         ],
                         dest: 'public/css',
@@ -90,7 +90,20 @@ module.exports = function (grunt) {
             }
         }, //Imagemin
 
+//        connect: {
+//            server: {
+//                options: {
+//                    port: 8081,
+//                    hostname: "172.16.200.128",
+//                    base: "/app"
+//                }
+//            }
+//        },//connect
+//        
         watch: {
+            options: {
+                liverload: true
+            },
             dist: {
                 files: [
                     'public/js/Actions.js',
@@ -112,6 +125,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     // Tarefas que serão executadas
     grunt.registerTask('default', ['jsdoc', 'uglify', 'sass', 'cssmin', 'concat']);
