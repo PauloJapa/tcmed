@@ -176,6 +176,17 @@ class AppRole extends \Application\Entity\AppRole implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
+    public function __toString()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', array());
+
+        return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
 

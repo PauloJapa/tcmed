@@ -152,6 +152,7 @@ return array(
             'Application\Controller\Contatos' => 'Application\Controller\ContatosController',
             'Application\Controller\AppRoles' => 'Application\Controller\AppRolesController',
             'Application\Controller\AppResources' => 'Application\Controller\AppResourcesController',
+            'Application\Controller\AppPrivileges' => 'Application\Controller\AppPrivilegesController',
         ),
     ),
     'view_manager' => array(
