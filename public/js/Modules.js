@@ -846,3 +846,27 @@ module.Cookie = (function (window, document, $, settings) {
     }
 
 })(window, document, jQuery, window.App.SETTINGS);
+
+module.Sidemenu = (function (window, document, $, settings) {
+
+    $(document).on("click", "#toggle", function (e) {
+        e.preventDefault();
+        
+        if ($(".sidebar").is(':visible')) {
+            $('.sidebar').animate({'width': '0px'}, 'slow', function () {
+                $('.sidebar').hide();
+            });
+            $('#page-wrapper').animate({
+                'margin-left': '0px'
+            }, 'slow');
+        }
+        else {
+            $('.sidebar').show();
+            $('.sidebar').animate({'width': '250px'}, 'slow');
+            $('#page-wrapper').animate({
+                'margin-left': '250px'
+            }, 'slow');
+        }
+    });
+
+})(window, document, jQuery, window.App.SETTINGS);
