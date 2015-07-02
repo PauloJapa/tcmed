@@ -112,7 +112,7 @@ module.exports = function (grunt) {
                     'gruntfile.js',
                     'public/js/sb-admin-2.js'
                 ],
-                tasks: ['jsdoc', 'uglify', 'sass', 'concat']
+                tasks: ['uglify', 'sass', 'concat']
             }
         } // watch
     });
@@ -128,7 +128,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-connect');
 
     // Tarefas que serão executadas
-    grunt.registerTask('default', ['jsdoc', 'uglify', 'sass', 'cssmin', 'concat']);
+    grunt.registerTask('default', ['uglify', 'sass', 'cssmin', 'concat']);
 
     // Tarefa para Watch
     grunt.registerTask('w', ['watch']);

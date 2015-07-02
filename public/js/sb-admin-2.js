@@ -54,6 +54,8 @@ $(function () {
             $(this).addClass("active");
         }
     });
+    
+    $("#logo").width($(".sidebar-nav").width() - 30);
 
     var hideMenu = function () {
         $(".sidebar").width(60);

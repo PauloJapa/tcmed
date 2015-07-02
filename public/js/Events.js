@@ -25,7 +25,7 @@ event = (function ($, options) {
     return {
         init: function () {
 
-            $(document).on("click", "#refreshPage", function () {
+            $(document).on("click", "#refresh", function () {
                 if (options.lastRequest) {
                     action.processa(options.lastRequest);
                 }
