@@ -26,6 +26,7 @@ var action = window.App.ACTIONS;
  */
 action = (function ($, options) {
 
+    
     var errors = {
         serverNotFound: function (url, e) {
             console.error("Servidor '" + url + "' não pode ser localizado!\n"
@@ -36,12 +37,16 @@ action = (function ($, options) {
         }
     };
 
+    /**
+     * @constructor
+     */
     return {
         /**
          * Centralizador de requisiçoes para o servidor
-         * -
-         * @param {type} arg
-         * @returns {unresolved}
+         * @public
+         * @author Danilo Dorotheu
+         * @param {Object} arg URL do Servidor, Tipo (POST/GET), Dados
+         * @returns {AJAX} 
          */
         requestServer: function (arg) {
             arg.url = arg.url + "?ajax=ok&"; //Trata erro de ajax
@@ -55,6 +60,40 @@ action = (function ($, options) {
                     .fail(function (e, status) {
                         errors.serverNotFound(arg.url, status);
                     });
+        },
+        
+        /**
+         * Gerenciador de envio/recebimento de dados
+         * @public
+         * @see {@link requestServer}
+         * @author Danilo Dorotheu
+         * @param {Object} obj Parametros de Request
+         * @returns {undefined}
+         */
+        processa: function (obj) {
+            options.lastRequest = obj;
+            
+            if (obj.url === "" || obj.url === "#") {
+                return;
+            }
+
+            //Verifica se há o param ret. Se não há, seta o default
+            obj.ret = (obj.ret) ? obj.ret : settings.defReturn;
+
+            action.loader(true); //liga o loader
+
+            module.Pagination.savePage();
+
+            var ret = action.requestServer({
+                url: settings.path + obj.url,
+                data: transformFormToObject($("#" + obj.frm)),
+                type: (obj.frm) ? "POST" : "GET"
+            }).done(function (data) {
+                $(obj.ret).html(data);
+            }).complete(function () {
+                action.loader(false); //Desliga o loader
+                module.Pagination.addPage();
+            });
         },
         notification: function (options) {
             if (!("Notification" in window)) {
