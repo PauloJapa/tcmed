@@ -1,7 +1,17 @@
-/* 
-    Created on : 09/06/2015, 15:13:10
-    Author     : danilo
-*/
+/*!
+ *+=========================================+
+ *| Tecnomed CSS Definitions                |
+ *| Created: 09/06/2015, 15:13:10           |
+ *| Author: Danilo Dorotheu                 |
+ *+=========================================+ 
+ */
+
+$border-default: 1px solid;
+
+@function setBorder($color){
+    @return $border-default + $color; 
+}
+
 .messenger{
     width: 600px;
     position: absolute;
@@ -13,12 +23,12 @@
 #messenger-box{
     width: 270px;
     float: right;
-    border: 1px solid #ddd;
+    border: setBorder(#ddd);
     background-color: #eee;
 }
 
 #chat-contacts{
-    border: 1px solid #CCC;
+    border: setBorder(#CCC);
     border-radius: 5px;
     margin-bottom: 20px;
     overflow-y: scroll;
@@ -36,7 +46,7 @@
 }
 
 #drop-chat{
-    border: 1px solid #aaa;
+    border: setBorder(#aaa);
     width: 30px;
     height: 110px;
     float: right;
@@ -56,27 +66,27 @@
 
 #drop-chat.online{
     background-color: #8CE88C;
-    border-left: 1px solid #5CB85C;
-    border-top: 1px solid #5CB85C;
-    border-bottom: 1px solid #5CB85C;
+    border-left: setBorder(#5CB85C);
+    border-top: setBorder(#5CB85C);
+    border-bottom: setBorder(#5CB85C);
 }
 
 #drop-chat.busy{
     background-color: #FF6F6A;
-    border-left: 1px solid #CC3F3A;
-    border-top: 1px solid #CC3F3A;
-    border-bottom: 1px solid #CC3F3A
+    border-left: setBorder(#CC3F3A);
+    border-top: setBorder(#CC3F3A);
+    border-bottom: setBorder(#CC3F3A);
 }
 
 #drop-chat.offline{
     background-color: #FFD266; 
-    border-left: 1px solid #CCA236;
-    border-top: 1px solid #CCA236;
-    border-bottom: 1px solid #CCA236
+    border-left: setBorder(#CCA236);
+    border-top: setBorder(#CCA236);
+    border-bottom: setBorder(#CCA236);
 }
 
 .chat-view {
-    border: 1px solid #CCC;
+    border: setBorder(#CCC);
     border-radius: 5px;
     margin-bottom: 20px;
     overflow-y: scroll;
@@ -100,60 +110,57 @@
     margin: 5px;
     width: 75%;
     margin-left:20%;
-    border: 1px solid #7A7 ;
+    border: setBorder(#7A7) ;
     background-color: #CFC ;
     color: #484 ;
     word-wrap: break-word;
-    //opacity: 0;
 }
 
-.msg-me>em,.msg-0>em,
-.msg-1>em, .msg-2>em, .msg-3>em,
-.msg-4>em, .msg-5>em, .msg-6>em,
-.msg-7>em, .msg-8>em, .msg-9>em,
-.msg-10>em, .msg-11>em, .msg-12>em{
-    font-size: 11px;
-}
-
-.msg-0, .msg-1,
-.msg-2, .msg-3, .msg-4,.msg-5, 
-.msg-6, .msg-7, .msg8, .msg9, 
-.msg-10,.msg-11, .msg-12 {
+.msg {
     border-radius: 5px;
     padding: 2px;
     margin: 5px;
     width: 75%;
     margin-left:5%;
     word-wrap: break-word;
-    //opacity: 0;
+
+    em{ 
+        font-size: 10;
+    }
+}
+
+@for $i from 0 through 12 {
+    .msg-#{$i} {
+        @extend .msg;
+    }
 }
 
 .msg-0 {
-    border: 1px solid #77A;
+    border: setBorder(#77A);
     background-color: #CCF;
     color: #448;
 }
 
 .msg-1 {
-    border: 1px solid #CFD40F;
+    border: setBorder(#CFD40F);
     background-color: #F4FF89;
     color: #5F6E00;
 }
 
 .msg-2{
-    border: 1px solid #924D00;
+    border: setBorder(#924D00);
     background-color: #F8C685;
     color: #6F4A00;
 }
 
 .msg-3{
-    border: 1px solid #500C65;
+    border: setBorder(#500C65);
     background-color: #C7A4E4;
     color: #810593;
 }
 
 .msg-4{
-    border: 1px solid #AB1111;
+    border: setBorder(#AB1111);
     background-color: #FFB4B4;
     color: #A00;
 }
