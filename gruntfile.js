@@ -1,15 +1,15 @@
 module.exports = function (grunt) {
 
     grunt.initConfig({
-        // Tasks que o Grunt deve executar
-        jsdoc: {
-            dist: {
-                src: ['public/js/Actions.js'],
-                options: {
-                    destination: 'public/docs'
-                }
-            }
-        }, //jsdoc
+//        // Tasks que o Grunt deve executar
+//        jsdoc: {
+//            dist: {
+//                src: ['public/js/Actions.js'],
+//                options: {
+//                    destination: 'public/docs'
+//                }
+//            }
+//        }, //jsdoc
 
         uglify: {
             options: {
@@ -72,21 +72,21 @@ module.exports = function (grunt) {
             }
         }, //concat
 
-        imagemin: {
-            dist: {
-                options: {
-                    optimizationLevel: 3
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'dev/',
-                        src: ['public/img/*.png', 'public/img/*.jpg', 'public/img/*.jpeg', 'public/img/*.gif'],
-                        dest: 'public/img'
-                    }
-                ]
-            }
-        }, //Imagemin
+//        imagemin: {
+//            dist: {
+//                options: {
+//                    optimizationLevel: 3
+//                },
+//                files: [
+//                    {
+//                        expand: true,
+//                        cwd: 'dev/',
+//                        src: ['public/img/*.png', 'public/img/*.jpg', 'public/img/*.jpeg', 'public/img/*.gif'],
+//                        dest: 'public/img'
+//                    }
+//                ]
+//            }
+//        }, //Imagemin
 
         watch: {
             dist: {
@@ -97,13 +97,14 @@ module.exports = function (grunt) {
                     'gruntfile.js',
                     'sb-admin-2.js'
                 ],
-                tasks: ['jsdoc', 'uglify', 'sass', 'concat']
+//                tasks: ['jsdoc', 'uglify', 'sass', 'concat']
+                tasks: ['uglify', 'sass', 'concat']
             }
         } // watch
     });
 
     //Plugins do Grunt
-    grunt.loadNpmTasks('grunt-jsdoc');
+//    grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
@@ -112,7 +113,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Tarefas que serão executadas
-    grunt.registerTask('default', ['jsdoc', 'uglify', 'sass', 'cssmin', 'concat']);
+//    grunt.registerTask('default', ['jsdoc', 'uglify', 'sass', 'cssmin', 'concat']);
+    grunt.registerTask('default', ['uglify', 'sass', 'cssmin', 'concat']);
 
     // Tarefa para Watch
     grunt.registerTask('w', ['watch']);

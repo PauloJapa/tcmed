@@ -10,3 +10,5 @@ composer.lock
 vendor
 vendor/bin
 module/SONUser
+node_modules
+gruntfile.js
