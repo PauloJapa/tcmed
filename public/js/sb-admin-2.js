@@ -1,3 +1,5 @@
+var options = {};
+
 $(function () {
 
     $('#side-menu').metisMenu();
@@ -46,64 +48,121 @@ $(function () {
             } else {
                 dad.find("a:first").addClass("active");
             }
-
         }
         else {
             $("#side-menu").find("a").removeClass("active");
             $(this).addClass("active");
         }
     });
+    
+    $("#logo").width($(".sidebar-nav").width() - 30);
 
-    var state = true;
-    var defWid;
-    $(document).on("click", "#menu-hide", function () {
-        if (!defWid) {
-            defWid = $(".sidebar").width();
-        }
+    var hideMenu = function () {
+        $(".sidebar").width(60);
+        $("#page-wrapper").css("margin-left", "60px");
+        $(".sidebar-search").hide();
 
-        if (state) {
-            //para fechar
-            $(".sidebar").width(60);
-            $("#page-wrapper").css("margin-left", "60px");
-            $(".sidebar-search").hide();
-            var item = 0;
+        var item = 0; //Contador
 
-            $("#side-menu").find("li").each(function () {
-                var classe = $(this).find("a");
-                if (classe.find("i").attr("class") !== undefined) {
-                    classe.hide();
-                    var drop = "";
-                    var href = classe.attr("href");
-                    if (classe.parent().hasClass("primary")) {
-                        drop = "<i class='fa arrow'></i>";
-                        href = "";
-                    }
+        $("#side-menu").find("li").each(function () {
+            var classe = $(this).find("a");
+            if (classe.find("i").attr("class") !== undefined) {
 
-                    classe.after('<a class="tmp" href="'
-                            + href + '" data-num="'
-                            + item + '"><i class="'
-                            + classe.find("i").attr("class")
-                            + '"></i>' + drop + '</a>');
-                    item++;
+                classe.hide();
+
+                var drop = "";
+                var href = classe.attr("href");
+
+                //Caso for um item de menu composto
+                if (href !== undefined) {
+                    //href="href='"+classe.attr("href")+"'";
+                    href = classe.attr("href").toString();
+                    href = href.replace(/'/g, "\'");
+                    href = 'href="' + href + '"';
+                } else {
+                    href = '';
+                    drop = "<i class='fa arrow'></i>";
                 }
 
-            });
-        } else {
-            //para abrir
-            $(".sidebar").width(defWid);
-            $("#page-wrapper").css("margin-left", defWid + "px");
-            $(".sidebar-search").show();
+                var active = "";
+                if (classe.hasClass("active")) {
+                    active = "active";
+                }
 
-            $(".tmp").remove();
-            $("#side-menu").find("li").find("a").show();
+                //Adiciona o icone no menu
+                classe.after('<a class=\"tmp ' + active + '" '
+                        + ' data-num="'
+                        + item + '" ' + href + '><i class="'
+                        + classe.find("i").attr("class")
+                        + '"></i>' + drop + '</a>');
+                item++;
+            }
+            //Altera o status
+            options.state = false;
+        });
+    };
+
+    var showMenu = function () {
+        $(".sidebar").width(250);
+        $("#page-wrapper").css("margin-left", 250 + "px");
+        $(".sidebar-search").show();
+
+        $(".tmp").remove();
+        $("#side-menu").find("li").find("a").show();
+        $("#side-menu").find("li").find("a").eq(options.itemSel).parent().addClass("active");
+
+        options.state = true;
+    };
+
+    options.state = true;
+    options.canClick = true;
+    $(document).on("click", "#menu-hide", function () {
+        if (options.canClick) {
+            $(this).addClass("active");
+
+            hideMenu();
+            options.canClick = false;
+        } else {
+            $(this).removeClass("active");
+
+            showMenu();
+            options.canClick = true;
         }
-        state = !state;
     });
 
     $(document).on("click", ".tmp", function () {
-        $("#menu-hide").click();
-        var posDiv = $(this).attr("data-num");
+        options.itemSel = $(this).attr("data-num");
+        if ($(this).attr("href") === undefined) {
+            showMenu();
+        }
+//        if ($(this).attr('href') !== undefined) {
+//            showMenu();
+//        }
+
+//        if ($(this).parent().hasClass("primary")) {
+//            //para abrir
+//            $(".sidebar").width(250);
+//            $("#page-wrapper").css("margin-left", 250 + "px");
+//            $(".sidebar-search").show();
+//
+//            $(".tmp").remove();
+//            $("#side-menu").find("li").find("a").show();
+//
+//            options.state = true;
+//        }
+
+//        $("#menu-hide").click();
+//        var posDiv = $(this).attr("data-num");
     });
+
+    $(document).on("click", "#page-wrapper", function () {
+        if (!options.canClick) {
+            if (options.state) {
+                hideMenu();
+            }
+        }
+    });
+
 
     /*
      var url = window.location;
