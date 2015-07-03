@@ -40,6 +40,9 @@ action = (function ($, options) {
      * @constructor
      */
     return {
+        teste: function () {
+            console.log("teste");
+        },
         /**
          * Centralizador de requisiçoes para o servidor
          * @public

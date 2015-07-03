@@ -412,5 +412,7 @@ $(function () {
         if (options.lastRequest) {
             action.processa(options.lastRequest);
         }
+
+	alert("ola mundo");
     });
 });
