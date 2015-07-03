@@ -1,4 +1,3 @@
-
 /*
  * Project: Actions.js
  * Description: Centralizador de Ações do sistema
@@ -26,7 +25,7 @@ var action = window.App.ACTIONS;
  */
 action = (function ($, options) {
 
-    
+
     var errors = {
         serverNotFound: function (url, e) {
             console.error("Servidor '" + url + "' não pode ser localizado!\n"
@@ -56,12 +55,10 @@ action = (function ($, options) {
                 arg.url = arg.url + "?ajax=ok&" + Math.ceil(Math.random() * 100000);
             }
 
-            return $.ajax(arg)
-                    .fail(function (e, status) {
-                        errors.serverNotFound(arg.url, status);
-                    });
+            return $.ajax(arg).fail(function (msg) {
+                $("#inter").html(msg.responseText);
+            });
         },
-        
         /**
          * Gerenciador de envio/recebimento de dados
          * @public
@@ -72,7 +69,7 @@ action = (function ($, options) {
          */
         processa: function (obj) {
             options.lastRequest = obj;
-            
+
             if (obj.url === "" || obj.url === "#") {
                 return;
             }

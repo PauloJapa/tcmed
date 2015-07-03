@@ -12,3 +12,4 @@ vendor/bin
 module/SONUser
 node_modules
 gruntfile.js
+public/docs

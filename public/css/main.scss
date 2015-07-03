@@ -12,6 +12,23 @@ $border-default: 1px solid;
     @return $border-default + $color; 
 }
 
+/*===================================================
+ * Menu
+ *===================================================*/
+
+#logo>img{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*.iconstop>a{
+    padding-left: 10px;
+    padding-right: 10px;
+}*/ 
+
+/*===================================================
+ * Messenger
+ *===================================================*/
 .messenger{
     width: 600px;
     position: absolute;

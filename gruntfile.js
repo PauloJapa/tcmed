@@ -18,6 +18,8 @@ module.exports = function (grunt) {
             my_target: {
                 files: {
                     'public/js/main.min.js': [
+                        'public/js/jquery.min.js',
+                        'public/js/sb-admin-2.js',
                         'public/js/Actions.js',
                         'public/js/Modules.js',
                         'public/js/Events.js'
@@ -47,7 +49,7 @@ module.exports = function (grunt) {
                         expand: true,
                         cwd: 'public/css',
                         src: [
-                            'pagination.css', 
+                            'pagination.css',
                             'bootstrap-datepicker3.standalone.css'
                         ],
                         dest: 'public/css',
@@ -59,45 +61,23 @@ module.exports = function (grunt) {
         concat: {
             css: {
                 //Concatenate all of the files in the cssResources configuration property
-                src: [
-                    'public/css/bootstrap.min.css',
-                    'public/css/font-awesome.min.css',
-                    'public/css/metisMenu.min.css',
-                    'public/css/sb-admin-2.min.css',
-                    'public/css/mycss.min.css',
-                    'public/css/bootstrap-datepicker3.standalone.min.css',
-                    'public/css/main.css'
-                ],
+                src: [],
                 dest: 'public/css/styles.css'
             }
         }, //concat
 
-//        imagemin: {
-//            dist: {
-//                options: {
-//                    optimizationLevel: 3
-//                },
-//                files: [
-//                    {
-//                        expand: true,
-//                        cwd: 'dev/',
-//                        src: ['public/img/*.png', 'public/img/*.jpg', 'public/img/*.jpeg', 'public/img/*.gif'],
-//                        dest: 'public/img'
-//                    }
-//                ]
-//            }
-//        }, //Imagemin
-
         watch: {
+            options: {
+                liverload: true
+            },
             dist: {
                 files: [
                     'public/js/Actions.js',
                     'public/js/Modules.js',
                     'public/js/Events.js',
                     'gruntfile.js',
-                    'sb-admin-2.js'
+                    'public/js/sb-admin-2.js'
                 ],
-//                tasks: ['jsdoc', 'uglify', 'sass', 'concat']
                 tasks: ['uglify', 'sass', 'concat']
             }
         } // watch
@@ -107,14 +87,12 @@ module.exports = function (grunt) {
 //    grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Tarefas que serão executadas
-//    grunt.registerTask('default', ['jsdoc', 'uglify', 'sass', 'cssmin', 'concat']);
-    grunt.registerTask('default', ['uglify', 'sass', 'cssmin', 'concat']);
+    grunt.registerTask('default', ['uglify', 'sass', 'cssmin']);
 
     // Tarefa para Watch
     grunt.registerTask('w', ['watch']);
