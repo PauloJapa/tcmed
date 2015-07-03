@@ -15,16 +15,18 @@
                 <img src="/img/logo_tecnomed.png" style="width: 130px; margin-top: -10px">
             </a>
 
-            <button id="toggle" class="btn btn-default navbar-btn"><i class="fa fa-bars"></i></button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button id="godown" class="btn btn-default navbar-btn"><i class="fa fa-arrow-left"></i></button>
-            <button id="goup" class="btn btn-default navbar-btn"><i class="fa fa-arrow-right"></i></button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button id="refresh" class="btn btn-default navbar-btn"><i class="fa fa-refresh"></i></button>
-
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
+                <div class="navbar-left">
+                    <button id="toggle" class="btn btn-default navbar-btn"><i class="fa fa-bars"></i></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button id="godown" class="btn btn-default navbar-btn"><i class="fa fa-arrow-left"></i></button>
+                    <button id="goup" class="btn btn-default navbar-btn"><i class="fa fa-arrow-right"></i></button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button id="refresh" class="btn btn-default navbar-btn"><i class="fa fa-refresh"></i></button>
+                </div>
+            
             <!-- Icons -->
             <ul class="nav navbar-top-links navbar-right">
 
@@ -137,16 +139,16 @@
                     <a id="item-1" href="<?php echo $this->url('app/default', array('controller' => 'index', 'action' => 'cadastro')); ?>"><i class="fa fa-pencil fa-fw"></i>Usuario</a>
                 </li>
                 <li>
-                    <a href="<?php echo $this->url('app/default',array('controller'=>'appRoles','action'=>'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Roles</a>
+                    <a href="<?php echo $this->url('app/default', array('controller' => 'appRoles', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Roles</a>
                 </li>
                 <li>
-                    <a href="<?php echo $this->url('app/default',array('controller'=>'appResources','action'=>'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Recursos</a>
+                    <a href="<?php echo $this->url('app/default', array('controller' => 'appResources', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Recursos</a>
                 </li>
                 <li>
-                    <a href="<?php echo $this->url('app/default',array('controller'=>'appPrivileges','action'=>'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Privilegios</a>
+                    <a href="<?php echo $this->url('app/default', array('controller' => 'appPrivileges', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Privilegios</a>
                 </li>
                 <li>
-                    <a href="<?php echo $this->url('app/default',array('controller'=>'parametros','action'=>'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Parametros</a>
+                    <a href="<?php echo $this->url('app/default', array('controller' => 'parametros', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Parametros</a>
                 </li>
                 <li>
                     <a href="<?php echo $this->url('app/default', array('controller' => 'usuarios', 'action' => 'index')); ?>"><i class="fa fa-search fa-fw"></i> Lista Users</a>
