@@ -31,6 +31,7 @@ function events() {
             select.val(jQuery('options:first', select).val()).focus();
         }
     });
+    
 }
 
 /**
@@ -404,5 +405,12 @@ function pressTab(obj, e) {
 $(function () {
     var gen = new Generator({
         pagination: true
+    });
+    
+    
+    $(document).on("click", "#refresh", function () {
+        if (options.lastRequest) {
+            action.processa(options.lastRequest);
+        }
     });
 });

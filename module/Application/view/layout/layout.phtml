@@ -24,7 +24,7 @@
                 ->prependStylesheet($this->basePath('css/main.css'))
                 ->prependStylesheet($this->basePath('css/mycss.min.css'))
                 ->prependStylesheet($this->basePath('css/pagination.min.css'))
-                ->prependStylesheet($this->basePath('css/bootstrap-datepicker3.standalone.min.css'))
+                ->prependStylesheet($this->basePath('css/bootstrap-datepicker3.standalone.css'))
                 ->prependStylesheet($this->basePath('css/sb-admin-2.min.css'))
                 ->prependStylesheet($this->basePath('css/metisMenu.min.css'))
                 ->prependStylesheet($this->basePath('css/font-awesome.min.css'))
@@ -64,8 +64,6 @@
                  * Scripts de Inicializaçao pos login
                  */
                 $(function () {
-                    //Inicializador de eventos
-                    event.init();
                     
                     //Inicializador do Pagination
                     module.Pagination.init();
