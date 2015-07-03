@@ -61,45 +61,11 @@ module.exports = function (grunt) {
         concat: {
             css: {
                 //Concatenate all of the files in the cssResources configuration property
-                src: [
-                    'public/css/bootstrap.min.css',
-                    'public/css/font-awesome.min.css',
-                    'public/css/metisMenu.min.css',
-                    'public/css/sb-admin-2.min.css',
-                    'public/css/mycss.min.css',
-                    'public/css/bootstrap-datepicker3.standalone.min.css',
-                    'public/css/main.css'
-                ],
+                src: [],
                 dest: 'public/css/styles.css'
             }
         }, //concat
 
-        imagemin: {
-            dist: {
-                options: {
-                    optimizationLevel: 3
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'dev/',
-                        src: ['public/img/*.png', 'public/img/*.jpg', 'public/img/*.jpeg', 'public/img/*.gif'],
-                        dest: 'public/img'
-                    }
-                ]
-            }
-        }, //Imagemin
-
-//        connect: {
-//            server: {
-//                options: {
-//                    port: 8081,
-//                    hostname: "172.16.200.128",
-//                    base: "/app"
-//                }
-//            }
-//        },//connect
-//        
         watch: {
             options: {
                 liverload: true
@@ -121,14 +87,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jsdoc');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-connect');
 
     // Tarefas que serão executadas
-    grunt.registerTask('default', ['uglify', 'sass', 'cssmin', 'concat']);
+    grunt.registerTask('default', ['uglify', 'sass', 'cssmin']);
 
     // Tarefa para Watch
     grunt.registerTask('w', ['watch']);

@@ -30,8 +30,8 @@ module.Pagination = (function (window, document, $, settings) {
      * @type Object
      */
     var defaults = {
-        back: ".godown",
-        next: ".goup",
+        back: "#godown",
+        next: "#goup",
         menu: "#side-menu",
         cont: "#inter",
         iniArray: 1,
