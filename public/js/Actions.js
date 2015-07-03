@@ -20,6 +20,7 @@ else {
 ;
 var action = window.App.ACTIONS;
 
+
 /**
  * Actions
  */
@@ -40,9 +41,6 @@ action = (function ($, options) {
      * @constructor
      */
     return {
-        teste: function () {
-            console.log("teste");
-        },
         /**
          * Centralizador de requisiçoes para o servidor
          * @public
@@ -94,6 +92,9 @@ action = (function ($, options) {
                 action.loader(false); //Desliga o loader
                 module.Pagination.addPage();
             });
+        },
+        events: function(){
+            
         },
         notification: function (options) {
             if (!("Notification" in window)) {
@@ -153,7 +154,6 @@ action = (function ($, options) {
             }
             return;
         }
-
     };
 
 })(jQuery, App.SETTINGS);
