@@ -150,6 +150,9 @@ return array(
             'Application\Controller\Users' => 'Application\Controller\UsersController',
             'Application\Controller\Grupos' => 'Application\Controller\GruposController',
             'Application\Controller\Contatos' => 'Application\Controller\ContatosController',
+            'Application\Controller\AppRoles' => 'Application\Controller\AppRolesController',
+            'Application\Controller\AppResources' => 'Application\Controller\AppResourcesController',
+            'Application\Controller\AppPrivileges' => 'Application\Controller\AppPrivilegesController',
         ),
     ),
     'view_manager' => array(
