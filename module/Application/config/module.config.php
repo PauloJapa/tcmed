@@ -129,6 +129,10 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'factories' => array(
+            'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
+            'NavAdmin'   => 'Application\Navigation\Service\AdminNavigationFactory',
+        ),
     ),
     'translator' => array(
         'locale' => 'en_US',
