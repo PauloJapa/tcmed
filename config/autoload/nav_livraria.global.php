@@ -1,7 +1,10 @@
 <?php
 
 
-
+//echo '<pre>', var_dump(getcwd()), '<br>', __NAMESPACE__ ; die;
+/*
+ * Esse array foi substituido pelo array do bd
+ */
 
 return array(
     // All navigation-related configuration is collected in the 'navigation' key
@@ -27,6 +30,14 @@ return array(
                 ),
                 'controller' => 'index',
                 'action' => 'bemVindo',
+            ),
+            '1' => array(
+                'label' => '<i class="fa fa-search fa-fw"></i>menu config',
+                'route' => 'app/default',
+                'attribs'   => array(   // atributos para <a>
+                ),
+                'controller' => 'appMenus',
+                'action' => 'index',
             ),
             '2' => array(
                 'label' => '<i class="fa fa-search fa-fw"></i>Home<span class="fa arrow"></span>',

@@ -1,0 +1,56 @@
+<?php
+/* @var $table \Application\View\Helper\Table */
+$table = $this->table();
+$controller = 'appMenus';
+?>
+<h1>Users</h1>
+<br />
+<p>
+    <a href="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</a>
+</p>
+<?php
+
+    $table->openTable(TRUE)  ; 
+    $table->renderThead(['ID','Descrição', 'Label', 'Route', 'Controller', 'Actioni', 'Atributos', 'Icons', 'class', 'Pagescontainerclass', 'Wrapclass', 'Ordem', 'Criado','Atualizado','Ação'])  ;     
+    /* @var $entity \Application\Entity\AppMenu */
+    foreach($this->data as $entity){
+        $table->renderLine([
+            $entity->getId(),
+            $entity->getDescricao(),
+            $entity->getLabel(),
+            $entity->getRoute(),
+            $entity->getController(),
+            $entity->getAction(),
+            $entity->getAtributos(),
+            $entity->getIcons(),
+            $entity->getClass(),
+            $entity->getPagescontainerclass(),
+            $entity->getWrapclass(),
+            $entity->getOrdem(),
+            $entity->getCreatedAt(),
+            $entity->getUpdatedAt(),
+            $entity->getId(),
+        ]);
+    } 
+    $table->renderCloseTable();
+?>
+<br />
+
+<center>
+    <?php echo $this->paginationControl($this->data,'Sliding','partials/paginator'); ?>    
+</center>
+
+<script lang="javascript">      
+    function edit(key){
+        var data = {url : "<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'edit'),[],FALSE,FALSE);?>" + "/" + key };
+        processa(data);
+    }
+    function del(key){
+        var msg = "Deseja mesmo excluir este registro?";
+        if(!confirm(msg)){
+            return;
+        }
+        var data = {url : "<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'delete'),[],FALSE,FALSE);?>" + "/" + key };
+        processa(data);
+    }    
+</script>

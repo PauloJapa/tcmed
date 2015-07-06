@@ -126,7 +126,6 @@ class Module {
                 'Table' => 'Application\View\Helper\Table',
                 'FormHelp' => 'Application\View\Helper\FormHelp',
                 'NewMenu' => 'Application\View\Helper\NewMenu',
-//                'Url' =>  'Application\View\Helper\Url',
             ],
             'factories' => [
                 'Url'            => function ($helperPluginManager) {
