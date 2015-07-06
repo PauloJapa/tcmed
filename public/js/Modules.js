@@ -712,6 +712,9 @@ module.Messenger = (function (window, document, $, options) {
             }
         });
 
+//        alert($(window).height());
+//        alert($(document).height());
+
         data.success(function (data) {
             var $messenger = $(".messenger");
             $messenger.append(data);
@@ -806,7 +809,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var messenger = function () {
-        $("#page-wrapper").append("<div class='" + settings.element + "'></div>");
+        $("body").append("<div class='" + settings.element + "'></div>");
         settings.element = $(settings.element);
     };
 

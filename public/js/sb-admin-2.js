@@ -168,7 +168,16 @@ $(function () {
     $(".sidebar-nav").css({
         "max-height": "2000px"
     });
-    var navSize = $(document).height() - 50;
+    
+    var topo = $(".navbar").height();
+    
+    var navSize = $(document).height() - topo;
+    var navTab = $(window).height() - topo;
+    
+    if(navSize > navTab){
+        navSize = navTab;
+    }
+    
 //    alert("nav: "+ $(".sidebar-nav").height() + "\npag: "+ navSize);
     if ($(".sidebar-nav").height() > navSize)
         $(".sidebar-nav").css({
@@ -183,7 +192,7 @@ $(function () {
     });
     $("#page-wrapper").css({
        "margin-left": $(".sidebar").width(),
-       "margin-top": 50
+       "margin-top": 50,
     });
 
     /*
