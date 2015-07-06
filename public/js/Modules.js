@@ -729,7 +729,7 @@ module.Messenger = (function (window, document, $, options) {
             if(!settings.open){
                 $messenger.hide().css("opacity","0");
             }
-
+           
             $("#username").html(settings.userId);
 
             //Armazena o chat em backup, para restaurar 
