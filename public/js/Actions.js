@@ -6,7 +6,6 @@
 
 /**
  * Initialize Actions
- * 
  */
 if (!window.App) {
     window.App = {
@@ -19,6 +18,7 @@ else {
 }
 ;
 var action = window.App.ACTIONS;
+
 
 /**
  * Actions
@@ -92,6 +92,9 @@ action = (function ($, options) {
                 module.Pagination.addPage();
             });
         },
+        events: function(){
+            
+        },
         notification: function (options) {
             if (!("Notification" in window)) {
                 console.log("Este browser não suporta notificações de desktop");
@@ -150,7 +153,6 @@ action = (function ($, options) {
             }
             return;
         }
-
     };
 
 })(jQuery, App.SETTINGS);

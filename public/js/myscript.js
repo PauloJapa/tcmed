@@ -407,10 +407,11 @@ $(function () {
         pagination: true
     });
     
-    
     $(document).on("click", "#refresh", function () {
         if (options.lastRequest) {
             action.processa(options.lastRequest);
+            alert(JSON.stringfy(obj));
         }
+
     });
 });

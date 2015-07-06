@@ -184,7 +184,6 @@ module.Pagination = (function (window, document, $, settings) {
 
         },
         addPage: function () {
-
             if (settings.pagin) {
                 //Se for a primeira posicao
                 if (settings.pagin.cursor >= settings.pagin.iniArray) {
@@ -307,10 +306,7 @@ module.Messenger = (function (window, document, $, options) {
 
         /* Trocar status para online */
         $(document).on("click", ".setOnline", function () {
-            $("#drop-chat")
-                    .removeClass("offline")
-                    .removeClass("busy")
-                    .addClass("online");
+            changeMeStatus("online")
 
             sendStatus("online");
 
@@ -319,10 +315,7 @@ module.Messenger = (function (window, document, $, options) {
 
         /* Trocar status para ocupado */
         $(document).on("click", ".setBusy", function () {
-            $("#drop-chat")
-                    .removeClass("offline")
-                    .removeClass("online")
-                    .addClass("busy");
+            changeMeStatus("busy");
 
             sendStatus("busy");
 
@@ -331,10 +324,7 @@ module.Messenger = (function (window, document, $, options) {
 
         /* Trocar status para offline */
         $(document).on("click", ".setOffline", function () {
-            $("#drop-chat")
-                    .removeClass("busy")
-                    .removeClass("online")
-                    .addClass("offline");
+            changeMeStatus("offline");
 
             sendStatus("offline");
 
@@ -361,18 +351,33 @@ module.Messenger = (function (window, document, $, options) {
         });
 
         /*Gerenciador de toggle da janela de chat*/
-        $(document).on("click", "#drop-chat", function () {
-            if (!settings.open) {
-                $(".messenger").width($("#drop-chat").width() + $("#messenger-box").width() + 25);
-                $("#drop-chat").css("margin-right", "0px");
+        $(document).on("click", "#messenger", function () {
+            //Converte DOM em Obj Jquery 
+            var $messenger = $(".messenger");
+            
+            if ($messenger.is(":visible")) {
+                $messenger.animate({
+                    opacity: 0
+                }, "fast", function () {
+                    $messenger.hide();
+                });
+            } else {
+                $messenger.show();
+                $messenger.animate({
+                    opacity: 1
+                }, "slow");
             }
-            $("#messenger-box").toggle("show", function () {
-                if (!settings.open) {
-                    $(".messenger").width($("#drop-chat").width());
-                    $("#drop-chat").css("margin-right", "3px");
-                }
-            });
-            settings.open = !settings.open;
+
+
+//            if (!settings.open) {
+//                $(".messenger").width(settings.messengerWidth);
+//            }
+//            $("#messenger-box").toggle("show", function () {
+//                if (!settings.open) {
+//                    $(".messenger").width(0);
+//                }
+//            });
+//            settings.open = !settings.open;
         });
     };
 
@@ -384,6 +389,82 @@ module.Messenger = (function (window, document, $, options) {
     var formatData = function () {
         var d = new Date();
         return d.getHours() + ":" + d.getMinutes();
+    };
+
+    /**
+     * Alterar o Status do(s) Contato(s)
+     * 
+     * @param {object} data 
+     * @returns {undefined}
+     */
+    var changeStatus = function (data, canNotify) {
+        canNotify = (canNotify == false) ? canNotify : true;
+
+        var state = {
+            "online": "success",
+            "busy": "danger",
+            "offline": "warning",
+            "group": "primary"
+        };
+
+        $.each(data, function (name, status) {
+            settings.contacts[name].status = status;
+
+            $.each(state, function (k, classe) {
+                $(".btn-" + name).removeClass("btn-" + classe);
+                $(".panel-" + name).removeClass("panel-" + classe);
+            });
+
+            $(".btn-" + name).addClass("btn-" + state[status]);
+            $(".panel-" + name).addClass("panel-" + state[status]);
+
+
+            if (canNotify && settings.notify) {
+
+                //Trata a notificação
+                var aux = {
+                    title: settings.contacts[name].name,
+                    dir: "ltr"
+                };
+
+                switch (status) {
+                    case "offline":
+                        aux.body = "Saiu do chat";
+                        action.notification(aux);
+                        break;
+                    default:
+                        aux.body = "Entrou no chat";
+                        action.notification(aux);
+                        break;
+                }
+            }
+        });
+    };
+
+    /**
+     * Troca o status
+     * @param {type} status
+     * @param {type} notif
+     * @returns {undefined}
+     */
+    var changeMeStatus = function (status) {
+        var messenger = $("#messenger")
+                .removeClass("btn-default")
+                .removeClass("btn-warning")
+                .removeClass("btn-danger")
+                .removeClass("btn-success");
+
+        switch (status) {
+            case "online":
+                messenger.addClass("btn-success");
+                break;
+            case "busy":
+                messenger.addClass("btn-danger");
+                break;
+            default:
+                messenger.addClass("btn-warning");
+                break;
+        }
     };
 
     /**
@@ -516,61 +597,11 @@ module.Messenger = (function (window, document, $, options) {
      */
     var sendStatus = function (status) {
         settings.status = status;
-        action._requestServer({
-            type: "sendStatus",
-            status: status,
-            userId: settings.userId
-        });
-    };
-
-    /**
-     * Alterar o Status do(s) Contato(s)
-     * 
-     * @param {object} data 
-     * @returns {undefined}
-     */
-    var changeStatus = function (data, canNotify) {
-        canNotify = (canNotify == false) ? canNotify : true;
-
-        var state = {
-            "online": "success",
-            "busy": "danger",
-            "offline": "warning",
-            "group": "primary"
-        };
-
-        $.each(data, function (name, status) {
-            settings.contacts[name].status = status;
-
-            $.each(state, function (k, classe) {
-                $(".btn-" + name).removeClass("btn-" + classe);
-                $(".panel-" + name).removeClass("panel-" + classe);
-            });
-
-            $(".btn-" + name).addClass("btn-" + state[status]);
-            $(".panel-" + name).addClass("panel-" + state[status]);
-
-
-            if (canNotify && settings.notify) {
-
-                //Trata a notificação
-                var aux = {
-                    title: settings.contacts[name].name,
-                    dir: "ltr"
-                };
-
-                switch (status) {
-                    case "offline":
-                        aux.body = "Saiu do chat";
-                        action.notification(aux);
-                        break;
-                    default:
-                        aux.body = "Entrou no chat";
-                        action.notification(aux);
-                        break;
-                }
-            }
-        });
+//        action.requestServer({
+//            type: "sendStatus",
+//            status: status,
+//            userId: settings.userId
+//        });
     };
 
     /**
@@ -665,8 +696,13 @@ module.Messenger = (function (window, document, $, options) {
 
     $.fn.top = function (top) {
         $(this).css("top", top);
-    }
+    };
 
+
+    /**
+     * Constroi o HTML da Pagina
+     * @returns {undefined}
+     */
     var buildHtml = function () {
         //Recebe o html
         var data = action.requestServer({
@@ -676,28 +712,25 @@ module.Messenger = (function (window, document, $, options) {
             }
         });
 
-
         data.success(function (data) {
-            $(".messenger").append(data);
+            var $messenger = $(".messenger");
+            $messenger.append(data);
+            settings.messengerWidth = $(".messenger").width();
 
             var topo = $(".navbar").height();
             var doc = $(document).height() - topo - 5;
 
             //Calcula tamanho da janela de contatos
-            $(".messenger").height(doc).top(topo);
+            $messenger.height(doc).top(topo);
             $("#messenger-box").height(doc).top(topo);
 
             $(".chat-window").hide();
 
-            $('.messenger').append('<div id="drop-chat"><i class="fa fa-weixin fa-2x"></i></div>');
-            $("#drop-chat").addClass("online");
-
-
-            if (!settings.open) {
-                $(".messenger").width($("#drop.chat").width() + 35);
-                $("#messenger-box").hide();
-                $("#drop-chat").width($("#drop-chat").width());
+            if(!settings.open){
+                $messenger.hide().css("opacity","0");
             }
+
+            $("#username").html(settings.userId);
 
             //Armazena o chat em backup, para restaurar 
             //sempre que a janela do usuario for aberta
@@ -712,7 +745,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var buildConversation = function (user) {
-        //Restaura o backup do chat e joga resultado no dom
+        //Restaura o backup do chat e joga resultado no DOM
         $(".chat-window").html(settings.backupChat);
 
         //Troca parametros visíveis na janela
@@ -773,7 +806,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var messenger = function () {
-        $("body").append("<div class='" + settings.element + "'></div>");
+        $("#page-wrapper").append("<div class='" + settings.element + "'></div>");
         settings.element = $(settings.element);
     };
 
@@ -851,7 +884,7 @@ module.Sidemenu = (function (window, document, $, settings) {
 
     $(document).on("click", "#toggle", function (e) {
         e.preventDefault();
-        
+
         if ($(".sidebar").is(':visible')) {
             $('.sidebar').animate({'width': '0px'}, 'slow', function () {
                 $('.sidebar').hide();

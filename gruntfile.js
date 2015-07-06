@@ -1,6 +1,7 @@
 module.exports = function (grunt) {
 
     grunt.initConfig({
+<<<<<<< HEAD
 //        // Tasks que o Grunt deve executar
 //        jsdoc: {
 //            dist: {
@@ -10,89 +11,89 @@ module.exports = function (grunt) {
 //                }
 //            }
 //        }, //jsdoc
+=======
+        // Tasks que o Grunt deve executar
 
+        /**
+         * Gera documentação do js
+         */
+        jsdoc: {
+            dist: {
+                src: ['public/js/Actions.js'],
+                options: {
+                    destination: 'public/docs'
+                }
+            }
+        }, //jsdoc
+>>>>>>> 1bdbad644209217a291774a698121a669fe2c6ef
+
+        /**
+         * Concatena e minifica os arquivos 
+         */
         uglify: {
             options: {
                 mangle: false
             },
-            my_target: {
+            main: {
                 files: {
                     'public/js/main.min.js': [
                         'public/js/jquery.min.js',
                         'public/js/sb-admin-2.js',
-                        'public/js/Actions.js',
-                        'public/js/Modules.js',
-                        'public/js/Events.js'
+//                        'public/js/Actions.js',
+//                        'public/js/Modules.js',
                     ]
                 }
             }
         }, // uglify
 
-        sass: {// Task 
-            dist: {// Target 
+        /**
+         * Processa e minifica o css
+         */
+        sass: {
+            main: {
                 options: {
-                    style: 'compressed'
+                    style: 'compressed',
                 },
-                files: {// Dictionary of files 
-                    'public/css/main.css': ['public/css/main.scss'] // 'destination': 'source' 
+                files: {
+                    'public/css/main.css': ['public/css/main.scss'],
+                    
                 }
-            }
+            },
         }, //sass
 
-        cssmin: {
-            options: {
-                shorthandCompacting: false,
-                roundingPrecision: -1
-            },
-            target: {
-                files: [{
-                        expand: true,
-                        cwd: 'public/css',
-                        src: [
-                            'pagination.css',
-                            'bootstrap-datepicker3.standalone.css'
-                        ],
-                        dest: 'public/css',
-                        ext: '.min.css'
-                    }]
-            }
-        }, //cssmin
-
-        concat: {
-            css: {
-                //Concatenate all of the files in the cssResources configuration property
-                src: [],
-                dest: 'public/css/styles.css'
-            }
-        }, //concat
-
+        /**
+         * Assiste as alterações
+         */
         watch: {
-            options: {
-                liverload: true
-            },
-            dist: {
+            js_main: {
                 files: [
                     'public/js/Actions.js',
-                    'public/js/Modules.js',
-                    'public/js/Events.js',
-                    'gruntfile.js',
-                    'public/js/sb-admin-2.js'
+                    'public/js/Modules.js'
                 ],
-                tasks: ['uglify', 'sass', 'concat']
-            }
+                tasks: ['uglify:main']
+            },
+            css_main: {
+                files: [
+                    'public/css/main.scss'
+                ],
+                tasks: ['sass:main'],
+            },
         } // watch
     });
 
     //Plugins do Grunt
+<<<<<<< HEAD
 //    grunt.loadNpmTasks('grunt-jsdoc');
+=======
+    grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
+>>>>>>> 1bdbad644209217a291774a698121a669fe2c6ef
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
 
     // Tarefas que serão executadas
-    grunt.registerTask('default', ['uglify', 'sass', 'cssmin']);
+    grunt.registerTask('default', ['uglify', 'sass']);
 
     // Tarefa para Watch
     grunt.registerTask('w', ['watch']);
