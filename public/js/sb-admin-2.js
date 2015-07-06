@@ -54,7 +54,7 @@ $(function () {
             $(this).addClass("active");
         }
     });
-    
+
     $("#logo").width($(".sidebar-nav").width() - 30);
 
     var hideMenu = function () {
@@ -162,6 +162,20 @@ $(function () {
             }
         }
     });
+
+
+    //Correções do menu
+    $(".sidebar-nav").css({
+        "max-height": "2000px"
+    });
+    var navSize = $(document).height() - 50;
+    if ($(".sidebar-nav").height() > navSize)
+        $(".sidebar-nav").css({
+            height: navSize,
+            "overflow-y": "scroll",
+        });
+    $("#side-menu").height(navSize);
+
 
 
     /*
