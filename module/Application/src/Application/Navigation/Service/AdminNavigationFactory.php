@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Classe sem uso
+ * 
+ * Foi trocada pelo menu do BD
+ */
+
+
 namespace Application\Navigation\Service;
 
 use Zend\Navigation\Service\AbstractNavigationFactory;
