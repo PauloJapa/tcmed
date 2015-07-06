@@ -43,7 +43,8 @@ module.exports = function (grunt) {
                     style: 'compressed',
                 },
                 files: {
-                    'public/css/main.css': ['public/css/main.scss']
+                    'public/css/main.css': ['public/css/main.scss'],
+                    
                 }
             },
         }, //sass
@@ -70,6 +71,7 @@ module.exports = function (grunt) {
 
     //Plugins do Grunt
     grunt.loadNpmTasks('grunt-jsdoc');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
