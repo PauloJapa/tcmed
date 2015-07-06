@@ -130,8 +130,7 @@ return array(
             'translator' => 'MvcTranslator',
         ),
         'factories' => array(
-            'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
-            'NavAdmin'   => 'Application\Navigation\Service\AdminNavigationFactory',
+            'Navigation' => 'Application\Navigation\MyNavigationFactory',
         ),
     ),
     'translator' => array(
@@ -157,6 +156,7 @@ return array(
             'Application\Controller\AppRoles' => 'Application\Controller\AppRolesController',
             'Application\Controller\AppResources' => 'Application\Controller\AppResourcesController',
             'Application\Controller\AppPrivileges' => 'Application\Controller\AppPrivilegesController',
+            'Application\Controller\AppMenus' => 'Application\Controller\AppMenusController',
         ),
     ),
     'view_manager' => array(

@@ -110,43 +110,12 @@
         <!-- /.dropdown -->
     </ul>
     <!-- /.navbar-top-links -->
-<<<<<<< HEAD
-    
-    
-    
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <?php 
-                
-                
-                $container = $this->navigation('NavAdmin')->getContainer();
-                echo $this->NewMenu($container)->setUlClass('nav" id="side-menu')->escapeLabels(false);
-                /* @var $nav \Zend\View\Helper\Navigation */
-//                $nav = get_class_methods($this->navigation('NavAdmin'));
-//                echo '<pre>', var_dump($nav);
-//                $nav = get_class($this->navigation('NavAdmin'));
-//                echo '<pre>', var_dump($nav);
-//                $nav = get_class_vars($this->navigation('NavAdmin'));
-//                echo '<pre>', var_dump($nav);
-//                $nav = $this->navigation('NavAdmin');
-//                $nav->menu()->setUlClass('nav');
-//                echo $nav->render();
-//                echo $this->navigation('NavAdmin')->menu()->setUlClass('nav');
-//                echo $this->navigation('NavAdmin');
-                ?>
-            </div>
-        </div>    
-    
-    
-    </nav>
-=======
 
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
+            <ul class="nav">
                 <li class="sidebar-search">
                     <div class="row">
-
                         <div class="col-md-12">
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
@@ -158,107 +127,17 @@
                             </div>
                             <!-- /input-group -->
                         </div>
-
                     </div>
                 </li>
-                <li>
-                    <a id="item-0" class="active" href="javascript:processa({url:'/app/index/cadastrodddddd'});"><i class="fa fa-dashboard fa-fw"></i> Home</a>
-                </li>
-                <li>
-                    <a id="item-1" href="<?php echo $this->url('app/default', array('controller' => 'index', 'action' => 'cadastro')); ?>"><i class="fa fa-pencil fa-fw"></i>Usuario</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'appRoles', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Roles</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'appResources', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Recursos</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'appPrivileges', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Privilegios</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'parametros', 'action' => 'index')); ?>"><i class="fa fa-pencil fa-fw"></i>Parametros</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'usuarios', 'action' => 'index')); ?>"><i class="fa fa-search fa-fw"></i> Lista Users</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'users', 'action' => 'index')); ?>"><i class="fa fa-search fa-fw"></i> Lista Chat Users</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'grupos', 'action' => 'index')); ?>"><i class="fa fa-search fa-fw"></i> Lista Chat Grupos</a>
-                </li>
-                <li>
-                    <a href="<?php echo $this->url('app/default', array('controller' => 'contatos', 'action' => 'index')); ?>"><i class="fa fa-search fa-fw"></i> Lista Chat Contatos</a>
-                </li>
-                <li class="primary">
-                    <a><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="javascript:processa({url:'/app/index/cadastro'});">Second Level Item</a>
-                        </li>
-                        <li>
-                            <a href="javascript:processa({url:'/app/index/cadastro'});">Second Level Item</a>
-                        </li>
-                        <li>
-                            <a>Third Level <span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li>
-                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:processa({url:'/app/index/cadastro'});">Third Level Item</a>
-                                </li>
-                            </ul>
-                            <!-- /.nav-third-level -->
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-
-                <li class="primary">
-                    <a><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Mensal</a>
-                        </li>
-                        <li>
-                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Anual</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-
-                <li class="primary">
-                    <a><i class="fa fa-bar-chart-o fa-fw"></i> Relatórios<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Mensal</a>
-                        </li>
-                        <li>
-                            <a href="javascript:processa({url:'/app/index/cadastro'});">Relatório Anual</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-
-                <?php if ($this->UserIdentity() != FALSE): ?>
-                    <li>
-                        <a href="<?php echo $this->url('app/default', array('controller' => 'auth', 'action' => 'logout'), [], FALSE, FALSE); ?>"><i class="fa fa-eject fa-fw"></i> Sair</a>
-                    </li>
-                <?php endif; ?>
             </ul>
-        </div>
+            <?php
+                if ($this->UserIdentity() != FALSE){
+                    $container = $this->navigation('Navigation')->getContainer();
+                    echo $this->NewMenu($container)->setUlClass('nav" id="side-menu')->escapeLabels(false);                    
+                }
+            ?>
+         </div>
         <!-- /.sidebar-collapse -->
     </div>
     <!-- /.navbar-static-side -->
 </nav>
-
-
->>>>>>> 9c786096187e254b5ea084fed81e51ec4d642085
