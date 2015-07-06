@@ -6,7 +6,6 @@
 
 /**
  * Initialize Actions
- * 
  */
 if (!window.App) {
     window.App = {

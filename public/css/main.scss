@@ -30,7 +30,7 @@ $border-default: 1px solid;
  * Messenger
  *===================================================*/
 .messenger{
-    width: 600px;
+    width: 20%;
     position: absolute;
     right: 0px;
     top:0px;
@@ -60,46 +60,6 @@ $border-default: 1px solid;
 
 .text-center{
     text-align: center;
-}
-
-#drop-chat{
-    border: setBorder(#aaa);
-    width: 30px;
-    height: 110px;
-    float: right;
-    margin-top: 100px;
-    border-radius: 50px 0px 0px 50px;
-    background-color: #bbb;
-    color: #fff;
-    cursor: pointer;
-    margin-right: 3px;
-}
-
-#drop-chat>*{
-    transform: rotate(270deg);
-    position: relative;
-    top: 40%;
-}
-
-#drop-chat.online{
-    background-color: #8CE88C;
-    border-left: setBorder(#5CB85C);
-    border-top: setBorder(#5CB85C);
-    border-bottom: setBorder(#5CB85C);
-}
-
-#drop-chat.busy{
-    background-color: #FF6F6A;
-    border-left: setBorder(#CC3F3A);
-    border-top: setBorder(#CC3F3A);
-    border-bottom: setBorder(#CC3F3A);
-}
-
-#drop-chat.offline{
-    background-color: #FFD266; 
-    border-left: setBorder(#CCA236);
-    border-top: setBorder(#CCA236);
-    border-bottom: setBorder(#CCA236);
 }
 
 .chat-view {

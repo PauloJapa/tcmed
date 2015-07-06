@@ -27,8 +27,8 @@ module.exports = function (grunt) {
                     'public/js/main.min.js': [
                         'public/js/jquery.min.js',
                         'public/js/sb-admin-2.js',
-                        'public/js/Actions.js',
-                        'public/js/Modules.js',
+//                        'public/js/Actions.js',
+//                        'public/js/Modules.js',
                     ]
                 }
             }
