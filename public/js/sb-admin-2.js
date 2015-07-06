@@ -169,14 +169,22 @@ $(function () {
         "max-height": "2000px"
     });
     var navSize = $(document).height() - 50;
+//    alert("nav: "+ $(".sidebar-nav").height() + "\npag: "+ navSize);
     if ($(".sidebar-nav").height() > navSize)
         $(".sidebar-nav").css({
             height: navSize,
-            "overflow-y": "scroll",
         });
-    $("#side-menu").height(navSize);
-
-
+    $("#side-menu").height(navSize + 100);
+    $(".sidebar-nav").mouseenter(function(){
+        $(this).css("overflow-y", "scroll");
+    });
+    $(".sidebar-nav").mouseleave(function(){
+        $(this).css("overflow-y", "hidden");
+    });
+    $("#page-wrapper").css({
+       "margin-left": $(".sidebar").width(),
+       "margin-top": 50
+    });
 
     /*
      var url = window.location;
