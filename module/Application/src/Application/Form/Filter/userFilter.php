@@ -17,14 +17,14 @@ class userFilter extends AbstractFilter{
     
     public function __construct() {
         
-        $this->notEmpty('nome_usuario');  
+        $this->notEmpty('nomeUsuario');  
         
         $this->notEmpty('nickname');        
         
-        $this->email('email_usuario');
+        $this->email('emailUsuario');
         
-        $this->notEmpty('senha_usuario');
+        $this->notEmpty('senhaUsuario');
                
-        $this->identical('confirmation', 'senha_usuario');
+        $this->identical('confirmation', 'senhaUsuario');
     }
 }
