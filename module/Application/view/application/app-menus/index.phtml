@@ -11,7 +11,7 @@ $controller = 'appMenus';
 <?php
 
     $table->openTable(TRUE)  ; 
-    $table->renderThead(['ID','Descrição', 'Label', 'Route', 'Controller', 'Actioni', 'Atributos', 'Icons', 'class', 'Pagescontainerclass', 'Wrapclass', 'Ordem', 'Resource', 'In Menu', 'Criado','Atualizado','Ação'])  ;     
+    $table->renderThead(['ID','Descrição', 'Label', 'Route', 'Controller', 'Actioni', 'Atributos', 'Icons', 'class', 'Pagescontainerclass', 'Wrapclass', 'Ordem', 'Resource', 'Privilege', 'In Menu', 'Criado','Atualizado','Ação'])  ;     
     /* @var $entity \Application\Entity\AppMenu */
     foreach($this->data as $entity){
         $table->renderLine([
@@ -28,6 +28,7 @@ $controller = 'appMenus';
             $entity->getWrapclass(),
             $entity->getOrdem(),
             $entity->getResource(),
+            $entity->getPrivilege(),
             (is_null($entity->getInMenu()))?'-':$entity->getInMenu()->getId(),
             $entity->getCreatedAt(),
             $entity->getUpdatedAt(),

@@ -88,6 +88,9 @@ class AppMenuRepository extends AbstractRepository {
         if(!empty($ent->getResource())){
             $menu['resource'] = $ent->getResource();
         }
+        if(!empty($ent->getPrivilege())){
+            $menu['privilege'] = $ent->getPrivilege();
+        }
         return $menu;
     }
     
