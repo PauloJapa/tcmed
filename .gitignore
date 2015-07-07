@@ -13,3 +13,5 @@ module/SONUser
 gruntfile.js
 public/docs
 node_modules
+gruntfile.js
+public/docs
