@@ -10,6 +10,8 @@ composer.lock
 vendor
 vendor/bin
 module/SONUser
+gruntfile.js
+public/docs
 node_modules
 gruntfile.js
 package.json

@@ -22,6 +22,14 @@ $border-default: 1px solid;
 .sidebar {
     border-right: 1px solid #ddd;
 }
+body{
+    overflow-y: hidden;
+}
+/*TODO: parametro de correção de bug da div #inter*/
+#page-wrapper{
+    height: 1px;
+    overflow-y: scroll;
+}
 /*===================================================
  * Menu
  *===================================================*/
