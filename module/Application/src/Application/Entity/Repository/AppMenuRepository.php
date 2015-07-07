@@ -85,6 +85,9 @@ class AppMenuRepository extends AbstractRepository {
         if(!empty($ent->getAtributos())){
             $menu['attribs'] = $this->multAtrib($ent->getAtributos());
         }
+        if(!empty($ent->getResource())){
+            $menu['resource'] = $ent->getResource();
+        }
         return $menu;
     }
     

@@ -75,7 +75,7 @@
             </ul>
             <?php
                 if ($this->UserIdentity() != FALSE){
-                    $container = $this->navigation('Navigation')->setAcl($this->acl)->setRole($this->UserIdentity()['nome_usuario'])->getContainer();
+                    $container = $this->navigation('Navigation')->setAcl($this->acl)->setRole('guest')->getContainer();
                     echo $this->NewMenu($container)->setUlClass('nav" id="side-menu')->escapeLabels(false);                    
                 }
             ?>
