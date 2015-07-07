@@ -64,20 +64,7 @@
                  * Scripts de Inicializaçao pos login
                  */
                 $(function () {
-                    //Inicializador do Pagination
-                    module.Pagination.init();
-
-                    //Inicializador do Messenger
-                    module.Messenger.init({
-                        topDifference: 50,
-                        open: false
-                    });
-
-                    //
-                    module.Cookie.save({
-                       key: "PHPSESSID",
-                       value: module.Cookie.get("PHPSESSID")
-                    });
+                    action.load();
                 });
             </script>
 

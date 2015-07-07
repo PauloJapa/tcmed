@@ -92,8 +92,8 @@ action = (function ($, options) {
                 module.Pagination.addPage();
             });
         },
-        events: function(){
-            
+        events: function () {
+
         },
         notification: function (options) {
             if (!("Notification" in window)) {
@@ -129,6 +129,22 @@ action = (function ($, options) {
             } else {
                 $(".loader").hide();
             }
+        },
+        load: function (params) {
+            //Inicializador do Pagination
+            module.Pagination.init();
+
+            //Inicializador do Messenger
+            module.Messenger.init({
+                topDifference: 50,
+                open: false
+            });
+
+            //
+            module.Cookie.save({
+                key: "PHPSESSID",
+                value: module.Cookie.get("PHPSESSID")
+            });
         },
         nextFocus: function (obj) {
             var inputs = $(obj).closest('form').find(':input:visible');

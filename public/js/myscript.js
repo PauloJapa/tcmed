@@ -31,7 +31,15 @@ function events() {
             select.val(jQuery('options:first', select).val()).focus();
         }
     });
-    
+
+
+    $(document).on("click", "#refresh", function () {
+        if (options.lastRequest) {
+            action.processa(options.lastRequest);
+            alert(JSON.stringfy(obj));
+        }
+
+    });
 }
 
 /**
@@ -128,7 +136,7 @@ $(document).bind("keydown keypress", function (e) {
  */
 function nextFocus(obj) {
     console.warn("nextFocus() em myscript está sendo substituido por actions.nextFocus(object). Atualizar");
-    
+
     var inputs = $(obj).closest('form').find(':input:visible');
     var ind = inputs.index(obj);
     var i = 1;
@@ -403,15 +411,11 @@ function pressTab(obj, e) {
 
 // -----------------------------------------------------------------------------
 $(function () {
+    //TODO: Precisa ser corrigido como action
+    events();
+
     var gen = new Generator({
         pagination: true
     });
-    
-    $(document).on("click", "#refresh", function () {
-        if (options.lastRequest) {
-            action.processa(options.lastRequest);
-            alert(JSON.stringfy(obj));
-        }
 
-    });
 });

@@ -152,9 +152,9 @@ class NewMenu extends Menu
 //            if ($addClassToListItem && $page->getClass()) {
 //                $liClasses[] = $page->getClass();
 //            }// Is page active?
-            if ($isActive) {
-                $liClasses[] = 'active';
-            }
+//            if ($isActive) {
+//                $liClasses[] = 'active';
+//            }
             if($wrapClass = $page->get('wrapClass')){
                 $liClasses[] = $wrapClass;
             }

@@ -354,7 +354,7 @@ module.Messenger = (function (window, document, $, options) {
         $(document).on("click", "#messenger", function () {
             //Converte DOM em Obj Jquery 
             var $messenger = $(".messenger");
-            
+
             if ($messenger.is(":visible")) {
                 $messenger.animate({
                     opacity: 0
@@ -367,17 +367,6 @@ module.Messenger = (function (window, document, $, options) {
                     opacity: 1
                 }, "slow");
             }
-
-
-//            if (!settings.open) {
-//                $(".messenger").width(settings.messengerWidth);
-//            }
-//            $("#messenger-box").toggle("show", function () {
-//                if (!settings.open) {
-//                    $(".messenger").width(0);
-//                }
-//            });
-//            settings.open = !settings.open;
         });
     };
 
@@ -476,19 +465,26 @@ module.Messenger = (function (window, document, $, options) {
         var msg = $("#msg-chat").val();
 
         var message = {
-            dtime: formatData(),
-            msg: $.trim(msg),
-            userby: settings.userId,
-            userto: settings.userTo,
-            typeusr: "user",
-            type: "sendMsg"
+            url: settings.server + "/sendMsg",
+            type: "POST",
+            data:{
+                dtime: formatData(),
+                msg: $.trim(msg),
+                userby: settings.userId,
+                userto: settings.userTo
+            }
         };
 
-        var data = action.requestServer(message);
+        var _data = action.requestServer(message);
 
-        data.success(function () {
-            settings.contacts[settings.userTo].logMsg.push(message);
-            printMessage(message);
+        _data.success(function () {
+            console.log("passou");
+            settings.contacts[settings.userTo].logMsg = new Array();
+            settings.contacts[settings.userTo].logMsg.push(message.data);
+
+            console.log(settings.contacts[settings.userTo].logMsg[0]);
+            
+            printMessage(message.data);
         });
 
         $("#msg-chat").val("");
@@ -507,25 +503,38 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var printMessage = function (message) {
-        if (message.type === "sendMsg") {
+
+        //Se a mensagem for minha...
+        if(message.userby == settings.userId){
             $(".chat-view").append("<div class='msg-me'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
         }
-        else {
-            if (message.typeusr === "group") {
-                var userby = (settings.contacts[message.userby]) ? settings.contacts[message.userby].name : message.userby;
-                $(".chat-view").append(
-                        "<div class='msg-"
-                        + $.getPositionArray(settings.contacts[message.userto].usersgroup, message.userby)
-                        + "'><em>(" + message.dtime + ") " + userby
-                        + " Diz:</em><br>" + message.msg + "</div>");
-            } else {
-
-                $(".chat-view").append(
-                        "<div class='msg-0'><em>(" + message.dtime + ") " + settings.contacts[message.userby].name
-                        + " Diz:</em><br>" + message.msg + "</div>");
-            }
-
+        else{
+            $(".chat-view").append("<div class='msg-0'><em>(" + message.dtime + ") "+message.userby+" diz:</em><br>" + message.msg + "</div>");
         }
+        
+//        
+//        if (message.type === "sendMsg") {
+//            $(".chat-view").append("<div class='msg-me'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
+//        }
+//        
+//        else {
+//            if (message.typeusr === "group") {
+//                console.log("group");
+//                
+//                var userby = (settings.contacts[message.userby]) ? settings.contacts[message.userby].name : message.userby;
+//                $(".chat-view").append(
+//                        "<div class='msg-"
+//                        + $.getPositionArray(settings.contacts[message.userto].usersgroup, message.userby)
+//                        + "'><em>(" + message.dtime + ") " + userby
+//                        + " Diz:</em><br>" + message.msg + "</div>");
+//            } else {
+//                console.log("user");
+//                $(".chat-view").append(
+//                        "<div class='msg-0'><em>(" + message.dtime + ") " + settings.contacts[message.userto].name
+//                        + " Diz:</em><br>" + message.msg + "</div>");
+//            }
+//
+//        }
 
     };
 
@@ -536,11 +545,13 @@ module.Messenger = (function (window, document, $, options) {
      */
     var receiveMessage = function () {
 
-//        var data = action._requestServer({
-//            type: "receiveMsg",
-//            userId: settings.userId
-//        });
-
+        var _data = action.requestServer({
+            url: settings.server + "/receiveMsg",
+            data:{
+                userId: settings.userId
+            }
+        });
+        
         var data = [
             {dtime: "09:53", typeusr: "user", msg: "Oi Danilo, tudo bem com você?", userto: "danilo_tcmed", userby: "paulo_tcmed"},
             {dtime: "09:55", typeusr: "group", msg: "Olá gente?", userto: "tcmed", userby: "paulo_tcmed"},
@@ -597,11 +608,13 @@ module.Messenger = (function (window, document, $, options) {
      */
     var sendStatus = function (status) {
         settings.status = status;
-//        action.requestServer({
-//            type: "sendStatus",
-//            status: status,
-//            userId: settings.userId
-//        });
+        var _data = action.requestServer({
+            url: settings.server + "/sendStatus",
+            data:{
+                status: status,
+                userId: settings.userId
+            }
+        });
     };
 
     /**
@@ -610,10 +623,13 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var receiveStatus = function (tdata) {
-//        var data = action.requestServer({
-//            type: "receiveStatus",
-//            userId: settings.userId
-//        });
+        var _data = action.requestServer({
+            url: settings.server + "/receiveStatus",
+            data:{
+                userId: settings.userId
+            }
+        });
+        
         var data;
 
         if (tdata) {
@@ -635,10 +651,12 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var receiveContacts = function () {
-//        var data = action.requestServer({
-//            type: "receiveContacts",
-//            userId: settings.userId
-//        });
+        var _data = action.requestServer({
+            url: settings.server + "/receiveContacts",
+            data: {
+                userId: settings.userId
+            }
+        });
 
         var data = {
             "paulo_tcmed": {
@@ -706,14 +724,8 @@ module.Messenger = (function (window, document, $, options) {
     var buildHtml = function () {
         //Recebe o html
         var data = action.requestServer({
-            url: settings.server + "/index",
-            data: {
-                type: "getHtml"
-            }
+            url: settings.server + "/getHtml"
         });
-
-//        alert($(window).height());
-//        alert($(document).height());
 
         data.success(function (data) {
             var $messenger = $(".messenger");
@@ -729,10 +741,10 @@ module.Messenger = (function (window, document, $, options) {
 
             $(".chat-window").hide();
 
-            if(!settings.open){
-                $messenger.hide().css("opacity","0");
+            if (!settings.open) {
+                $messenger.hide().css("opacity", "0");
             }
-           
+
             $("#username").html(settings.userId);
 
             //Armazena o chat em backup, para restaurar 

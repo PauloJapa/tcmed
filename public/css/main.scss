@@ -12,7 +12,6 @@ $border-default: 1px solid;
     @return $border-default + $color; 
 }
 
-
 /*===================================================
  * Definições gerais
  *===================================================*/
@@ -25,10 +24,23 @@ $border-default: 1px solid;
 body{
     overflow-y: hidden;
 }
+#inter{
+    overflow: hidden;
+    padding-top: 20px;
+}
+.resp-table{
+    overflow-x: scroll;
+}
+.resp-table>table{
+    margin-bottom: 0px;
+}
 /*TODO: parametro de correção de bug da div #inter*/
 #page-wrapper{
     height: 1px;
     overflow-y: scroll;
+}
+.table th{
+    background-color: #eee;
 }
 /*===================================================
  * Menu
