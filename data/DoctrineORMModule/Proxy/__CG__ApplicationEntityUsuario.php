@@ -64,10 +64,10 @@ class Usuario extends \Application\Entity\Usuario implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'tipo');
+            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'tipo', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'role');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'tipo');
+        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'idUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nomeUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'nickname', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'senhaUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'emailUsuario', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'salt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'situacao', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'isAdmin', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'lembreteSenha', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'activationKey', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'active', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'tipo', '' . "\0" . 'Application\\Entity\\Usuario' . "\0" . 'role');
     }
 
     /**
@@ -173,6 +173,28 @@ class Usuario extends \Application\Entity\Usuario implements \Doctrine\ORM\Proxy
     }
 
     
+    /**
+     * {@inheritDoc}
+     */
+    public function getId()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', array());
+
+        return parent::getId();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setId($id)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', array($id));
+
+        return parent::setId($id);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -329,6 +351,17 @@ class Usuario extends \Application\Entity\Usuario implements \Doctrine\ORM\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLembreteSenha', array());
 
         return parent::getLembreteSenha();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRole($obj = false)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getRole', array($obj));
+
+        return parent::getRole($obj);
     }
 
     /**
@@ -532,12 +565,67 @@ class Usuario extends \Application\Entity\Usuario implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setRole(\Application\Entity\AppRole $role)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setRole', array($role));
+
+        return parent::setRole($role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function toArray()
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'toArray', array());
 
         return parent::toArray();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function floatToStr($get, $dec = 2)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'floatToStr', array($get, $dec));
+
+        return parent::floatToStr($get, $dec);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function strToFloat($check)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'strToFloat', array($check));
+
+        return parent::strToFloat($check);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function strToDate($strDateTime)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'strToDate', array($strDateTime));
+
+        return parent::strToDate($strDateTime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function dateToStr($date, $full = false)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'dateToStr', array($date, $full));
+
+        return parent::dateToStr($date, $full);
     }
 
 }

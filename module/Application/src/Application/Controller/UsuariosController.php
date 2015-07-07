@@ -17,10 +17,11 @@ class UsuariosController extends CrudController{
 
     public function __construct() {
         parent::__construct('usuario');
+        $this->setFormWithEntityManager(TRUE);
     }
 
     public function editAction() {        
-        $form = new $this->form();        
+        $form = $this->getForm();        
         $request = $this->getRequest();
         $repository = $this->getEm()->getRepository($this->entity);
         $entity = $repository->find($this->params()->fromRoute('id', 0));
@@ -42,8 +43,8 @@ class UsuariosController extends CrudController{
             }
         }
 
-        $dataView['titulo'] = 'Editando ' . $this->name;
-        $dataView['action'] = 'edit';
+        
+        $dataView = $this->getDataView('Editando ' . $this->name, 'edit');
         
         return $this->makeView(compact("form","dataView"), $this->getPathViewDefault() . 'form.phtml');
     }

@@ -157,6 +157,7 @@ return array(
             'Application\Controller\AppResources' => 'Application\Controller\AppResourcesController',
             'Application\Controller\AppPrivileges' => 'Application\Controller\AppPrivilegesController',
             'Application\Controller\AppMenus' => 'Application\Controller\AppMenusController',
+            'Application\Controller\Mensagems' => 'Application\Controller\MensagemsController',
         ),
     ),
     'view_manager' => array(

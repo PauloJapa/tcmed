@@ -12,12 +12,12 @@ use Zend\Stdlib\Hydrator;
 /**
  * Usuario
  *
- * @ORM\Table(name="usuario")
+ * @ORM\Table(name="usuario", indexes={@ORM\Index(name="fk_usuario_app_role1", columns={"role_id"})}) 
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="UsuarioRepository")
  *  
  */
-class Usuario
+class Usuario extends AbstractEntity
 {
     /**
      * @var integer
@@ -119,7 +119,17 @@ class Usuario
      */
     private $tipo;
 
-        public function __construct(array $options = []) 
+    /**
+     * @var \Application\Entity\AppRole
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\AppRole")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="role_id", referencedColumnName="id_role")
+     * })
+     */
+    private $role;
+
+    public function __construct(array $options = []) 
     {
         $this->createdAt = new \DateTime('now');
         $this->updatedAt = new \DateTime('now');
@@ -128,7 +138,17 @@ class Usuario
         $this->activationKey = md5($this->emailUsuario . $this->salt);
         
         (new Hydrator\ClassMethods)->hydrate($options, $this);
-    }    
+    }   
+    
+    function getId() {
+        return $this->getIdUsuario();
+    }
+
+    function setId($id) {
+        $this->setIdUsuario($id);
+        return $this;
+    }
+
     
     function getIdUsuario() {
         return $this->idUsuario;
@@ -184,6 +204,17 @@ class Usuario
 
     function getLembreteSenha() {
         return $this->lembreteSenha;
+    }
+
+    /**
+     * 
+     * @return \Application\Entity\AppRole
+     */
+    public function getRole($obj = FALSE) {
+        if($obj){
+            return $this->role;            
+        }
+        return is_null($this->role)? '' : $this->role->getNome();
     }
 
     function setIdUsuario($idUsuario) {
@@ -276,10 +307,15 @@ class Usuario
         $this->tipo = $tipo;
         return $this;
     }
-    
-    public function toArray()
-    {
-        return (new Hydrator\ClassMethods())->extract($this);
+
+    /**
+     * 
+     * @param \Application\Entity\AppRole $role
+     * @return \Application\Entity\AppPrivilege
+     */
+    public function setRole(\Application\Entity\AppRole $role) {
+        $this->role = $role;
+        return $this;
     }
 
 }

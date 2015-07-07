@@ -25,7 +25,13 @@ class Usuario extends AbstractService{
     public function __construct(EntityManager $em, SmtpTransport $transport, $view) {
         parent::__construct($em);
         
-        $this->entity = "Application\Entity\Usuario";
+        $this->entity = $this->basePath . "Usuario";        
+        $this->id = 'idUsuario';
+        
+        $this->setDataRefArray([
+            'role' => $this->basePath . 'AppRole'
+        ]);
+        
         $this->transport= $transport;
         $this->view = $view;
     }
@@ -64,15 +70,19 @@ class Usuario extends AbstractService{
         }
     }
     
-    public function update(array $data)
-    {
-        $entity = $this->em->getReference($this->entity, $data['id']);
-        
-        if (empty($data['senha_usuario'])) {
-            unset($data['senha_usuario']);
+    public function update(array $data) {
+        if(!empty($data)){
+            $this->data = $data;
+        }
+        $entity = $this->em->getReference($this->entity, $this->data[$this->id]);
+         
+        if (empty($data['senhaUsuario'])) {
+            unset($data['senhaUsuario']);
         }
 
-        (new Hydrator\ClassMethods())->hydrate($data, $entity);
+        $this->setReferences();
+        
+        (new Hydrator\ClassMethods())->hydrate($this->data, $entity);
         
         $this->em->persist($entity);
         $this->em->flush();

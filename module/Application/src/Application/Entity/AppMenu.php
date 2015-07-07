@@ -97,9 +97,16 @@ class AppMenu extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="resource", type="string", length=45, nullable=true)
+     * @ORM\Column(name="resource", type="string", length=100, nullable=true)
      */
     private $resource;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="privilege", type="string", length=45, nullable=true)
+     */
+    private $privilege;
 
     /**
      * @var string
@@ -269,6 +276,14 @@ class AppMenu extends AbstractEntity
 
     /**
      * 
+     * @return string
+     */    
+    public function getPrivilege() {
+        return $this->privilege;
+    }
+
+    /**
+     * 
      * @return \DateTime | string
      */
     public function getCreatedAt($obj = FALSE) {
@@ -416,6 +431,16 @@ class AppMenu extends AbstractEntity
      */
     public function setResource($resource) {
         $this->resource = $resource;
+        return $this;
+    }
+
+    /**
+     * 
+     * @param string $privilege
+     * @return \Application\Entity\AppMenu
+     */
+    public function setPrivilege($privilege) {
+        $this->privilege = $privilege;
         return $this;
     }
     

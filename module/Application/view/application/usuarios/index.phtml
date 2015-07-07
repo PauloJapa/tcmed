@@ -10,12 +10,28 @@ $table = $this->table();
 <?php
 
     $table->openTable(TRUE)  ; 
-    $table->renderThead(['ID','Nome','Email','Ação'])  ;     
+    $table->renderThead([
+        'ID',
+        'Nome',
+        'Login',
+        'Email',
+        'Status',
+        'Lembrete',
+        'Tipo',
+        'Papel',
+        'Ação',
+    ]);     
     foreach($this->data as $entity){
+        /* @var $entity \Application\Entity\Usuario */
         $data = [];
         $data[]= $entity->getIdUsuario();
         $data[]= $entity->getNomeUsuario();
+        $data[]= $entity->getNome();
         $data[]= $entity->getEmailUsuario();
+        $data[]= $entity->getSituacao();
+        $data[]= $entity->getLembreteSenha();
+        $data[]= $entity->getTipo();
+        $data[]= $entity->getRole();
         $data[]= $entity->getIdUsuario();       
         $table->renderLine($data);
     } 

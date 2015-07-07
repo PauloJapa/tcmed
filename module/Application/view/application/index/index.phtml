@@ -74,17 +74,17 @@
                 </li>
             </ul>
             <?php
-                if ($this->UserIdentity() != FALSE){
-                    $container = $this->navigation('Navigation')->setAcl($this->acl)->setRole('guest')->getContainer();
+                $u = $this->UserIdentity() ;
+                if ($u != FALSE){
+                    $container = $this->navigation('Navigation')->getContainer();
                     echo $this->NewMenu($container)->setUlClass('nav" id="side-menu')->escapeLabels(false);                    
                 }
             ?>
             <ul>
             <?php
-                if ($this->UserIdentity() != FALSE){
-                    $u = $this->UserIdentity() ;
-                    echo '<pre>' , var_dump($u);
-                }
+//                if ($this->UserIdentity() != FALSE){
+//                    echo '<pre>' , var_dump($u);
+//                }
             ?>
             </ul>
          </div>

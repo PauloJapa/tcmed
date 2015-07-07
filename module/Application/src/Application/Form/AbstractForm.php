@@ -366,4 +366,12 @@ abstract class AbstractForm extends Form {
             $this->isAdmin = FALSE;            
         }
     }
+    
+    public function setSimpleText($name) {
+        $this->setInputText2($name, ucfirst($name). ': ',['placeholder'=>'Digite ' . $name]);
+    }
+    
+    public function setSimpleText2($name) {
+        $this->setInputText($name, ucfirst($name). ': ',['placeholder'=>'Digite ' . $name]);
+    }
 }

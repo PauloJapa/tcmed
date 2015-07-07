@@ -14,6 +14,8 @@ namespace Application\Entity\Repository;
 class AppMenuRepository extends AbstractRepository {
     
     protected $list ;
+    protected $acl ;
+    protected $role ;
 
     public function fetchParent() {
         /* @var $entity \Application\Entity\AppMenu */
@@ -25,14 +27,32 @@ class AppMenuRepository extends AbstractRepository {
         return $array;
     }
     
-    public function getNavigationArray($name){
+    public function isAllowed(\Application\Entity\appMenu $ent) {        
+        if(empty($ent->getResource())){
+            return TRUE;
+        }
+        $resource = $ent->getResource();
+        $privilege = null ;
+        if(!empty($ent->getPrivilege())){
+            $privilege = $ent->getPrivilege();
+        }        
+        return $this->acl->isAllowed($this->role,$resource,$privilege)? TRUE : FALSE;
+    }
+    
+    public function getNavigationArray($name, $acl, $user){
+        $this->acl = $acl;
+        if($user AND !empty($user['role'])){
+            $this->role = $user['role'];
+        }else{
+            $this->role = 'Visitante';
+        }
         /* @var $ent \Application\Entity\appMenu */
         $this->list = $this->findBy([],['ordem'=>'ASC']);
         $configuration = [];
         foreach ($this->list as $ent) {
-            if($ent->getInMenu()){
+            if($ent->getInMenu() OR !$this->isAllowed($ent)){
                 continue;
-            }            
+            }
             $pages2 = $this->getPagesById($ent->getId());
             $configuration['navigation'][$name][$ent->getId()] = $this->getMenuArray($ent, (!empty($pages2)?TRUE:FALSE));
             if(!empty($pages2)){
@@ -48,7 +68,7 @@ class AppMenuRepository extends AbstractRepository {
         /* @var $ent \Application\Entity\appMenu */
         $page = [];
         foreach ($this->list as $ent) {
-            if(is_null($ent->getInMenu()) OR $ent->getInMenu()->getId() <> $id){
+            if(is_null($ent->getInMenu()) OR $ent->getInMenu()->getId() <> $id OR !$this->isAllowed($ent)){
                 continue;
             }
             $pages3 = $this->getPagesById($ent->getId());
@@ -85,9 +105,12 @@ class AppMenuRepository extends AbstractRepository {
         if(!empty($ent->getAtributos())){
             $menu['attribs'] = $this->multAtrib($ent->getAtributos());
         }
-        if(!empty($ent->getResource())){
-            $menu['resource'] = $ent->getResource();
-        }
+//        if(!empty($ent->getResource())){
+//            $menu['resource'] = $ent->getResource();
+//        }
+//        if(!empty($ent->getPrivilege())){
+//            $menu['privilege'] = $ent->getPrivilege();
+//        }
         return $menu;
     }
     

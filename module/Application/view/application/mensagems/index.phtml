@@ -1,7 +1,7 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
-$controller = 'appMenus';
+$controller = 'mensagems';
 ?>
 <h1>Users</h1>
 <br />
@@ -11,27 +11,13 @@ $controller = 'appMenus';
 <?php
 
     $table->openTable(TRUE)  ; 
-    $table->renderThead(['ID','Descrição', 'Label', 'Route', 'Controller', 'Actioni', 'Atributos', 'Icons', 'class', 'Pagescontainerclass', 'Wrapclass', 'Ordem', 'Resource', 'Privilege', 'In Menu', 'Criado','Atualizado','Ação'])  ;     
-    /* @var $entity \Application\Entity\AppMenu */
+    $table->renderThead(['ID', 'Mensagem', 'link','Ação'])  ;     
+    /* @var $entity \Application\Entity\Mensagem */
     foreach($this->data as $entity){
         $table->renderLine([
             $entity->getId(),
-            $entity->getDescricao(),
-            $entity->getLabel(),
-            $entity->getRoute(),
-            $entity->getController(),
-            $entity->getAction(),
-            $entity->getAtributos(),
-            $entity->getIcons(),
-            $entity->getClass(),
-            $entity->getPagescontainerclass(),
-            $entity->getWrapclass(),
-            $entity->getOrdem(),
-            $entity->getResource(),
-            $entity->getPrivilege(),
-            (is_null($entity->getInMenu()))?'-':$entity->getInMenu()->getId(),
-            $entity->getCreatedAt(),
-            $entity->getUpdatedAt(),
+            $entity->getTexto(),
+            $entity->getLink(),
             $entity->getId(),
         ]);
     } 

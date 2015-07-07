@@ -22,10 +22,12 @@ class MyNavigation extends DefaultNavigationFactory{
     protected function getPages(ServiceLocatorInterface $serviceLocator){
         if (null === $this->pages) {
             /* @var $em \Doctrine\ORM\EntityManager */
-            /* @var $rp \Application\Entity\Repository\appMenuRepsository */
+            /* @var $rp \Application\Entity\Repository\appMenuRepository */
             $em = $serviceLocator->get('Doctrine\ORM\EntityManager');            
+            $acl = $serviceLocator->get('Application\Permissions\Acl');
+            $us = $serviceLocator->get('UserIdentity');
             $rp = $em->getRepository('Application\Entity\AppMenu'); 
-            $configuration = $rp->getNavigationArray($this->getName());
+            $configuration = $rp->getNavigationArray($this->getName(), $acl, $us());
             if (!isset($configuration['navigation'])) {
                 throw new Exception\InvalidArgumentException('Could not find navigation configuration key');
             }
@@ -44,6 +46,6 @@ class MyNavigation extends DefaultNavigationFactory{
             $this->pages = $this->injectComponents($pages, $routeMatch, $router);
         }
         return $this->pages;
-    }    
+    }   
     
 }

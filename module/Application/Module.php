@@ -101,6 +101,9 @@ class Module {
                 'Application\Service\Contato' => function($sm) {
                     return new Service\Contato($sm->get('Doctrine\ORM\EntityManager'));
                 },
+                'UserIdentity' => function($sm) {
+                    return new \Application\View\Helper\UserIdentity();
+                },
                 'Application\Permissions\Acl' => function($sm){
                     $em = $sm->get('Doctrine\ORM\EntityManager');
 
