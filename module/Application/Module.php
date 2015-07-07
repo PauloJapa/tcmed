@@ -100,7 +100,21 @@ class Module {
                 },
                 'Application\Service\Contato' => function($sm) {
                     return new Service\Contato($sm->get('Doctrine\ORM\EntityManager'));
-                }
+                },
+                'Application\Permissions\Acl' => function($sm){
+                    $em = $sm->get('Doctrine\ORM\EntityManager');
+
+                    $repoRole = $em->getRepository("Application\Entity\AppRole");
+                    $roles = $repoRole->findAll();
+
+                    $repoResource = $em->getRepository("Application\Entity\AppResource");
+                    $resources = $repoResource->findAll();
+
+                    $repoPrivilege = $em->getRepository("Application\Entity\AppPrivilege");
+                    $privileges = $repoPrivilege->findAll();
+
+                    return new \Application\Permissions\Acl($roles,$resources,$privileges);
+                },
             )
         );
     }
@@ -111,7 +125,7 @@ class Module {
                 'UserIdentity' => 'Application\View\Helper\UserIdentity',
                 'Table' => 'Application\View\Helper\Table',
                 'FormHelp' => 'Application\View\Helper\FormHelp',
-//                'Url' =>  'Application\View\Helper\Url',
+                'NewMenu' => 'Application\View\Helper\NewMenu',
             ],
             'factories' => [
                 'Url'            => function ($helperPluginManager) {

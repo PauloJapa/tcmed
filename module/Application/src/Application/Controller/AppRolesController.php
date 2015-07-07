@@ -9,4 +9,12 @@ class AppRolesController extends CrudController {
         $this->setFormWithEntityManager(TRUE);
     }
 
+    
+    public function testeAction()
+    {
+        $acl = $this->getServiceLocator()->get("Application\Permissions\Acl");
+        echo $acl->isAllowed("Redator","Posts","Excluir")? "Permitido" : "Negado";
+        die;
+    }
+    
 }

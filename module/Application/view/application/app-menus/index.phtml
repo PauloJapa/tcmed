@@ -1,26 +1,34 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
-$controller = 'users';
+$controller = 'appMenus';
 ?>
 <h1>Users</h1>
 <br />
 <p>
-        <button class="btn btn-default" onclick="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</button>
+    <a href="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</a>
 </p>
 <?php
 
     $table->openTable(TRUE)  ; 
-    $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
+    $table->renderThead(['ID','Descrição', 'Label', 'Route', 'Controller', 'Actioni', 'Atributos', 'Icons', 'class', 'Pagescontainerclass', 'Wrapclass', 'Ordem', 'Criado','Atualizado','Ação'])  ;     
+    /* @var $entity \Application\Entity\AppMenu */
     foreach($this->data as $entity){
         $table->renderLine([
             $entity->getId(),
-            $entity->getNome(),
-            $entity->getStatusMsg(),
-            $entity->getStatusChat(),
-            $entity->getStatusDatetime(),
-            $entity->getUsuarioId(),
-            $entity->getStatus(),
+            $entity->getDescricao(),
+            $entity->getLabel(),
+            $entity->getRoute(),
+            $entity->getController(),
+            $entity->getAction(),
+            $entity->getAtributos(),
+            $entity->getIcons(),
+            $entity->getClass(),
+            $entity->getPagescontainerclass(),
+            $entity->getWrapclass(),
+            $entity->getOrdem(),
+            $entity->getCreatedAt(),
+            $entity->getUpdatedAt(),
             $entity->getId(),
         ]);
     } 

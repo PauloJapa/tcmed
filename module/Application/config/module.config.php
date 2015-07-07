@@ -129,6 +129,9 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'factories' => array(
+            'Navigation' => 'Application\Navigation\MyNavigationFactory',
+        ),
     ),
     'translator' => array(
         'locale' => 'en_US',
@@ -153,6 +156,7 @@ return array(
             'Application\Controller\AppRoles' => 'Application\Controller\AppRolesController',
             'Application\Controller\AppResources' => 'Application\Controller\AppResourcesController',
             'Application\Controller\AppPrivileges' => 'Application\Controller\AppPrivilegesController',
+            'Application\Controller\AppMenus' => 'Application\Controller\AppMenusController',
         ),
     ),
     'view_manager' => array(

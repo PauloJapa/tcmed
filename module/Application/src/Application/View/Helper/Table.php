@@ -74,11 +74,11 @@ class Table extends AbstractHelper {
      */
     public function openTable($options) {
         if($options === TRUE){
-            echo '<table class="table table-striped table-bordered table-hover table-condensed">' , PHP_EOL;
+            echo '<table class="table table-striped table-responsive table-bordered table-hover table-condensed">' , PHP_EOL;
             return;
         }
         if(is_string($options)){
-            echo '<table class="table table-striped table-bordered table-hover table-condensed ' . $options . '">' , PHP_EOL;                
+            echo '<table class="table table-striped table-responsive table-bordered table-hover table-condensed ' . $options . '">' , PHP_EOL;                
             return;
         }
         if(is_array($options)){
