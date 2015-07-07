@@ -64,10 +64,10 @@ class AppMenu extends \Application\Entity\AppMenu implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagescontainerclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
+            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagescontainerclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'resource', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagescontainerclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
+        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagescontainerclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'resource', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
     }
 
     /**
@@ -345,6 +345,17 @@ class AppMenu extends \Application\Entity\AppMenu implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getResource()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getResource', array());
+
+        return parent::getResource();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getCreatedAt($obj = false)
     {
 
@@ -494,6 +505,17 @@ class AppMenu extends \Application\Entity\AppMenu implements \Doctrine\ORM\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setWrapclass', array($wrapclass));
 
         return parent::setWrapclass($wrapclass);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setResource($resource)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setResource', array($resource));
+
+        return parent::setResource($resource);
     }
 
     /**

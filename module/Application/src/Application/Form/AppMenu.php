@@ -35,6 +35,7 @@ class AppMenu extends AbstractForm{
         $this->setSimpleText('class');
         $this->setSimpleText('pagesContainerClass');
         $this->setSimpleText('wrapClass');
+        $this->setSimpleText('resource');
         $this->setSimpleText('ordem');
         
         $selectOptionsParent = $this->getAllParents();

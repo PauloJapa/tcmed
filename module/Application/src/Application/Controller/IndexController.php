@@ -49,7 +49,8 @@ class IndexController extends CrudController {
     }
 
     public function indexAction() {
-        return $this->makeView([]);
+        $acl = $this->getServiceLocator()->get("Application\Permissions\Acl");
+        return $this->makeView(compact("acl"));
     }
 
     public function logedAction() {

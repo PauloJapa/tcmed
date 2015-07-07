@@ -97,6 +97,13 @@ class AppMenu extends AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="resource", type="string", length=45, nullable=true)
+     */
+    private $resource;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="ordem", type="string", length=45, nullable=true)
      */
     private $ordem;
@@ -254,6 +261,14 @@ class AppMenu extends AbstractEntity
 
     /**
      * 
+     * @return string
+     */    
+    public function getResource() {
+        return $this->resource;
+    }
+
+    /**
+     * 
      * @return \DateTime | string
      */
     public function getCreatedAt($obj = FALSE) {
@@ -394,6 +409,16 @@ class AppMenu extends AbstractEntity
         return $this;
     }
 
+    /**
+     * 
+     * @param string $resource
+     * @return \Application\Entity\AppMenu
+     */
+    public function setResource($resource) {
+        $this->resource = $resource;
+        return $this;
+    }
+    
     /**
      * 
      * @param type $ordem
