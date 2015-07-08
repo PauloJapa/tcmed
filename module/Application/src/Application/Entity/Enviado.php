@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="enviado", indexes={@ORM\Index(name="fk_enviado_user1_idx", columns={"from_id_user"}), @ORM\Index(name="fk_enviado_user2_idx", columns={"to_id_user"}), @ORM\Index(name="fk_enviado_mensagem1_idx", columns={"mensagem_id_mensagem"})})
  * @ORM\Entity
  */
-class EntityEnviado
+class Enviado
 {
     /**
      * @var integer
