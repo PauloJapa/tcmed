@@ -13,4 +13,15 @@ namespace Application\Entity\Repository;
  */
 class MensagemRepository extends AbstractRepository {
 
+    
+    public function fetchPairs() {
+        /* @var $entity \Application\Entity\Mensagem */
+        $entities = $this->findAll();
+        $array = [];
+        foreach ($entities as $entity) {
+            $array[$entity->getId()] = $entity->getTexto();
+        }
+        return $array;
+    }
+    
 }

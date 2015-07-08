@@ -33,4 +33,15 @@ class UserRepository extends AbstractRepository {
                 ;
         return $query->getResult();
     }
+    
+    
+    public function fetchPairs() {
+        /* @var $entity \Application\Entity\User */
+        $entities = $this->findAll();
+        $array = [];
+        foreach ($entities as $entity) {
+            $array[$entity->getId()] = $entity->getNome();
+        }
+        return $array;
+    }
 }

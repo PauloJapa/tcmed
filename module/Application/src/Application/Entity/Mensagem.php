@@ -37,6 +37,9 @@ class Mensagem extends AbstractEntity
     private $link;
     
 
+    public function __toString() {
+        return $this->getTexto();
+    }
 
     /**
      * Metodo padrão para o campo key da tabela
