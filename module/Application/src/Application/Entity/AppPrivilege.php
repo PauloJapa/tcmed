@@ -174,7 +174,7 @@ class AppPrivilege extends AbstractEntity
 
     /**
      * 
-     * @param \DateTime $createdAt
+     * @param \DateTime | string $createdAt
      * @return \Application\Entity\AppRole
      */
     public function setCreatedAt($createdAt) {

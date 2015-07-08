@@ -176,6 +176,17 @@ class Mensagem extends \Application\Entity\Mensagem implements \Doctrine\ORM\Pro
     /**
      * {@inheritDoc}
      */
+    public function __toString()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', array());
+
+        return parent::__toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
 
