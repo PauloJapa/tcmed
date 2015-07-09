@@ -185,7 +185,6 @@ abstract class CrudController extends AbstractActionController {
      */
     public function setHaveServiceLocatorService($haveServiceLocatorService) {
         $this->haveServiceLocatorService = $haveServiceLocatorService;
-        return $this;
     }
 
     /**
@@ -196,7 +195,6 @@ abstract class CrudController extends AbstractActionController {
      */
     public function setFormWithEntityManager($formWithEntityManager) {
         $this->formWithEntityManager = $formWithEntityManager;
-        return $this;
     }
 
      /**
@@ -209,7 +207,7 @@ abstract class CrudController extends AbstractActionController {
         $data = $request->getPost()->toArray();
         $user = $this->getUser();
         if($user){
-            $data[$option] = $user['id_usuario'];
+            $data[$option] = $user['idUsuario'];
             $data['dataUser'] = $user;
         }
         return $data;

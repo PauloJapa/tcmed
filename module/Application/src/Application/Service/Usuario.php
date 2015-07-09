@@ -37,10 +37,18 @@ class Usuario extends AbstractService{
     }
     
     public function insert(array $data) {
-        /** @var $entity Application/Entity/Usuario */
+        /* @var $entity \Application\Entity\Usuario */
         $entity = parent::insert($data);
         $dataEmail = array('nome'=>$entity->getNome(), 'activationKey'=> $entity->getActivationKey());
-        
+        $serviceUserChat = new User($this->em);
+        $serviceUserChat->insert([
+            'usuarioId' => $entity->getId(),
+            'nome' => $entity->getNickname(),
+            'statusChat' => 'online',
+            'statusDatetime' => new \DateTime('now'),
+            'statusMsg' => 'Olá sou novo por aqui!',
+            'status' => 'A',
+        ]);
         if($entity){
             $mail = new Mail($this->transport, $this->view, 'add-user');
             $mail->setSubject('Confirmação de cadastro')
