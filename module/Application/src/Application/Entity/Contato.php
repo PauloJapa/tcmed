@@ -22,7 +22,7 @@ class Contato extends AbstractEntity
     private $idContato;
 
     /**
-     * @var \Application\EntityUser
+     * @var \Application\Entity\User
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\User")
      * @ORM\JoinColumns({
@@ -32,7 +32,7 @@ class Contato extends AbstractEntity
     private $userUser;
 
     /**
-     * @var \Application\EntityUser
+     * @var \Application\Entity\User
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\User")
      * @ORM\JoinColumns({
@@ -42,7 +42,7 @@ class Contato extends AbstractEntity
     private $contatoUser;
 
     /**
-     * @var \Application\EntityGrupo
+     * @var \Application\Entity\Grupo
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\Grupo")
      * @ORM\JoinColumns({

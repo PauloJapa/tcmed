@@ -2,15 +2,37 @@
 
 $array = [];
 
-foreach ($this->data as $user) {
-    
-    /* @var $user \Application\Entity\User */
-    $array[$user->getId()] = [
-        "id" => $user->getId(),
-        "name" => $user->getNome(),
-        "type" => "user",
-        "status" => $user->getStatusChat()
+/* @var $contato \Application\Entity\Contato */
+/* @var $contatoGrupo \Application\Entity\Contato */
+foreach ($this->data as $key => $contato) { 
+    if(is_array($contato)){
+        continue;
+    }
+    if(!$contato->getGrupoGrupo() instanceof \Application\Entity\Grupo){
+        $array[$contato->getId()] = [
+            "id" => $contato->getContatoUser()->getId(),
+            "name" => $contato->getContatoUser()->getNome(),
+            "type" => "user",
+            "status" => $contato->getContatoUser()->getStatusChat()
+        ];
+        continue;
+    }
+    $array[$contato->getId()] = [
+        "id" => $contato->getGrupoGrupo()->getId(),
+        "name" => $contato->getGrupoGrupo()->getNome(),
+        "type" => "grup",
+        "status" => $contato->getGrupoGrupo()->getStatusChat(),
     ];
+    $arrayGrupo = [];
+    foreach ($this->data['grupo' . $contato->getGrupoGrupo()->getIdGrupo()] as $contatoGrupo){
+        $arrayGrupo[$contatoGrupo->getId()] = [
+            "id" => $contatoGrupo->getContatoUser()->getId(),
+            "name" => $contatoGrupo->getContatoUser()->getNome(),
+            "type" => "user",
+            "status" => $contatoGrupo->getContatoUser()->getStatusChat()            
+        ];
+    }
+    $array[$contato->getId()]['contatosDoGrupo'] = $arrayGrupo;
 }
 
 echo json_encode($array);

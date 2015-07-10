@@ -60,7 +60,7 @@ class Messenger extends AbstractService {
         $userRepository = $this->em->getRepository($this->basePath . "User");
         
         $user = $userRepository->findBy([
-            'idUser' => $meUser['idUsuario']
+            'usuarioId' => $meUser['idUsuario']
         ]);
         
         return $user[0];
