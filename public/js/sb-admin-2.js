@@ -44,7 +44,9 @@ var sideMenu = (function ($) {
     }
 
     function alignDefinitions() {
-
+        /**
+         * Definicoes gerais
+         */
         options.topHeight = $(".navbar").height();
         options.sidebarWid = $(".sidebar").width();
         options.navDocHeight = $(document).height() - options.topHeight;
@@ -133,6 +135,11 @@ var sideMenu = (function ($) {
      * @returns function init
      */
     return {
+        /**
+         * Metodo de inicializacao do menu
+         * @param {type} params
+         * @returns {undefined}
+         */
         init: function (params) {
             $.extend(options, params, options);
 

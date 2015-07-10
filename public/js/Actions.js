@@ -133,23 +133,23 @@ action = (function ($, options) {
          * @returns {undefined}
          */
         notification: function (options) {
-            if (!("Notification" in window)) {
-                console.log("Este browser não suporta notificações de desktop");
-            }
-            else if (Notification.permission === "granted") {
-                var notification = new Notification(options.title, options);
-            }
-            else if (Notification.permission !== 'denied') {
-                Notification.requestPermission(function (permission) {
-                    if (!('permission' in Notification)) {
-                        Notification.permission = permission;
-                    }
-
-                    if (permission === "granted") {
-                        var notification = new Notification(options.title, options);
-                    }
-                });
-            }
+//            if (!("Notification" in window)) {
+//                console.log("Este browser não suporta notificações de desktop");
+//            }
+//            else if (Notification.permission === "granted") {
+//                var notification = new Notification(options.title, options);
+//            }
+//            else if (Notification.permission !== 'denied') {
+//                Notification.requestPermission(function (permission) {
+//                    if (!('permission' in Notification)) {
+//                        Notification.permission = permission;
+//                    }
+//
+//                    if (permission === "granted") {
+//                        var notification = new Notification(options.title, options);
+//                    }
+//                });
+//            }
         },
         loader: function (status) {
             if ($(".loader").html() === undefined) {
