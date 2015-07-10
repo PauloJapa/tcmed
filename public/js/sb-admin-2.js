@@ -107,10 +107,14 @@ var sideMenu = (function ($) {
             if (isGroup) {
                 if($(this).parent().hasClass("active")){
                     //Abrindo
-                    
+                    if($(this).hasClass("active")){
+                        $(this).removeClass("active");
+                    }
                 }else{
                     //fechando
-                    alert($(this).parent().find("ul").find("a [class='active']"));
+                    if($(this).parent().find("ul").find("a").hasClass('active')){
+                        $(this).addClass("active");
+                    }
                 }
             }
             else {
