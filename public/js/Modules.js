@@ -214,7 +214,8 @@ module.Messenger = (function (window, document, $, options) {
 
     var settings = {
         element: "messenger",
-        userId: "username",
+        userId: "1",
+        userName: "mename",
         status: "online",
         server: "/app/messenger",
         interval: 5000,
@@ -371,6 +372,22 @@ module.Messenger = (function (window, document, $, options) {
     };
 
     /**
+     * 
+     * @returns {undefined}
+     */
+    var whoIam = function () {
+        action.requestServer({
+            "url": settings.server + "/whoiam"
+        }).success(function (ret) {
+            ret = JSON.parse(ret);
+
+            settings.userId = ret.userid;
+            settings.userName = ret.username;
+        });
+    };
+
+
+    /**
      * Retorna a data formatada
      * 
      * @returns {String} data formatada
@@ -467,23 +484,20 @@ module.Messenger = (function (window, document, $, options) {
         var message = {
             url: settings.server + "/sendMsg",
             type: "POST",
-            data:{
-                dtime: formatData(),
+            data: {
                 msg: $.trim(msg),
                 userby: settings.userId,
-                userto: settings.userTo
+                userto: settings.userTo,
+                dtime: formatData(),
             }
         };
 
         var _data = action.requestServer(message);
 
         _data.success(function () {
-            console.log("passou");
             settings.contacts[settings.userTo].logMsg = new Array();
             settings.contacts[settings.userTo].logMsg.push(message.data);
 
-            console.log(settings.contacts[settings.userTo].logMsg[0]);
-            
             printMessage(message.data);
         });
 
@@ -503,15 +517,18 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var printMessage = function (message) {
-
+        console.log(JSON.stringify(message));
         //Se a mensagem for minha...
-        if(message.userby == settings.userId){
+
+        if (message.userby == settings.userId) {
+            console.log("here yes");
             $(".chat-view").append("<div class='msg-me'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
         }
-        else{
-            $(".chat-view").append("<div class='msg-0'><em>(" + message.dtime + ") "+message.userby+" diz:</em><br>" + message.msg + "</div>");
+        else {
+            console.log("here not");
+            $(".chat-view").append("<div class='msg-0'><em>(" + message.dtime + ") " + message.userby + " diz:</em><br>" + message.msg + "</div>");
         }
-        
+
 //        
 //        if (message.type === "sendMsg") {
 //            $(".chat-view").append("<div class='msg-me'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
@@ -547,19 +564,17 @@ module.Messenger = (function (window, document, $, options) {
 
         var _data = action.requestServer({
             url: settings.server + "/receiveMsg",
-            data:{
-                userId: settings.userId
+            data: {
+//                userId: settings.userId
+                userId: 2
             }
-        });
-        
-        var data = [
-            {dtime: "09:53", typeusr: "user", msg: "Oi Danilo, tudo bem com você?", userto: "danilo_tcmed", userby: "paulo_tcmed"},
-            {dtime: "09:55", typeusr: "group", msg: "Olá gente?", userto: "tcmed", userby: "paulo_tcmed"},
-            {dtime: "11:00", typeusr: "group", msg: "Oi!", userto: "tcmed", userby: "kalini_tcmed"},
-            {dtime: "11:00", typeusr: "group", msg: "Ola!", userto: "tcmed", userby: "danilo_tcmed"}
-        ];
+        }).success(function (ret) {
+            ret = JSON.parse(ret);
+            var msgbody = ret;
 
-        $.each(data, function (key, msgbody) {
+            //TODO: Precisa modificar este tipo de tratamento na variável
+//            $.each(ret, function (key, msgbody) {
+
             //Distinguir grupo de usuario
             if (msgbody.typeusr === "group") {
                 // var userby = (settings.contacts[msgbody.userby]) ? settings.contacts[msgbody.userby].name : msgbody.userby;
@@ -572,33 +587,42 @@ module.Messenger = (function (window, document, $, options) {
                     printMessage(msgbody);
                 }
                 else {
+                    //TODO: Precisa arrumar
                     // Notifica a mensagem
-                    action.Notification({
-                        title: settings.contacts[msgbody.userto].name,
-                        body: "(" + msgbody.userby + ") " + msgbody.msg + " - " + msgbody.dtime,
-                        dir: "ltr"
-                    });
+//                    action.Notification({
+//                        title: settings.contacts[msgbody.userto].name,
+//                        body: "(" + msgbody.userby + ") " + msgbody.msg + " - " + msgbody.dtime,
+//                        dir: "ltr"
+//                    });
                 }
             }
             else {
+
                 //Armazena no log de mensagens
                 settings.contacts[msgbody.userby].logMsg.push(msgbody);
 
-                if (settings.userTo === msgbody.userby) {
+                if (settings.userTo == msgbody.userby) {
                     printMessage(msgbody);
+
                 } else {
 
-                    // Notifica a mensagem
-                    notification({
+                    action.notification({
                         title: settings.contacts[msgbody.userby].name,
-                        body: msgbody.msg + "- " + msgbody.dtime,
+                        body: msgbody.msg + "\n " + msgbody.dtime,
                         dir: "ltr"
                     });
                 }
             }
+//            });
         });
 
-        return data;
+//        var data = [
+//            {dtime: "09:53", typeusr: "user", msg: "Oi Danilo, tudo bem com você?", userto: "danilo_tcmed", userby: "paulo_tcmed"},
+//            {dtime: "09:55", typeusr: "group", msg: "Olá gente?", userto: "tcmed", userby: "paulo_tcmed"},
+//            {dtime: "11:00", typeusr: "group", msg: "Oi!", userto: "tcmed", userby: "kalini_tcmed"},
+//            {dtime: "11:00", typeusr: "group", msg: "Ola!", userto: "tcmed", userby: "danilo_tcmed"}
+//        ];
+//
     };
 
     /**
@@ -610,7 +634,7 @@ module.Messenger = (function (window, document, $, options) {
         settings.status = status;
         var _data = action.requestServer({
             url: settings.server + "/sendStatus",
-            data:{
+            data: {
                 status: status,
                 userId: settings.userId
             }
@@ -625,11 +649,11 @@ module.Messenger = (function (window, document, $, options) {
     var receiveStatus = function (tdata) {
         var _data = action.requestServer({
             url: settings.server + "/receiveStatus",
-            data:{
+            data: {
                 userId: settings.userId
             }
         });
-        
+
         var data;
 
         if (tdata) {
@@ -656,55 +680,32 @@ module.Messenger = (function (window, document, $, options) {
             data: {
                 userId: settings.userId
             }
-        });
+        }).success(function (ret) {
+            ret = JSON.parse(ret);
 
-        var data = {
-            "paulo_tcmed": {
-                name: "Paulo",
-                type: "user",
-                status: "offline"
-            },
-            "alan_tcmed": {
-                name: "Alan",
-                type: "user",
-                status: "online"
-            },
-            "danilo_tcmed": {
-                name: "Danilo",
-                type: "user",
-                status: "online"
-            },
-            "tcmed": {
-                name: "Tecnomed",
-                type: "group",
-                status: "group",
-                usersgroup: [
-                    "paulo_tcmed",
-                    "alan_tcmed",
-                    "danilo_tcmed",
-                ]
-            }
-        };
-        $.each(data, function (name, params) {
-            settings.contacts[name] = params;
+            $.each(ret, function (name, params) {
+                settings.contacts[name] = params;
 
-            setTimeout(function () { //Trata erro de exibicao: temporario
-                var icon = "";
-                if (settings.contacts[name].type === "group") {
-                    icon = "<i class='fa fa-group'></i>&nbsp;&nbsp;&nbsp;";
-                } else {
-                    icon = "<i class='fa fa-user'></i>&nbsp;&nbsp;&nbsp;";
-                }
 
-                if (!settings.contacts[name].logMsg) {
-                    settings.contacts[name].logMsg = new Array();
-                }
+                setTimeout(function () { //Trata erro de exibicao: temporario
+                    var icon = "";
+                    if (settings.contacts[name].type === "group") {
+                        icon = "<i class='fa fa-group'></i>&nbsp;&nbsp;&nbsp;";
+                    } else {
+                        icon = "<i class='fa fa-user'></i>&nbsp;&nbsp;&nbsp;";
+                    }
 
-                $("#chat-contacts").append("<button id=" + name + " class='btn btn-get btn-block btn-" + name + "'>" + icon + settings.contacts[name].name + "</button>")
-                var aux = {};
-                aux[name] = params.status;
-                changeStatus(aux, false);
-            }, 100);
+                    if (!settings.contacts[name].logMsg) {
+                        settings.contacts[name].logMsg = new Array();
+                    }
+
+                    $("#chat-contacts").append("<button id=" + name + " class='btn btn-get btn-block btn-" + name + "'>" + icon + settings.contacts[name].name + "</button>")
+                    var aux = {};
+                    aux[name] = params.status;
+                    changeStatus(aux, false);
+                }, 100);
+            });
+
         });
     };
 
@@ -745,7 +746,7 @@ module.Messenger = (function (window, document, $, options) {
                 $messenger.hide().css("opacity", "0");
             }
 
-            $("#username").html(settings.userId);
+            $("#username").html(settings.userName);
 
             //Armazena o chat em backup, para restaurar 
             //sempre que a janela do usuario for aberta
@@ -833,9 +834,15 @@ module.Messenger = (function (window, document, $, options) {
             $.extend(settings, options, settings);
             messenger();
 
+            whoIam();
+
             buildHtml();
             receiveContacts();
             events();
+
+            setInterval(function () {
+                receiveMessage();
+            }, 5000);
         }
     };
 

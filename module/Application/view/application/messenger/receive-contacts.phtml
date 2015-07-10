@@ -1,2 +1,16 @@
 <?php
-echo "<pre>", var_dump($this->request);
+
+$array = [];
+
+foreach ($this->data as $user) {
+    
+    /* @var $user \Application\Entity\User */
+    $array[$user->getId()] = [
+        "id" => $user->getId(),
+        "name" => $user->getNome(),
+        "type" => "user",
+        "status" => $user->getStatusChat()
+    ];
+}
+
+echo json_encode($array);

@@ -28,5 +28,4 @@ class Enviado extends AbstractService{
             'mensagemMensagem' => $this->basePath . 'Mensagem',
         ]);
     }        
-    
 }

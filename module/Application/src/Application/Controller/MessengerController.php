@@ -16,7 +16,10 @@ class MessengerController extends CrudController {
     }
 
     public function receiveContactsAction() {
-        return $this->makeView([]);
+        $repository = $this->getEm()->getRepository($this->moduloName . "\Entity\User");
+        $data = $repository->findAll();
+        
+        return $this->makeView(compact("data"));
     }
 
     public function receiveStatusAction() {
@@ -28,16 +31,30 @@ class MessengerController extends CrudController {
     }
 
     public function receiveMsgAction() {
-        return $this->makeView([]);
+        $request = $this->getRequest();
+        $msgdata = $request->getPost();
+        
+        $service = $this->getService();
+        $mensagens = $service->receiveMensagem($msgdata);
+                                
+        return $this->makeView(compact('mensagens'));
     }
 
     public function sendMsgAction() {
         $request = $this->getRequest();
         $msgdata = $request->getPost();
         
-        $repository = $this->getEm()->getRepository($this->entity);
+        $service = $this->getService();
+        $service->sendMensagem($msgdata);
         
         return $this->makeView([]);
+    }
+    
+    public function whoiamAction(){
+        $service = $this->getService();
+        $meUser = $service->whoIam($this->getUser());
+        
+        return $this->makeView(compact('meUser'));
     }
 
 }

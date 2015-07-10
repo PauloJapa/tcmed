@@ -19,7 +19,6 @@ class Mensagem extends AbstractService{
         
         $this->entity = $this->basePath . "Mensagem";        
         $this->id = 'idMensagem';
-        
     }        
     
 }
