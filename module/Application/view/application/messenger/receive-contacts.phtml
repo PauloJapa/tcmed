@@ -29,7 +29,7 @@ foreach ($this->data as $key => $contato) {
             "status" => $contatoGrupo->getContatoUser()->getStatusChat()            
         ];
     }
-    $array[$contato->getId()]['contatosDoGrupo'] = $arrayGrupo;
+    $array['gr'. $contato->getGrupoGrupo()->getId()]['contatosDoGrupo'] = $arrayGrupo;
 }
 
 echo json_encode($array);
