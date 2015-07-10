@@ -19,6 +19,8 @@ $table = $this->table();
         'Lembrete',
         'Tipo',
         'Papel',
+        'Activado',
+        'Activado key',
         'Ação',
     ]);     
     foreach($this->data as $entity){
@@ -26,12 +28,14 @@ $table = $this->table();
         $data = [];
         $data[]= $entity->getIdUsuario();
         $data[]= $entity->getNomeUsuario();
-        $data[]= $entity->getNome();
+        $data[]= $entity->getNickname();
         $data[]= $entity->getEmailUsuario();
         $data[]= $entity->getSituacao();
         $data[]= $entity->getLembreteSenha();
         $data[]= $entity->getTipo();
         $data[]= $entity->getRole();
+        $data[]= $entity->getActive()? 'ativado' : 'pendente';       
+        $data[]= $entity->getActivationKey();       
         $data[]= $entity->getIdUsuario();       
         $table->renderLine($data);
     } 

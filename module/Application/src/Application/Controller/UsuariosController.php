@@ -18,6 +18,7 @@ class UsuariosController extends CrudController{
     public function __construct() {
         parent::__construct('usuario');
         $this->setFormWithEntityManager(TRUE);
+        $this->setHaveServiceLocatorService(TRUE);
     }
 
     public function editAction() {        

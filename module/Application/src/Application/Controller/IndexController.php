@@ -37,12 +37,12 @@ class IndexController extends CrudController {
 
     public function activateAction() {
         $activationKey = $this->params()->fromRoute('key');
-
+        /* @var $userService \Application\Service\Usuario */
         $userService = $this->getServiceLocator()->get($this->moduloName . '\Service\Usuario');
         $result = $userService->activate($activationKey);
 
         if ($result) {
-            return $this->makeView(array('usuarios' => $result),FALSE);
+            return $this->makeView(array('user' => $result),FALSE);
         } else {
             return $this->makeView([],FALSE);
         }

@@ -1,7 +1,13 @@
 <h3>Register</h3>
 
-<?php if (isset($this->user)): ?>
+<?php 
+
+        /* @var $user \Application\Entity\Usuario */
+        $user = $this->user;
+      if (isset($this->user)): ?>
     <p>Usuário ativado com sucesso!</p>
-<?php else: ?>
+<?php 
+        echo '<h2>', $user->getNome() , '</h2>';
+      else: ?>
     <p>Usuário não encontrado</p>
 <?php endif; ?>
