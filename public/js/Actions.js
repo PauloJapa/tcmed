@@ -40,8 +40,8 @@ action = (function ($, options) {
      * @constructor
      */
     return {
-        teste: function(){
-            alert("hello");
+        debug: function(elem){
+            console.log(JSON.stringify(elem));
         },
         /**
          * Centralizador de requisiçoes para o servidor
@@ -133,23 +133,23 @@ action = (function ($, options) {
          * @returns {undefined}
          */
         notification: function (options) {
-//            if (!("Notification" in window)) {
-//                console.log("Este browser não suporta notificações de desktop");
-//            }
-//            else if (Notification.permission === "granted") {
-//                var notification = new Notification(options.title, options);
-//            }
-//            else if (Notification.permission !== 'denied') {
-//                Notification.requestPermission(function (permission) {
-//                    if (!('permission' in Notification)) {
-//                        Notification.permission = permission;
-//                    }
-//
-//                    if (permission === "granted") {
-//                        var notification = new Notification(options.title, options);
-//                    }
-//                });
-//            }
+            if (!("Notification" in window)) {
+                console.log("Este browser não suporta notificações de desktop");
+            }
+            else if (Notification.permission === "granted") {
+                var notification = new Notification(options.title, options);
+            }
+            else if (Notification.permission !== 'denied') {
+                Notification.requestPermission(function (permission) {
+                    if (!('permission' in Notification)) {
+                        Notification.permission = permission;
+                    }
+
+                    if (permission === "granted") {
+                        var notification = new Notification(options.title, options);
+                    }
+                });
+            }
         },
         loader: function (status) {
             if ($(".loader").html() === undefined) {
@@ -166,6 +166,11 @@ action = (function ($, options) {
             } else {
                 $(".loader").hide();
             }
+        },
+        searchContact: function(group, contato){
+            $.each(options.contacts, function(key, value){
+                
+            });
         },
         load: function (params) {
             //Inicializador do Pagination
