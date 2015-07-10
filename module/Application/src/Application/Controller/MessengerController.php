@@ -16,8 +16,8 @@ class MessengerController extends CrudController {
     }
 
     public function receiveContactsAction() {
-        $repository = $this->getEm()->getRepository($this->moduloName . "\Entity\User");
-        $data = $repository->findAll();
+        $repository = $this->getEm()->getRepository($this->moduloName . "\Entity\Contato");
+        $data = $repository->getMyContactAndGrupos($this->getUser());
         
         return $this->makeView(compact("data"));
     }
