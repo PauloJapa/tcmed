@@ -1,15 +1,19 @@
 <?php
 
+$array = [];
 foreach ($this->mensagens as $mensagem) {
 
     /* @var $mensagem \Application\Entity\Enviado */
-    $array = [
+    $array[$mensagem->getToContato()->getId()] = [
         "dtime" => $mensagem->getDateEnviado(),
-        "typeusr" => "user",
         "msg" => $mensagem->getMensagemMensagem()->getTexto(),
-        "userto" => $mensagem->getToUser()->getId(),
-        "userby" => $mensagem->getFromUser()->getId()
+        "userby" => 'us' . $mensagem->getFromUser()->getId(),
     ];
+    if($mensagem->getToGrupo() instanceof \Application\Entity\Grupo){
+        $array[$mensagem->getToContato()->getId()]["userto"] = 'gr' . $mensagem->getToGrupo()->getId();        
+    }else{
+        $array[$mensagem->getToContato()->getId()]["userto"] = 'us' . $mensagem->getFromUser()->getId();                
+    }
 }
 
 echo json_encode($array);

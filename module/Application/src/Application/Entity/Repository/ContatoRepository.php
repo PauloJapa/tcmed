@@ -17,7 +17,6 @@ class ContatoRepository extends AbstractRepository {
         /* @var $userRep \Application\Entity\Repository\UserRepository */
         /* @var $userChat \Application\Entity\User */
         /* @var $contato \Application\Entity\Contato */
-        /* @var $value \Application\Entity\Contato */
         $userRep = $this->getEntityManager()->getRepository("\Application\Entity\User");
         $userChat = $userRep->findOneByUsuarioId($user['idUsuario']);        
         if(!$userChat){

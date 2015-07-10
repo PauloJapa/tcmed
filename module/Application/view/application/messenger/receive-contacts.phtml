@@ -9,24 +9,21 @@ foreach ($this->data as $key => $contato) {
         continue;
     }
     if(!$contato->getGrupoGrupo() instanceof \Application\Entity\Grupo){
-        $array[$contato->getId()] = [
-            "id" => $contato->getContatoUser()->getId(),
+        $array['us'. $contato->getContatoUser()->getId()] = [
             "name" => $contato->getContatoUser()->getNome(),
             "type" => "user",
             "status" => $contato->getContatoUser()->getStatusChat()
         ];
         continue;
     }
-    $array[$contato->getId()] = [
-        "id" => $contato->getGrupoGrupo()->getId(),
+    $array['gr'. $contato->getGrupoGrupo()->getId()] = [
         "name" => $contato->getGrupoGrupo()->getNome(),
-        "type" => "grup",
+        "type" => "group",
         "status" => $contato->getGrupoGrupo()->getStatusChat(),
     ];
     $arrayGrupo = [];
-    foreach ($this->data['grupo' . $contato->getGrupoGrupo()->getIdGrupo()] as $contatoGrupo){
+    foreach ($this->data['us' . $contato->getContatoUser()->getId()] as $contatoGrupo){
         $arrayGrupo[$contatoGrupo->getId()] = [
-            "id" => $contatoGrupo->getContatoUser()->getId(),
             "name" => $contatoGrupo->getContatoUser()->getNome(),
             "type" => "user",
             "status" => $contatoGrupo->getContatoUser()->getStatusChat()            

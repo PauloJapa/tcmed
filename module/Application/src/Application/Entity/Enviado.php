@@ -57,6 +57,16 @@ class Enviado extends AbstractEntity
     private $toUser;
 
     /**
+     * @var \Application\Entity\Contato
+     *
+     * @ORM\ManyToOne(targetEntity="Application\Entity\Grupo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="to_id_grupo", referencedColumnName="id_grupo")
+     * })
+     */
+    private $toGrupo;
+
+    /**
      * @var \Application\Entity\Mensagem
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\Mensagem")
@@ -66,6 +76,10 @@ class Enviado extends AbstractEntity
      */
     private $mensagemMensagem;
     
+    public function __construct($data) {
+        $this->dateRecebido = new \DateTime('1950-01-15 12:01:00');
+        parent::__construct($data);
+    }
     
 
     /**
@@ -135,6 +149,14 @@ class Enviado extends AbstractEntity
 
     /**
      * 
+     * @return \Application\Entity\Contato
+     */
+    public function getToGrupo() {
+        return $this->toGrupo;
+    }
+
+    /**
+     * 
      * @return \Application\Entity\Mensagem
      */
     public function getMensagemMensagem() {
@@ -199,6 +221,16 @@ class Enviado extends AbstractEntity
 
     /**
      * 
+     * @param \Application\Entity\Contato $toGrupo
+     * @return \Application\Entity\Enviado
+     */
+    public function setToGrupo(\Application\Entity\Contato $toGrupo) {
+        $this->toGrupo = $toGrupo;
+        return $this;
+    }
+
+    /**
+     * 
      * @param \Application\Entity\Mensagem $mensagemMensagem
      * @return \Application\Entity\Enviado
      */
@@ -206,7 +238,6 @@ class Enviado extends AbstractEntity
         $this->mensagemMensagem = $mensagemMensagem;
         return $this;
     }
-
 
 }
 
