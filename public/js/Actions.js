@@ -40,6 +40,9 @@ action = (function ($, options) {
      * @constructor
      */
     return {
+        teste: function(){
+            alert("hello");
+        },
         /**
          * Centralizador de requisiçoes para o servidor
          * @public
@@ -95,6 +98,40 @@ action = (function ($, options) {
         events: function () {
 
         },
+        /**
+         * Retorna a data formatada
+         * @returns {String} data formatada
+         */
+        formatData: function () {
+            var d = new Date();
+            return d.getHours() + ":" + d.getMinutes();
+        },
+        /**
+         * Retorna a posicao do array
+         * @param {type} array
+         * @param {type} key
+         * @returns {Number}
+         */
+        getPositionArray: function (array, key) {
+            for (var i = 0; i < array.length; i++) {
+                if (array[i] === key) {
+                    return i;
+                }
+            }
+        },
+        /**
+         * Simula o innerHTML (Ou o $.html()), com a diferenca
+         * de pegar tambem, o elemento externo (ou pai)
+         * @returns {string HTML}
+         */
+        outerHTML: function (element) {
+            return $('<a>').append(element.eq(0).clone()).html();
+        },
+        /**
+         * Painel de notificacao de informacoes/ mensagens
+         * @param {type} options
+         * @returns {undefined}
+         */
         notification: function (options) {
             if (!("Notification" in window)) {
                 console.log("Este browser não suporta notificações de desktop");

@@ -229,7 +229,6 @@ module.Messenger = (function (window, document, $, options) {
 
     /**
      * Centralizador de erros 
-     * 
      * @type type
      */
     var errors = {
@@ -246,18 +245,40 @@ module.Messenger = (function (window, document, $, options) {
 
     /**
      * Gerenciador de eventos
-     * 
      * @returns {undefined}
      */
     var events = function () {
-        /*Enviar mensagem*/
-        $(document).on("click", "#chat-send", function () {
+        var $doc = $(document);
+
+        /**
+         * Abstracao da funcao onclick
+         * @param {type} attr
+         * @param {type} funcao
+         * @returns {unresolved}
+         */
+        function $click(attr, funcao) {
+            return $doc.on("click", attr, funcao);
+        }
+
+        function $keyup(attr, funcao) {
+            return $doc.on("keyup", attr, funcao);
+        }
+
+        /**
+         * Enviar mensagem
+         * @returns {undefined}
+         */
+        $click("#chat-send", function () {
             sendMessage();
         });
 
-        /*Enviar mensagem com enter*/
-        $(document).on("keyup", "#msg-chat", function (e) {
-            if (e.keyCode === 13) {
+        /**
+         * Envia a mensagem com o Enter
+         * @param {type} e
+         * @returns {undefined}
+         */
+        $keyup("#msg-chat", function (e) {
+            if (e.keyCode === 13 && $("#send-enter").prop("checked")) {
                 if ($("#send-enter").is(":checked")) {
                     $("#chat-send").click();
                     e.preventDefault();
@@ -265,32 +286,44 @@ module.Messenger = (function (window, document, $, options) {
             }
         });
 
-        /* Exibir todos os usuários */
-        $(document).on("click", ".view-all", function () {
+        /**
+         * Exibe todos os usuarios na tela de contatos
+         * @returns {undefined}
+         */
+        $click(".view-all", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").show();
         });
 
-        /* Exibir apenas usuarios onlines */
-        $(document).on("click", ".view-online", function () {
+        /**
+         * Exibe apenas os usuarios online na tela de contatos
+         * @returns {undefined}
+         */
+        $click(".view-online", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").hide();
             $("#chat-contacts").find(".btn-success").show();
-            $("#chat-contacts").find(".btn-danger").show();
+            //$("#chat-contacts").find(".btn-danger").show();
         });
 
-        /* Exibir apenas grupos */
-        $(document).on("click", ".view-groups", function () {
+        /**
+         * Exibe apenas os grupos na tela de contatos
+         * @returns {undefined}
+         */
+        $click(".view-groups", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").hide();
             $("#chat-contacts").find(".btn-primary").show();
         });
 
-        /* Pesquisar usuários */
-        $(document).on("keyup", "#text-search", function () {
+        /**
+         * Gerencia pesquisa de usuarios
+         * @returns {undefined}
+         */
+        $keyup("#text-search", function () {
             $(".view-all").click();
 
             $("#chat-contacts").find("button").hide();
@@ -305,17 +338,21 @@ module.Messenger = (function (window, document, $, options) {
             });
         });
 
-        /* Trocar status para online */
-        $(document).on("click", ".setOnline", function () {
-            changeMeStatus("online")
-
+        /**
+         * Troca status do usuario para online
+         * @returns {undefined}
+         */
+        $click(".setOnline", function () {
+            changeMeStatus("online");
             sendStatus("online");
-
             settings.notify = true;
         });
 
-        /* Trocar status para ocupado */
-        $(document).on("click", ".setBusy", function () {
+        /**
+         * Troca status do usuario para ocupado
+         * @returns {undefined}
+         */
+        $click(".setBusy", function () {
             changeMeStatus("busy");
 
             sendStatus("busy");
@@ -323,8 +360,11 @@ module.Messenger = (function (window, document, $, options) {
             settings.notify = false;
         });
 
-        /* Trocar status para offline */
-        $(document).on("click", ".setOffline", function () {
+        /**
+         * Troca status do usuario para offline
+         * @returns {undefined}
+         */
+        $click(".setOffline", function () {
             changeMeStatus("offline");
 
             sendStatus("offline");
@@ -332,27 +372,35 @@ module.Messenger = (function (window, document, $, options) {
             settings.notify = false;
         });
 
-        /*Abrir conversa*/
-        $(document).on("click", ".btn-get", function () {
+        /**
+         * Abre a conversa com um contato/ grupo
+         * @returns {undefined}
+         */
+        $click(".btn-get", function () {
             $(".chat-list").animate({
                 opacity: 0
             }, "slow").hide();
             $(".chat-window").css("opacity", "0").show().animate({opacity: 1}, "fast");
 
-
             buildConversation($(this).attr("id"));
         });
 
-        /*Voltar para lista*/
-        $(document).on("click", "#chat-back", function () {
+        /**
+         * Retorna para a lista de contatos
+         * @returns {undefined}
+         */
+        $click("#chat-back", function () {
             $(".chat-window").animate({opacity: 0}, "fast").hide();
             $(".chat-list").show().animate({
                 opacity: 1
             }, "slow");
         });
 
-        /*Gerenciador de toggle da janela de chat*/
-        $(document).on("click", "#messenger", function () {
+        /**
+         * Abre/ fecha a tela do chat
+         * @returns {undefined}
+         */
+        $click("#messenger", function () {
             //Converte DOM em Obj Jquery 
             var $messenger = $(".messenger");
 
@@ -369,10 +417,12 @@ module.Messenger = (function (window, document, $, options) {
                 }, "slow");
             }
         });
-    };
+
+    }; //!events
 
     /**
-     * 
+     * Pergunta ao servidor, qual e o usuário pertencente
+     * a sessao atual
      * @returns {undefined}
      */
     var whoIam = function () {
@@ -386,21 +436,10 @@ module.Messenger = (function (window, document, $, options) {
         });
     };
 
-
     /**
-     * Retorna a data formatada
-     * 
-     * @returns {String} data formatada
-     */
-    var formatData = function () {
-        var d = new Date();
-        return d.getHours() + ":" + d.getMinutes();
-    };
-
-    /**
-     * Alterar o Status do(s) Contato(s)
-     * 
-     * @param {object} data 
+     * Altera o Status do(s) Contato(s)
+     * @param {Object} data id:status do usuario
+     * @param {boolean} canNotify Omite a notificacao (se false)
      * @returns {undefined}
      */
     var changeStatus = function (data, canNotify) {
@@ -448,9 +487,8 @@ module.Messenger = (function (window, document, $, options) {
     };
 
     /**
-     * Troca o status
-     * @param {type} status
-     * @param {type} notif
+     * Troca o status do usuario da sessao
+     * @param {string} status Meu status
      * @returns {undefined}
      */
     var changeMeStatus = function (status) {
@@ -475,7 +513,6 @@ module.Messenger = (function (window, document, $, options) {
 
     /**
      * Enviar Mensagem
-     * 
      * @returns {undefined}
      */
     var sendMessage = function () {
@@ -488,7 +525,7 @@ module.Messenger = (function (window, document, $, options) {
                 msg: $.trim(msg),
                 userby: settings.userId,
                 userto: settings.userTo,
-                dtime: formatData(),
+                dtime: action.formatData(),
             }
         };
 
@@ -504,36 +541,23 @@ module.Messenger = (function (window, document, $, options) {
         $("#msg-chat").val("");
     };
 
-    $.getPositionArray = function (array, key) {
-        for (var i = 0; i < array.length; i++) {
-            if (array[i] === key) {
-                return i;
-            }
-        }
-    };
-
     /**
-     * 
+     * Exibe a mensagem na tela (Ou notifica, caso
+     * a janela do contato não esteja aberta)
+     * @param {Object} message {dtime, typeusr, msg, userto, userby}
      * @returns {undefined}
      */
     var printMessage = function (message) {
         console.log(JSON.stringify(message));
         //Se a mensagem for minha...
-
         if (message.userby == settings.userId) {
-            console.log("here yes");
-            $(".chat-view").append("<div class='msg-me'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
+            $(".chat-view").append("<div class='msg-me scroll'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
         }
         else {
-            console.log("here not");
-            $(".chat-view").append("<div class='msg-0'><em>(" + message.dtime + ") " + message.userby + " diz:</em><br>" + message.msg + "</div>");
+            $(".chat-view").append("<div class='msg-0 scroll'><em>(" + message.dtime + ") " + settings.contacts[message.userby].name + " diz:</em><br>" + message.msg + "</div>");
         }
-
-//        
-//        if (message.type === "sendMsg") {
-//            $(".chat-view").append("<div class='msg-me'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
-//        }
-//        
+        $(".chat-view").scrollTop($(".chat-view").scrollTop() + $(".scroll").height() + 50);
+        $(".scroll").removeClass("scroll");
 //        else {
 //            if (message.typeusr === "group") {
 //                console.log("group");
@@ -541,7 +565,7 @@ module.Messenger = (function (window, document, $, options) {
 //                var userby = (settings.contacts[message.userby]) ? settings.contacts[message.userby].name : message.userby;
 //                $(".chat-view").append(
 //                        "<div class='msg-"
-//                        + $.getPositionArray(settings.contacts[message.userto].usersgroup, message.userby)
+//                        + action.getPositionArray(settings.contacts[message.userto].usersgroup, message.userby)
 //                        + "'><em>(" + message.dtime + ") " + userby
 //                        + " Diz:</em><br>" + message.msg + "</div>");
 //            } else {
@@ -557,7 +581,6 @@ module.Messenger = (function (window, document, $, options) {
 
     /**
      * Receber Mensagem
-     * 
      * @returns {undefined}
      */
     var receiveMessage = function () {
@@ -597,7 +620,6 @@ module.Messenger = (function (window, document, $, options) {
                 }
             }
             else {
-
                 //Armazena no log de mensagens
                 settings.contacts[msgbody.userby].logMsg.push(msgbody);
 
@@ -615,19 +637,11 @@ module.Messenger = (function (window, document, $, options) {
             }
 //            });
         });
-
-//        var data = [
-//            {dtime: "09:53", typeusr: "user", msg: "Oi Danilo, tudo bem com você?", userto: "danilo_tcmed", userby: "paulo_tcmed"},
-//            {dtime: "09:55", typeusr: "group", msg: "Olá gente?", userto: "tcmed", userby: "paulo_tcmed"},
-//            {dtime: "11:00", typeusr: "group", msg: "Oi!", userto: "tcmed", userby: "kalini_tcmed"},
-//            {dtime: "11:00", typeusr: "group", msg: "Ola!", userto: "tcmed", userby: "danilo_tcmed"}
-//        ];
-//
     };
 
     /**
-     * Enviar Status
-     * 
+     * Envia meu status
+     * @param {type} status
      * @returns {undefined}
      */
     var sendStatus = function (status) {
@@ -642,8 +656,8 @@ module.Messenger = (function (window, document, $, options) {
     };
 
     /**
-     * Receber Status Contatos
-     * 
+     * Receber status
+     * @param {type} tdata
      * @returns {undefined}
      */
     var receiveStatus = function (tdata) {
@@ -665,13 +679,10 @@ module.Messenger = (function (window, document, $, options) {
             aux[name] = status;
             changeStatus(aux, true);
         });
-
-
     };
 
     /**
      * Recebe os contatos do servidor
-     * 
      * @returns {undefined}
      */
     var receiveContacts = function () {
@@ -685,7 +696,7 @@ module.Messenger = (function (window, document, $, options) {
 
             $.each(ret, function (name, params) {
                 settings.contacts[name] = params;
-
+                console.log(JSON.stringify(params));
 
                 setTimeout(function () { //Trata erro de exibicao: temporario
                     var icon = "";
@@ -708,18 +719,8 @@ module.Messenger = (function (window, document, $, options) {
 
         });
     };
-
-    $.fn.outerHTML = function () {
-        return $('<a>').append(this.eq(0).clone()).html();
-    };
-
-    $.fn.top = function (top) {
-        $(this).css("top", top);
-    };
-
-
     /**
-     * Constroi o HTML da Pagina
+     * Constroi o HTML da Pagina de contatos
      * @returns {undefined}
      */
     var buildHtml = function () {
@@ -737,8 +738,8 @@ module.Messenger = (function (window, document, $, options) {
             var doc = $(document).height() - topo - 5;
 
             //Calcula tamanho da janela de contatos
-            $messenger.height(doc).top(topo);
-            $("#messenger-box").height(doc).top(topo);
+            $messenger.height(doc).css("top", topo);
+            $("#messenger-box").height(doc).css("top", topo);
 
             $(".chat-window").hide();
 
@@ -753,10 +754,8 @@ module.Messenger = (function (window, document, $, options) {
             settings.backupChat = $(".chat-window").html();
         });
     };
-
     /**
-     * 
-     * 
+     * Constroi o HTML da pagina de conversa
      * @param {type} user
      * @returns {undefined}
      */
@@ -818,16 +817,16 @@ module.Messenger = (function (window, document, $, options) {
     /**
      * Prepara a construcao do mensageiro
      * (antes do buildHTML)
-     * -
      * @returns {undefined}
      */
     var messenger = function () {
         $("body").append("<div class='" + settings.element + "'></div>");
         settings.element = $(settings.element);
     };
-
     /**
-     * 
+     * Metodos publicos
+     * @param {Object} options
+     * @returns {undefined}
      */
     return {
         init: function (options) {
@@ -849,11 +848,14 @@ module.Messenger = (function (window, document, $, options) {
 })(window, document, jQuery, App.SETTINGS);
 
 module.Cookie = (function (window, document, $, settings) {
-
     var defaults = {
         expires: 1
     };
-
+    /**
+     * Retorna a data de expiracao do cookie
+     * @param {type} val
+     * @returns {String}
+     */
     var getExpires = function (val) {
         var d = new Date();
         d.setTime(d.getTime() + (val * 24 * 60 * 60 * 1000));
@@ -862,11 +864,15 @@ module.Cookie = (function (window, document, $, settings) {
 
     /**
      * Métodos Públicos
-     * -
      * @param {type} obj
      * @returns {undefined}
      */
     return {
+        /**
+         * Salva o cookie
+         * @param {type} obj
+         * @returns {undefined}
+         */
         save: function (obj) {
             if (settings.cookies == undefined) {
                 settings.cookies = {}
@@ -875,6 +881,11 @@ module.Cookie = (function (window, document, $, settings) {
 
             settings.cookies[obj.key] = obj.value;
         },
+        /**
+         * Denine um novo cookie
+         * @param {type} cookie
+         * @returns {undefined}
+         */
         set: function (cookie) {
             cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
             cookie.expires = d.toGMTString(cookie.expires);
@@ -886,6 +897,11 @@ module.Cookie = (function (window, document, $, settings) {
                     + "; expires="
                     + cookie.expires;
         },
+        /**
+         * Retorna o cookie
+         * @param {type} cname
+         * @returns {String}
+         */
         get: function (cname) {
             var name = cname + "=";
             var ca = document.cookie.split(';');
