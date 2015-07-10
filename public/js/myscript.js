@@ -417,5 +417,10 @@ $(function () {
     var gen = new Generator({
         pagination: true
     });
+    if($("#inter").html() == ""){
+        $(this).parent().parent().css("background-color", "#eee");
+    }else{
+        $(this).parent().parent().css("background-color", "#fff");
+    }
 
 });

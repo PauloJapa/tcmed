@@ -1,8 +1,8 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-6">
-            <div class="login-panel panel panel-default">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="login-panel panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Entrar</h3>
                 </div>
@@ -15,7 +15,7 @@
                 $fh = $this->formHelp($this,$this->form,$this->url('application-auth',[],[],FALSE,$this->dataView['ajax']));
 
                 $fh->setHorizontal(true);
-                $fh->formInit('Login do Sistema');
+                $fh->formInit('Tecnomed - Login do Sistema');
                     $fh->openCol('12')->text('email')->closeCol();
                 $fh->lineDown();
                     $fh->openCol('12')->password('password')->closeCol();
@@ -24,6 +24,7 @@
                 $fh->lineDown();                                      
                     $fh->openCol('12')->Submit('submit')->closeCol();
                 $fh->closeLine()->formEnd();
+                
                 ?>
 
                 </div>

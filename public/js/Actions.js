@@ -40,8 +40,8 @@ action = (function ($, options) {
      * @constructor
      */
     return {
-        teste: function(){
-            alert("hello");
+        debug: function(elem){
+            console.log(JSON.stringify(elem));
         },
         /**
          * Centralizador de requisiçoes para o servidor
@@ -166,6 +166,11 @@ action = (function ($, options) {
             } else {
                 $(".loader").hide();
             }
+        },
+        searchContact: function(group, contato){
+            $.each(options.contacts, function(key, value){
+                
+            });
         },
         load: function (params) {
             //Inicializador do Pagination

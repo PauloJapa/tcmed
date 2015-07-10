@@ -214,7 +214,7 @@ module.Messenger = (function (window, document, $, options) {
 
     var settings = {
         element: "messenger",
-        userId: "1",
+        userId: "7",
         userName: "mename",
         status: "online",
         server: "/app/messenger",
@@ -459,7 +459,6 @@ module.Messenger = (function (window, document, $, options) {
                 $(".btn-" + name).removeClass("btn-" + classe);
                 $(".panel-" + name).removeClass("panel-" + classe);
             });
-
             $(".btn-" + name).addClass("btn-" + state[status]);
             $(".panel-" + name).addClass("panel-" + state[status]);
 
@@ -517,7 +516,7 @@ module.Messenger = (function (window, document, $, options) {
      */
     var sendMessage = function () {
         var msg = $("#msg-chat").val();
-
+        console.log(settings.contacts[settings.userTo].type);
         var message = {
             url: settings.server + "/sendMsg",
             type: "POST",
@@ -548,7 +547,6 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var printMessage = function (message) {
-        console.log(JSON.stringify(message));
         //Se a mensagem for minha...
         if (message.userby == settings.userId) {
             $(".chat-view").append("<div class='msg-me scroll'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
@@ -588,54 +586,106 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer({
             url: settings.server + "/receiveMsg",
             data: {
-//                userId: settings.userId
-                userId: 2
+                userId: settings.userId
             }
         }).success(function (ret) {
-            ret = JSON.parse(ret);
-            var msgbody = ret;
+            var msgbody = JSON.parse(ret);
 
-            //TODO: Precisa modificar este tipo de tratamento na variável
-//            $.each(ret, function (key, msgbody) {
+            if (msgbody) {
+                msgbody.userby = 23;
 
-            //Distinguir grupo de usuario
-            if (msgbody.typeusr === "group") {
-                // var userby = (settings.contacts[msgbody.userby]) ? settings.contacts[msgbody.userby].name : msgbody.userby;
+                if (settings.contacts[msgbody.userby]) {
+                    console.log("Voce possui este contato");
+                    
+                    msgbody.userto = "gr" + msgbody.userto;
 
-                //Armazena no log de mensagens
-                settings.contacts[msgbody.userto].logMsg.push(msgbody);
+                //Distinguir grupo de usuario
+                    if (msgbody.userto.indexOf("gr") > -1) {
+                        console.log("grupo");
+                    // var userby = (settings.contacts[msgbody.userby]) ? settings.contacts[msgbody.userby].name : msgbody.userby;
 
-                if (settings.userTo === msgbody.userto) {
+                        //Armazena no log de mensagens
+                        settings.contacts[msgbody.userto].logMsg.push(msgbody);
 
-                    printMessage(msgbody);
+                        if (settings.userTo == msgbody.userto) {
+
+                            printMessage(msgbody);
+                        }
+                        else {
+                            //TODO:
+                            
+                        }
+                    }
+                    else {
+                        console.log("contato");
+
+                        //Armazena no log de mensagens
+                        settings.contacts[msgbody.userby].logMsg.push(msgbody);
+
+                        if (settings.userTo == msgbody.userby) {
+                            printMessage(msgbody);
+
+                        } else {
+
+                            action.notification({
+                                title: settings.contacts[msgbody.userby].name,
+                                body: msgbody.msg + "\n " + msgbody.dtime,
+                                dir: "ltr"
+                            });
+                        }
+                    }
                 }
                 else {
-                    //TODO: Precisa arrumar
-                    // Notifica a mensagem
-//                    action.Notification({
-//                        title: settings.contacts[msgbody.userto].name,
-//                        body: "(" + msgbody.userby + ") " + msgbody.msg + " - " + msgbody.dtime,
-//                        dir: "ltr"
-//                    });
+                    console.log("Voce nao possui este contato");
+                    //TODO: Colocar script de add usuario
+
                 }
             }
-            else {
-                //Armazena no log de mensagens
-                settings.contacts[msgbody.userby].logMsg.push(msgbody);
 
-                if (settings.userTo == msgbody.userby) {
-                    printMessage(msgbody);
 
-                } else {
-
-                    action.notification({
-                        title: settings.contacts[msgbody.userby].name,
-                        body: msgbody.msg + "\n " + msgbody.dtime,
-                        dir: "ltr"
-                    });
-                }
-            }
+////            if (msgbody) {
+//                //TODO: Precisa modificar este tipo de tratamento na variável
+////            $.each(ret, function (key, msgbody) {
+//
+//                //Distinguir grupo de usuario
+//                if (msgbody.typeusr === "group") {
+//                    // var userby = (settings.contacts[msgbody.userby]) ? settings.contacts[msgbody.userby].name : msgbody.userby;
+//
+//                    //Armazena no log de mensagens
+//                    settings.contacts[msgbody.userto].logMsg.push(msgbody);
+//
+//                    if (settings.userTo === msgbody.userto) {
+//
+//                        printMessage(msgbody);
+//                    }
+//                    else {
+//                        //TODO: Precisa arrumar
+//                        // Notifica a mensagem
+////                    action.Notification({
+////                        title: settings.contacts[msgbody.userto].name,
+////                        body: "(" + msgbody.userby + ") " + msgbody.msg + " - " + msgbody.dtime,
+////                        dir: "ltr"
+////                    });
+//                    }
+//                }
+//                else {
+//                    //Armazena no log de mensagens
+//                    settings.contacts[msgbody.userby].logMsg.push(msgbody);
+//                    
+//                    if (settings.userTo == msgbody.userby) {
+//                        printMessage(msgbody);
+//
+//                    } else {
+//
+//                        action.notification({
+//                            title: settings.contacts[msgbody.userby].name,
+//                            body: msgbody.msg + "\n " + msgbody.dtime,
+//                            dir: "ltr"
+//                        });
+//                    }
+//                }
 //            });
+//            }
         });
     };
 
@@ -686,6 +736,7 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var receiveContacts = function () {
+
         var _data = action.requestServer({
             url: settings.server + "/receiveContacts",
             data: {
@@ -694,29 +745,39 @@ module.Messenger = (function (window, document, $, options) {
         }).success(function (ret) {
             ret = JSON.parse(ret);
 
-            $.each(ret, function (name, params) {
-                settings.contacts[name] = params;
-                console.log(JSON.stringify(params));
+            $.each(ret, function (id, params) {
+                //Registra contato na lista
+                settings.contacts[id] = params;
+                //TEMP: Trata erro de exibicao
+                setTimeout(function () {
 
-                setTimeout(function () { //Trata erro de exibicao: temporario
                     var icon = "";
-                    if (settings.contacts[name].type === "group") {
+
+                    if (settings.contacts[id].type == "group") {
                         icon = "<i class='fa fa-group'></i>&nbsp;&nbsp;&nbsp;";
                     } else {
                         icon = "<i class='fa fa-user'></i>&nbsp;&nbsp;&nbsp;";
                     }
 
-                    if (!settings.contacts[name].logMsg) {
-                        settings.contacts[name].logMsg = new Array();
+                    if (!settings.contacts[id].logMsg) {
+                        settings.contacts[id].logMsg = new Array();
                     }
+                    $("#chat-contacts").append(
+                            "<button id="
+                            + id
+                            + " class='btn btn-get btn-block btn-"
+                            + id + "'>"
+                            + icon
+                            + settings.contacts[id].name
+                            + "</button>");
 
-                    $("#chat-contacts").append("<button id=" + name + " class='btn btn-get btn-block btn-" + name + "'>" + icon + settings.contacts[name].name + "</button>")
+
                     var aux = {};
-                    aux[name] = params.status;
+                    aux[id] = params.status;
                     changeStatus(aux, false);
+
                 }, 100);
             });
-
         });
     };
     /**
