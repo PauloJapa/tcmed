@@ -3,8 +3,10 @@
 /* @var $meUser \Application\Entity\User */
 $meUser = $this->meUser;
 $array = [
-    "userid" => $meUser->getId(),
-    "username" => $meUser->getNome()
+    "userid" => 'us' . $meUser->getId(),
+    "username" => $meUser->getNome(),
+    "status" => $meUser->getStatusChat(),
+    "msgstatus" => $meUser->getStatusMsg()
 ];
         
 echo json_encode($array);

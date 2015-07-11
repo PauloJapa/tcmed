@@ -13,4 +13,8 @@ namespace Application\Entity\Repository;
  */
 class GrupoRepository extends AbstractRepository {
     //put your code here
+    
+    public function __construct($em,$class) {
+        parent::__construct($em, $class);
+    }
 }

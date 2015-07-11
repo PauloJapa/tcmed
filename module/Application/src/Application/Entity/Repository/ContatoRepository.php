@@ -28,10 +28,11 @@ class ContatoRepository extends AbstractRepository {
         foreach ($Grupos as $contato) {            
             if($contato->getGrupoGrupo() instanceof \Application\Entity\Grupo){
                 $contatosGrupo = $this->findByGrupoGrupo($contato->getGrupoGrupo()->getIdGrupo());
-                $contatos['grupo' . $contato->getGrupoGrupo()->getIdGrupo()] = $contatosGrupo;
+                $contatos['grupo' . $contato->getGrupoGrupo()->getIdGrupo()] = $contato->getGrupoGrupo();
+                $contatos['grupos' . $contato->getGrupoGrupo()->getIdGrupo()] = $contatosGrupo;
             }
         }      
         
-        return array_merge($contatos, $Grupos);
+        return $contatos;
     }
 }

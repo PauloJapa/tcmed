@@ -23,7 +23,7 @@ class Grupo extends AbstractForm{
         
         $this->setInputText2('nome', 'Nome: ',['placeholder'=>'Entre com o nome visivel no chat']);
         
-        $selectOptionsTipo = ["on" => "onLine","off" => "offLine","ausente" => "Ausente","busy" => "Ocupado"];
+        $selectOptionsTipo = ["online" => "onLine","offline" => "offLine","ausente" => "Ausente","busy" => "Ocupado"];
         $this->setInputSelect('statusChat', 'Status no chat: ', $selectOptionsTipo,['placeholder'=>'Se é Online, Off, ausente e etc...']);
         
         $this->setInputText2('statusMsg', 'Mensagem de Status: ',['placeholder'=>'Digite aqui']);       

@@ -34,10 +34,12 @@ class MessengerController extends CrudController {
      * @return Zend\View\Model\ViewModel
      */
     public function receiveContactsAction() {
+        /* @var $repository \Application\Entity\Repository\ContatoRepository */
         $repository = $this->getEm()->getRepository($this->moduloName . "\Entity\Contato");
-        $data = $repository->getMyContactAndGrupos($this->getUser());
-        
-        return $this->makeView(compact("data"));
+        $data = $repository->getMyContactAndGrupos($this->getUser());        
+        $service = $this->getService();
+        $user = $service->whoIam($this->getUser());
+        return $this->makeView(compact("data","user"));
     }
 
     /**

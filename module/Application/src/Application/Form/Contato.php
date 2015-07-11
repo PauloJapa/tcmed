@@ -28,10 +28,12 @@ class Contato extends AbstractForm{
         $this->setInputText2('userUser_nome', 'User: ',$attributes);
         
         $this->setInputHidden('grupoGrupo');
-        $this->setInputText2('grupoGrupo_nome', 'Grupo: ',['placeholder'=>'nome']);
+        $attributes['onKeyUp'] = 'autoCompGrupo();';
+        $this->setInputText2('grupoGrupo_nome', 'Grupo: ',$attributes);
         
         $this->setInputHidden('contatoUser');
-        $this->setInputText2('contatoUser_nome', 'Contato: ',['placeholder'=>'nome']);
+        $attributes['onKeyUp'] = 'autoCompContato();';
+        $this->setInputText2('contatoUser_nome', 'Contato: ',$attributes);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
