@@ -46,37 +46,9 @@ class EnviadoRepository extends AbstractRepository {
             $receive->setDateRecebido(new \DateTime('now'));
             $em->persist($receive);
         }
-//        $em->flush();        
+        $em->flush();        
         
         return $receives;
     }
     
-    /**
-     * Converte um string para obj datetime se for um string valida
-     * Faz tratamento da string 
-     * @param type $strDateTime
-     * @return \DateTime
-     */
-    public function strToDate($strDateTime) {
-        switch (TRUE) {
-            case empty($strDateTime):
-                return new \DateTime('now');
-                
-            case ($strDateTime[2] == '/'):
-                if(isset($strDateTime[15])){
-                    $dh = explode(' ', $strDateTime);
-                    $d = explode('/', $dh[0]);
-                    $h = $dh[1];
-                }else{
-                    $d = explode('/', $strDateTime);
-                    $h = '';
-                }
-                $s = $d[2] . '-' . $d[1] . '-' . $d[0] . $h;
-                break;
-                
-            default:
-                $s = $strDateTime;
-        }
-        return new \DateTime($s);
-    }
 }

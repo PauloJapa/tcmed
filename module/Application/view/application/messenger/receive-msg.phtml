@@ -1,18 +1,19 @@
 <?php
 
 $array = [];
-foreach ($this->mensagens as $mensagem) {
+foreach ($this->mensagens as $key => $mensagem) {
 
     /* @var $mensagem \Application\Entity\Enviado */
-    $array[$mensagem->getToContato()->getId()] = [
+    $array[$key] = [
+        "id" => 'us' . $mensagem->getToUser()->getId(),
         "dtime" => $mensagem->getDateEnviado(),
         "msg" => $mensagem->getMensagemMensagem()->getTexto(),
         "userby" => 'us' . $mensagem->getFromUser()->getId(),
     ];
     if($mensagem->getToGrupo() instanceof \Application\Entity\Grupo){
-        $array[$mensagem->getToContato()->getId()]["userto"] = 'gr' . $mensagem->getToGrupo()->getId();        
+        $array[$key]["userto"] = 'gr' . $mensagem->getToGrupo()->getId();        
     }else{
-        $array[$mensagem->getToContato()->getId()]["userto"] = 'us' . $mensagem->getFromUser()->getId();                
+        $array[$key]["userto"] = 'us' . $mensagem->getToUser()->getId();                
     }
 }
 

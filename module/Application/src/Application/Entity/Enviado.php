@@ -57,7 +57,7 @@ class Enviado extends AbstractEntity
     private $toUser;
 
     /**
-     * @var \Application\Entity\Contato
+     * @var \Application\Entity\Grupo
      *
      * @ORM\ManyToOne(targetEntity="Application\Entity\Grupo")
      * @ORM\JoinColumns({
@@ -149,7 +149,7 @@ class Enviado extends AbstractEntity
 
     /**
      * 
-     * @return \Application\Entity\Contato
+     * @return \Application\Entity\Grupo
      */
     public function getToGrupo() {
         return $this->toGrupo;
@@ -221,10 +221,10 @@ class Enviado extends AbstractEntity
 
     /**
      * 
-     * @param \Application\Entity\Contato $toGrupo
+     * @param \Application\Entity\Grupo $toGrupo
      * @return \Application\Entity\Enviado
      */
-    public function setToGrupo(\Application\Entity\Contato $toGrupo) {
+    public function setToGrupo(\Application\Entity\Grupo $toGrupo = null) {
         $this->toGrupo = $toGrupo;
         return $this;
     }

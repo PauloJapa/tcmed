@@ -589,57 +589,52 @@ module.Messenger = (function (window, document, $, options) {
                 userId: settings.userId
             }
         }).success(function (ret) {
-            var msgbody = JSON.parse(ret);
+            var objmsg = JSON.parse(ret);
+            if (objmsg) {
+                $.each(objmsg, function (key, msgbody) {
+                    if (settings.contacts[msgbody.userby]) {
+                        console.log("Voce possui este contato");
+                        //Distinguir grupo de usuario
+                        if (msgbody.userto.indexOf("gr") > -1) {
+                            console.log("grupo");
+                            //var userby = (settings.contacts[msgbody.userby]) ? settings.contacts[msgbody.userby].name : msgbody.userby;
 
-            if (msgbody) {
-                msgbody.userby = 23;
+                            //Armazena no log de mensagens
+                            settings.contacts[msgbody.userto].logMsg.push(msgbody);
 
-                if (settings.contacts[msgbody.userby]) {
-                    console.log("Voce possui este contato");
-                    
-                    msgbody.userto = "gr" + msgbody.userto;
+                            if (settings.userTo == msgbody.userto) {
 
-                //Distinguir grupo de usuario
-                    if (msgbody.userto.indexOf("gr") > -1) {
-                        console.log("grupo");
-                    // var userby = (settings.contacts[msgbody.userby]) ? settings.contacts[msgbody.userby].name : msgbody.userby;
+                                printMessage(msgbody);
+                            }
+                            else {
+                                //TODO:
 
-                        //Armazena no log de mensagens
-                        settings.contacts[msgbody.userto].logMsg.push(msgbody);
-
-                        if (settings.userTo == msgbody.userto) {
-
-                            printMessage(msgbody);
+                            }
                         }
                         else {
-                            //TODO:
-                            
+                            console.log("contato");
+
+                            //Armazena no log de mensagens
+                            settings.contacts[msgbody.userby].logMsg.push(msgbody);
+
+                            if (settings.userTo == msgbody.userby) {
+                                printMessage(msgbody);
+
+                            } else {
+
+                                action.notification({
+                                    title: settings.contacts[msgbody.userby].name,
+                                    body: msgbody.msg + "\n " + msgbody.dtime,
+                                    dir: "ltr"
+                                });
+                            }
                         }
                     }
                     else {
-                        console.log("contato");
-
-                        //Armazena no log de mensagens
-                        settings.contacts[msgbody.userby].logMsg.push(msgbody);
-
-                        if (settings.userTo == msgbody.userby) {
-                            printMessage(msgbody);
-
-                        } else {
-
-                            action.notification({
-                                title: settings.contacts[msgbody.userby].name,
-                                body: msgbody.msg + "\n " + msgbody.dtime,
-                                dir: "ltr"
-                            });
-                        }
+                        console.log("Voce nao possui este contato");
+                        //TODO: Colocar script de add usuario
                     }
-                }
-                else {
-                    console.log("Voce nao possui este contato");
-                    //TODO: Colocar script de add usuario
-
-                }
+                });
             }
 
 
@@ -821,6 +816,9 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
     var buildConversation = function (user) {
+
+        //Define o usuário desta conversa no modo global
+        settings.userTo = user;
         //Restaura o backup do chat e joga resultado no DOM
         $(".chat-window").html(settings.backupChat);
 
@@ -837,11 +835,12 @@ module.Messenger = (function (window, document, $, options) {
         //e trocar icone
         if (settings.contacts[user].type === "group") {
             //Printa usuarios participantes
-            $.each(settings.contacts[user].usersgroup, function (key, name) {
-                name = (settings.contacts[name]) ? settings.contacts[name].name : name;
-
-                $("#chat-group-users").text($("#chat-group-users").text() + name + ", ");
-            });
+            //TODO. PROBLEMAS AQUI
+//            $.each(settings.contacts[user].usersgroup, function (key, name) {
+//                name = (settings.contacts[name]) ? settings.contacts[name].name : name;
+//
+//                $("#chat-group-users").text($("#chat-group-users").text() + name + ", ");
+//            });
             $("#chat-group-users").text($("#chat-group-users").text() + " eu.");
 
             //Define icone do grupo
@@ -858,9 +857,6 @@ module.Messenger = (function (window, document, $, options) {
         var espacos = 2 * 15 + 2 * 6 + 22;
         $(".chat-view").height(sizeTotal - (heading + row0 + row2 + row3 + row4 + espacos));
 
-
-        //Define o usuário desta conversa no modo global
-        settings.userTo = user;
 
         //Define o status atual do usuário
         setTimeout(function () { //Trata erro de exibicao: temporario
