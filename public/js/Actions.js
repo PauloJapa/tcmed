@@ -40,8 +40,41 @@ action = (function ($, options) {
      * @constructor
      */
     return {
-        debug: function(elem){
+        debug: function (elem) {
             console.log(JSON.stringify(elem));
+        },
+        /**
+         * Procurar um contato dentro de uma lista
+         * @param {array} listaContatos Lista de contatos
+         * @param {String} crit String que deve ser localizada na lista
+         * @returns {obj} contato Objeto que contem a string crit
+         */
+        findContact: function (listaContatos, crit) {
+            var contato;
+
+            if (!listaContatos)
+                return false;
+
+            $.each(listaContatos, function (chave, valor) {
+                if (chave == crit) {
+                    contato = valor;
+                    return;
+
+                } else if (valor.name == crit) {
+                    contato = valor;
+                    return;
+                }
+            });
+
+            return contato;
+        },
+        /**
+         * Verifica se é grupo ou usuario
+         * @param {String} crit
+         * @returns {boolean}
+         */
+        isGroup: function (crit) {
+            return crit.indexOf("gr") > -1
         },
         /**
          * Centralizador de requisiçoes para o servidor
@@ -167,9 +200,9 @@ action = (function ($, options) {
                 $(".loader").hide();
             }
         },
-        searchContact: function(group, contato){
-            $.each(options.contacts, function(key, value){
-                
+        searchContact: function (group, contato) {
+            $.each(options.contacts, function (key, value) {
+
             });
         },
         load: function (params) {
