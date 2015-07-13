@@ -421,7 +421,14 @@ module.Messenger = (function (window, document, $, options) {
                 }, "slow");
             }
         });
+        
+        $click("#show-old-today", function(){
+            getHistory("today", settings.userTo);
+        });
 
+        $click("#show-old-today", function(){
+            getHistory("week", settings.userTo);
+        });
     }; //!events
 
     /**
@@ -535,7 +542,9 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer(message);
 
         _data.success(function () {
-            settings.contacts[settings.userTo].logMsg = new Array();
+            if(!settings.contacts[settings.userTo].logMsg){
+                settings.contacts[settings.userTo].logMsg = [];
+            }
             settings.contacts[settings.userTo].logMsg.push(message.data);
 
             printMessage(message.data);
@@ -549,19 +558,20 @@ module.Messenger = (function (window, document, $, options) {
      * @param {String} grupo Grupo responsavel pelas mensagens
      * @returns {undefined}
      */
-    var getHistory = function (periodo, crit) {
+    var getHistory = function (periodo, from) {
         action.requestServer({
             url: settings.server + "/getHistory",
             data: {
                 "period": periodo,
                 "userId": settings.userId,
-                "idCrit": crit
+                "from": from
             }
         }).success(function (ret) {
             ret = JSON.parse(ret);
+            $(".chat-view").html(""); //Limpa o chatview
 
             $.each(ret, function (chave, valor) {
-
+                printMessage(valor);
             });
         });
     };
@@ -574,8 +584,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {boolean} isChanged Inverte a insercao do elemento no html (prepend)
      * @returns {undefined}
      */
-    var printMessage = function (message, isChanged) {
-        var chatview = $(".chat-view");
+    var printMessage = function (message) {
         var cabecalho;
         var nomeContato;
 
@@ -585,10 +594,10 @@ module.Messenger = (function (window, document, $, options) {
         } else {
             var listaContatos = settings.contacts[message.userto].contatosDoGrupo;
             nomeContato = action.findContact(listaContatos, message.userby);
-            
-            if(nomeContato){
+
+            if (nomeContato) {
                 nomeContato = nomeContato.name;
-            }else{
+            } else {
                 nomeContato = "Contato";
             }
         }
@@ -604,15 +613,12 @@ module.Messenger = (function (window, document, $, options) {
         }
 
         //3: Renderiza na tela
-        if (isChanged) {
-            $(".chat-view").prepend(cabecalho + message.msg + "</div>");
-        } else {
-            $(".chat-view").append(cabecalho + message.msg + "</div>");
-        }
+        $(".chat-view").append(cabecalho + message.msg + "</div>");
 
         //4: Trata scroll
         $(".chat-view").scrollTop($(".chat-view").scrollTop() + $(".scroll").height() + 50);
         $(".scroll").removeClass("scroll");
+        
     };
 
 
@@ -904,6 +910,11 @@ module.Messenger = (function (window, document, $, options) {
         $.each(settings.contacts[user].logMsg, function (key, values) {
             printMessage(values);
         });
+        $(".chat-view").prepend("<div id='olds' class='col-md-12'></div>");
+        
+        $("#olds").prepend("<div class='col-md-6'><button id='show-old-today' class='btn btn-default btn-block'>Hoje</button></div>");
+        $("#olds").prepend("<div class='col-md-6'><button id='show-old-week' class='btn btn-default btn-block'>7 Dias</button></div>");
+        
     };
 
     /**
@@ -934,6 +945,10 @@ module.Messenger = (function (window, document, $, options) {
             setInterval(function () {
                 receiveMessage();
             }, 5000);
+            
+            if($(".chat-view").scrollTop() == 0){
+                console.log(".chat-view");
+            }
         }
     };
 
