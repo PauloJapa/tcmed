@@ -56,29 +56,34 @@ class EnviadoRepository extends AbstractRepository {
 //        $data['userid']= eu;
 //        $data['from']= user ou grupo;
 //        $data['period']= today, week ou month;
-        $this->data['inicio'] = new \DateTime('now');
-        $this->data['fim'] = clone $this->data['inicio'];
+        $this->parameters['inicio'] = new \DateTime('now');
+        $this->parameters['fim'] = clone $this->parameters['inicio'];
         switch ($data['period']) {
             case 'week':
-                $this->data['fim']->sub(new \DateInterval('P7D'));
+                $this->parameters['fim']->sub(new \DateInterval('P7D'));
                 break;
             case 'month':
-                $this->data['fim']->sub(new \DateInterval('P1M'));
+                $this->parameters['fim']->sub(new \DateInterval('P1M'));
                 break;
+            default:
+                $this->parameters['fim']->sub(new \DateInterval('PT12H'));
         }
-        $this->data['inicio'] = new \DateTime($mesFiltro . '/01/' . $ano);
         
         $this->where = 'e.dateEnviado BETWEEN :fim AND :inicio';   
         if(0 === strpos($data['from'], 'us')){            
-            $this->where .= ' AND e.toUser = :from AND e.fromUser = :userid';
-            $this->data['from'] = str_replace('us', '', $data['from']);
-            $this->data['userid'] = str_replace('us', '', $data['userid']);
+            $this->where .= ' AND e.toUser = :from AND e.fromUser = :userId';
+            $this->parameters['from'] = str_replace('us', '', $data['from']);
+            $this->parameters['userId'] = str_replace('us', '', $data['userId']);
         }else{
-            $this->where .= ' AND e.toGrupo = :from AND e.fromUser = :userid';
-            $this->data['from'] = str_replace('gr', '', $data['from']);
-            $this->data['userid'] = str_replace('us', '', $data['userid']);
+            $this->where .= ' AND e.toGrupo = :from AND e.fromUser = :userId';
+            $this->parameters['from'] = str_replace('gr', '', $data['from']);
+            $this->parameters['userId'] = str_replace('us', '', $data['userId']);
             
         }
+//        echo '<pre>' , var_dump($data);
+//        echo '<pre>' , var_dump($this->where);
+//        echo '<pre>' , var_dump($this->parameters);
+//        die;
         // Monta a dql para fazer consulta no BD
         $qb = $this->getEntityManager()
                 ->createQueryBuilder()
@@ -86,7 +91,7 @@ class EnviadoRepository extends AbstractRepository {
                 ->from('Application\Entity\Enviado', 'e')
                 ->where($this->where)
                 ->setParameters($this->parameters)
-                ->orderBy('e.dateEnvidado'); 
+                ->orderBy('e.dateEnviado'); 
         
         return $qb->getQuery()->getResult();
     }

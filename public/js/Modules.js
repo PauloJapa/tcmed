@@ -421,12 +421,12 @@ module.Messenger = (function (window, document, $, options) {
                 }, "slow");
             }
         });
-        
-        $click("#show-old-today", function(){
+
+        $click("#show-old-today", function () {
             getHistory("today", settings.userTo);
         });
 
-        $click("#show-old-week", function(){
+        $click("#show-old-week", function () {
             getHistory("week", settings.userTo);
         });
     }; //!events
@@ -439,7 +439,6 @@ module.Messenger = (function (window, document, $, options) {
     var whoIam = function () {
         action.requestServer({
             "url": settings.server + "/whoiam",
-            "type": "POST",
         }).success(function (ret) {
             ret = JSON.parse(ret);
 
@@ -543,7 +542,7 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer(message);
 
         _data.success(function () {
-            if(!settings.contacts[settings.userTo].logMsg){
+            if (!settings.contacts[settings.userTo].logMsg) {
                 settings.contacts[settings.userTo].logMsg = [];
             }
             settings.contacts[settings.userTo].logMsg.push(message.data);
@@ -561,7 +560,8 @@ module.Messenger = (function (window, document, $, options) {
      */
     var getHistory = function (periodo, from) {
         action.requestServer({
-            url: settings.server + "/getHistory",
+            "url": settings.server + "/getHistory",
+            "type": "POST",
             data: {
                 "period": periodo,
                 "userId": settings.userId,
@@ -619,7 +619,7 @@ module.Messenger = (function (window, document, $, options) {
         //4: Trata scroll
         $(".chat-view").scrollTop($(".chat-view").scrollTop() + $(".scroll").height() + 50);
         $(".scroll").removeClass("scroll");
-        
+
     };
 
 
@@ -912,10 +912,10 @@ module.Messenger = (function (window, document, $, options) {
             printMessage(values);
         });
         $(".chat-view").prepend("<div id='olds' class='col-md-12'></div>");
-        
+
         $("#olds").prepend("<div class='col-md-6'><button id='show-old-today' class='btn btn-default btn-block'>Hoje</button></div>");
         $("#olds").prepend("<div class='col-md-6'><button id='show-old-week' class='btn btn-default btn-block'>7 Dias</button></div>");
-        
+
     };
 
     /**
@@ -946,8 +946,8 @@ module.Messenger = (function (window, document, $, options) {
             setInterval(function () {
                 receiveMessage();
             }, 5000);
-            
-            if($(".chat-view").scrollTop() == 0){
+
+            if ($(".chat-view").scrollTop() == 0) {
                 console.log(".chat-view");
             }
         }
