@@ -20,7 +20,7 @@ foreach ($this->data as $key => $contato) {
     $array['gr'. $contato->getId()] = [
         "name" => $contato->getNome(),
         "type" => "group",
-        "status" => $contato->getStatusChat(),
+        "status" => "group",
         "msgstatus" => $contato->getStatusMsg(),
     ];
     $arrayGrupo = [];

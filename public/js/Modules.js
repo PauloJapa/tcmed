@@ -394,6 +394,8 @@ module.Messenger = (function (window, document, $, options) {
             $(".chat-list").show().animate({
                 opacity: 1
             }, "slow");
+
+            settings.userTo = "";
         });
 
         /**
@@ -405,19 +407,28 @@ module.Messenger = (function (window, document, $, options) {
             var $messenger = $(".messenger");
 
             if ($messenger.is(":visible")) {
+                settings.chatIsOpen = false;
                 $messenger.animate({
                     opacity: 0
                 }, "fast", function () {
                     $messenger.hide();
                 });
             } else {
+                settings.chatIsOpen = true;
                 $messenger.show();
                 $messenger.animate({
                     opacity: 1
                 }, "slow");
             }
         });
+        
+        $click("#show-old-today", function(){
+            getHistory("today", settings.userTo);
+        });
 
+        $click("#show-old-today", function(){
+            getHistory("week", settings.userTo);
+        });
     }; //!events
 
     /**
@@ -516,7 +527,7 @@ module.Messenger = (function (window, document, $, options) {
      */
     var sendMessage = function () {
         var msg = $("#msg-chat").val();
-        console.log(settings.contacts[settings.userTo].type);
+
         var message = {
             url: settings.server + "/sendMsg",
             type: "POST",
@@ -531,51 +542,86 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer(message);
 
         _data.success(function () {
-            settings.contacts[settings.userTo].logMsg = new Array();
+            if(!settings.contacts[settings.userTo].logMsg){
+                settings.contacts[settings.userTo].logMsg = [];
+            }
             settings.contacts[settings.userTo].logMsg.push(message.data);
 
             printMessage(message.data);
         });
 
-        $("#msg-chat").val("");
+        $("#msg-chat").val(""); //Limpa input
+    };
+    /**
+     * 
+     * @param {String} crit Periodo
+     * @param {String} grupo Grupo responsavel pelas mensagens
+     * @returns {undefined}
+     */
+    var getHistory = function (periodo, from) {
+        action.requestServer({
+            url: settings.server + "/getHistory",
+            data: {
+                "period": periodo,
+                "userId": settings.userId,
+                "from": from
+            }
+        }).success(function (ret) {
+            ret = JSON.parse(ret);
+            $(".chat-view").html(""); //Limpa o chatview
+
+            $.each(ret, function (chave, valor) {
+                printMessage(valor);
+            });
+        });
     };
 
     /**
      * Exibe a mensagem na tela (Ou notifica, caso
      * a janela do contato não esteja aberta)
-     * @param {Object} message {dtime, typeusr, msg, userto, userby}
+     * @param {type} message
+     * @param {String|Object} contato responsavel pela mensagem 
+     * @param {boolean} isChanged Inverte a insercao do elemento no html (prepend)
      * @returns {undefined}
      */
     var printMessage = function (message) {
-        //Se a mensagem for minha...
+        var cabecalho;
+        var nomeContato;
+
+        //1: Converte o nome do contato
+        if (settings.contacts[message.userby]) {
+            nomeContato = settings.contacts[message.userby].name;
+        } else {
+            var listaContatos = settings.contacts[message.userto].contatosDoGrupo;
+            nomeContato = action.findContact(listaContatos, message.userby);
+
+            if (nomeContato) {
+                nomeContato = nomeContato.name;
+            } else {
+                nomeContato = "Contato";
+            }
+        }
+
+        //2: Monta o cabecalho
+        cabecalho = "<div class='scroll "; //Abre o cabecalho
+
         if (message.userby == settings.userId) {
-            $(".chat-view").append("<div class='msg-me scroll'><em>(" + message.dtime + ") Eu digo:</em><br>" + message.msg + "</div>");
+            cabecalho += "msg-me'><em>(" + message.dtime + ") Eu digo:</em><br>";
         }
         else {
-            $(".chat-view").append("<div class='msg-0 scroll'><em>(" + message.dtime + ") " + settings.contacts[message.userby].name + " diz:</em><br>" + message.msg + "</div>");
+            cabecalho += "msg-0'><em>(" + message.dtime + ") " + nomeContato + " diz:</em><br>";
         }
+
+        //3: Renderiza na tela
+        $(".chat-view").append(cabecalho + message.msg + "</div>");
+
+        //4: Trata scroll
         $(".chat-view").scrollTop($(".chat-view").scrollTop() + $(".scroll").height() + 50);
         $(".scroll").removeClass("scroll");
-//        else {
-//            if (message.typeusr === "group") {
-//                console.log("group");
-//                
-//                var userby = (settings.contacts[message.userby]) ? settings.contacts[message.userby].name : message.userby;
-//                $(".chat-view").append(
-//                        "<div class='msg-"
-//                        + action.getPositionArray(settings.contacts[message.userto].usersgroup, message.userby)
-//                        + "'><em>(" + message.dtime + ") " + userby
-//                        + " Diz:</em><br>" + message.msg + "</div>");
-//            } else {
-//                console.log("user");
-//                $(".chat-view").append(
-//                        "<div class='msg-0'><em>(" + message.dtime + ") " + settings.contacts[message.userto].name
-//                        + " Diz:</em><br>" + message.msg + "</div>");
-//            }
-//
-//        }
-
+        
     };
+
+
 
     /**
      * Receber Mensagem
@@ -590,50 +636,44 @@ module.Messenger = (function (window, document, $, options) {
             }
         }).success(function (ret) {
             var objmsg = JSON.parse(ret);
+
             if (objmsg) {
                 $.each(objmsg, function (key, msgbody) {
-                    if (settings.contacts[msgbody.userby]) {
-                        console.log("Voce possui este contato");
-                        //Distinguir grupo de usuario
-                        if (msgbody.userto.indexOf("gr") > -1) {
-                            console.log("grupo");
-                            //var userby = (settings.contacts[msgbody.userby]) ? settings.contacts[msgbody.userby].name : msgbody.userby;
+                    //if (settings.contacts[msgbody.userby]) {
 
-                            //Armazena no log de mensagens
-                            settings.contacts[msgbody.userto].logMsg.push(msgbody);
+                    if (msgbody.userto.indexOf("gr") > -1) {
 
-                            if (settings.userTo == msgbody.userto) {
+                        //Armazena no log de mensagens
+                        settings.contacts[msgbody.userto].logMsg.push(msgbody);
 
-                                printMessage(msgbody);
-                            }
-                            else {
-                                //TODO:
+                        if (settings.userTo == msgbody.userto && settings.chatIsOpen) {
+                            printMessage(msgbody);
+                        } else {
 
-                            }
-                        }
-                        else {
-                            console.log("contato");
-
-                            //Armazena no log de mensagens
-                            settings.contacts[msgbody.userby].logMsg.push(msgbody);
-
-                            if (settings.userTo == msgbody.userby) {
-                                printMessage(msgbody);
-
-                            } else {
-
-                                action.notification({
-                                    title: settings.contacts[msgbody.userby].name,
-                                    body: msgbody.msg + "\n " + msgbody.dtime,
-                                    dir: "ltr"
-                                });
-                            }
+                            action.notification({
+                                title: settings.contacts[msgbody.userto].name,
+                                body: msgbody.msg + "\n " + msgbody.dtime,
+                                dir: "ltr"
+                            });
                         }
                     }
+
                     else {
-                        console.log("Voce nao possui este contato");
-                        //TODO: Colocar script de add usuario
+                        //Armazena no log de mensagens
+                        settings.contacts[msgbody.userby].logMsg.push(msgbody);
+
+                        if (settings.userTo == msgbody.userby && settings.chatIsOpen) {
+                            printMessage(msgbody);
+                        } else {
+
+                            action.notification({
+                                title: settings.contacts[msgbody.userby].name,
+                                body: msgbody.msg + "\n " + msgbody.dtime,
+                                dir: "ltr"
+                            });
+                        }
                     }
+//                    }
                 });
             }
 
@@ -757,6 +797,7 @@ module.Messenger = (function (window, document, $, options) {
                     if (!settings.contacts[id].logMsg) {
                         settings.contacts[id].logMsg = new Array();
                     }
+
                     $("#chat-contacts").append(
                             "<button id="
                             + id
@@ -835,12 +876,12 @@ module.Messenger = (function (window, document, $, options) {
         //e trocar icone
         if (settings.contacts[user].type === "group") {
             //Printa usuarios participantes
+
             //TODO. PROBLEMAS AQUI
-//            $.each(settings.contacts[user].usersgroup, function (key, name) {
-//                name = (settings.contacts[name]) ? settings.contacts[name].name : name;
-//
-//                $("#chat-group-users").text($("#chat-group-users").text() + name + ", ");
-//            });
+            $.each(settings.contacts[user].contatosDoGrupo, function (key, contato) {
+                $("#chat-group-users").text($("#chat-group-users").text() + contato.name + ", ");
+            });
+
             $("#chat-group-users").text($("#chat-group-users").text() + " eu.");
 
             //Define icone do grupo
@@ -869,6 +910,11 @@ module.Messenger = (function (window, document, $, options) {
         $.each(settings.contacts[user].logMsg, function (key, values) {
             printMessage(values);
         });
+        $(".chat-view").prepend("<div id='olds' class='col-md-12'></div>");
+        
+        $("#olds").prepend("<div class='col-md-6'><button id='show-old-today' class='btn btn-default btn-block'>Hoje</button></div>");
+        $("#olds").prepend("<div class='col-md-6'><button id='show-old-week' class='btn btn-default btn-block'>7 Dias</button></div>");
+        
     };
 
     /**
@@ -899,6 +945,10 @@ module.Messenger = (function (window, document, $, options) {
             setInterval(function () {
                 receiveMessage();
             }, 5000);
+            
+            if($(".chat-view").scrollTop() == 0){
+                console.log(".chat-view");
+            }
         }
     };
 
