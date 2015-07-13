@@ -426,7 +426,7 @@ module.Messenger = (function (window, document, $, options) {
             getHistory("today", settings.userTo);
         });
 
-        $click("#show-old-today", function(){
+        $click("#show-old-week", function(){
             getHistory("week", settings.userTo);
         });
     }; //!events
