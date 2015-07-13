@@ -438,7 +438,8 @@ module.Messenger = (function (window, document, $, options) {
      */
     var whoIam = function () {
         action.requestServer({
-            "url": settings.server + "/whoiam"
+            "url": settings.server + "/whoiam",
+            "type": "POST",
         }).success(function (ret) {
             ret = JSON.parse(ret);
 
