@@ -25,7 +25,32 @@ class Module {
     public function onBootstrap(MvcEvent $e) {
         $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
+        $moduleRouteListener->attach($eventManager);    
+        $eventManager->getSharedManager()->attach(
+            'Zend\Mvc\Controller\AbstractActionController', 
+            'dispatch', 
+                function($e){
+                $controller = $e->getTarget();
+                $config = $e->getApplication()->getServiceManager()->get('config');
+                $ajax = 'no';
+                if(isset($_GET['ajax']) AND $_GET['ajax'] == 'ok'){
+                    $ajax = 'ok';       
+                }
+                if($controller->params()->fromRoute('ajax', 'no') == 'ok'){
+                    $ajax = 'ok';  
+                }               
+                if (isset($config['module_layouts'][$ajax])) {
+                    $controller->layout($config['module_layouts'][$ajax]);
+                }
+            }, 
+            100
+        );  
+        
+        $eventManager->attach(
+            'dispatch.error',
+            array($this,'noLayout'), 
+            99
+        );
     }
 
     public function getConfig() {
@@ -41,7 +66,7 @@ class Module {
             ),
         );
     }
-    
+
     public function init(ModuleManager $mm) {
         $sharedEvents = $mm->getEventManager()->getSharedManager();
         
@@ -51,7 +76,22 @@ class Module {
             [$this, 'validaAuth'], 
             100
         );
-        
+                
+    }
+    
+    public function noLayout($e) {
+        $controller = $e->getTarget();
+        $config = $e->getApplication()->getServiceManager()->get('config');
+        $ajax = 'no';
+        if(isset($_GET['ajax']) AND $_GET['ajax'] == 'ok'){
+            $ajax = 'ok';       
+        }
+//        if($controller->params()->fromRoute('ajax', 'no') == 'ok'){
+//            $ajax = 'ok';  
+//        }               
+//        if (isset($config['module_layouts'][$ajax])) {
+//            $controller->layout($config['module_layouts'][$ajax]);
+//        }        
     }
     
     public function validaAuth($e) {

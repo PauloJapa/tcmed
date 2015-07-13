@@ -24,6 +24,22 @@ class MessengerController extends CrudController {
      * 
      * @return Zend\View\Model\ViewModel
      */
+    public function getHistoryAction() {
+        $request = $this->getRequest();
+        $msgdata = $request->getPost(); 
+        /* @var $repository \Application\Entity\Repository\EnviadoRepository */
+        $repository = $this->getEm()->getRepository($this->moduloName . "\Entity\Enviado");
+        $data = $repository->getHistory($msgdata);        
+//        $service = $this->getService();
+//        $user = $service->whoIam($this->getUser());
+        return $this->makeView(compact("data"));
+    }   
+
+    /**
+     * Devolte a tela do chat um arquivo html simples
+     * 
+     * @return Zend\View\Model\ViewModel
+     */
     public function getHtmlAction() {
         return $this->makeView([]);
     }      

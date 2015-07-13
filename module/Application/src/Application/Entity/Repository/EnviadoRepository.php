@@ -51,4 +51,44 @@ class EnviadoRepository extends AbstractRepository {
         return $receives;
     }
     
+    public function getHistory($data) {  
+        //Trata os filtro para data mensal
+//        $data['userid']= eu;
+//        $data['from']= user ou grupo;
+//        $data['period']= today, week ou month;
+        $this->data['inicio'] = new \DateTime('now');
+        $this->data['fim'] = clone $this->data['inicio'];
+        switch ($data['period']) {
+            case 'week':
+                $this->data['fim']->sub(new \DateInterval('P7D'));
+                break;
+            case 'month':
+                $this->data['fim']->sub(new \DateInterval('P1M'));
+                break;
+        }
+        $this->data['inicio'] = new \DateTime($mesFiltro . '/01/' . $ano);
+        
+        $this->where = 'e.dateEnviado BETWEEN :fim AND :inicio';   
+        if(0 === strpos($data['from'], 'us')){            
+            $this->where .= ' AND e.toUser = :from AND e.fromUser = :userid';
+            $this->data['from'] = str_replace('us', '', $data['from']);
+            $this->data['userid'] = str_replace('us', '', $data['userid']);
+        }else{
+            $this->where .= ' AND e.toGrupo = :from AND e.fromUser = :userid';
+            $this->data['from'] = str_replace('gr', '', $data['from']);
+            $this->data['userid'] = str_replace('us', '', $data['userid']);
+            
+        }
+        // Monta a dql para fazer consulta no BD
+        $qb = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select('e')
+                ->from('Application\Entity\Enviado', 'e')
+                ->where($this->where)
+                ->setParameters($this->parameters)
+                ->orderBy('e.dateEnvidado'); 
+        
+        return $qb->getQuery()->getResult();
+    }
+    
 }

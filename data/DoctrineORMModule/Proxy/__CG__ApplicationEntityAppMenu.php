@@ -64,10 +64,10 @@ class AppMenu extends \Application\Entity\AppMenu implements \Doctrine\ORM\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagescontainerclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'resource', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'privilege', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
+            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagesContainerClass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapClass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'resource', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'privilege', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagescontainerclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapclass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'resource', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'privilege', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
+        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'idMenu', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'descricao', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'label', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'route', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'controller', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'action', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'atributos', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'icons', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'class', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'pagesContainerClass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'wrapClass', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'resource', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'privilege', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'ordem', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'createdAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'updatedAt', '' . "\0" . 'Application\\Entity\\AppMenu' . "\0" . 'inMenu');
     }
 
     /**
@@ -312,23 +312,23 @@ class AppMenu extends \Application\Entity\AppMenu implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getPagescontainerclass()
+    public function getPagesContainerClass()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPagescontainerclass', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPagesContainerClass', array());
 
-        return parent::getPagescontainerclass();
+        return parent::getPagesContainerClass();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getWrapclass()
+    public function getWrapClass()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getWrapclass', array());
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getWrapClass', array());
 
-        return parent::getWrapclass();
+        return parent::getWrapClass();
     }
 
     /**
@@ -499,23 +499,23 @@ class AppMenu extends \Application\Entity\AppMenu implements \Doctrine\ORM\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setPagescontainerclass($pagescontainerclass)
+    public function setPagesContainerClass($pagesContainerClass)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPagescontainerclass', array($pagescontainerclass));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPagesContainerClass', array($pagesContainerClass));
 
-        return parent::setPagescontainerclass($pagescontainerclass);
+        return parent::setPagesContainerClass($pagesContainerClass);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setWrapclass($wrapclass)
+    public function setWrapClass($wrapClass)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setWrapclass', array($wrapclass));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setWrapClass', array($wrapClass));
 
-        return parent::setWrapclass($wrapclass);
+        return parent::setWrapClass($wrapClass);
     }
 
     /**

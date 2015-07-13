@@ -85,14 +85,14 @@ class AppMenu extends AbstractEntity
      *
      * @ORM\Column(name="pagesContainerClass", type="string", length=45, nullable=true)
      */
-    private $pagescontainerclass;
+    private $pagesContainerClass;
 
     /**
      * @var string
      *
      * @ORM\Column(name="wrapClass", type="string", length=45, nullable=true)
      */
-    private $wrapclass;
+    private $wrapClass;
 
     /**
      * @var string
@@ -246,16 +246,16 @@ class AppMenu extends AbstractEntity
      * 
      * @return string
      */
-    public function getPagescontainerclass() {
-        return $this->pagescontainerclass;
+    public function getPagesContainerClass() {
+        return $this->pagesContainerClass;
     }
 
     /**
      * 
      * @return string
      */
-    public function getWrapclass() {
-        return $this->wrapclass;
+    public function getWrapClass() {
+        return $this->wrapClass;
     }
 
     /**
@@ -406,21 +406,21 @@ class AppMenu extends AbstractEntity
 
     /**
      * 
-     * @param type $pagescontainerclass
+     * @param type $pagesContainerClass
      * @return \Application\Entity\AppMenu
      */
-    public function setPagescontainerclass($pagescontainerclass) {
-        $this->pagescontainerclass = $pagescontainerclass;
+    public function setPagesContainerClass($pagesContainerClass) {
+        $this->pagesContainerClass = $pagesContainerClass;
         return $this;
     }
 
     /**
      * 
-     * @param type $wrapclass
+     * @param type $wrapClass
      * @return \Application\Entity\AppMenu
      */
-    public function setWrapclass($wrapclass) {
-        $this->wrapclass = $wrapclass;
+    public function setWrapClass($wrapClass) {
+        $this->wrapClass = $wrapClass;
         return $this;
     }
 

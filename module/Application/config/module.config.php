@@ -159,7 +159,12 @@ return array(
             'Application\Controller\AppMenus' => 'Application\Controller\AppMenusController',
             'Application\Controller\Mensagems' => 'Application\Controller\MensagemsController',
             'Application\Controller\Enviados' => 'Application\Controller\EnviadosController',
+            'Application\Controller\Testes' => 'Application\Controller\TestesController',
         ),
+    ),    
+    'module_layouts' => array(
+        'no' => 'layout/layout',
+        'ok' => 'layout/layout-ajax'
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,
