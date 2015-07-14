@@ -19,8 +19,9 @@ $border-default: 1px solid;
     display: none;
     margin-bottom: 20px;
 }
-
-
+#msgstatus{
+    font-style: italic;    
+}
 .chat-view>div:first-child>div{
     padding:0px;
 }

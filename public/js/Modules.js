@@ -217,6 +217,7 @@ module.Messenger = (function (window, document, $, options) {
         element: "messenger",
         userId: "7",
         userName: "mename",
+        userMsgStatus: "Hey there, I'm here!",
         status: "online",
         server: "/app/messenger",
         interval: 5000,
@@ -489,8 +490,9 @@ module.Messenger = (function (window, document, $, options) {
                 action.requestServer({
                     url:settings.server,
                     control: "/editMsgStatus",
+                    type:"POST",
                     data: {
-                        userId: settings.userid,
+                        userId: settings.userId,
                         statusMsg: newStatus
                     }
                 }).success(function(){
@@ -515,7 +517,7 @@ module.Messenger = (function (window, document, $, options) {
             control: "/whoiam"
         }).success(function (ret) {
             ret = JSON.parse(ret);
-
+            settings.userMsgStatus = ret.msgstatus;
             settings.userId = ret.userid;
             settings.userName = ret.username;
         });
@@ -890,6 +892,7 @@ module.Messenger = (function (window, document, $, options) {
             }
 
             $("#username").html(settings.userName);
+            $("#msgstatus").html(settings.userMsgStatus);
 
             //Armazena o chat em backup, para restaurar 
             //sempre que a janela do usuario for aberta
