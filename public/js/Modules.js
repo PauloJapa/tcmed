@@ -9,7 +9,7 @@
  * Initialize Actions
  * 
  */
-if (!window.App) {
+ if (!window.App) {
     window.App = {
         SETTINGS: {},
         MODULES: {}
@@ -26,10 +26,9 @@ module.Pagination = (function (window, document, $, settings) {
 
     /**
      * Definiçoes default do Pagination
-     * -
      * @type Object
      */
-    var defaults = {
+     var defaults = {
         back: "#godown",
         next: "#goup",
         menu: "#side-menu",
@@ -49,7 +48,7 @@ module.Pagination = (function (window, document, $, settings) {
      * 
      * @returns {jQuery} html
      */
-    var getPage = function () {
+     var getPage = function () {
         //Fixa os dados no html
         fixDataForm();
         //Retorna html
@@ -62,7 +61,7 @@ module.Pagination = (function (window, document, $, settings) {
      * 
      * @returns {undefined}
      */
-    var savePageCache = function () {
+     var savePageCache = function () {
         settings.pagin.pages.data[settings.pagin.cursor] = getPage();
     };
 
@@ -72,7 +71,7 @@ module.Pagination = (function (window, document, $, settings) {
      * 
      * @returns {undefined}
      */
-    var fixDataForm = function () {
+     var fixDataForm = function () {
         //Transforma o container em objeto JQuery
         var cont = $(settings.pagin.cont);
 
@@ -93,7 +92,7 @@ module.Pagination = (function (window, document, $, settings) {
         cont.find("select").each(function () {
             //Remover :selected dos options nao selecionados
             $(this).find("option").not($(this)
-                    .find("option:selected")).removeAttr("selected");
+                .find("option:selected")).removeAttr("selected");
             //Adicionar :selected dos options selecionados
             $(this).find("option:selected").attr("selected", "selected");
         });
@@ -110,7 +109,7 @@ module.Pagination = (function (window, document, $, settings) {
      * 
      * @returns {undefined}
      */
-    var managerClickPagin = function () {
+     var managerClickPagin = function () {
         //Transforma os params em objetos JQuery
         var next = $(settings.pagin.next);
         var back = $(settings.pagin.back);
@@ -121,6 +120,8 @@ module.Pagination = (function (window, document, $, settings) {
         next.attr("disabled", true);
 
         //Eventos do botao back
+        $(window).html()
+
         $(document).on("click", settings.pagin.back, function () {
             //Habilita o botao next
             next.attr("disabled", false);
@@ -162,7 +163,7 @@ module.Pagination = (function (window, document, $, settings) {
      * @param {type} options
      * @returns {undefined}
      */
-    return {
+     return {
         init: function (options) {
 
             settings.pagin = {};
@@ -231,10 +232,10 @@ module.Messenger = (function (window, document, $, options) {
      * Centralizador de erros 
      * @type type
      */
-    var errors = {
+     var errors = {
         serverNotFound: function (server) {
             var error = "Servidor '" + server + "' não pode ser localizado!:"
-                    + " Verifique o endereco do servidor";
+            + " Verifique o endereco do servidor";
             console.error(error);
         },
         notificationError: function () {
@@ -247,37 +248,61 @@ module.Messenger = (function (window, document, $, options) {
      * Gerenciador de eventos
      * @returns {undefined}
      */
-    var events = function () {
-        var $doc = $(document);
-
+     var events = function () {
         /**
-         * Abstracao da funcao onclick
-         * @param {type} attr
-         * @param {type} funcao
-         * @returns {unresolved}
+         * @type $
          */
-        function $click(attr, funcao) {
-            return $doc.on("click", attr, funcao);
+         var $doc = $(document);
+        /**
+         * Executa acoes do onClick
+         * @version 1.0
+         * @author Danilo Dorotheu
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} exec Funcao de execucao quando ocorrencia ocorre
+         */
+         function $click(attr, exec) {
+            return $doc.on("click", attr, exec);
         }
-
-        function $keyup(attr, funcao) {
-            return $doc.on("keyup", attr, funcao);
-        }
-
+        /**
+         * Executa acoes do onKeyUp
+         * @version 1.0
+         * @author Danilo Dorotheu
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} exec Funcao de execucao quando ocorrencia ocorre
+         */
+         function $keyup(attr, exec) {
+            return $doc.on("keyup", attr, exec);
+        };
+        /**
+         * Executa acoes de clickOut do elemento
+         * @version 1.0
+         * @author Danilo Dorotheu
+         * @param {jQuery|String} $container Elemento DOM que sera observado
+         * @param {function} exec Funcao de execucao quando ocorrencia ocorrer
+         */
+         function $clickOut($container, exec) {
+            $container = $($container);
+            $doc.mouseup(function (e) {
+                if (!$container.is(e.target) // if the target of the click isn't the container...
+                        && $container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    exec();
+                }
+            });
+        };
         /**
          * Enviar mensagem
-         * @returns {undefined}
+         * @author Danilo Dorotheu
          */
-        $click("#chat-send", function () {
+         $click("#chat-send", function () {
             sendMessage();
         });
-
         /**
          * Envia a mensagem com o Enter
          * @param {type} e
          * @returns {undefined}
          */
-        $keyup("#msg-chat", function (e) {
+         $keyup("#msg-chat", function (e) {
             if (e.keyCode === 13 && $("#send-enter").prop("checked")) {
                 if ($("#send-enter").is(":checked")) {
                     $("#chat-send").click();
@@ -285,22 +310,20 @@ module.Messenger = (function (window, document, $, options) {
                 }
             }
         });
-
         /**
          * Exibe todos os usuarios na tela de contatos
          * @returns {undefined}
          */
-        $click(".view-all", function () {
+         $click(".view-all", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").show();
         });
-
         /**
          * Exibe apenas os usuarios online na tela de contatos
          * @returns {undefined}
          */
-        $click(".view-online", function () {
+         $click(".view-online", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").hide();
@@ -312,7 +335,7 @@ module.Messenger = (function (window, document, $, options) {
          * Exibe apenas os grupos na tela de contatos
          * @returns {undefined}
          */
-        $click(".view-groups", function () {
+         $click(".view-groups", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").hide();
@@ -323,7 +346,7 @@ module.Messenger = (function (window, document, $, options) {
          * Gerencia pesquisa de usuarios
          * @returns {undefined}
          */
-        $keyup("#text-search", function () {
+         $keyup("#text-search", function () {
             $(".view-all").click();
 
             $("#chat-contacts").find("button").hide();
@@ -342,7 +365,7 @@ module.Messenger = (function (window, document, $, options) {
          * Troca status do usuario para online
          * @returns {undefined}
          */
-        $click(".setOnline", function () {
+         $click(".setOnline", function () {
             changeMeStatus("online");
             sendStatus("online");
             settings.notify = true;
@@ -352,7 +375,7 @@ module.Messenger = (function (window, document, $, options) {
          * Troca status do usuario para ocupado
          * @returns {undefined}
          */
-        $click(".setBusy", function () {
+         $click(".setBusy", function () {
             changeMeStatus("busy");
 
             sendStatus("busy");
@@ -364,7 +387,7 @@ module.Messenger = (function (window, document, $, options) {
          * Troca status do usuario para offline
          * @returns {undefined}
          */
-        $click(".setOffline", function () {
+         $click(".setOffline", function () {
             changeMeStatus("offline");
 
             sendStatus("offline");
@@ -376,7 +399,7 @@ module.Messenger = (function (window, document, $, options) {
          * Abre a conversa com um contato/ grupo
          * @returns {undefined}
          */
-        $click(".btn-get", function () {
+         $click(".btn-get", function () {
             $(".chat-list").animate({
                 opacity: 0
             }, "slow").hide();
@@ -389,7 +412,7 @@ module.Messenger = (function (window, document, $, options) {
          * Retorna para a lista de contatos
          * @returns {undefined}
          */
-        $click("#chat-back", function () {
+         $click("#chat-back", function () {
             $(".chat-window").animate({opacity: 0}, "fast").hide();
             $(".chat-list").show().animate({
                 opacity: 1
@@ -402,7 +425,7 @@ module.Messenger = (function (window, document, $, options) {
          * Abre/ fecha a tela do chat
          * @returns {undefined}
          */
-        $click("#messenger", function () {
+         $click("#messenger", function () {
             //Converte DOM em Obj Jquery 
             var $messenger = $(".messenger");
 
@@ -422,13 +445,63 @@ module.Messenger = (function (window, document, $, options) {
             }
         });
 
-        $click("#show-old-today", function () {
+        /**
+         * Fecha messenger se usuario clicar fora da tela
+         */
+         $clickOut(".messenger", function () {
+            if ($(".messenger").is(":visible")) {
+                $("#messenger").click();
+            }
+        });
+
+         $click("#show-old-today", function () {
             getHistory("today", settings.userTo);
         });
 
-        $click("#show-old-week", function () {
+         $click("#show-old-week", function () {
             getHistory("week", settings.userTo);
         });
+
+         $click("#show-old-month", function () {
+            getHistory("month", settings.userTo);
+        });
+        /**
+         * 
+         * @param  {[type]}
+         * @return {[type]}
+         */
+         $click("#changeStatus", function(){
+            $("#msgstatus").hide();
+            $("#changMsgStatus").val($("#msgstatus").html());
+            $("#changMsgStatus").show();
+        });
+        /**
+         * Envia a mensagem com o Enter
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         $keyup("#changMsgStatus", function (e) {
+            if (e.keyCode === 13){
+
+                var newStatus = $("#changMsgStatus").val();
+                $("#msgstatus").html(newStatus);
+
+                action.requestServer({
+                    url:settings.server,
+                    control: "/editMsgStatus",
+                    data: {
+                        userId: settings.userid,
+                        statusMsg: newStatus
+                    }
+                }).success(function(){
+                    $("#changMsgStatus").hide();
+                    $("#msgstatus").show();
+                });
+
+                e.preventDefault();
+            }
+        });
+
     }; //!events
 
     /**
@@ -436,7 +509,7 @@ module.Messenger = (function (window, document, $, options) {
      * usuario da sessao
      * @author Danilo Dorotheu
      */
-    var whoIam = function () {
+     var whoIam = function () {
         action.requestServer({
             url: settings.server,
             control: "/whoiam"
@@ -454,7 +527,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {boolean} canNotify Omite a notificacao (se false)
      * @returns {undefined}
      */
-    var changeStatus = function (data, canNotify) {
+     var changeStatus = function (data, canNotify) {
         canNotify = (canNotify == false) ? canNotify : true;
 
         var state = {
@@ -485,40 +558,40 @@ module.Messenger = (function (window, document, $, options) {
 
                 switch (status) {
                     case "offline":
-                        aux.body = "Saiu do chat";
-                        action.notification(aux);
-                        break;
+                    aux.body = "Saiu do chat";
+                    action.notification(aux);
+                    break;
                     default:
-                        aux.body = "Entrou no chat";
-                        action.notification(aux);
-                        break;
+                    aux.body = "Entrou no chat";
+                    action.notification(aux);
+                    break;
                 }
             }
         });
-    };
+};
 
     /**
      * Troca o status do usuario da sessao
      * @param {string} status Meu status
      * @returns {undefined}
      */
-    var changeMeStatus = function (status) {
+     var changeMeStatus = function (status) {
         var messenger = $("#messenger")
-                .removeClass("btn-default")
-                .removeClass("btn-warning")
-                .removeClass("btn-danger")
-                .removeClass("btn-success");
+        .removeClass("btn-default")
+        .removeClass("btn-warning")
+        .removeClass("btn-danger")
+        .removeClass("btn-success");
 
         switch (status) {
             case "online":
-                messenger.addClass("btn-success");
-                break;
+            messenger.addClass("btn-success");
+            break;
             case "busy":
-                messenger.addClass("btn-danger");
-                break;
+            messenger.addClass("btn-danger");
+            break;
             default:
-                messenger.addClass("btn-warning");
-                break;
+            messenger.addClass("btn-warning");
+            break;
         }
     };
 
@@ -526,11 +599,12 @@ module.Messenger = (function (window, document, $, options) {
      * Enviar Mensagem
      * @returns {undefined}
      */
-    var sendMessage = function () {
+     var sendMessage = function () {
         var msg = $("#msg-chat").val();
 
         var message = {
-            url: settings.server + "/sendMsg",
+            url: settings.server,
+            control: "/sendMsg",
             type: "POST",
             data: {
                 msg: $.trim(msg),
@@ -559,7 +633,8 @@ module.Messenger = (function (window, document, $, options) {
      * @param {String} grupo Grupo responsavel pelas mensagens
      * @returns {undefined}
      */
-    var getHistory = function (periodo, from) {
+     var getHistory = function (periodo, from) {
+        var histButtons = action.outerHTML($(".chat-view").find(".row:first"));
         var data = {
             period: periodo,
             userId: settings.userId,
@@ -568,14 +643,15 @@ module.Messenger = (function (window, document, $, options) {
 
         if (from.indexOf("gr") > -1) {
             data.userTo = action.getKeyContact(settings.contacts[from].contatosDoGrupo);
-        };
+        }
+        ;
 
         action.requestServer({
             url: settings.server,
             control: "/getHistory",
             type: "POST",
             data: data
-            
+
         }).success(function (ret) {
             ret = JSON.parse(ret);
             $(".chat-view").html(""); //Limpa o chatview
@@ -583,6 +659,8 @@ module.Messenger = (function (window, document, $, options) {
             $.each(ret, function (chave, valor) {
                 printMessage(valor);
             });
+
+            $(".chat-view").prepend(histButtons);
         });
     };
 
@@ -594,7 +672,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {boolean} isChanged Inverte a insercao do elemento no html (prepend)
      * @returns {undefined}
      */
-    var printMessage = function (message) {
+     var printMessage = function (message) {
         var cabecalho;
         var nomeContato;
 
@@ -637,7 +715,7 @@ module.Messenger = (function (window, document, $, options) {
      * Receber Mensagem
      * @returns {undefined}
      */
-    var receiveMessage = function () {
+     var receiveMessage = function () {
 
         var _data = action.requestServer({
             url: settings.server,
@@ -684,17 +762,16 @@ module.Messenger = (function (window, document, $, options) {
                         }
                     }
                 });
-            }
-
-        });
-    };
+}
+});
+};
 
     /**
      * Envia meu status
      * @param {type} status
      * @returns {undefined}
      */
-    var sendStatus = function (status) {
+     var sendStatus = function (status) {
         settings.status = status;
         var _data = action.requestServer({
             url: settings.server,
@@ -711,7 +788,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {type} tdata
      * @returns {undefined}
      */
-    var receiveStatus = function (tdata) {
+     var receiveStatus = function (tdata) {
         var _data = action.requestServer({
             url: settings.server,
             control: "/receiveStatus",
@@ -737,7 +814,7 @@ module.Messenger = (function (window, document, $, options) {
      * Recebe os contatos do servidor
      * @returns {undefined}
      */
-    var receiveContacts = function () {
+     var receiveContacts = function () {
 
         var _data = action.requestServer({
             url: settings.server,
@@ -767,13 +844,13 @@ module.Messenger = (function (window, document, $, options) {
                     }
 
                     $("#chat-contacts").append(
-                            "<button id="
-                            + id
-                            + " class='btn btn-get btn-block btn-"
-                            + id + "'>"
-                            + icon
-                            + settings.contacts[id].name
-                            + "</button>");
+                        "<button id="
+                        + id
+                        + " class='btn btn-get btn-block btn-"
+                        + id + "'>"
+                        + icon
+                        + settings.contacts[id].name
+                        + "</button>");
 
 
                     var aux = {};
@@ -782,14 +859,14 @@ module.Messenger = (function (window, document, $, options) {
 
                 }, 100);
             });
-        });
-    };
+});
+};
     /**
      * Constroi o HTML da Pagina de contatos
      * @author Danilo Dorotheu
      * @returns {undefined}
      */
-    var buildHtml = function () {
+     var buildHtml = function () {
         //Recebe o html
         var data = action.requestServer({
             url: settings.server,
@@ -825,7 +902,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {type} user
      * @returns {undefined}
      */
-    var buildConversation = function (user) {
+     var buildConversation = function (user) {
 
         //Define o usuário desta conversa no modo global
         settings.userTo = user;
@@ -886,7 +963,7 @@ module.Messenger = (function (window, document, $, options) {
      * (antes do buildHTML)
      * @returns {undefined}
      */
-    var messenger = function () {
+     var messenger = function () {
         $("body").append("<div class='" + settings.element + "'></div>");
         settings.element = $(settings.element);
     };
@@ -895,7 +972,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {Object} options
      * @returns {undefined}
      */
-    return {
+     return {
         init: function (options) {
             $.extend(settings, options, settings);
             messenger();
@@ -927,7 +1004,7 @@ module.Cookie = (function (window, document, $, settings) {
      * @param {type} val
      * @returns {String}
      */
-    var getExpires = function (val) {
+     var getExpires = function (val) {
         var d = new Date();
         d.setTime(d.getTime() + (val * 24 * 60 * 60 * 1000));
         return d.toGMTString();
@@ -938,13 +1015,13 @@ module.Cookie = (function (window, document, $, settings) {
      * @param {type} obj
      * @returns {undefined}
      */
-    return {
+     return {
         /**
          * Salva o cookie
          * @param {type} obj
          * @returns {undefined}
          */
-        save: function (obj) {
+         save: function (obj) {
             if (settings.cookies == undefined) {
                 settings.cookies = {}
             }
@@ -957,23 +1034,23 @@ module.Cookie = (function (window, document, $, settings) {
          * @param {type} cookie
          * @returns {undefined}
          */
-        set: function (cookie) {
+         set: function (cookie) {
             cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
             cookie.expires = d.toGMTString(cookie.expires);
 
             document.cookie =
-                    cookie.name
-                    + "="
-                    + cookie.value
-                    + "; expires="
-                    + cookie.expires;
+            cookie.name
+            + "="
+            + cookie.value
+            + "; expires="
+            + cookie.expires;
         },
         /**
          * Retorna o cookie
          * @param {type} cname
          * @returns {String}
          */
-        get: function (cname) {
+         get: function (cname) {
             var name = cname + "=";
             var ca = document.cookie.split(';');
             for (var i = 0; i < ca.length; i++) {
