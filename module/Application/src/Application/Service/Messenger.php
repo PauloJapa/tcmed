@@ -120,5 +120,17 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         
         return $repositoryContato->getUpgradedStatusUser($where, $parameters);         
     }
+    
+    public function getChangeStatusUser($dataPost) {
+        $serviceUser = new User($this->em);
+        $data['idUser'] = $dataPost['userId'];
+        $data['statusChat'] = $dataPost['status'];
+        $data['statusDatetime'] = new \DateTime('now');
+        $entityUser = $serviceUser->update($data);
+        if($entityUser){
+            return TRUE;
+        }
+        return FALSE;
+    }
 
 }
