@@ -12,7 +12,10 @@ class MessengerController extends CrudController {
     }
 
     public function receiveStatusAction() {
-        return $this->makeView([]);
+        $dataPost = $this->getRequest()->getPost();        
+        $service = $this->getService();
+        $data = $service->getUpgradedStatusUser($dataPost);
+        return $this->makeView(compact("data"));
     }
 
     public function sendStatusAction() {

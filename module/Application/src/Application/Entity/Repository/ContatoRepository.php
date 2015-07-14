@@ -35,4 +35,17 @@ class ContatoRepository extends AbstractRepository {
         
         return $contatos;
     }
+    
+    public function getUpgradedStatusUser($where, $parameters) {
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->from('Application\Entity\Contato', 'c')
+            ->select('c, co')
+            ->join('c.contatoUser', 'co')
+            ->where($where)
+            ->setParameters($parameters);
+        
+        return $qb->getQuery()->getResult();
+        
+    }
 }

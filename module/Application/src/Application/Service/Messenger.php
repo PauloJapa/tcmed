@@ -108,5 +108,17 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         
         return $repositoryEnviado->getEnviadoDql($where, $parameters); 
     }
+    
+    public function getUpgradedStatusUser($dataPost) {
+        /* @var $repositoryContato \Application\Entity\Repository\ContatoRepository */
+        $repositoryContato = $this->em->getRepository($this->basePath . "Contato");
+        
+        $where = 'c.userUser = :userUser and co.statusDatetime > :statusDatetime';
+        $parameters['userUser'] = $dataPost['userId'];
+        $parameters['statusDatetime'] = new \DateTime('now');
+        $parameters['statusDatetime']->sub(new \DateInterval('PT2M'));
+        
+        return $repositoryContato->getUpgradedStatusUser($where, $parameters);         
+    }
 
 }
