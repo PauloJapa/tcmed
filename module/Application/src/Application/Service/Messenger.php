@@ -75,5 +75,38 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         
         return $user[0];
     }
+    
+    public function getHistory($dataPost) {        
+        /* @var $repositoryEnviado \Application\Entity\Repository\EnviadoRepository */
+        $repositoryEnviado = $this->em->getRepository($this->basePath . "Enviado");
+         
+        $parameters['dateEnviado'] = new \DateTime('now');
+        switch ($dataPost['period']) {
+            case 'week':
+                $parameters['dateEnviado']->sub(new \DateInterval('P7D'));
+                break;
+            case 'month':
+                $parameters['dateEnviado']->sub(new \DateInterval('P1M'));
+                break;
+            default:
+                $parameters['dateEnviado']->sub(new \DateInterval('PT10H'));
+//                $parameters['dateEnviado']->sub(new \DateInterval('P1D'));
+        }
+        
+        $where = "e.dateEnviado > :dateEnviado"; 
+        $parameters['userId'] = str_replace('us', '', $dataPost['userId']);
+        if(0 === strpos($dataPost['from'], 'us')){    
+            $where .= ' AND ((e.fromUser = :from AND e.toUser = :userId AND e.toGrupo IS NULL)'; //Enviadas para mim
+            $where .= ' OR  (e.fromUser = :userId AND e.toUser = :from AND e.toGrupo IS NULL))'; //Enviadas por mim
+            $parameters['from'] = str_replace('us', '', $dataPost['from']);
+        }else{
+            $where .= ' AND ((e.toUser = :userId AND e.toGrupo = :from)';
+            $where .= ' OR  (e.fromUser = :userId AND e.toGrupo = :from AND e.toUser = :userTo ))';
+            $parameters['from'] = str_replace('gr', '', $dataPost['from']);
+            $parameters['userTo'] = str_replace('us', '', $dataPost['userTo']);
+        } 
+        
+        return $repositoryEnviado->getEnviadoDql($where, $parameters); 
+    }
 
 }

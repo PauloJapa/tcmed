@@ -575,6 +575,7 @@ module.Messenger = (function (window, document, $, options) {
             control: "/getHistory",
             type: "POST",
             data: data
+            
         }).success(function (ret) {
             ret = JSON.parse(ret);
             $(".chat-view").html(""); //Limpa o chatview
@@ -1011,3 +1012,4 @@ module.Sidemenu = (function (window, document, $, settings) {
     });
 
 })(window, document, jQuery, window.App.SETTINGS);
+

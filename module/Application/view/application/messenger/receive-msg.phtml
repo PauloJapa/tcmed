@@ -6,7 +6,7 @@ foreach ($this->mensagens as $key => $mensagem) {
     /* @var $mensagem \Application\Entity\Enviado */
     $array[$key] = [
         "id" => 'us' . $mensagem->getToUser()->getId(),
-        "dtime" => $mensagem->getDateEnviado(),
+        "dtime" => $mensagem->getDateEnviado('full'),
         "msg" => $mensagem->getMensagemMensagem()->getTexto(),
         "userby" => 'us' . $mensagem->getFromUser()->getId(),
     ];
