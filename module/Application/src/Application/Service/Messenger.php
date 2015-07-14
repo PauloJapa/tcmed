@@ -123,7 +123,7 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
     
     public function getChangeStatusUser($dataPost) {
         $serviceUser = new User($this->em);
-        $data['idUser'] = $dataPost['userId'];
+        $data['idUser'] = str_replace('us', '', $dataPost['userId']);
         $data['statusChat'] = $dataPost['status'];
         $data['statusDatetime'] = new \DateTime('now');
         $entityUser = $serviceUser->update($data);
@@ -135,7 +135,7 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
     
     public function ChangeStatusMsgUser($dataPost) {
         $serviceUser = new User($this->em);
-        $data['idUser'] = $dataPost['userId'];
+        $data['idUser'] = str_replace('us', '', $dataPost['userId']);
         $data['statusMsg'] = $dataPost['statusMsg'];
         $data['statusDatetime'] = new \DateTime('now');
         $entityUser = $serviceUser->update($data);
