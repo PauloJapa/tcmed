@@ -77,35 +77,34 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
     }
     
     public function getHistory($dataPost) {        
-        /* @var $repository \Application\Entity\Repository\EnviadoRepository */
+        /* @var $repositoryEnviado \Application\Entity\Repository\EnviadoRepository */
         $repositoryEnviado = $this->em->getRepository($this->basePath . "Enviado");
          
-        $parameters['inicio'] = new \DateTime('now');
-        $parameters['fim'] = clone $parameters['inicio'];
+        $parameters['dateEnviado'] = new \DateTime('now');
         switch ($dataPost['period']) {
             case 'week':
-                $parameters['fim']->sub(new \DateInterval('P7D'));
+                $parameters['dateEnviado']->sub(new \DateInterval('P7D'));
                 break;
             case 'month':
-                $parameters['fim']->sub(new \DateInterval('P1M'));
+                $parameters['dateEnviado']->sub(new \DateInterval('P1M'));
                 break;
             default:
-                $parameters['fim']->sub(new \DateInterval('PT10H'));
+                $parameters['dateEnviado']->sub(new \DateInterval('PT10H'));
+//                $parameters['dateEnviado']->sub(new \DateInterval('P1D'));
         }
         
-        $where = '(e.dateEnviado BETWEEN :fim AND :inicio';   
+        $where = "e.dateEnviado > :dateEnviado"; 
         $parameters['userId'] = str_replace('us', '', $dataPost['userId']);
         if(0 === strpos($dataPost['from'], 'us')){    
-            //Enviadas para mim
-            $where .= ' AND e.fromUser = :from AND e.toUser = :userId)';
-            //Enviadas por mim
-            $where .= ' OR (e.dateEnviado BETWEEN :fim AND :inicio AND e.fromUser = :userId AND e.toUser = :from)';
+            $where .= ' AND ((e.fromUser = :from AND e.toUser = :userId AND e.toGrupo IS NULL)'; //Enviadas para mim
+            $where .= ' OR  (e.fromUser = :userId AND e.toUser = :from AND e.toGrupo IS NULL))'; //Enviadas por mim
             $parameters['from'] = str_replace('us', '', $dataPost['from']);
         }else{
-            $where .= ' AND e.toGrupo = :from AND e.toUser = :userId)';
-            $where .= ' OR (e.dateEnviado BETWEEN :fim AND :inicio AND e.toGrupo = :from AND e.fromUser = :userId)';
+            $where .= ' AND ((e.toUser = :userId AND e.toGrupo = :from)';
+            $where .= ' OR  (e.fromUser = :userId AND e.toGrupo = :from AND e.toUser = :userTo ))';
             $parameters['from'] = str_replace('gr', '', $dataPost['from']);
-        }
+            $parameters['userTo'] = str_replace('us', '', $dataPost['userTo']);
+        } 
         
         return $repositoryEnviado->getEnviadoDql($where, $parameters); 
     }

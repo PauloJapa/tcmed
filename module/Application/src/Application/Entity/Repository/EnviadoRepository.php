@@ -52,18 +52,17 @@ class EnviadoRepository extends AbstractRepository {
     }
     
     public function getEnviadoDql($where, array $parameters, $orderBy = 'e.dateEnviado') { 
-        // Monta a dql para fazer consulta no BD
+        // Monta a dql para fazer consulta no BD Cuidado com relacionamentos de zeros para muitos (ex: Grupos)
         $qb = $this->getEntityManager()
-                ->createQueryBuilder()
-                ->select('e, m, u, tu, g')
-                ->from('Application\Entity\Enviado', 'e')
-                ->join('e.mensagemMensagem', 'm')
-                ->join('e.fromUser', 'u')
-                ->join('e.toUser', 'tu')
-                ->join('e.toGrupo', 'g')
-                ->where($where)
-                ->setParameters($parameters)
-                ->orderBy($orderBy); 
+            ->createQueryBuilder()
+            ->from('Application\Entity\Enviado', 'e')
+            ->select('e, m, u, tu')
+            ->join('e.mensagemMensagem', 'm')
+            ->join('e.fromUser', 'u')
+            ->join('e.toUser', 'tu')
+            ->where($where)
+            ->setParameters($parameters)
+            ->orderBy($orderBy); 
         
         return $qb->getQuery()->getResult();
     }
