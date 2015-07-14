@@ -633,7 +633,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {String} grupo Grupo responsavel pelas mensagens
      * @returns {undefined}
      */
-     var getHistory = function (periodo, from) {
+    var getHistory = function (periodo, from) {
         var histButtons = action.outerHTML($(".chat-view").find(".row:first"));
         var data = {
             period: periodo,
