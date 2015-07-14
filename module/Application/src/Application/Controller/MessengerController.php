@@ -25,13 +25,9 @@ class MessengerController extends CrudController {
      * @return Zend\View\Model\ViewModel
      */
     public function getHistoryAction() {
-        $request = $this->getRequest();
-        $msgdata = $request->getPost(); 
-        /* @var $repository \Application\Entity\Repository\EnviadoRepository */
-        $repository = $this->getEm()->getRepository($this->moduloName . "\Entity\Enviado");
-        $data = $repository->getHistory($msgdata);        
-//        $service = $this->getService();
-//        $user = $service->whoIam($this->getUser());
+        $dataPost = $this->getRequest()->getPost();        
+        $service = $this->getService();
+        $data = $service->getHistory($dataPost);
         return $this->makeView(compact("data"));
     }   
 

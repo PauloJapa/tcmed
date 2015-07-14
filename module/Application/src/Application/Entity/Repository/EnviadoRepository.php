@@ -51,47 +51,19 @@ class EnviadoRepository extends AbstractRepository {
         return $receives;
     }
     
-    public function getHistory($data) {  
-        //Trata os filtro para data mensal
-//        $data['userid']= eu;
-//        $data['from']= user ou grupo;
-//        $data['period']= today, week ou month;
-        $this->parameters['inicio'] = new \DateTime('now');
-        $this->parameters['fim'] = clone $this->parameters['inicio'];
-        switch ($data['period']) {
-            case 'week':
-                $this->parameters['fim']->sub(new \DateInterval('P7D'));
-                break;
-            case 'month':
-                $this->parameters['fim']->sub(new \DateInterval('P1M'));
-                break;
-            default:
-                $this->parameters['fim']->sub(new \DateInterval('PT12H'));
-        }
-        
-        $this->where = 'e.dateEnviado BETWEEN :fim AND :inicio';   
-        if(0 === strpos($data['from'], 'us')){            
-            $this->where .= ' AND e.toUser = :from AND e.fromUser = :userId';
-            $this->parameters['from'] = str_replace('us', '', $data['from']);
-            $this->parameters['userId'] = str_replace('us', '', $data['userId']);
-        }else{
-            $this->where .= ' AND e.toGrupo = :from AND e.fromUser = :userId';
-            $this->parameters['from'] = str_replace('gr', '', $data['from']);
-            $this->parameters['userId'] = str_replace('us', '', $data['userId']);
-            
-        }
-//        echo '<pre>' , var_dump($data);
-//        echo '<pre>' , var_dump($this->where);
-//        echo '<pre>' , var_dump($this->parameters);
-//        die;
+    public function getEnviadoDql($where, array $parameters, $orderBy = 'e.dateEnviado') { 
         // Monta a dql para fazer consulta no BD
         $qb = $this->getEntityManager()
                 ->createQueryBuilder()
-                ->select('e')
+                ->select('e, m, u, tu, g')
                 ->from('Application\Entity\Enviado', 'e')
-                ->where($this->where)
-                ->setParameters($this->parameters)
-                ->orderBy('e.dateEnviado'); 
+                ->join('e.mensagemMensagem', 'm')
+                ->join('e.fromUser', 'u')
+                ->join('e.toUser', 'tu')
+                ->join('e.toGrupo', 'g')
+                ->where($where)
+                ->setParameters($parameters)
+                ->orderBy($orderBy); 
         
         return $qb->getQuery()->getResult();
     }

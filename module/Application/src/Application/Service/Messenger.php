@@ -75,5 +75,39 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         
         return $user[0];
     }
+    
+    public function getHistory($dataPost) {        
+        /* @var $repository \Application\Entity\Repository\EnviadoRepository */
+        $repositoryEnviado = $this->em->getRepository($this->basePath . "Enviado");
+         
+        $parameters['inicio'] = new \DateTime('now');
+        $parameters['fim'] = clone $parameters['inicio'];
+        switch ($dataPost['period']) {
+            case 'week':
+                $parameters['fim']->sub(new \DateInterval('P7D'));
+                break;
+            case 'month':
+                $parameters['fim']->sub(new \DateInterval('P1M'));
+                break;
+            default:
+                $parameters['fim']->sub(new \DateInterval('PT10H'));
+        }
+        
+        $where = '(e.dateEnviado BETWEEN :fim AND :inicio';   
+        $parameters['userId'] = str_replace('us', '', $dataPost['userId']);
+        if(0 === strpos($dataPost['from'], 'us')){    
+            //Enviadas para mim
+            $where .= ' AND e.fromUser = :from AND e.toUser = :userId)';
+            //Enviadas por mim
+            $where .= ' OR (e.dateEnviado BETWEEN :fim AND :inicio AND e.fromUser = :userId AND e.toUser = :from)';
+            $parameters['from'] = str_replace('us', '', $dataPost['from']);
+        }else{
+            $where .= ' AND e.toGrupo = :from AND e.toUser = :userId)';
+            $where .= ' OR (e.dateEnviado BETWEEN :fim AND :inicio AND e.toGrupo = :from AND e.fromUser = :userId)';
+            $parameters['from'] = str_replace('gr', '', $dataPost['from']);
+        }
+        
+        return $repositoryEnviado->getEnviadoDql($where, $parameters); 
+    }
 
 }
