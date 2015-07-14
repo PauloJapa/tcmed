@@ -105,7 +105,8 @@ class MessengerController extends AbstractActionController {
     }
 
     public function editMsgStatusAction() {
-        return new ViewModel();
+        $data = $this->getService()->ChangeStatusMsgUser($this->getRequest()->getPost());
+        return $this->makeView(compact("data"));
     }
 
 }

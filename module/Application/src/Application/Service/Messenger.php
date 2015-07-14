@@ -132,5 +132,17 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         }
         return FALSE;
     }
+    
+    public function ChangeStatusMsgUser($dataPost) {
+        $serviceUser = new User($this->em);
+        $data['idUser'] = $dataPost['userId'];
+        $data['statusMsg'] = $dataPost['statusMsg'];
+        $data['statusDatetime'] = new \DateTime('now');
+        $entityUser = $serviceUser->update($data);
+        if($entityUser){
+            return TRUE;
+        }
+        return FALSE;        
+    }
 
 }
