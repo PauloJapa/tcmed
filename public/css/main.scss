@@ -12,10 +12,13 @@ $border-default: 1px solid;
     @return $border-default + $color; 
 }
 
-
 /*===================================================
  * Definições gerais
  *===================================================*/
+.chat-view>div:first-child>div{
+    padding:0px;
+}
+
 .navbar-fixed-top{
     box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0px 1px 5px rgba(0, 0, 0, 0.075);
 }

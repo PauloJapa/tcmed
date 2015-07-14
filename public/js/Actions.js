@@ -68,6 +68,16 @@ action = (function ($, options) {
 
             return contato;
         },
+        getKeyContact: function(lista){
+            var keyCont;
+            
+            $.each(lista,function(key, value){
+                keyCont = key;
+                return;
+            });
+            
+            return keyCont;
+        },
         /**
          * Verifica se é grupo ou usuario
          * @param {String} crit
@@ -83,12 +93,19 @@ action = (function ($, options) {
          * @param {Object} arg URL do Servidor, Tipo (POST/GET), Dados
          * @returns {AJAX} 
          */
+        
+        /**
+         * 
+         * @param {Object} arg control|url|type|{data}
+         * @returns {AJAX}
+         */
         requestServer: function (arg) {
-            arg.url = arg.url + "?ajax=ok&"; //Trata erro de ajax
+            arg.control = (arg.control) ? arg.control : "";
+            arg.url = arg.url + arg.control + "?ajax=ok&"; //Trata erro de ajax
 
             if (arg.type !== "POST") {
                 arg.type = "GET";
-                arg.url = arg.url + "?ajax=ok&" + Math.ceil(Math.random() * 100000);
+                arg.url = arg.url + Math.ceil(Math.random() * 100000);
             }
 
             return $.ajax(arg).fail(function (msg) {
