@@ -934,6 +934,8 @@ module.Messenger = (function (window, document, $, options) {
 
             //Define icone do grupo
             icon = "<i class='fa fa-user'></i>&nbsp;&nbsp;&nbsp;";
+        }else{
+            $("#chat-group-users").text(settings.contacts[user].msgstatus);
         }
 
         var sizeTotal = $("#page-wrapper").height();
