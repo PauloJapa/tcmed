@@ -1,7 +1,7 @@
 # Sistema ERP Básico
 *AEM Sistemas - Tecnomed*
 
-<a href="www.google.com">teste</a>
+<i class="fa fa-user"></i>
 
 ZendSkeletonApplication
 =======================
