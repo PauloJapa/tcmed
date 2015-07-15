@@ -1,8 +1,10 @@
 # Sistema ERP Básico
 *AEM Sistemas - Tecnomed*
 
-<i class="fa fa-user"></i>
 
+
+
+<!--
 ZendSkeletonApplication
 =======================
 
@@ -80,3 +82,4 @@ project and you should be ready to go! It should look something like below:
             Allow from all
         </Directory>
     </VirtualHost>
+    -->
