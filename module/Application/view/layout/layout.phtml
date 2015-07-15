@@ -58,16 +58,14 @@
 
     </head>
     <body>  
-
-        <?php if ($this->UserIdentity() != FALSE): ?>
-            <script type="text/javascript">
-                /**
-                 * Scripts de Inicializaçao pos login
-                 */
-                $(function () {
-                    action.load();
-                });
-            </script>
+<script type="text/javascript">
+    var auth = false;
+    var login = false;
+</script>
+        <?php if ($this->UserIdentity() != FALSE AND !isset($this->dataView['LOGIN'])): ?>
+<script type="text/javascript">
+    auth = true;
+</script>
 
             <div id="wrapper">
                 <?php echo $this->content; ?>
@@ -86,7 +84,16 @@
         <?php else: ?>
             <?php echo $this->content; ?>
         <?php endif; ?>
-
+<script type="text/javascript">
+    /**
+     * Scripts de Inicializaçao pos login
+     */
+    if(auth && !login){
+        $(function () {
+            action.load();
+        });        
+    }
+</script>
         <?php // echo $this->inlineScript() ?>
     </body>
 </html>
