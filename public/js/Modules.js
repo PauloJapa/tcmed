@@ -546,7 +546,8 @@ module.Messenger = (function (window, document, $, options) {
         var oldStatus;
 
         $.each(data, function (name, status) {
-            oldStatus = settings.contacts[name].status = status;
+            oldStatus = settings.contacts[name].status;
+            settings.contacts[name].status = status;
             console.log(">>" + oldStatus);
 
             $.each(state, function (k, classe) {
@@ -570,8 +571,10 @@ module.Messenger = (function (window, document, $, options) {
                         action.notification(aux);
                         break;
                     case "online":
-                        aux.body = "Entrou no chat";
-                        action.notification(aux);
+                        if(oldStatus == "offline"){
+                            aux.body = "Entrou no chat";
+                            action.notification(aux);
+                        }
                         break;
                     case "busy":
                         if(oldStatus == "offline"){
