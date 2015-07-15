@@ -19,31 +19,31 @@
                         <div id="chat-group-users" class="row row-0"></div>
 
                         <div class="row row-1">
-                            <div class="chat-view">
+                            <div class="chat-view col-md-12">
 
-                                <!-- Historico Dia -->
-                                <div class="col-md-4">
-                                    <button id="show-old-today" class="btn btn-default btn-block">
-                                        Hoje
-                                    </button>
-                                </div>
-                                <!-- Historico Semana -->
-                                <div class="col-md-4">
-                                    <button id="show-old-week" class="btn btn-default btn-block">
-                                        Semana
-                                    </button>
-                                </div>
-                                <!-- Historico Mes -->
-                                <div class="col-md-4">
-                                    <button id="show-old-month" class="btn btn-default btn-block">
-                                        Mes
-                                    </button>
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <button id="show-old-today" class="btn btn-default btn-block">
+                                            Hoje
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <button id="show-old-week" class="btn btn-default btn-block">
+                                            Semana
+                                        </button>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <button id="show-old-month" class="btn btn-default btn-block">
+                                            Mes
+                                        </button>
+                                    </div>
+
                                 </div>
 
-                            </div>
-                            <div class="row">
-
-                            </div>
+                            </div><!-- chatview -->
                         </div>
 
                         <div class="row row-2">
@@ -87,11 +87,14 @@
                             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                                 <li role="presentation" class="dropdown-header">Funcoes</li>
                                 <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><i class="fa fa-user-plus"></i> Adicionar</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><i class="fa fa-cogs"></i></i> Perfil</a></li>
+                                <li role="presentation"><a id="changeStatus" role="menuitem" tabindex="-1"><i class="fa fa-cogs"></i></i> Perfil</a></li>
                                 <li role="presentation" class="divider"></li>
                                 <li role="presentation" class="dropdown-header">Status</li>
+                                
                                 <li role="presentation"><a class="setOnline"><i class="fa fa-check-circle-o"></i> Online</a></li>
+                                
                                 <li role="presentation"><a class="setBusy"><i class="fa fa-ban"></i> Ocupado</a></li>
+                                
                                 <li role="presentation"><a class="setOffline"><i class="fa fa-circle-o"></i> Ausente</a></li>
                             </ul>
                         </div>
@@ -108,6 +111,13 @@
 
                 <div class="row">
                     <h3 id="username" class="text-center">Danilo</h3>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 id="msgstatus" class="text-center">Danilo</h4>  
+                        <input type="text" id="changMsgStatus" class="form-control" placeholder="Procurar...">
+                    </div>
                 </div>
 
                 <div class="row">
