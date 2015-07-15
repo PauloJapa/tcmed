@@ -114,7 +114,7 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         $repositoryContato = $this->em->getRepository($this->basePath . "Contato");
         
         $where = 'c.userUser = :userUser and co.statusDatetime > :statusDatetime';
-        $parameters['userUser'] = $dataPost['userId'];
+        $parameters['userUser'] = str_replace('us', '', $dataPost['userId']);
         $parameters['statusDatetime'] = new \DateTime('now');
         $parameters['statusDatetime']->sub(new \DateInterval('PT2M'));
         

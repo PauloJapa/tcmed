@@ -44,6 +44,34 @@ action = (function ($, options) {
             console.log(JSON.stringify(elem));
         },
         /**
+         * Salvar em escopo global valores do sistema
+         * @param {Object} obj
+         * @autor Paulo Watakabe 
+         * @version 1.0
+         */
+        setPublic: function(obj){
+            if(!options.publics){
+                options.publics = {};                
+            }
+            $.each(obj,function (key,val){
+                options.publics[key] = val;
+            });
+        },
+        /**
+         * Pega um valor que foi grava em no escopo global so sistema
+         * @param {string} key
+         * @returns {option.publics|String}
+         */
+        getPublic : function(key){
+            if(!options.publics){
+                return '';                
+            }
+            if(options.publics[key]){
+                return options.publics[key];
+            }
+            return '';                
+        },
+        /**
          * Procurar um contato dentro de uma lista
          * @param {array} listaContatos Lista de contatos
          * @param {String} crit String que deve ser localizada na lista

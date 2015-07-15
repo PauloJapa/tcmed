@@ -16,7 +16,7 @@ class Login  extends AbstractForm
         
         $this->setInputCheckbox('remember', 'Lembrar:', ['checked_value' => 'remember','unchecked_value' => 'noremember']);
 
-        $this->setInputSubmit('submit', 'Entrar no Sistema', [], $terminal);                      
+        $this->setInputSubmit('submit', 'Entrar no Sistema ',['onClick' => 'return isValid(this);']);
        
     }
     

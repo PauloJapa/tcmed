@@ -568,14 +568,15 @@ module.Messenger = (function (window, document, $, options) {
 
         if (from.indexOf("gr") > -1) {
             data.userTo = action.getKeyContact(settings.contacts[from].contatosDoGrupo);
-        };
+        }
+        ;
 
         action.requestServer({
             url: settings.server,
             control: "/getHistory",
             type: "POST",
             data: data
-            
+
         }).success(function (ret) {
             ret = JSON.parse(ret);
             $(".chat-view").html(""); //Limpa o chatview
@@ -936,6 +937,24 @@ module.Cookie = (function (window, document, $, settings) {
         return d.toGMTString();
     };
 
+    var setCookie = function (cookie) {
+        var d = new Date();
+        cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
+        if(cookie.expires != '0'){
+            d.setTime(d.getTime() + (cookie.expires * 24 * 60 * 60 * 1000));
+            cookie.expires = d.toUTCString();
+        }
+        cookie.path = (cookie.path) ? cookie.path : '; path=/';
+        document.cookie =
+                cookie.name
+                + "="
+                + cookie.value
+                + "; expires="
+                + cookie.expires
+                + cookie.path;
+    };
+
+
     /**
      * Métodos Públicos
      * @param {type} obj
@@ -961,15 +980,10 @@ module.Cookie = (function (window, document, $, settings) {
          * @returns {undefined}
          */
         set: function (cookie) {
-            cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
-            cookie.expires = d.toGMTString(cookie.expires);
-
-            document.cookie =
-                    cookie.name
-                    + "="
-                    + cookie.value
-                    + "; expires="
-                    + cookie.expires;
+            setCookie(cookie);
+        },
+        erase: function (name) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
         },
         /**
          * Retorna o cookie
