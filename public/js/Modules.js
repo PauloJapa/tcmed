@@ -635,7 +635,7 @@ module.Messenger = (function (window, document, $, options) {
      * @param {String} grupo Grupo responsavel pelas mensagens
      * @returns {undefined}
      */
-    var getHistory = function (periodo, from) {
+     var getHistory = function (periodo, from) {
         var histButtons = action.outerHTML($(".chat-view").find(".row:first"));
         var data = {
             period: periodo,
@@ -722,6 +722,7 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer({
             url: settings.server,
             control: "/receiveMsg",
+            type: "POST",
             data: {
                 userId: settings.userId
             }
@@ -778,6 +779,7 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer({
             url: settings.server,
             control: "/sendStatus",
+            type: "POST",
             data: {
                 status: status,
                 userId: settings.userId
@@ -791,15 +793,35 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
      var receiveStatus = function (tdata) {
-        var _data = action.requestServer({
+        tdata = action.requestServer({
             url: settings.server,
             control: "/receiveStatus",
+            type: "POST",
             data: {
                 userId: settings.userId
             }
+        }).success(function(ret){
+            ret = JSON.parse(ret);
+
+            $.each(ret, function(key, value){
+                var aux = {};
+                aux[key] = value.status;
+                if(value.status !== settings.contacts[key].status){
+                    switch (settings.contacts[key].status){
+                        case "busy":
+                            changeStatus(aux, false);
+                            break;
+                        default:
+                            changeStatus(aux, true);
+                            break;
+                    }
+                }
+            });
         });
 
-        var data;
+/*
+        var _data = 
+
 
         if (tdata) {
             data = tdata;
@@ -810,7 +832,8 @@ module.Messenger = (function (window, document, $, options) {
             aux[name] = status;
             changeStatus(aux, true);
         });
-    };
+*/
+};
 
     /**
      * Recebe os contatos do servidor
@@ -925,7 +948,6 @@ module.Messenger = (function (window, document, $, options) {
         //e trocar icone
         if (settings.contacts[user].type === "group") {
 
-            //TODO. PROBLEMAS AQUI
             $.each(settings.contacts[user].contatosDoGrupo, function (key, contato) {
                 $("#chat-group-users").text($("#chat-group-users").text() + contato.name + ", ");
             });
@@ -990,6 +1012,10 @@ module.Messenger = (function (window, document, $, options) {
 
             setInterval(function () {
                 receiveMessage();
+            }, 5000);
+
+            setInterval(function () {
+                receiveStatus();
             }, 5000);
 
             if ($(".chat-view").scrollTop() == 0) {
