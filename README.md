@@ -1,5 +1,5 @@
 # Sistema ERP Básico
-## *AEM Sistemas - Tecnomed*
+*AEM Sistemas - Tecnomed*
 
 
 ZendSkeletonApplication
