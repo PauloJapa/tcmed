@@ -1069,6 +1069,24 @@ module.Cookie = (function (window, document, $, settings) {
         return d.toGMTString();
     };
 
+    var setCookie = function (cookie) {
+        var d = new Date();
+        cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
+        if(cookie.expires != '0'){
+            d.setTime(d.getTime() + (cookie.expires * 24 * 60 * 60 * 1000));
+            cookie.expires = d.toUTCString();
+        }
+        cookie.path = (cookie.path) ? cookie.path : '; path=/';
+        document.cookie =
+                cookie.name
+                + "="
+                + cookie.value
+                + "; expires="
+                + cookie.expires
+                + cookie.path;
+    };
+
+
     /**
      * Métodos Públicos
      * @param {type} obj
@@ -1093,16 +1111,11 @@ module.Cookie = (function (window, document, $, settings) {
          * @param {type} cookie
          * @returns {undefined}
          */
-         set: function (cookie) {
-            cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
-            cookie.expires = d.toGMTString(cookie.expires);
-
-            document.cookie =
-            cookie.name
-            + "="
-            + cookie.value
-            + "; expires="
-            + cookie.expires;
+        set: function (cookie) {
+            setCookie(cookie);
+        },
+        erase: function (name) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
         },
         /**
          * Retorna o cookie
