@@ -699,6 +699,7 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer({
             url: settings.server,
             control: "/sendStatus",
+            type: "POST",
             data: {
                 status: status,
                 userId: settings.userId
@@ -715,6 +716,7 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer({
             url: settings.server,
             control: "/receiveStatus",
+            type: "POST",
             data: {
                 userId: settings.userId
             }
@@ -742,6 +744,7 @@ module.Messenger = (function (window, document, $, options) {
         var _data = action.requestServer({
             url: settings.server,
             control: "/receiveContacts",
+            type: "POST",
             data: {
                 userId: settings.userId
             }
