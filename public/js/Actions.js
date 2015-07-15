@@ -263,11 +263,12 @@ action = (function ($, options) {
                 open: false
             });
 
-            //
+            /*
             module.Cookie.save({
                 key: "PHPSESSID",
                 value: module.Cookie.get("PHPSESSID")
             });
+            */
         },
         nextFocus: function (obj) {
             var inputs = $(obj).closest('form').find(':input:visible');
