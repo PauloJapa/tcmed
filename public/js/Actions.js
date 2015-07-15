@@ -185,7 +185,9 @@ action = (function ($, options) {
         notification: function (options) {
             if (!("Notification" in window)) {
                 console.log("Este browser não suporta notificações de desktop");
+                return;
             }
+
             else if (Notification.permission === "granted") {
                 var notification = new Notification(options.title, options);
             }

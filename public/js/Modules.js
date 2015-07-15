@@ -369,7 +369,6 @@ module.Messenger = (function (window, document, $, options) {
          $click(".setOnline", function () {
             changeMeStatus("online");
             sendStatus("online");
-            settings.notify = true;
         });
 
         /**
@@ -378,10 +377,7 @@ module.Messenger = (function (window, document, $, options) {
          */
          $click(".setBusy", function () {
             changeMeStatus("busy");
-
             sendStatus("busy");
-
-            settings.notify = false;
         });
 
         /**
@@ -390,10 +386,7 @@ module.Messenger = (function (window, document, $, options) {
          */
          $click(".setOffline", function () {
             changeMeStatus("offline");
-
             sendStatus("offline");
-
-            settings.notify = false;
         });
 
         /**
@@ -401,9 +394,15 @@ module.Messenger = (function (window, document, $, options) {
          * @returns {undefined}
          */
          $click(".btn-get", function () {
+            //Remove o alerta da mensagem
+            if($(this).find("i").hasClass('alertMsg')){
+                $(this).find("i").removeClass('alertMsg');
+            }
+
             $(".chat-list").animate({
                 opacity: 0
             }, "slow").hide();
+
             $(".chat-window").css("opacity", "0").show().animate({opacity: 1}, "fast");
 
             buildConversation($(this).attr("id"));
@@ -427,6 +426,11 @@ module.Messenger = (function (window, document, $, options) {
          * @returns {undefined}
          */
          $click("#messenger", function () {
+
+            if($(this).find("i").hasClass('alertMsg')){
+                $(this).find("i").removeClass('alertMsg');
+            }
+
             //Converte DOM em Obj Jquery 
             var $messenger = $(".messenger");
 
@@ -526,11 +530,11 @@ module.Messenger = (function (window, document, $, options) {
     /**
      * Altera o Status do(s) Contato(s)
      * @param {Object} data id:status do usuario
-     * @param {boolean} canNotify Omite a notificacao (se false)
-     * @returns {undefined}
+     * @param {boolean} notify Habilita a notificacao
+     * @author Danilo Dorotheu
+     * @version 1.0
      */
-     var changeStatus = function (data, canNotify) {
-        canNotify = (canNotify == false) ? canNotify : true;
+     var changeStatus = function (data, notify) {
 
         var state = {
             "online": "success",
@@ -539,8 +543,11 @@ module.Messenger = (function (window, document, $, options) {
             "group": "primary"
         };
 
+        var oldStatus;
+
         $.each(data, function (name, status) {
-            settings.contacts[name].status = status;
+            oldStatus = settings.contacts[name].status = status;
+            console.log(">>" + oldStatus);
 
             $.each(state, function (k, classe) {
                 $(".btn-" + name).removeClass("btn-" + classe);
@@ -550,8 +557,7 @@ module.Messenger = (function (window, document, $, options) {
             $(".panel-" + name).addClass("panel-" + state[status]);
 
 
-            if (canNotify && settings.notify) {
-
+            if (notify && settings.status !== "busy") {
                 //Trata a notificação
                 var aux = {
                     title: settings.contacts[name].name,
@@ -560,13 +566,19 @@ module.Messenger = (function (window, document, $, options) {
 
                 switch (status) {
                     case "offline":
-                    aux.body = "Saiu do chat";
-                    action.notification(aux);
-                    break;
-                    default:
-                    aux.body = "Entrou no chat";
-                    action.notification(aux);
-                    break;
+                        aux.body = "Saiu do chat";
+                        action.notification(aux);
+                        break;
+                    case "online":
+                        aux.body = "Entrou no chat";
+                        action.notification(aux);
+                        break;
+                    case "busy":
+                        if(oldStatus == "offline"){
+                            aux.body = "Entrou no chat";
+                            action.notification(aux);
+                        }
+                        break;
                 }
             }
         });
@@ -578,6 +590,8 @@ module.Messenger = (function (window, document, $, options) {
      * @returns {undefined}
      */
      var changeMeStatus = function (status) {
+        settings.status = status;
+
         var messenger = $("#messenger")
         .removeClass("btn-default")
         .removeClass("btn-warning")
@@ -732,7 +746,14 @@ module.Messenger = (function (window, document, $, options) {
             if (objmsg) {
                 $.each(objmsg, function (key, msgbody) {
 
-                    if (msgbody.userto.indexOf("gr") > -1) {
+                    if(!$(".messenger").is(':visible') 
+                        && settings.status !== "busy"){
+                        $("#messenger").find("i").addClass('alertMsg');
+                }
+
+                if (msgbody.userto.indexOf("gr") > -1) {
+                        //Alerta mensagem
+                        $("#" + msgbody.userto).find("i").addClass("alertMsg");
 
                         //Armazena no log de mensagens
                         settings.contacts[msgbody.userto].logMsg.push(msgbody);
@@ -740,43 +761,49 @@ module.Messenger = (function (window, document, $, options) {
                         if (settings.userTo == msgbody.userto && settings.chatIsOpen) {
                             printMessage(msgbody);
                         } else {
-
-                            action.notification({
-                                title: settings.contacts[msgbody.userto].name,
-                                body: msgbody.msg + "\n " + msgbody.dtime,
-                                dir: "ltr"
-                            });
+                            if(settings.status !== "busy"){
+                                action.notification({
+                                    title: settings.contacts[msgbody.userto].name,
+                                    body: msgbody.msg + "\n " + msgbody.dtime,
+                                    dir: "ltr"
+                                });
+                            }
                         }
                     }
 
                     else {
+                        //Alerta mensagem
+                        $("#" + msgbody.userby).find("i").addClass("alertMsg");
+                        
                         //Armazena no log de mensagens
                         settings.contacts[msgbody.userby].logMsg.push(msgbody);
 
                         if (settings.userTo == msgbody.userby && settings.chatIsOpen) {
                             printMessage(msgbody);
                         } else {
-
-                            action.notification({
-                                title: settings.contacts[msgbody.userby].name,
-                                body: msgbody.msg + "\n " + msgbody.dtime,
-                                dir: "ltr"
-                            });
+                            if(settings.status !== "busy"){
+                                action.notification({
+                                    title: settings.contacts[msgbody.userby].name,
+                                    body: msgbody.msg + "\n " + msgbody.dtime,
+                                    dir: "ltr"
+                                });
+                            }
                         }
                     }
                 });
 }
 });
 };
-
     /**
-     * Envia meu status
-     * @param {type} status
-     * @returns {undefined}
+     * Envia atualizacao de status do usuario
+     * @param  {Object} status [{id do usuario, status do usuario}]
+     * @author Danilo Dorotheu
+     * @version 1.0
      */
      var sendStatus = function (status) {
         settings.status = status;
-        var _data = action.requestServer({
+
+        action.requestServer({
             url: settings.server,
             control: "/sendStatus",
             type: "POST",
@@ -786,14 +813,14 @@ module.Messenger = (function (window, document, $, options) {
             }
         });
     };
-
     /**
-     * Receber status
-     * @param {type} tdata
-     * @returns {undefined}
+     * Solicita ao servidor, atualizacao do status e msg de status
+     * dos contatos
+     * @author Danilo Dorotheu
+     * @version 1.0
      */
-     var receiveStatus = function (tdata) {
-        tdata = action.requestServer({
+     var receiveStatus = function () {
+        action.requestServer({
             url: settings.server,
             control: "/receiveStatus",
             type: "POST",
@@ -804,46 +831,42 @@ module.Messenger = (function (window, document, $, options) {
             ret = JSON.parse(ret);
 
             $.each(ret, function(key, value){
+                var currentUser = settings.contacts[key];
+
+                //Seta o status do contato
+                currentUser.msgstatus = value.msgstatus;
+                if(settings.userTo == key){
+                    $("#chat-group-users").text(currentUser.msgstatus);
+                }
+
                 var aux = {};
                 aux[key] = value.status;
-                if(value.status !== settings.contacts[key].status){
-                    switch (settings.contacts[key].status){
-                        case "busy":
-                            changeStatus(aux, false);
-                            break;
-                        default:
-                            changeStatus(aux, true);
-                            break;
+
+                if(value.status !== currentUser.status){
+
+                    //Se o atual status for busy e o novo estado for online...
+                    if(currentUser.status == "offline" && value.status == "offline"){
+                        //Exibir mensagem
+                        changeStatus(aux);
+                    }else{
+                        //Nao exibir mensagem
+                        changeStatus(aux, true);
                     }
                 }
             });
         });
-
-/*
-        var _data = 
-
-
-        if (tdata) {
-            data = tdata;
-        }
-
-        $.each(data, function (name, status) {
-            var aux = {};
-            aux[name] = status;
-            changeStatus(aux, true);
-        });
-*/
-};
-
+    };
     /**
      * Recebe os contatos do servidor
-     * @returns {undefined}
+     * @author Danilo Dorotheu
+     * @version 1.0
      */
      var receiveContacts = function () {
 
-        var _data = action.requestServer({
+        action.requestServer({
             url: settings.server,
             control: "/receiveContacts",
+            type: "POST",
             data: {
                 userId: settings.userId
             }
@@ -880,7 +903,7 @@ module.Messenger = (function (window, document, $, options) {
 
                     var aux = {};
                     aux[id] = params.status;
-                    changeStatus(aux, false);
+                    changeStatus(aux);
 
                 }, 100);
             });
@@ -889,7 +912,7 @@ module.Messenger = (function (window, document, $, options) {
     /**
      * Constroi o HTML da Pagina de contatos
      * @author Danilo Dorotheu
-     * @returns {undefined}
+     * @version 1.0
      */
      var buildHtml = function () {
         //Recebe o html
@@ -957,6 +980,7 @@ module.Messenger = (function (window, document, $, options) {
             //Define icone do grupo
             icon = "<i class='fa fa-user'></i>&nbsp;&nbsp;&nbsp;";
         }else{
+            console.log(settings.contacts[user].msgstatus);
             $("#chat-group-users").text(settings.contacts[user].msgstatus);
         }
 
@@ -975,7 +999,7 @@ module.Messenger = (function (window, document, $, options) {
         setTimeout(function () { //Trata erro de exibicao: temporario
             var aux = {};
             aux[user] = settings.contacts[user].status;
-            changeStatus(aux, false);
+            changeStatus(aux);
         }, 1);
 
         //Pra cada mensagem, printar na tela

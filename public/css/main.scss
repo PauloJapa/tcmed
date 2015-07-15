@@ -29,6 +29,12 @@ $border-default: 1px solid;
     text-align: -moz-center;
     font-style: italic;
 }
+/**
+ * Alerta de mensagem
+ */
+.alertMsg{
+    color: #ff0;
+}
 .chat-view>div:first-child>div{
     padding:0px;
 }
