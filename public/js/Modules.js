@@ -567,21 +567,21 @@ module.Messenger = (function (window, document, $, options) {
 
                 switch (status) {
                     case "offline":
-                        aux.body = "Saiu do chat";
-                        action.notification(aux);
-                        break;
+                    aux.body = "Saiu do chat";
+                    action.notification(aux);
+                    break;
                     case "online":
-                        if(oldStatus == "offline"){
-                            aux.body = "Entrou no chat";
-                            action.notification(aux);
-                        }
-                        break;
+                    if(oldStatus == "offline"){
+                        aux.body = "Entrou no chat";
+                        action.notification(aux);
+                    }
+                    break;
                     case "busy":
-                        if(oldStatus == "offline"){
-                            aux.body = "Entrou no chat";
-                            action.notification(aux);
-                        }
-                        break;
+                    if(oldStatus == "offline"){
+                        aux.body = "Entrou no chat";
+                        action.notification(aux);
+                    }
+                    break;
                 }
             }
         });
@@ -1054,6 +1054,7 @@ module.Messenger = (function (window, document, $, options) {
 })(window, document, jQuery, App.SETTINGS);
 
 module.Cookie = (function (window, document, $, settings) {
+
     var defaults = {
         expires: 1
     };
