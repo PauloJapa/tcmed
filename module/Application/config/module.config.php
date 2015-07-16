@@ -160,6 +160,7 @@ return array(
             'Application\Controller\Mensagems' => 'Application\Controller\MensagemsController',
             'Application\Controller\Enviados' => 'Application\Controller\EnviadosController',
             'Application\Controller\Testes' => 'Application\Controller\TestesController',
+            'Application\Controller\ShellController' => 'Application\Controller\ShellController',
         ),
     ),    
     'module_layouts' => array(
@@ -186,6 +187,17 @@ return array(
     'console' => array(
         'router' => array(
             'routes' => array(
+                //CRON RESULTS SCRAPER
+                'my-first-route' => array(
+                    'type'    => 'simple',       // <- simple route is created by default, we can skip that
+                    'options' => array(
+                    'route'    => 'setOffline',
+                    'defaults' => array(
+                        'controller' => 'Application\Controller\ShellController',
+                        'action'     => 'setoffline'
+                        )
+                    )
+                )
             ),
         ),
     ),

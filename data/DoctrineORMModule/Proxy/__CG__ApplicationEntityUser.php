@@ -64,10 +64,10 @@ class User extends \Application\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'idUser', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'usuarioId', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'nome', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusChat', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusDatetime', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusMsg', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'status');
+            return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'idUser', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'usuarioId', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'nome', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusChat', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusDatetime', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'accessDatetime', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusMsg', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'status');
         }
 
-        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'idUser', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'usuarioId', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'nome', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusChat', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusDatetime', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusMsg', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'status');
+        return array('__isInitialized__', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'idUser', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'usuarioId', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'nome', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusChat', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusDatetime', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'accessDatetime', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'statusMsg', '' . "\0" . 'Application\\Entity\\User' . "\0" . 'status');
     }
 
     /**
@@ -198,12 +198,12 @@ class User extends \Application\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setId($idUser)
+    public function setId($id)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', array($idUser));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', array($id));
 
-        return parent::setId($idUser);
+        return parent::setId($id);
     }
 
     /**
@@ -257,12 +257,23 @@ class User extends \Application\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getStatusDatetime($obj = false)
+    public function getStatusDatetime($obj = false, $full = false)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusDatetime', array($obj));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStatusDatetime', array($obj, $full));
 
-        return parent::getStatusDatetime($obj);
+        return parent::getStatusDatetime($obj, $full);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAccessDatetime($obj = false, $full = false)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAccessDatetime', array($obj, $full));
+
+        return parent::getAccessDatetime($obj, $full);
     }
 
     /**
@@ -345,6 +356,17 @@ class User extends \Application\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function setAccessDatetime($accessDatetime)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAccessDatetime', array($accessDatetime));
+
+        return parent::setAccessDatetime($accessDatetime);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setStatusMsg($statusMsg)
     {
 
@@ -400,7 +422,7 @@ class User extends \Application\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function strToDate($strDateTime)
+    public function strToDate($strDateTime = '')
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'strToDate', array($strDateTime));
@@ -411,12 +433,12 @@ class User extends \Application\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function dateToStr($date, $full = false)
+    public function dateToStr($date, $full = false, $obj = false)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'dateToStr', array($date, $full));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'dateToStr', array($date, $full, $obj));
 
-        return parent::dateToStr($date, $full);
+        return parent::dateToStr($date, $full, $obj);
     }
 
 }

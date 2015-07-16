@@ -13,6 +13,12 @@ namespace Application\Entity\Repository;
  */
 class ContatoRepository extends AbstractRepository {
     
+    /**
+     * Busca na tabela Contato os contatos do usuario passado como parametro
+     * 
+     * @param array $user  filtro da consulta
+     * @return array of entity of Contato
+     */
     public function getMyContactAndGrupos(array $user) {
         /* @var $userRep \Application\Entity\Repository\UserRepository */
         /* @var $userChat \Application\Entity\User */
@@ -36,6 +42,13 @@ class ContatoRepository extends AbstractRepository {
         return $contatos;
     }
     
+    /**
+     * Busca os Contatos no BD basedo nos filtros passado nos params
+     * 
+     * @param string $where
+     * @param string $parameters
+     * @return array of entity of Contato
+     */
     public function getUpgradedStatusUser($where, $parameters) {
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
