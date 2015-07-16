@@ -1045,7 +1045,7 @@ module.Messenger = (function (window, document, $, options) {
                 receiveStatus();
             }, 120000);
 
-            setInterval(function () {
+            setTimeout(function () {
                 sendStatus('online');
             }, 1000);
 
