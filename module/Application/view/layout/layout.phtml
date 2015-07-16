@@ -41,6 +41,7 @@
         <!-- Meu script -->
         <?php
         echo $this->headScript()
+                //->prependFile($this->basePath('js/ajaxAutoComp.js'))
                 ->prependFile($this->basePath('js/ajaxAutoComp.js'))
                 ->prependFile($this->basePath('js/ajax.js'))
                 ->prependFile($this->basePath('js/jquery.maskMoney.js'))

@@ -472,8 +472,8 @@ module.Messenger = (function (window, document, $, options) {
         });
         /**
          * 
-         * @param  {[type]}
-         * @return {[type]}
+         * @param  {}
+         * @return {}
          */
          $click("#changeStatus", function(){
             $("#msgstatus").hide();
@@ -1068,7 +1068,11 @@ module.Cookie = (function (window, document, $, settings) {
         d.setTime(d.getTime() + (val * 24 * 60 * 60 * 1000));
         return d.toGMTString();
     };
-
+    /**
+     * Seta o cookie (privado)
+     * @param {Object} cookie
+     * @private
+     */
     var setCookie = function (cookie) {
         var d = new Date();
         cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
