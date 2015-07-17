@@ -33,15 +33,46 @@ class UserRepository extends AbstractRepository {
                 ;
         return $query->getResult();
     }
-    
-    
-    public function fetchPairs() {
+            
+    /**
+     * Pesquisa quem esta diferente de busy(offline) na tabela user 
+     * No tempo menor que o especificado no param $date
+     * Caso encontre alguem ele troca o status para busy e atualiza statusDatetime
+     * @param \DateTime $date
+     */
+    public function setAllInactiveOffLine(\DateTime $date){
         /* @var $entity \Application\Entity\User */
-        $entities = $this->findAll();
-        $array = [];
-        foreach ($entities as $entity) {
-            $array[$entity->getId()] = $entity->getNome();
+        $em = $this->getEntityManager();
+        $query = $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select('u')
+                ->from('Application\Entity\User', 'u')
+                ->where("u.accessDatetime < :date AND u.statusChat NOT LIKE 'busy'")
+                ->setParameter('date', $date)
+                ->getQuery()
+                ;
+        $users =  $query->getResult();
+        $now = new \DateTime('now');
+        echo "ok ", $date->format('d/m/Y H:i:s'), "\r\n";
+        foreach ($users as $entity) {
+            echo $entity->getNome(), "\r\n";
+            $entity->setStatusChat('busy');
+            $entity->setStatusDatetime($now);
+            $em->persist($entity);
         }
-        return $array;
+        $em->flush();
+    }
+    
+    /**
+     * Atualiza campo accessDatetime na tabela user 
+     * Assim indica que ainda esta diferente de busy no sistema de chat
+     * 
+     * @param string | integer $id
+     */
+    public function upgradeMeIsOnline($id) {
+        /* @var $user \Application\Entity\User */
+        $user = $this->find($id);
+        $user->setAccessDatetime('');
+        $this->getEntityManager()->flush($user);        
     }
 }

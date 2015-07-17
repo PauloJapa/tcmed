@@ -112,15 +112,7 @@ class Enviado extends AbstractEntity
      * @return \Datetime | string
      */
     public function getDateEnviado($obj = FALSE, $full = FALSE) {
-        if($obj == 'full'){
-            $full = TRUE;
-            $obj = FALSE;
-        }
-        if($obj){
-            return $this->dateEnviado;
-        }else{
-            return $this->dateToStr($this->dateEnviado, $full);
-        }
+        return $this->dateToStr($this->dateEnviado, $full, $obj);
     }
 
     /**
@@ -128,15 +120,7 @@ class Enviado extends AbstractEntity
      * @return \Datetime | string
      */
     public function getDateRecebido($obj = FALSE, $full = FALSE) {
-        if($obj == 'full'){
-            $full = TRUE;
-            $obj = FALSE;
-        }
-        if($obj){
-            return $this->dateRecebido;
-        }else{
-            return $this->dateToStr($this->dateRecebido, $full);
-        }
+        return $this->dateToStr($this->dateRecebido, $full, $obj);
     }
 
     /**
@@ -187,10 +171,7 @@ class Enviado extends AbstractEntity
      * @return \Application\Entity\Enviado
      */
     public function setDateEnviado($dateEnviado) {        
-        if(is_string($dateEnviado)){
-            $dateEnviado = $this->strToDate($dateEnviado);
-        }
-        $this->dateEnviado = $dateEnviado;
+        $this->dateEnviado = $this->strToDate($dateEnviado);
         return $this;
     }
 
@@ -200,10 +181,7 @@ class Enviado extends AbstractEntity
      * @return \Application\Entity\Enviado
      */
     public function setDateRecebido($dateRecebido) {
-        if(is_string($dateRecebido)){
-            $dateRecebido = $this->strToDate($dateRecebido);
-        }
-        $this->dateRecebido = $dateRecebido;
+        $this->dateRecebido = $this->strToDate($dateRecebido);
         return $this;
     }
 

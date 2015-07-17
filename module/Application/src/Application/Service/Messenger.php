@@ -66,6 +66,11 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         }        
     }
 
+    /**
+     * Busca o user do chat que esta ligado ao usuario do sistema
+     * @param string $meUser
+     * @return \Application\Entity\User
+     */
     public function whoIam($meUser) {
         $userRepository = $this->em->getRepository($this->basePath . "User");
         
@@ -76,6 +81,12 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         return $user[0];
     }
     
+    /**
+     * Busca no enviado as mensagens enviadas e recebidas em um determinado periodo
+     * Baseado no filtros passado
+     * @param type $dataPost
+     * @return array of \Application\Entity\Enviado
+     */
     public function getHistory($dataPost) {        
         /* @var $repositoryEnviado \Application\Entity\Repository\EnviadoRepository */
         $repositoryEnviado = $this->em->getRepository($this->basePath . "Enviado");
@@ -109,7 +120,16 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         return $repositoryEnviado->getEnviadoDql($where, $parameters); 
     }
     
+    /**
+     * Busca no contato os contatos que atualizaram seus status recentemente
+     * Baseado no filtros passado
+     * @param array $dataPost
+     * @return array of \Application\Entity\Contato
+     */
     public function getUpgradedStatusUser($dataPost) {
+        /* @var $repositoryUser \Application\Entity\Repository\UserRepository */
+        $repositoryUser = $this->em->getRepository($this->basePath . "User");
+        $repositoryUser->upgradeMeIsOnline(str_replace('us', '', $dataPost['userId']));
         /* @var $repositoryContato \Application\Entity\Repository\ContatoRepository */
         $repositoryContato = $this->em->getRepository($this->basePath . "Contato");
         
@@ -121,6 +141,11 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         return $repositoryContato->getUpgradedStatusUser($where, $parameters);         
     }
     
+    /**
+     * Altera no Bd o user que alterou seu status no chat 
+     * @param array $dataPost
+     * @return boolean (true caso altere com sucesso)
+     */
     public function getChangeStatusUser($dataPost) {
         $serviceUser = new User($this->em);
         $data['idUser'] = str_replace('us', '', $dataPost['userId']);
@@ -133,6 +158,11 @@ if(!$grupoTo){  echo 'erro 3 ';          return;        }
         return FALSE;
     }
     
+    /**
+     * Altera no Bd o user que alterou sua mensagem de status no chat 
+     * @param array $dataPost
+     * @return boolean (true caso altere com sucesso)
+     */
     public function ChangeStatusMsgUser($dataPost) {
         $serviceUser = new User($this->em);
         $data['idUser'] = str_replace('us', '', $dataPost['userId']);

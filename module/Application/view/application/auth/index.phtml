@@ -33,10 +33,13 @@
     </div>
 </div>
 <script lang="javascript">   
-    
-    var x = module.Cookie.get('email');
-    if(x != ''){
-        $('#email').val(x);
+    var login = true;
+
+    function getLogin(){
+        var email = module.Cookie.get('EMAIL');
+        if(email != ''){
+            $('#email').val(email);
+        }
     }
         
     function isValid(){
@@ -48,11 +51,15 @@
         var se = module.Cookie.get('PHPSESSID');
         //retirar o login do cookie
         aux = se.split("param");
-        action.setPublic({SESSAO : aux[0] });
-        action.setPublic({LOGIN : $('#email').val()});
-        module.Cookie.set({name : 'PHPSESSID', value : action.getPublic('SESSAO') + 'param' + action.getPublic('LOGIN'), expires : '0'});
+        module.Cookie.set({name : 'SESSAO', value : aux[0] , expires : '0'});
+        module.Cookie.set({name : 'LOGIN', value : $('#email').val(), expires : '0'});
+        module.Cookie.set({name : 'PHPSESSID', value : aux[0] + 'param' + $('#email').val(), expires : '0'});
+        
+        if($('#remember').is(':checked')){
+            module.Cookie.set({name : 'EMAIL', value : $('#email').val(), expires : '0'});
+        }
         
         return true;
     }
-   
+    setTimeout("getLogin()",1000);
 </script>

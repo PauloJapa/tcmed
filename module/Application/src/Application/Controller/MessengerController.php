@@ -101,6 +101,11 @@ class MessengerController extends CrudController {
         return $this->makeView(compact('meUser'));
     }
 
+    /**
+     * Altera msg de status do chat
+     *
+     * @return Zend\View\Model\ViewModel
+     */
     public function editMsgStatusAction() {
         $data = $this->getService()->ChangeStatusMsgUser($this->getRequest()->getPost());
         return $this->makeView(compact("data"));

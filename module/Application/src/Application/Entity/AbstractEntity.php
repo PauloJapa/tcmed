@@ -58,11 +58,15 @@ abstract class AbstractEntity {
     
     /**
      * Converte um string para obj datetime se for um string valida
+     * Caso o parametro for um object datetime retornara ele proprio
      * Faz tratamento da string 
-     * @param type $strDateTime
+     * @param string | \DateTime $strDateTime
      * @return \DateTime
      */
-    public function strToDate($strDateTime) {
+    public function strToDate($strDateTime = '') {    
+        if ($strDateTime instanceof \DateTime){
+            return $strDateTime;
+        }
         switch (TRUE) {
             case empty($strDateTime):
                 return new \DateTime('now');
@@ -87,17 +91,29 @@ abstract class AbstractEntity {
     
     /**
      * Converte um obj datetime para string para exibição html
+     * Caso $full for string ele usa como parametro para formatação da data
+     * Caso $full for falso  ele converte como parametro para formatação da data de d/m/Y
+     * Caso $obj contiver a string "full" parametriza $full para 'd/m/Y h:m'
+     * Caso $obj for True retorna o proprio object
      * @param \DateTime $date
-     * @param type $full
-     * @return string  Data e hora , somente data ou - quando não for obj datetime
+     * @param string | bollean $full
+     * @param string | bollean $obj
+     * @return string | \DateTime
      */
-    public function dateToStr($date,$full = false) {        
-        if ($date instanceof \DateTime){
-            if($full){
-                return $date->format('d/m/Y h:m');
-            }else{
-                return $date->format('d/m/Y');
+    public function dateToStr($date,$full = false, $obj = false) {  
+        if($obj === TRUE){
+            return $date;
+        }
+        if($obj == 'full'){
+            $full = 'd/m/Y H:i:s';
+            $obj = FALSE;
+        }else{
+            if (!is_string($full)){
+                $full = 'd/m/Y';                
             }
+        }      
+        if ($date instanceof \DateTime){
+            return $date->format($full);
         }else{
             return '-';
         }

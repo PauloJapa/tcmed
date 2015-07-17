@@ -1043,7 +1043,11 @@ module.Messenger = (function (window, document, $, options) {
 
             setInterval(function () {
                 receiveStatus();
-            }, 5000);
+            }, 120000);
+
+            setTimeout(function () {
+                sendStatus('online');
+            }, 1000);
 
             if ($(".chat-view").scrollTop() == 0) {
                 console.log(".chat-view");

@@ -10,7 +10,8 @@ use Doctrine\ORM\EntityRepository;
 
 /**
  * AbstractRepository
- * Todos os metodos de auxilio para consulta
+ * Todos os metodos mais usados nas manipulação do BD
+ * 
  * @author Paulo Cordeiro Watakabe <watakabe05@gmail.com>
  */
 abstract class AbstractRepository  extends EntityRepository {
@@ -84,6 +85,20 @@ abstract class AbstractRepository  extends EntityRepository {
                 ->getQuery()
                 ;
         return $query->getResult();
+    }
+    
+    /**
+     * Retorna um array com os pares(id nome) de todos os dados dessa entidade
+     * @return array
+     */
+    public function fetchPairs($methd = 'getNome') {
+        /* @var $entity \Application\Entity\ENTIDADE */
+        $entities = $this->findAll();
+        $array = [];
+        foreach ($entities as $entity) {
+            $array[$entity->getId()] = call_user_func($entity, $methd);
+        }
+        return $array;
     }
     
 }
