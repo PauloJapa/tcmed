@@ -25,6 +25,7 @@
         typeAjax: "POST",   //Tipo de Request
         params:{},          //Parametros
         qtdItensTable: 0,
+        show: "value",      //Coluna que será exibida no input após enter
         classRef: [         //Classes da Tabela
         'table-bordered', 
         'table-hover', 
@@ -68,9 +69,10 @@
         /**
          * Monta TBODY
          */
-         var aux = "<tbody>";
+         var cont = 0;                                        //TODO: Modificado
+         var aux = "<tbody class='suggest'>";
          $.each(obj, function(key, val){
-            aux += "<tr>"; //Abre tr
+            aux += "<tr data-pos='"+cont+"'>"; //Abre tr      //TODO: Modificado
             $.each(val, function(chave, valor){
 
                 //Adiciona chave no vetor de TH's
@@ -80,6 +82,7 @@
                 aux += "<td>"+valor+"</td>"; //Adiciona td
             });
             aux += "</tr>"; //fecha tr
+            cont++;                                          //TODO: Modificado
         });
          aux += "</tbody>"
          tbody = aux;
@@ -150,7 +153,7 @@
         $element = $(options.element);
         //Converte o Objeto em DOM
         var html = objToTable(results, options.classRef);
-        
+
         if($element.val() == "")
         {   //Se o input estiver vazio, fechar span
             closeSpan();
@@ -158,13 +161,35 @@
         else
         {
             //Adiciona o resultado no span
-            $('#'+options.span).html(html);   
-            $('#'+options.span).find("tbody").find("tr:first").addClass('success');
+            $('#'+options.span).html(html);
+            $('#'+options.span).show();
+        }
+    }
+
+    function keyBoardListener(events){
+        var keys = options.keys;
+
+        switch(events.which){
+            case keys.UP:
+
             
-            if(!$('#'+options.span).is(":visible"))
-            {   //Se o span estiver oculto, exibir
-                $('#'+options.span).show();
-            }
+            break;
+            case keys.DOWN:
+
+            
+            break;
+            case keys.ENTER:
+
+            
+            break;
+            case keys.ESC:
+                closeSpan(); //Fecha o span
+            
+            break;
+            default: //Another key
+                autoComp(); //Executa query
+            
+            break;
         }
     }
     /**
@@ -172,7 +197,7 @@
      * @author Danilo Dorotheu
      * @version 1.0
      */
-    function closeSpan(){
+     function closeSpan(){
         $('#'+options.span).html("");
         $('#'+options.span).hide();
     }
@@ -206,7 +231,14 @@
          function $click(attr, execMe) {
             return $doc.on("click", attr, execMe);
         }
-        function $change(attr, execMe){
+        /**
+         * Executa acoes do onChange
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         function $change(attr, execMe){
             return $doc.on("change", attr, execMe);
         }
         /**
@@ -260,11 +292,8 @@
          * Executa funcao quando tecla é solta
          * @author Danilo Dorotheu
          */
-         $keyup($element, function(){
-            //Se o campo nao estiver vazio
-            if(!$element.val() < 1){
-                autoComp();
-            }
+         $keyup($element, function(e){
+            keyBoardListener(e);
         });
         /**
          * Fecha span se usuario clicar fora do input
@@ -273,36 +302,15 @@
          $clickOut($("#"+options.span),function(){
             closeSpan();
         });
-        /**
-         *
-         * @author Danilo Dorotheu
-         */
-         $keyDown($element, function(e){
-            if($("#" + options.span).is(":visible")){
-                switch(e.keyCode){
-                    case keys.UP:
-
-                        break;
-                    case keys.DOWN:
-
-                        break;
-                    case keys.ESC:
-                        $(options.element).val("");
-                        closeSpan();
-                        /*
-                            TODO: quando clico com o mouse fora do
-                            $element, ele fecha normal (como deve ser feito).
-                            Mas quando aperto o ESC novamente, ele apaga o 
-                            campo do element
-                         */ 
-                        break;
-                    case keys.SPACE:
-
-                        break;
-                }
-            }
+         /**
+          * Seleciona o campo através do click do mouse
+          * @param  {type}[description]
+          * @return {type}[description]
+          */
+          $click(".suggest tr", function(){
+            console.log($(this).html());
         });
-     }
+    }
 
 
     /**
@@ -333,10 +341,12 @@
             $.extend(options, params, options);
             //Insere o element localmente
             options['element'] = element;
-            //Ininicaliza eventos
-            events();
+            
             //Monta o span para receber resposta
             $(options.element).parent().append("<div id='compl' class='dropdown-menu'>");
+
+            //Ininicaliza eventos
+            events();
 
             //Retorna o elemento
             return element;

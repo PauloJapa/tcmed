@@ -7,31 +7,50 @@
     $fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=> $controller, 'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
     $fh->setHorizontal(true);
     $fh->formInit('Cadastro User');
+    
     $opt = ['js' => 'autoCompUser()','icone' => 'search', 'span_id' => 'popUser','class' => '','style'=>'position:absolute;z-index: 9999999;'];
     $fh->openCol('12')->icone('userUser_nome',$opt)->closeCol();
     $fh->lineDown();
+    
     $opt2 = ['js' => 'autoCompGrupo()','icone' => 'search', 'span_id' => 'popGrupo','class' => '','style'=>'position:absolute;z-index: 99999999;'];
     $fh->openCol('12')->icone('grupoGrupo_nome',$opt2)->closeCol();
     $fh->lineDown();
+    
     $opt3 = ['js' => 'autoCompContato()','icone' => 'search', 'span_id' => 'popContato','class' => '','style'=>'position:absolute;z-index: 99999999;'];
     $fh->openCol('12')->icone('contatoUser_nome',$opt3)->closeCol();
     $fh->lineDown();
+    
     $fh->openCol('12')->Submit('submit')->closeCol();
     $fh->closeLine()->formEnd();
     ?>
 
     <script lang="javascript">   
-
         $(function(){
-            engine.autoComplete("userUser_nome", {
-                "filters": 'userUser_nome,autoComp',
-                "url": "/app/users/autoComp",
-                "params": {
-                    "subOpcao":"tipo2"
-                }
+            
+            action.autoComp("#userUser_nome", {
+                serviceUrl: '/app/users/autoComp',   //URL do servidor
+                primary: "nome",            //
+                params:{                    //Parametros extras
+                    subOpcao: "tipo2"
+                },
+            });
+
+            action.autoComp("#grupoGrupo_nome", {
+                serviceUrl: '/app/grupos/autoComp',   //URL do servidor
+                primary: "nome",            //
+                params:{                    //Parametros extras
+                    subOpcao: "tipo2"
+                },
+            });
+
+            action.autoComp("#contatoUser_nome", {
+                serviceUrl: '/app/users/autoComp',   //URL do servidor
+                primary: "nome",            //
+                params:{                    //Parametros extras
+                    subOpcao: "tipo2"
+                },
             });
         });
-
 
         function isValid(){
             if($("#userUser_nome").val() == ""){
@@ -73,17 +92,6 @@ var filtros = 'userUser_nome,autoComp';
 var servico = "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'autoComp'),[],FALSE,FALSE);?>";
 var returns = Array('userUser','userUser_nome');
 var functionCall = '';
-
-/*engine.autoComp2({
-    "txt":filtros,
-    "prog":servico,
-    "jan":'popUser',
-    "ret":returns,
-    "exQt":'2',
-    "func":functionCall,
-    "opc":'tipo2'
-});
-*/
 }
 
 function autoCompGrupo(){
@@ -93,17 +101,6 @@ function autoCompGrupo(){
     var servico = "<?php echo $this->url('app/default',array('controller'=>'grupos','action'=>'autoComp'),[],FALSE,FALSE);?>";
     var returns = Array('grupoGrupo','grupoGrupo_nome');
     var functionCall = '';
-
-/*    engine.autoComp2({
-        "txt":filtros,
-        "prog":servico,
-        "jan":'popGrupo',
-        "ret":returns,
-        "exQt":'2',
-        "func":functionCall,
-        "opc":'tipo2'
-    });
-*/
 }
 
 function autoCompContato(){
@@ -113,17 +110,6 @@ function autoCompContato(){
     var servico = "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'autoComp'),[],FALSE,FALSE);?>";
     var returns = Array('contatoUser','contatoUser_nome');
     var functionCall = '';
-
-    /*engine.autoComp2({
-        "txt":filtros,
-        "prog":servico,
-        "jan":'popContato',
-        "ret":returns,
-        "exQt":'2',
-        "func":functionCall,
-        "opc":'tipo2'
-    });
-    */
 }
 
 

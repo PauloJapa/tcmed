@@ -292,7 +292,51 @@ action = (function ($, options) {
                 }
             }
             return;
+        },
+        /**
+         * [autoComp description]
+         * Documentacao API: https://www.devbridge.com/sourcery/components/jquery-autocomplete/ 
+         * @param  {jQuery | String} element: Elemento que será observado
+         * @param  {Object} params: Parametros
+         */
+        autoComp: function(element, params){
+            var localParams = {
+                type: "POST",               //Tipo de conexao
+                paramName: "data",          //Nome do parametro do campo
+                minChars: 0,                //Minimo de caracteres
+
+                transformResult: function (response) {  //Transforma o resultado obtido do servidor
+                    response = JSON.parse(response);
+
+                    //Algoritmo para criar o header (Identificacao das colunas da tabela)
+                    var header = [];
+                    $.each(response, function (k, value) {
+                        $.each(value, function (identif, val) {
+                            if ($.inArray(identif, header) < 0) {
+                                header.push(identif);
+                            }
+                        });
+                    });
+
+                    return {
+                        suggestions: $.map(response, function (dataItem) {
+                            var obj = {};
+                            //Retira do array, o valor principal
+                            obj['value'] = dataItem[params.primary];
+                            header[params.primary] = "";
+                            for(var i = 0; i < header.length; i++){
+                                //TODO: Esta printando duas vezes. Arrumar
+                                obj[header[i]] = dataItem[header[i]];
+                            }
+                            return obj;
+                        })
+                    };
+                }
+            };
+            //Extende os parametros
+            $.extend(params, params, localParams);
+            $(element).autocomplete(params);
         }
-    };
+    }
 
 })(jQuery, App.SETTINGS);
