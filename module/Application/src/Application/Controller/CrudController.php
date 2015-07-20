@@ -58,9 +58,9 @@ abstract class CrudController extends AbstractActionController {
      */
     protected $formWithEntityManager = FALSE;
     
-    public function __construct($name='') {
+    public function __construct($name='',$module='Application') {
         $this->name = ($name);
-        $this->moduloName = "Application";  
+        $this->moduloName = $module;  
         $this->entity = $this->moduloName . "\Entity\\" . ucfirst($this->name);
         $this->form = $this->moduloName . "\Form\\" . ucfirst($this->name);
         $this->service = $this->moduloName . "\Service\\" . ucfirst($this->name);
