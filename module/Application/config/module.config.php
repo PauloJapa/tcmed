@@ -216,6 +216,7 @@ return array(
             'Endereco\Controller\Countrys' => 'Endereco\Controller\CountrysController',
             'Endereco\Controller\Ufs' => 'Endereco\Controller\UfsController',
             'Endereco\Controller\Cidades' => 'Endereco\Controller\CidadesController',
+            'Endereco\Controller\Enderecos' => 'Endereco\Controller\EnderecosController',
         ),
     ),    
     'module_layouts' => array(
