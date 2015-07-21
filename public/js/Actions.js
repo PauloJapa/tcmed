@@ -305,7 +305,11 @@ action = (function ($, options) {
                 paramName: "data",          //Nome do parametro do campo
                 minChars: 0,                //Minimo de caracteres
 
-                transformResult: function (response) {  //Transforma o resultado obtido do servidor
+                /**
+                 * Transforma o resultado do servidor em dados válidos no sistema
+                 * @param  {JSON} response: Resposta do Servidor
+                 */
+                transformResult: function (response) {
                     response = JSON.parse(response);
 
                     //Algoritmo para criar o header (Identificacao das colunas da tabela)
@@ -323,7 +327,16 @@ action = (function ($, options) {
                             var obj = {};
                             //Retira do array, o valor principal
                             obj['value'] = dataItem[params.primary];
-                            header[params.primary] = "";
+                            
+                            //Remove elemento do header
+                            var aux = header.indexOf(params.primary);
+                            if(aux > -1){
+                                header.splice(aux, 1);
+                            }
+
+                            //Renomeia o titulo 'value' para params.primary
+                            
+
                             for(var i = 0; i < header.length; i++){
                                 //TODO: Esta printando duas vezes. Arrumar
                                 obj[header[i]] = dataItem[header[i]];
@@ -331,6 +344,13 @@ action = (function ($, options) {
                             return obj;
                         })
                     };
+                },
+                /**
+                 * Evento default de onClick
+                 * @param  {Object} suggestion: Resposta do servidor
+                 */
+                onSelect: function(suggestion){
+                    //IMPLEMENT ANYTHING HERE
                 }
             };
             //Extende os parametros

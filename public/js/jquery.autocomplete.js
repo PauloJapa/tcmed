@@ -672,7 +672,7 @@
 
             var aux = "<tbody>";
             $.each(that.suggestions, function (key, val) {
-                aux += "<tr class='" + className + "'>"; //Abre tr
+                aux += "<tr class='" + className + "' data-index='" + key + "'>"; //Abre tr
                 $.each(val, function (chave, valor) {
 
                     //Adiciona chave no vetor de TH's
