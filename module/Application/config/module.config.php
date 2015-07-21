@@ -215,6 +215,7 @@ return array(
             'Application\Controller\ShellController' => 'Application\Controller\ShellController',
             'Endereco\Controller\Countrys' => 'Endereco\Controller\CountrysController',
             'Endereco\Controller\Ufs' => 'Endereco\Controller\UfsController',
+            'Endereco\Controller\Cidades' => 'Endereco\Controller\CidadesController',
         ),
     ),    
     'module_layouts' => array(
