@@ -38,7 +38,7 @@ class User extends AbstractForm{
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
         
-        $this->setInputSubmit('submit', 'Salvar: ');
+        $this->setInputSubmit('submit', 'Salvar');
         
     }
 }
