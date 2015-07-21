@@ -7,28 +7,25 @@
 namespace Endereco\Form;
 
 /**
- * Description of Country
+ * Description of Uf
  *
  * @author Paulo Watakabe <email>watakabe05@gmail.com</email>
  */
-class Country extends \Application\Form\AbstractForm{
+class Uf extends \Application\Form\AbstractForm{
     
     
-    public function __construct($name = 'Country', $options = array()) {
+    public function __construct($name = 'Uf', $options = array()) {
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Country', $options);
+        parent::__construct('Uf', $options);
         
-        $this->setInputFilter(new Filter\CountryFilter);
+        $this->setInputFilter(new Filter\UfFilter);
+        $this->setSimpleText('ufCodigo');
         
-        $this->setSimpleText('iso');
+        $this->setSimpleText('ufSigla');
         
-        $this->setSimpleText('iso3');
-        
-        $this->setSimpleText('numcode');
-        
-        $this->setSimpleText('nome');
+        $this->setSimpleText('ufDescricao');
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);

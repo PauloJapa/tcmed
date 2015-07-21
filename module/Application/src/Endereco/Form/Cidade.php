@@ -7,28 +7,28 @@
 namespace Endereco\Form;
 
 /**
- * Description of Country
+ * Description of Cidade
  *
  * @author Paulo Watakabe <email>watakabe05@gmail.com</email>
  */
-class Country extends \Application\Form\AbstractForm{
+class Cidade extends \Application\Form\AbstractForm{
     
     
-    public function __construct($name = 'Country', $options = array()) {
+    public function __construct($name = 'Cidade', $options = array()) {
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Country', $options);
+        parent::__construct('Cidade', $options);
         
-        $this->setInputFilter(new Filter\CountryFilter);
+        $this->setInputFilter(new Filter\CidadeFilter);
         
-        $this->setSimpleText('iso');
+        $this->setSimpleText('cidadeCodigo');
         
-        $this->setSimpleText('iso3');
+        $this->setSimpleText('ufCodigo');
         
-        $this->setSimpleText('numcode');
+        $this->setSimpleText('cidadeDescricao');
         
-        $this->setSimpleText('nome');
+        $this->setSimpleText('cidadeCep');
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
