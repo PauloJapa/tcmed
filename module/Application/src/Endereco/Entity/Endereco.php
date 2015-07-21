@@ -49,6 +49,10 @@ class Endereco extends \Application\Entity\AbstractEntity
      */
     private $enderecoComplemento;
 
+    /**
+     * Alias getId
+     * @return string
+     */
     public function getId() {
         return $this->getEnderecoCodigo();
     }
