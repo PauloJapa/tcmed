@@ -670,6 +670,8 @@
             var classTab = "table";    //Classes da tabela
             var headers = [];          //Armazena os titulos da tabela
 
+            console.log(options.primary);
+
             var aux = "<tbody>";
             $.each(that.suggestions, function (key, val) {
                 aux += "<tr class='" + className + "' data-index='" + key + "'>"; //Abre tr
@@ -685,6 +687,10 @@
             });
             aux += "</table>";
             tbody = aux;
+
+            //TODO: Trata erro de trocar nome real da tabela 
+            //por value.
+            headers[0] = options.primary;
 
             /**
              * Monta THEAD

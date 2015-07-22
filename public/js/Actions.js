@@ -351,8 +351,6 @@ action = (function ($, options) {
                                     }
                                 });
                             }
-                            //Renomeia o titulo 'value' para params.primary
-                            
 
                             for(var i = 0; i < header.length; i++){
                                 //TODO: Esta printando duas vezes. Arrumar
@@ -361,21 +359,6 @@ action = (function ($, options) {
                             return obj;
                         })
                     };
-                },
-                onSearchComplete: function(query, response){
-                    
-                    /*
-                    $(".autocomplete-suggestions").find("th").each(function(){
-                        switch $(this).html(){
-
-                        }
-                        console.log($(this).html());
-                    });
-*/
-
-                    //console.log($(".autocomplete-suggestions").find("thead").find("th").each(function(){
-                    //    return $(this).index();
-                    //}));
                 },
                 /**
                  * Evento default de onClick
