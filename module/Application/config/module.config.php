@@ -217,6 +217,7 @@ return array(
             'Endereco\Controller\Bairros' => 'Endereco\Controller\BairrosController',
             'Endereco\Controller\Ufs' => 'Endereco\Controller\UfsController',
             'Endereco\Controller\Cidades' => 'Endereco\Controller\CidadesController',
+            'Endereco\Controller\Enderecos' => 'Endereco\Controller\EnderecosController',
         ),
     ),    
     'module_layouts' => array(
