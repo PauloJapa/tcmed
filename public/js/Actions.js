@@ -239,6 +239,60 @@ action = (function ($, options) {
          * @returns {undefined}
          */
         processa: function (obj) {
+
+            //Variaveis defauts
+            var defaults = {
+                type: "GET",             //Tipo da Conexao
+                data:{},                 //Dados a serem enviados
+                showLoader: true,        //Habilitar/Desabilitar loader
+                savePage: true,          //Habilitar/Desabilitar salvar pagina
+                ret: settings.defReturn, //Retorno do resultado do request
+            }
+            //Extende as variaveis globais
+            // com as variaveis do obj
+            $.extend(obj, obj, defaults);
+
+            if(obj.url.length < 1){
+                return; //Interrompe o método se o url for inválido
+            }
+
+            if(obj.showLoader){
+                action.loader(true); //Liga loader se for true
+            }
+
+            if(obj.savePage){
+                module.Pagination.savePage(); //Salva pagina se for true
+            }
+
+            if(obj.frm){
+                //Transforma formulario em objeto
+                obj.frm = transformFormToObject($("#" + obj.frm));
+                //Obriga requisicao ser POST
+                obj.type = "POST";
+                //Mescla objeto do form com os dados
+                $.extend(obj.data, obj.frm, obj.data); 
+            }
+
+            this.requestServer({
+                url: obj.url,
+                data: obj.data,
+                type: obj.type,
+            }).success(function(data){
+
+                $(obj.ret).html(data); //Exibe retorno na tela
+
+                if(obj.showLoader){
+                    //Desliga loader se estiver habilitado
+                    action.loader(false); 
+                }
+
+                if(obj.savePage){
+                    //Adiciona pagina se estiver habilitado
+                    module.Pagination.addPage(); 
+                } 
+            })
+
+            /*
             console.log(JSON.stringify(obj));
             options.lastRequest = obj;
 
@@ -263,6 +317,7 @@ action = (function ($, options) {
                 action.loader(false); //Desliga o loader
                 module.Pagination.addPage();
             });
+*/
         },
         /**
          * Retorna a data formatada
@@ -320,6 +375,8 @@ action = (function ($, options) {
             }
         },
         loader: function (status) {
+
+            //Monta loader se este não existir
             if ($(".loader").html() === undefined) {
                 $("body").append('<i class="loader fa fa-3x fa-spinner fa-spin"></i>');
                 $(".loader").css({
@@ -331,8 +388,10 @@ action = (function ($, options) {
 
             if (status) {
                 $(".loader").show();
+                return true;
             } else {
                 $(".loader").hide();
+                return false;
             }
         },
         searchContact: function (group, contato) {
