@@ -303,7 +303,7 @@ action = (function ($, options) {
             var localParams = {
                 type: "POST",               //Tipo de conexao
                 paramName: "data",          //Nome do parametro do campo
-                minChars: 0,                //Minimo de caracteres
+                minChars: 1,                //Minimo de caracteres
 
                 /**
                  * Transforma o resultado do servidor em dados válidos no sistema
@@ -349,9 +349,20 @@ action = (function ($, options) {
                  * Evento default de onClick
                  * @param  {Object} suggestion: Resposta do servidor
                  */
-                onSelect: function(suggestion){
-                    //IMPLEMENT ANYTHING HERE
+                onSelect: function(response){
+                    //Passo 1: Devolve as respostas nos campos solicitados
+                    $.each(params.responseTo, function(key, value){
+                        
+                        if(response[key]){
+                            //Para cada input, jogar value
+                            $.each(value, function(i, field){
+                                $(field).val(response[key]);
+                            });
+                        }
+
+                    });
                 }
+                
             };
             //Extende os parametros
             $.extend(params, params, localParams);

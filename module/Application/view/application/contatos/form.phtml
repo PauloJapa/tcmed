@@ -28,28 +28,71 @@
         $(function(){
             
             action.autoComp("#userUser_nome", {
-                serviceUrl: '/app/users/autoComp',   //URL do servidor
-                primary: "nome",            //
-                params:{                    //Parametros extras
-                    subOpcao: "tipo2"
+                //URL do servidor
+                serviceUrl: "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'autoComp'),[],FALSE,FALSE);?>",   
+                //Tabela principal
+                primary: "nome",            
+                //Parametros extras
+                params:{                    
+                    subOpcao: "tipo2",
                 },
+                //Replicar resposta
+                responseTo:{
+                    "id":[
+                        "#userUser"
+                    ],
+                }
             });
 
             action.autoComp("#grupoGrupo_nome", {
-                serviceUrl: '/app/grupos/autoComp',   //URL do servidor
-                primary: "nome",            //
-                params:{                    //Parametros extras
+                //URL do servidor
+                serviceUrl: "<?php echo $this->url('app/default',array('controller'=>'grupos','action'=>'autoComp'),[],FALSE,FALSE);?>",   
+                //Tabela principal
+                primary: "nome",      
+                //Parametros extras
+                params:{                    
                     subOpcao: "tipo2"
                 },
+                //Replicar Resposta
+                responseTo:{
+                    "id":[
+                        "#grupoGrupo"
+                    ],
+                }
             });
 
             action.autoComp("#contatoUser_nome", {
-                serviceUrl: '/app/users/autoComp',   //URL do servidor
-                primary: "nome",            //
-                params:{                    //Parametros extras
+                //URL do servidor
+                serviceUrl: "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'autoComp'),[],FALSE,FALSE);?>",
+                //Tabela principal
+                primary: "nome",
+                //Parametros extras
+                params:{
                     subOpcao: "tipo2"
                 },
+                //Replicar Resposta
+                responseTo:{
+                    "id":[
+                        "#contatoUser"
+                    ],
+                }
             });
+/*
+            $("#userUser").val('');
+document.getElementById('autoComp').value = 'userUser_nome';
+var filtros = 'userUser_nome,autoComp';
+
+
+TODO: Utilizar este tipo de url
+var servico = "<?php echo $this->url('app/default',array('controller'=>'users','action'=>'autoComp'),[],FALSE,FALSE);?>";
+
+
+
+var returns = Array('userUser','userUser_nome');
+var functionCall = '';
+}
+*/
+
         });
 
         function isValid(){
