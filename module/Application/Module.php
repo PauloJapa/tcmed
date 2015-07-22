@@ -63,6 +63,7 @@ class Module {
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                     'Endereco' => __DIR__ . '/src/Endereco',
+                    'Tcmed' => __DIR__ . '/src/Tcmed',
                 ),
             ),
         );
