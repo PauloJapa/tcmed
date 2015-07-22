@@ -114,6 +114,58 @@ return array(
                         ),
                     ),
                 ),
+            ),            
+            'tcmed' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/tcmed',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Tcmed\Controller',
+                        'controller'    => 'Index',
+                        'action'        => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'paginator' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action[/page/:page]]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                            )
+                        )
+                    ),
+                    'ajax' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[:controller[/:action[/ajax/:ajax]]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'ajax' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            )
+                        )
+                    ),
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:controller[/:action[/:id]]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                            ),
+                        ),
+                    ),
+                ),
             ),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
@@ -217,6 +269,9 @@ return array(
             'Endereco\Controller\Bairros' => 'Endereco\Controller\BairrosController',
             'Endereco\Controller\Ufs' => 'Endereco\Controller\UfsController',
             'Endereco\Controller\Cidades' => 'Endereco\Controller\CidadesController',
+            'Endereco\Controller\Enderecos' => 'Endereco\Controller\EnderecosController',
+            'Tcmed\Controller\Pais' => 'Tcmed\Controller\PaisController',
+            'Tcmed\Controller\Estado' => 'Tcmed\Controller\EstadoController',
         ),
     ),    
     'module_layouts' => array(
@@ -274,16 +329,25 @@ return array(
                     __DIR__ . '/../src/Endereco/Entity',
                 ),
             ),
+            'Tcmed_driver' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(
+                    __DIR__ . '/../src/Tcmed/Entity',
+                ),
+            ),
             'orm_default' => array(
                 'drivers' => array(
                     __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver',
                     'Endereco\Entity' => 'Endereco_driver',
+                    'Tcmed\Entity' => 'Tcmed_driver',
                 )
             )
         ),
         'data-fixture' => array(
             __NAMESPACE__ . '_fixture' => __DIR__ . '/../src/' . __NAMESPACE__ . '/Fixture',
             'Endereco_fixture' => __DIR__ . '/../src/Endereco/Fixture',
+            'Tcmed_fixture' => __DIR__ . '/../src/Tcmed/Fixture',
         ),
     ),
 );
