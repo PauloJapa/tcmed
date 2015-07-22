@@ -32,7 +32,7 @@ function events() {
         }
     });
 
-
+    /*
     $(document).on("click", "#refresh", function () {
         if (options.lastRequest) {
             action.processa(options.lastRequest);
@@ -40,6 +40,7 @@ function events() {
         }
 
     });
+*/
 }
 
 /**
