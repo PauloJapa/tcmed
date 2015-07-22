@@ -686,6 +686,10 @@
             aux += "</table>";
             tbody = aux;
 
+            //TODO: Trata erro de trocar nome real da tabela 
+            //por value.
+            headers[0] = options.primary;
+
             /**
              * Monta THEAD
              */

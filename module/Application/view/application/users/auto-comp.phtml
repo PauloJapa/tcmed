@@ -5,12 +5,13 @@
  */
 if($this->resultSet){
     $array = [];
-
+    /* @var $entity \Application\Entity\User */
     if($this->subOpcao =='tipo2') {
         foreach ($this->resultSet as $entity) {
             $array[] = [
                 "id" => $entity->getId(),
                 "nome" => $entity->getNome(),
+                "Ativo" => $entity->getStatusChat()
             ];
         }
     }
