@@ -33,6 +33,7 @@ function autoComp2(txt, prog, jan, ret, exQt, func, opc) {
     var tempo = 1000;
     if (opc == 'ALL')
         tempo = 10;
+
     //ATRASANDO A EXECUÇÃO DA FUNCAO EM 1 segundos
     setTimeout("autoComp(\"" + txt + "\",\"" + prog + "\",\"" + jan + "\",\"" + exQt + "\",\"" + func + "\",\"" + opc + "\")", tempo);
 }
