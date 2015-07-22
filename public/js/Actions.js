@@ -310,7 +310,10 @@ action = (function ($, options) {
                  * @param  {JSON} response: Resposta do Servidor
                  */
                 transformResult: function (response) {
+                    //Converte para JSON
                     response = JSON.parse(response);
+                    //Armazena o resultado localmente
+                    params.results = response[0];
 
                     //Algoritmo para criar o header (Identificacao das colunas da tabela)
                     var header = [];
@@ -324,16 +327,30 @@ action = (function ($, options) {
 
                     return {
                         suggestions: $.map(response, function (dataItem) {
+
+                            function removeElementArray(elem, arr){
+                                var aux = arr.indexOf(elem);
+                                if(aux > -1){
+                                    arr.splice(aux, 1);
+                                }
+                                return arr;
+                            }
+
                             var obj = {};
                             //Retira do array, o valor principal
                             obj['value'] = dataItem[params.primary];
                             
                             //Remove elemento do header
-                            var aux = header.indexOf(params.primary);
-                            if(aux > -1){
-                                header.splice(aux, 1);
+                            header = removeElementArray(params.primary, header);
+                            
+                            //Oculta itens
+                            if(params.hideCols){
+                                $.each(params.hideCols, function(i, col){
+                                    if(dataItem[col]){
+                                        header = removeElementArray(col, header);
+                                    }
+                                });
                             }
-
                             //Renomeia o titulo 'value' para params.primary
                             
 
@@ -345,6 +362,21 @@ action = (function ($, options) {
                         })
                     };
                 },
+                onSearchComplete: function(query, response){
+                    
+                    /*
+                    $(".autocomplete-suggestions").find("th").each(function(){
+                        switch $(this).html(){
+
+                        }
+                        console.log($(this).html());
+                    });
+*/
+
+                    //console.log($(".autocomplete-suggestions").find("thead").find("th").each(function(){
+                    //    return $(this).index();
+                    //}));
+                },
                 /**
                  * Evento default de onClick
                  * @param  {Object} suggestion: Resposta do servidor
@@ -352,17 +384,18 @@ action = (function ($, options) {
                 onSelect: function(response){
                     //Passo 1: Devolve as respostas nos campos solicitados
                     $.each(params.responseTo, function(key, value){
-                        
-                        if(response[key]){
+                        console.log(JSON.stringify(params.results));
+                        console.log(key);
+                        if(params.results[key]){
                             //Para cada input, jogar value
                             $.each(value, function(i, field){
-                                $(field).val(response[key]);
+                                $(field).val(params.results[key]);
                             });
                         }
 
                     });
                 }
-                
+
             };
             //Extende os parametros
             $.extend(params, params, localParams);
