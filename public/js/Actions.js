@@ -292,7 +292,71 @@ action = (function ($, options) {
                 }
             }
             return;
+        },
+        /**
+         * [autoComp description]
+         * Documentacao API: https://www.devbridge.com/sourcery/components/jquery-autocomplete/ 
+         * @param  {jQuery | String} element: Elemento que será observado
+         * @param  {Object} params: Parametros
+         */
+        autoComp: function(element, params){
+            var localParams = {
+                type: "POST",               //Tipo de conexao
+                paramName: "data",          //Nome do parametro do campo
+                minChars: 0,                //Minimo de caracteres
+
+                /**
+                 * Transforma o resultado do servidor em dados válidos no sistema
+                 * @param  {JSON} response: Resposta do Servidor
+                 */
+                transformResult: function (response) {
+                    response = JSON.parse(response);
+
+                    //Algoritmo para criar o header (Identificacao das colunas da tabela)
+                    var header = [];
+                    $.each(response, function (k, value) {
+                        $.each(value, function (identif, val) {
+                            if ($.inArray(identif, header) < 0) {
+                                header.push(identif);
+                            }
+                        });
+                    });
+
+                    return {
+                        suggestions: $.map(response, function (dataItem) {
+                            var obj = {};
+                            //Retira do array, o valor principal
+                            obj['value'] = dataItem[params.primary];
+                            
+                            //Remove elemento do header
+                            var aux = header.indexOf(params.primary);
+                            if(aux > -1){
+                                header.splice(aux, 1);
+                            }
+
+                            //Renomeia o titulo 'value' para params.primary
+                            
+
+                            for(var i = 0; i < header.length; i++){
+                                //TODO: Esta printando duas vezes. Arrumar
+                                obj[header[i]] = dataItem[header[i]];
+                            }
+                            return obj;
+                        })
+                    };
+                },
+                /**
+                 * Evento default de onClick
+                 * @param  {Object} suggestion: Resposta do servidor
+                 */
+                onSelect: function(suggestion){
+                    //IMPLEMENT ANYTHING HERE
+                }
+            };
+            //Extende os parametros
+            $.extend(params, params, localParams);
+            $(element).autocomplete(params);
         }
-    };
+    }
 
 })(jQuery, App.SETTINGS);
