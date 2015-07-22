@@ -10,14 +10,103 @@
 if (!window.App) {
     window.App = {
         SETTINGS: {},
-        ACTIONS: {}
+        ACTIONS: {},
+        ACTION_EVENTS:{}
     };
 }
 else {
     window.App.ACTIONS = {};
+    window.App.ACTION_EVENTS = {};
 }
 ;
 var action = window.App.ACTIONS;
+var actionEvents = window.App.ACTION_EVENTS;
+
+/**
+ * Acoes Eventos
+ * @class ActionEvents
+ * @param  {[type]} $) { var $doc [description]
+ * @return {[type]}    [description]
+ */
+actionEvents = (function ($) {
+    /**
+    * @type {jQuery}
+    */
+    var $doc = $(document);
+    /**
+     * Public Events
+     */
+    return {
+        /**
+         * Executa acoes do onClick
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         click: function(attr, execMe) {
+            return $doc.on("click", attr, execMe);
+        },
+        /**
+         * Executa acoes do onChange
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         change: function(attr, execMe){
+            return $doc.on("change", attr, execMe);
+        },
+        /**
+         * Executa acoes do onKeyUp
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         keyup: function(attr, execMe) {
+            return $doc.on("keyup", attr, execMe);
+        },
+        /**
+         * Executa acoes do onKeyDown
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         keyDown: function(attr, execMe) {
+            return $doc.on("keydown", attr, execMe);
+        },
+        /**
+         * Executa funcoes do onKeyPress
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         keyPress: function(attr, execMe){
+            return $doc.on("keypress", attr, execMe);
+        },
+        /**
+         * Executa acoes de clickOut do elemento
+         * @param {jQuery|String} $container Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorrer
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+         clickOut: function($container, execMe) {
+            $container = $($container);
+            $doc.mouseup(function (e) {
+                if (!$container.is(e.target) // if the target of the click isn't the container...
+                        && $container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    execMe();
+                }
+            });
+        }
+    }
+
+})(jQuery);
 
 
 /**
@@ -40,9 +129,6 @@ action = (function ($, options) {
      * @constructor
      */
     return {
-        debug: function (elem) {
-            console.log(JSON.stringify(elem));
-        },
         /**
          * Salvar em escopo global valores do sistema
          * @param {Object} obj
@@ -61,6 +147,8 @@ action = (function ($, options) {
          * Pega um valor que foi grava em no escopo global so sistema
          * @param {string} key
          * @returns {option.publics|String}
+         * @author Paulo Watakabe
+         * @version 1.0
          */
         getPublic : function(key){
             if(!options.publics){
@@ -75,20 +163,22 @@ action = (function ($, options) {
          * Procurar um contato dentro de uma lista
          * @param {array} listaContatos Lista de contatos
          * @param {String} crit String que deve ser localizada na lista
-         * @returns {obj} contato Objeto que contem a string crit
+         * @returns {obj} contato Objeto que contem a string cont
+         * @author Danilo Dorotheu
+         * @versin 1.0
          */
-        findContact: function (listaContatos, crit) {
+        findContact: function (listaContatos, cont) {
             var contato;
 
             if (!listaContatos)
                 return false;
 
             $.each(listaContatos, function (chave, valor) {
-                if (chave == crit) {
+                if (chave == cont) {
                     contato = valor;
                     return;
 
-                } else if (valor.name == crit) {
+                } else if (valor.name == cont) {
                     contato = valor;
                     return;
                 }
@@ -96,6 +186,11 @@ action = (function ($, options) {
 
             return contato;
         },
+        /**
+         * Retorna o ID do contato
+         * @param  {[type]} lista [description]
+         * @return {[type]}       [description]
+         */
         getKeyContact: function(lista){
             var keyCont;
             
@@ -121,12 +216,6 @@ action = (function ($, options) {
          * @param {Object} arg URL do Servidor, Tipo (POST/GET), Dados
          * @returns {AJAX} 
          */
-        
-        /**
-         * 
-         * @param {Object} arg control|url|type|{data}
-         * @returns {AJAX}
-         */
         requestServer: function (arg) {
             module.Cookie.set({name : 'PHPSESSID', value : action.getPublic('SESSAO') + 'param' + action.getPublic('LOGIN'), expires : '0'});
             arg.control = (arg.control) ? arg.control : "";
@@ -150,6 +239,7 @@ action = (function ($, options) {
          * @returns {undefined}
          */
         processa: function (obj) {
+            console.log(JSON.stringify(obj));
             options.lastRequest = obj;
 
             if (obj.url === "" || obj.url === "#") {
@@ -165,17 +255,14 @@ action = (function ($, options) {
 
             var ret = action.requestServer({
                 url: settings.path + obj.url,
-                data: transformFormToObject($("#" + obj.frm)),
-                type: (obj.frm) ? "POST" : "GET"
+                data: (obj.data) ? obj.data : transformFormToObject($("#" + obj.frm)),
+                type: (obj.frm || obj.type == "POST") ? "POST" : "GET"
             }).done(function (data) {
                 $(obj.ret).html(data);
             }).complete(function () {
                 action.loader(false); //Desliga o loader
                 module.Pagination.addPage();
             });
-        },
-        events: function () {
-
         },
         /**
          * Retorna a data formatada
@@ -383,7 +470,69 @@ action = (function ($, options) {
             //Extende os parametros
             $.extend(params, params, localParams);
             $(element).autocomplete(params);
+        },
+        /**
+         * SUPER ACTION
+         * 
+         * @param  {jQuery} element: Elemento a ser observado
+         * @param  {Object} params: Parametros
+         * @return {[type]}         [description]
+         */
+        searchTable: function(element, params) {
+            var requestServer = this.requestServer;
+            //Variaveis locais
+            defaults = {
+                table: "#table-search",
+                url: "",
+                type: "POST",
+                elementReturn: "",
+            }
+            //mescla os parametros
+            $.extend(params, params, defaults);
+            //Instancia do actionEvents local;
+            var ev = actionEvents;
+            
+            /**
+             * [process description]
+             * @return {[type]} [description]
+             */
+            function process(results) {
+
+            }
+            /**
+             * [search description]
+             * @return {[type]} [description]
+             */
+            function search() {
+                console.log("here");
+                //Faz request no servidor
+                requestServer({
+                    url: defaults.url,
+                    type: defaults.type,
+                    data: {
+                        value: $(element).val()
+                    }
+
+                }).success(function(results){
+                    //Processa JSON
+                    process(JSON.parse(results));
+                });
+            }
+            /**
+             * Controla os eventos
+             * @return {[type]} [description]
+             */
+            function events(){
+                ev.keyup(element, function() {
+                    search();
+                });
+            }
+            /**
+             * INITIALIZE SUPER ACTION
+             */
+            events();
         }
+
     }
 
 })(jQuery, App.SETTINGS);

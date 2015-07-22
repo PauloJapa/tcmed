@@ -1176,3 +1176,21 @@ module.Sidemenu = (function (window, document, $, settings) {
 
 })(window, document, jQuery, window.App.SETTINGS);
 
+/**
+ * Modulo padrao
+ * 
+module.nameModule = (function (window, document, $, settings) {
+
+    var defaults = {
+
+    }
+
+    return {
+        init: function(params) {
+
+            $.extend(defaults, params, defaults);
+        }
+    }
+
+})(window, document, jQuery, window.App.SETTINGS);
+*/
