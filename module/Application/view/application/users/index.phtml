@@ -25,7 +25,7 @@ $controller = 'users';
                     <li><a>Coluna</a></li>
                 </ul>
             </span>
-            <input type="text" class="form-control" placeholder="Pesquisar...">
+            <input id="value" type="text" class="form-control" placeholder="Pesquisar...">
             <span class="input-group-btn">
                 <button id="pesquisar" class="btn btn-default" type="button">Pesquisar</button>
             </span>
@@ -33,7 +33,6 @@ $controller = 'users';
     </div><!-- /.col-lg-6 -->
 
 </div>
-
 <br>
 <div class="row">
     <div class="col-md-12">
@@ -83,21 +82,19 @@ $controller = 'users';
 
         //Evento pesquisar
         actionEvents.click("#pesquisar", function(){
-            action.processa({
-                url: "bla",
-                type: "POST",
-                data: "HUAHAHA"
-            });
-        });
-        
-        /*
-        $("#pesquisar").click(function(){
-            action.processa({
-                url: "/app/users/index",
-                type: "post",
+            var $filter = $("#filter").find("span").remove();
 
+            action.processa({
+                url:"/app/users/index",
+                type: "POST",
+                data: {
+                    filter: action.getText("#filter"),
+                    value: action.getText("#value")
+                },
+                showLoader: false, //Desabilitando gif de carregamento
+                savePage: false, //Desabilitando salvamento de pagina
+                last: false, //Desabilitando salvamento de ultimo acesso
             });
         });
-*/
     });
 </script>

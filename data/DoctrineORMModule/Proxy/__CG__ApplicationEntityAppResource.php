@@ -334,7 +334,7 @@ class AppResource extends \Application\Entity\AppResource implements \Doctrine\O
     /**
      * {@inheritDoc}
      */
-    public function strToDate($strDateTime)
+    public function strToDate($strDateTime = '')
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'strToDate', array($strDateTime));
@@ -345,12 +345,12 @@ class AppResource extends \Application\Entity\AppResource implements \Doctrine\O
     /**
      * {@inheritDoc}
      */
-    public function dateToStr($date, $full = false)
+    public function dateToStr($date, $full = false, $obj = false)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'dateToStr', array($date, $full));
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'dateToStr', array($date, $full, $obj));
 
-        return parent::dateToStr($date, $full);
+        return parent::dateToStr($date, $full, $obj);
     }
 
 }

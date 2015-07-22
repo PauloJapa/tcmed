@@ -212,9 +212,11 @@ action = (function ($, options) {
         /**
          * Centralizador de requisiçoes para o servidor
          * @public
-         * @author Danilo Dorotheu
          * @param {Object} arg URL do Servidor, Tipo (POST/GET), Dados
          * @returns {AJAX} 
+         * @author Danilo Dorotheu
+         * @author Paulo Watakabe
+         * @version 1.2
          */
         requestServer: function (arg) {
             module.Cookie.set({name : 'PHPSESSID', value : action.getPublic('SESSAO') + 'param' + action.getPublic('LOGIN'), expires : '0'});
@@ -232,92 +234,90 @@ action = (function ($, options) {
         },
         /**
          * Gerenciador de envio/recebimento de dados
-         * @public
+         *
+         * @param {*Object} obj: Parametros de Request
+         * -> {*String} url: URL do Servidor
+         * -> {GET|POST} type: Tipo de Request
+         * -> {Object} data: Dados de Request (que serao enviados)
+         * -> {boolean} showLoader: Habilitar|desabilitar loader
+         * -> {boolean} savePage: Habilita|desabilita salvamento de paginas
+         * -> {String|jQuery} ret: Local de retorno da resposta do servidor
+         * -> {String} form: Formulario (caso haja) para enviar ao servidor
+         * -> {boolean} last: Habilita|desabilita salvar ultimo request
+         * 
          * @see {@link requestServer}
          * @author Danilo Dorotheu
-         * @param {Object} obj Parametros de Request
-         * @returns {undefined}
+         * @version 2.0 (22/7/2015)
          */
         processa: function (obj) {
+            console.log(JSON.stringify(obj));
+            
+            var params = {
+                type: "GET",
+                showLoader: true,
+                savePage: true,
+                data: {},
+                ret: settings.defReturn,
+                last: true,
+            };
 
-            //Variaveis defauts
-            var defaults = {
-                type: "GET",             //Tipo da Conexao
-                data:{},                 //Dados a serem enviados
-                showLoader: true,        //Habilitar/Desabilitar loader
-                savePage: true,          //Habilitar/Desabilitar salvar pagina
-                ret: settings.defReturn, //Retorno do resultado do request
-            }
-            //Extende as variaveis globais
-            // com as variaveis do obj
-            $.extend(obj, obj, defaults);
-
+            //Mescla obj em params, recursivamente
+            obj = $.extend(true, params, obj);
+            
             if(obj.url.length < 1){
                 return; //Interrompe o método se o url for inválido
             }
 
-            if(obj.showLoader){
+            if(obj.showLoader !== null){
                 action.loader(true); //Liga loader se for true
             }
 
-            if(obj.savePage){
+            if(obj.savePage !== null){
                 module.Pagination.savePage(); //Salva pagina se for true
             }
 
             if(obj.frm){
                 //Transforma formulario em objeto
-                obj.frm = transformFormToObject($("#" + obj.frm));
+                //obj.frm = transformFormToObject($("#" + obj.frm));
                 //Obriga requisicao ser POST
                 obj.type = "POST";
                 //Mescla objeto do form com os dados
-                $.extend(obj.data, obj.frm, obj.data); 
+                obj.data = $.extend(true, obj.data, obj.frm);
             }
 
-            this.requestServer({
-                url: obj.url,
-                data: obj.data,
-                type: obj.type,
+            if(obj.last){
+                //TODO: Salva o ultimo acesso
+                options.lastRequest = obj;
+            }
+            action.requestServer({
+                url: obj.url,   //URL
+                type: (obj.type) ? obj.type : "GET", //Tipo [GET|POST]
+                data: obj.data, //Dados Request
             }).success(function(data){
 
-                $(obj.ret).html(data); //Exibe retorno na tela
+                $(obj.ret || settings.defReturn).html(data); //Exibe retorno na tela
 
-                if(obj.showLoader){
+                if(obj.showLoader !== null){
                     //Desliga loader se estiver habilitado
                     action.loader(false); 
                 }
-
-                if(obj.savePage){
+                if(obj.savePage !== null){
                     //Adiciona pagina se estiver habilitado
                     module.Pagination.addPage(); 
                 } 
-            })
-
-            /*
-            console.log(JSON.stringify(obj));
-            options.lastRequest = obj;
-
-            if (obj.url === "" || obj.url === "#") {
-                return;
-            }
-
-            //Verifica se há o param ret. Se não há, seta o default
-            obj.ret = (obj.ret) ? obj.ret : settings.defReturn;
-
-            action.loader(true); //liga o loader
-
-            module.Pagination.savePage();
-
-            var ret = action.requestServer({
-                url: settings.path + obj.url,
-                data: (obj.data) ? obj.data : transformFormToObject($("#" + obj.frm)),
-                type: (obj.frm || obj.type == "POST") ? "POST" : "GET"
-            }).done(function (data) {
-                $(obj.ret).html(data);
-            }).complete(function () {
-                action.loader(false); //Desliga o loader
-                module.Pagination.addPage();
             });
-*/
+        },
+        /**
+         * Retorna o texto do campo
+         * @param  {jQuery|String} el: Elemento a ser inspecionado
+         * @return {String} text: Texto contido no elemento 
+         * @author Danilo Dorotheu
+         */
+        getText: function(el){
+            $el = $(el);                         //Converte campo para jQuery
+            $el.find("*").remove();              //Remove todos os elementos filhos
+            var text = $el.val() || $el.html();  //Recupera texto de DIV, A, INPUT...
+            return $.trim(text);                 //Retorna texto sem espacos no comeco e fim
         },
         /**
          * Retorna a data formatada
