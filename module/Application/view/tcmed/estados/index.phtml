@@ -1,8 +1,8 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
-$controller = 'estado';
-$route = 'end/default';
+$controller = 'estados';
+$route = 'tcmed/default';
 ?>
 <h1>Estados</h1>
 <br />
@@ -12,14 +12,14 @@ $route = 'end/default';
 <?php
 $table->openTable(TRUE);
 $table->renderThead(['ID', 'nomeEstado', 'uf', 'status', 'pais','Ação']);
-/* @var $entity \Tcmed\Entity\TcmedEstado */
+/* @var $entity \Tcmed\Entity\Estado */
 foreach ($this->data as $entity) {
     $table->renderLine([
         $entity->getId(),
-        $entity->getEstado(),
+        $entity->getnomeEstado(),
         $entity->getUf(),
         $entity->getStatus(),
-        $entity->getPais(),
+        $entity->getPais()->getNomePais(),
         $entity->getId(),
     ]);
 }

@@ -5,7 +5,7 @@ namespace Tcmed\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TcmedEstado
+ * Estado
  *
  * @ORM\Table(name="tcmed_estado", indexes={@ORM\Index(name="fk_estado_pais1_idx", columns={"pais_id"})})
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\EstadoRepository")
@@ -43,9 +43,9 @@ class Estado extends \Application\Entity\AbstractEntity
     private $status = 'A';
 
     /**
-     * @var \TcmedPais
+     * @var \Pais
      *
-     * @ORM\ManyToOne(targetEntity="TcmedPais")
+     * @ORM\ManyToOne(targetEntity="Pais")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="pais_id", referencedColumnName="id_pais")
      * })
@@ -102,7 +102,7 @@ class Estado extends \Application\Entity\AbstractEntity
     
     /**
      * 
-     * @return \TcmedPais
+     * @return \Estado
      */
     public function getPais() {
         return $this->pais;
@@ -111,7 +111,7 @@ class Estado extends \Application\Entity\AbstractEntity
     /**
      * 
      * @param integer $idEstado
-     * @return \Tcmed\Entity\TcmedEstado
+     * @return \Tcmed\Entity\Estado
      */
     public function setIdEstado($idEstado) {
         $this->idEstado = $idEstado;
@@ -121,7 +121,7 @@ class Estado extends \Application\Entity\AbstractEntity
     /**
      * 
      * @param string $nomeEstado
-     * @return \Tcmed\Entity\TcmedEstado
+     * @return \Tcmed\Entity\Estado
      */
     public function setNomeEstado($nomeEstado) {
         $this->nomeEstado = $nomeEstado;
@@ -131,7 +131,7 @@ class Estado extends \Application\Entity\AbstractEntity
     /**
      * 
      * @param string $uf
-     * @return \Tcmed\Entity\TcmedEstado
+     * @return \Tcmed\Entity\Estado
      */
     public function setUf($uf) {
         $this->uf = $uf;
@@ -141,7 +141,7 @@ class Estado extends \Application\Entity\AbstractEntity
     /**
      * 
      * @param string $status
-     * @return \Tcmed\Entity\TcmedEstado
+     * @return \Tcmed\Entity\Estado
      */
     public function setStatus($status) {
         $this->status = $status;
@@ -150,10 +150,10 @@ class Estado extends \Application\Entity\AbstractEntity
 
     /**
      * 
-     * @param \TcmedPais $pais
-     * @return \Tcmed\Entity\TcmedEstado
+     * @param \Pais $pais
+     * @return \Tcmed\Entity\Estado
      */
-    public function setPais(\TcmedPais $pais) {
+    public function setPais( \Tcmed\Entity\Pais $pais) {
         $this->pais = $pais;
         return $this;
     }

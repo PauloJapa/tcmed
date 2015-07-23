@@ -19,9 +19,11 @@ class Estado extends \Application\Form\AbstractForm{
         }
         parent::__construct('Estado', $options);
         
+        $this->moduloName = "Tcmed";  
+        
         $this->setInputFilter(new Filter\EstadoFilter);
         
-        $this->setSimpleText('idEstado');
+        $this->setInputHidden('idEstado');
         
         $this->setSimpleText('nomeEstado');
         
@@ -29,8 +31,8 @@ class Estado extends \Application\Form\AbstractForm{
         
         $this->setSimpleText('status');
         
-        $selectOptionsParent = $this->getAllParents();
-        $this->setInputSelect('Pais', 'Pais: ', $selectOptionsParent);
+        $selectOptionsParent = $this->getAllPairs();
+        $this->setInputSelect('pais', 'Pais: ', $selectOptionsParent);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
@@ -39,10 +41,10 @@ class Estado extends \Application\Form\AbstractForm{
         
     }
     
-    public function getAllParents() {
+    public function getAllPairs() {
         /* @var $repository \Application\Entity\Repository\AppMenuRepository */
-        $repository = $this->em->getRepository($this->moduloName . "\Entity\Repository\PaisRepository");
-        return $repository->fetchParent();
+        $repository = $this->em->getRepository($this->moduloName . "\Entity\Pais");
+        return $repository->fetchPairs('getNomePais');
     }
     
 }
