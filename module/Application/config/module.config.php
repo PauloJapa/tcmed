@@ -270,6 +270,8 @@ return array(
             'Endereco\Controller\Ufs' => 'Endereco\Controller\UfsController',
             'Endereco\Controller\Cidades' => 'Endereco\Controller\CidadesController',
             'Endereco\Controller\Enderecos' => 'Endereco\Controller\EnderecosController',
+            'Tcmed\Controller\Pais' => 'Tcmed\Controller\PaisController',
+            'Tcmed\Controller\Estado' => 'Tcmed\Controller\EstadoController',
         ),
     ),    
     'module_layouts' => array(

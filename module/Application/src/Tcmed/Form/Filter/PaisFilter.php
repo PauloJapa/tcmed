@@ -14,7 +14,6 @@ class PaisFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
         
-        $this->notEmpty('idPais');  
         $this->notEmpty('nomePais');  
         $this->notEmpty('sigla');  
         $this->notEmpty('codigo');  

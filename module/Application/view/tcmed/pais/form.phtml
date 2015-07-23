@@ -1,6 +1,6 @@
 <h3><?php echo $this->dataView['titulo']; 
 $controller = 'pais';
-$route = 'end/default';
+$route = 'tcmed/default';
 ?></h3>
 <br />
 <?php
@@ -8,8 +8,6 @@ $route = 'end/default';
 $fh = $this->formHelp($this,$this->form,$this->url($route,array('controller'=>$controller,'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
 $fh->setHorizontal(true);
 $fh->formInit('Cadastro Paises:');
-    $fh->openCol('12')->text('idPais')->closeCol();
-$fh->lineDown();
     $fh->openCol('12')->text('nomePais')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->text('sigla')->closeCol();

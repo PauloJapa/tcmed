@@ -5,12 +5,12 @@ namespace Tcmed\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * TcmedPais
+ * Pais
  *
  * @ORM\Table(name="tcmed_pais")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\PaisRepository")
  */
-class TcmedPais extends \Application\Entity\AbstractEntity
+class Pais extends \Application\Entity\AbstractEntity
 {
     /**
      * @var integer

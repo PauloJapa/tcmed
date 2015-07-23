@@ -21,7 +21,7 @@ class Pais extends \Application\Form\AbstractForm{
         
         $this->setInputFilter(new Filter\PaisFilter);
         
-        $this->setSimpleText('idPais');
+        $this->setInputHidden('idPais');
         
         $this->setSimpleText('nomePais');
         

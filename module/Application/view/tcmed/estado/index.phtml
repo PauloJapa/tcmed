@@ -11,15 +11,15 @@ $route = 'end/default';
 </p>
 <?php
 $table->openTable(TRUE);
-$table->renderThead(['ID', 'nomeEstado', 'sigla', 'codigo', 'status','Ação']);
-/* @var $entity \Tcmed\Entity\TcmedPais */
+$table->renderThead(['ID', 'nomeEstado', 'uf', 'status', 'pais','Ação']);
+/* @var $entity \Tcmed\Entity\TcmedEstado */
 foreach ($this->data as $entity) {
     $table->renderLine([
         $entity->getId(),
-        $entity->getNomePais(),
-        $entity->getSigla(),
-        $entity->getCodigo(),
+        $entity->getEstado(),
+        $entity->getUf(),
         $entity->getStatus(),
+        $entity->getPais(),
         $entity->getId(),
     ]);
 }

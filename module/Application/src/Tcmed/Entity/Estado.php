@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * TcmedEstado
  *
  * @ORM\Table(name="tcmed_estado", indexes={@ORM\Index(name="fk_estado_pais1_idx", columns={"pais_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\EstadoRepository")
  */
-class TcmedEstado extends \Application\Entity\AbstractEntity
+class Estado extends \Application\Entity\AbstractEntity
 {
     /**
      * @var integer

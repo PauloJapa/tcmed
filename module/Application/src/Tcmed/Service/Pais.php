@@ -8,7 +8,7 @@ namespace Tcmed\Service;
 
 use Doctrine\ORM\EntityManager;
 /**
- * Description of Country Service
+ * Description of Pais Service
  *
  */
 class Pais extends \Application\Service\AbstractService{
@@ -17,7 +17,7 @@ class Pais extends \Application\Service\AbstractService{
         parent::__construct($em);
         $this->basePath = 'Tcmed\Entity\\';
         
-        $this->entity = $this->basePath . "TcmedPais";        
+        $this->entity = $this->basePath . "Pais";        
         $this->id = 'idPais';
         
     }        
