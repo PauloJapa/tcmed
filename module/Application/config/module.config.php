@@ -272,6 +272,7 @@ return array(
             'Endereco\Controller\Enderecos' => 'Endereco\Controller\EnderecosController',
             'Tcmed\Controller\Pais' => 'Tcmed\Controller\PaisController',
             'Tcmed\Controller\Estados' => 'Tcmed\Controller\EstadosController',
+            'Tcmed\Controller\Cidades' => 'Tcmed\Controller\CidadesController',
         ),
     ),    
     'module_layouts' => array(
