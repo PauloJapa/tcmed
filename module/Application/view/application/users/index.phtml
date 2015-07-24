@@ -6,25 +6,53 @@ $controller = 'users';
 <h1>Users</h1>
 <br />
 <div class="row">
-    <div class="col-md-3">
-        <button class="btn btn-primary" onclick="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</button>
+    <div class="col-md-1">
+        <button class="btn btn-primary" onclick="<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'new')); ?>">Novo</button>
     </div>
-    
+
+    <div class="col-md-5">
+
+        <span id="contador" class="select">
+            <!-- =============== -->
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="text">Selecione </span>
+                <span class="caret"></span>
+            </button>
+            <!-- =============== -->
+            <ul class="dropdown-menu" aria-labelledby="menuFind">
+                <li><a dt-get="10">10</a></li>
+                <li><a dt-get="25">25</a></li>
+                <li><a dt-get="50">50</a></li>
+                <li><a dt-get="100">100</a></li>
+            </ul>
+            <!-- =============== -->
+        </span>
+
+    </div>
+
     <div class="col-md-6">
         <div class="input-group">
-            <span class="input-group-btn">
-                <button id="filter" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Selecionar 
+
+            <span id="find" class="input-group-btn select">
+                <!-- =============== -->
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="text">Selecione </span>
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu">
-                    <li><a>Coluna</a></li>
-                    <li><a>Coluna</a></li>
-                    <li><a>Coluna</a></li>
-                    <li><a>Coluna</a></li>
-                    <li><a>Coluna</a></li>
+                <!-- =============== -->
+                <ul class="dropdown-menu" aria-labelledby="menuFind">
+                    <li><a dt-get="id_user">Id</a></li>
+                    <li><a dt-get="nome">Nome</a></li>
+                    <li><a dt-get="status_msg">Mensagem Status</a></li>
+                    <li><a dt-get="status_chat">Chat Status</a></li>
+                    <li><a dt-get="status_datetime">Alteração Status</a></li>
+                    <li><a dt-get="usuario_id">Usuario_id</a></li>
+                    <li><a dt-get="status">Status</a></li>
                 </ul>
+                <!-- =============== -->
             </span>
+
+
             <input id="value" type="text" class="form-control" placeholder="Pesquisar...">
             <span class="input-group-btn">
                 <button id="pesquisar" class="btn btn-default" type="button">Pesquisar</button>
@@ -37,10 +65,9 @@ $controller = 'users';
 <div class="row">
     <div class="col-md-12">
         <?php
-
-        $table->openTable(TRUE)  ; 
-        $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
-        foreach($this->data as $entity){
+        $table->openTable(TRUE);
+        $table->renderThead(['ID', 'Nome', 'Mensagem Status', 'Chat Status', 'Alteração Status', 'Usuario_Id', 'Status', 'Ação']);
+        foreach ($this->data as $entity) {
             $table->renderLine([
                 $entity->getId(),
                 $entity->getNome(),
@@ -50,51 +77,58 @@ $controller = 'users';
                 $entity->getUsuarioId(),
                 $entity->getStatus(),
                 $entity->getId(),
-                ]);
-        } 
+            ]);
+        }
         $table->renderCloseTable();
         ?>
         <br />
 
         <center>
-            <?php echo $this->paginationControl($this->data,'Sliding','partials/paginator'); ?>    
+            <?php echo $this->paginationControl($this->data, 'Sliding', 'partials/paginator'); ?>    
         </center>
     </div>
 </div>
 
-<script lang="javascript">      
-    function edit(key){
-        var data = {url : "<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'edit'),[],FALSE,FALSE);?>" + "/" + key };
+<script lang="javascript">
+    function edit(key) {
+        var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'edit'), [], FALSE, FALSE); ?>" + "/" + key};
         processa(data);
     }
-    function del(key){
+    function del(key) {
         var msg = "Deseja mesmo excluir este registro?";
-        if(!confirm(msg)){
+        if (!confirm(msg)) {
             return;
         }
-        var data = {url : "<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'delete'),[],FALSE,FALSE);?>" + "/" + key };
+        var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'delete'), [], FALSE, FALSE); ?>" + "/" + key};
         processa(data);
-    }    
-    $(function(){
-        $(".dropdown-menu a").click(function(){
-            $("#filter").html($(this).html()+' <span class="caret"></span>');
+    }
+    $(function () {
+
+        // Muda dropdown-menu
+        $(".select").find("a").click(function () {
+            $(this).parent().parent().parent().find(".text").html($(this).html());
+            $(this).parent().parent().parent().find(".text").attr("dt-get", $(this).attr("dt-get"));
         });
 
-        //Evento pesquisar
-        actionEvents.click("#pesquisar", function(){
-            var $filter = $("#filter").find("span").remove();
-
+        var getServ = function (e) {
             action.processa({
-                url:"/app/users/index",
+                url: "/app/users/index",
                 type: "POST",
                 data: {
-                    filter: action.getText("#filter"),
-                    value: action.getText("#value")
+                    filter: $("#find").find(".text").attr("dt-get") || "",
+                    value: action.getText("#value"),
+                    quantPage: $("#contador").find(".text").attr("dt-get") || "",
                 },
                 showLoader: false, //Desabilitando gif de carregamento
                 savePage: false, //Desabilitando salvamento de pagina
                 last: false, //Desabilitando salvamento de ultimo acesso
             });
-        });
+        }
+
+        //Evento pesquisar
+        actionEvents.oneClick($("#contador"), getServ);
+
+        //Evento pesquisar
+        actionEvents.oneClick("#pesquisar", getServ);
     });
 </script>

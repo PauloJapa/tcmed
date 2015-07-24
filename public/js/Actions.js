@@ -11,7 +11,7 @@ if (!window.App) {
     window.App = {
         SETTINGS: {},
         ACTIONS: {},
-        ACTION_EVENTS:{}
+        ACTION_EVENTS: {}
     };
 }
 else {
@@ -30,9 +30,15 @@ var actionEvents = window.App.ACTION_EVENTS;
  */
 actionEvents = (function ($) {
     /**
-    * @type {jQuery}
-    */
+     * @type {jQuery}
+     */
     var $doc = $(document);
+    /**
+     * Private Events
+     */
+    function initializeEvents(){
+        
+    };
     /**
      * Public Events
      */
@@ -44,8 +50,21 @@ actionEvents = (function ($) {
          * @author Danilo Dorotheu
          * @version 1.0
          */
-         click: function(attr, execMe) {
-            return $doc.on("click", attr, execMe);
+        click: function (attr, execMe) {
+            $doc.on("click", attr, execMe);
+            return false;
+        },
+        /**
+         * Executa acoes do onClick
+         * OBS: Método suicida
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+        oneClick: function (attr, execMe) {
+            $doc.one("click", attr, execMe);
+            return false;
         },
         /**
          * Executa acoes do onChange
@@ -54,8 +73,21 @@ actionEvents = (function ($) {
          * @author Danilo Dorotheu
          * @version 1.0
          */
-         change: function(attr, execMe){
-            return $doc.on("change", attr, execMe);
+        change: function (attr, execMe) {
+            $doc.on("change", attr, execMe);
+            return false;
+        },
+        /**
+         * Executa acoes do onChange
+         * OBS: Metodo suicida
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+        oneChange: function (attr, execMe) {
+            $doc.one("change", attr, execMe);
+            return false;
         },
         /**
          * Executa acoes do onKeyUp
@@ -64,8 +96,21 @@ actionEvents = (function ($) {
          * @author Danilo Dorotheu
          * @version 1.0
          */
-         keyup: function(attr, execMe) {
-            return $doc.on("keyup", attr, execMe);
+        keyup: function (attr, execMe) {
+            $doc.on("keyup", attr, execMe);
+            return false;
+        },
+        /**
+         * Executa acoes do onKeyUp
+         * OBS:Metodo suicida
+         * @param {jQuery|String} attr Elemento DOM que sera observado
+         * @param {function} execMe Funcao de execucao quando ocorrencia ocorre
+         * @author Danilo Dorotheu
+         * @version 1.0
+         */
+        oneKeyup: function (attr, execMe) {
+            $doc.one("keyup", attr, execMe);
+            return false;
         },
         /**
          * Executa acoes do onKeyDown
@@ -74,8 +119,9 @@ actionEvents = (function ($) {
          * @author Danilo Dorotheu
          * @version 1.0
          */
-         keyDown: function(attr, execMe) {
-            return $doc.on("keydown", attr, execMe);
+        keyDown: function (attr, execMe) {
+            $doc.on("keydown", attr, execMe);
+            return false;
         },
         /**
          * Executa funcoes do onKeyPress
@@ -84,8 +130,9 @@ actionEvents = (function ($) {
          * @author Danilo Dorotheu
          * @version 1.0
          */
-         keyPress: function(attr, execMe){
-            return $doc.on("keypress", attr, execMe);
+        keyPress: function (attr, execMe) {
+            $doc.on("keypress", attr, execMe);
+            return false;
         },
         /**
          * Executa acoes de clickOut do elemento
@@ -94,7 +141,7 @@ actionEvents = (function ($) {
          * @author Danilo Dorotheu
          * @version 1.0
          */
-         clickOut: function($container, execMe) {
+        clickOut: function ($container, execMe) {
             $container = $($container);
             $doc.mouseup(function (e) {
                 if (!$container.is(e.target) // if the target of the click isn't the container...
@@ -104,7 +151,8 @@ actionEvents = (function ($) {
                 }
             });
         }
-    }
+        
+    };
 
 })(jQuery);
 
@@ -135,11 +183,11 @@ action = (function ($, options) {
          * @autor Paulo Watakabe 
          * @version 1.0
          */
-        setPublic: function(obj){
-            if(!options.publics){
-                options.publics = {};                
+        setPublic: function (obj) {
+            if (!options.publics) {
+                options.publics = {};
             }
-            $.each(obj,function (key,val){
+            $.each(obj, function (key, val) {
                 options.publics[key] = val;
             });
         },
@@ -150,14 +198,14 @@ action = (function ($, options) {
          * @author Paulo Watakabe
          * @version 1.0
          */
-        getPublic : function(key){
-            if(!options.publics){
-                return '';                
+        getPublic: function (key) {
+            if (!options.publics) {
+                return '';
             }
-            if(options.publics[key]){
+            if (options.publics[key]) {
                 return options.publics[key];
             }
-            return '';                
+            return '';
         },
         /**
          * Procurar um contato dentro de uma lista
@@ -191,14 +239,14 @@ action = (function ($, options) {
          * @param  {[type]} lista [description]
          * @return {[type]}       [description]
          */
-        getKeyContact: function(lista){
+        getKeyContact: function (lista) {
             var keyCont;
-            
-            $.each(lista,function(key, value){
+
+            $.each(lista, function (key, value) {
                 keyCont = key;
                 return;
             });
-            
+
             return keyCont;
         },
         /**
@@ -219,7 +267,7 @@ action = (function ($, options) {
          * @version 1.2
          */
         requestServer: function (arg) {
-            module.Cookie.set({name : 'PHPSESSID', value : action.getPublic('SESSAO') + 'param' + action.getPublic('LOGIN'), expires : '0'});
+            module.Cookie.set({name: 'PHPSESSID', value: action.getPublic('SESSAO') + 'param' + action.getPublic('LOGIN'), expires: '0'});
             arg.control = (arg.control) ? arg.control : "";
             arg.url = arg.url + arg.control + "?ajax=ok&"; //Trata erro de ajax
 
@@ -251,7 +299,7 @@ action = (function ($, options) {
          */
         processa: function (obj) {
             console.log(JSON.stringify(obj));
-            
+
             var params = {
                 type: "GET",
                 showLoader: true,
@@ -263,48 +311,48 @@ action = (function ($, options) {
 
             //Mescla obj em params, recursivamente
             obj = $.extend(true, params, obj);
-            
-            if(obj.url.length < 1){
+
+            if (obj.url.length < 1) {
                 return; //Interrompe o método se o url for inválido
             }
 
-            if(obj.showLoader !== null){
+            if (obj.showLoader) {
                 action.loader(true); //Liga loader se for true
             }
 
-            if(obj.savePage !== null){
+            if (obj.savePage) {
                 module.Pagination.savePage(); //Salva pagina se for true
             }
 
-            if(obj.frm){
+            if (obj.frm) {
                 //Transforma formulario em objeto
-                //obj.frm = transformFormToObject($("#" + obj.frm));
+                obj.frm = transformFormToObject($("#" + obj.frm));
                 //Obriga requisicao ser POST
                 obj.type = "POST";
                 //Mescla objeto do form com os dados
                 obj.data = $.extend(true, obj.data, obj.frm);
             }
 
-            if(obj.last){
+            if (obj.last) {
                 //TODO: Salva o ultimo acesso
                 options.lastRequest = obj;
             }
             action.requestServer({
-                url: obj.url,   //URL
-                type: (obj.type) ? obj.type : "GET", //Tipo [GET|POST]
+                url: obj.url, //URL
+                type: obj.type, //Tipo [GET|POST]
                 data: obj.data, //Dados Request
-            }).success(function(data){
+            }).success(function (data) {
 
-                $(obj.ret || settings.defReturn).html(data); //Exibe retorno na tela
+                $(obj.ret).html(data); //Exibe retorno na tela
 
-                if(obj.showLoader !== null){
+                if (obj.showLoader) {
                     //Desliga loader se estiver habilitado
-                    action.loader(false); 
+                    action.loader(false);
                 }
-                if(obj.savePage !== null){
+                if (obj.savePage) {
                     //Adiciona pagina se estiver habilitado
-                    module.Pagination.addPage(); 
-                } 
+                    module.Pagination.addPage();
+                }
             });
         },
         /**
@@ -313,7 +361,7 @@ action = (function ($, options) {
          * @return {String} text: Texto contido no elemento 
          * @author Danilo Dorotheu
          */
-        getText: function(el){
+        getText: function (el, attr) {
             $el = $(el);                         //Converte campo para jQuery
             $el.find("*").remove();              //Remove todos os elementos filhos
             var text = $el.val() || $el.html();  //Recupera texto de DIV, A, INPUT...
@@ -374,6 +422,51 @@ action = (function ($, options) {
                 });
             }
         },
+        /**
+         * [internNotification description]
+         * @param  {[type]} params [description]
+         * -> {String} text
+         * -> {String} type [alert-success| alert-info| alert-warning| alert-danger]
+         * @return {[type]}        [description]
+         */
+        internNotification: function (params) {
+
+            var defs = {
+                class: "alert-success",
+                head: "",
+                msg: "Intern Notification",
+                time: 5000
+            };
+
+            if (!params.msg) {
+                return;
+            }
+
+            //Mescla os objetos
+            params = $.extend(true, defs, params);
+
+            //Monta o local de notificacao se não existir
+            if ($(".notification").html() === undefined) {
+                $("body").append('<div class="notification"></div>');
+            }
+
+            //gera append
+            var teste = $(".notification").prepend('<div class="alert ' + params.class + ' alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>' + params.head + '</strong>' + params.msg + '</div>');
+
+            //Liga
+            teste.animate({
+                opacity: 1
+            }, 1000);
+
+            setTimeout(function () {
+                teste.remove();
+            }, params.time);
+        },
+        /**
+         * [loader description]
+         * @param  {[type]} status [description]
+         * @return {[type]}        [description]
+         */
         loader: function (status) {
 
             //Monta loader se este não existir
@@ -394,11 +487,11 @@ action = (function ($, options) {
                 return false;
             }
         },
-        searchContact: function (group, contato) {
-            $.each(options.contacts, function (key, value) {
-
-            });
-        },
+        /**
+         * 
+         * @param {type} params
+         * @returns {undefined}
+         */
         load: function (params) {
             //Inicializador do Pagination
             module.Pagination.init();
@@ -410,11 +503,11 @@ action = (function ($, options) {
             });
 
             /*
-            module.Cookie.save({
-                key: "PHPSESSID",
-                value: module.Cookie.get("PHPSESSID")
-            });
-            */
+             module.Cookie.save({
+             key: "PHPSESSID",
+             value: module.Cookie.get("PHPSESSID")
+             });
+             */
         },
         nextFocus: function (obj) {
             var inputs = $(obj).closest('form').find(':input:visible');
@@ -445,11 +538,11 @@ action = (function ($, options) {
          * @param  {jQuery | String} element: Elemento que será observado
          * @param  {Object} params: Parametros
          */
-        autoComp: function(element, params){
+        autoComp: function (element, params) {
             var localParams = {
-                type: "POST",               //Tipo de conexao
-                paramName: "data",          //Nome do parametro do campo
-                minChars: 1,                //Minimo de caracteres
+                type: "POST", //Tipo de conexao
+                paramName: "data", //Nome do parametro do campo
+                minChars: 1, //Minimo de caracteres
 
                 /**
                  * Transforma o resultado do servidor em dados válidos no sistema
@@ -474,9 +567,9 @@ action = (function ($, options) {
                     return {
                         suggestions: $.map(response, function (dataItem) {
 
-                            function removeElementArray(elem, arr){
+                            function removeElementArray(elem, arr) {
                                 var aux = arr.indexOf(elem);
-                                if(aux > -1){
+                                if (aux > -1) {
                                     arr.splice(aux, 1);
                                 }
                                 return arr;
@@ -485,20 +578,20 @@ action = (function ($, options) {
                             var obj = {};
                             //Retira do array, o valor principal
                             obj['value'] = dataItem[params.primary];
-                            
+
                             //Remove elemento do header
                             header = removeElementArray(params.primary, header);
-                            
+
                             //Oculta itens
-                            if(params.hideCols){
-                                $.each(params.hideCols, function(i, col){
-                                    if(dataItem[col]){
+                            if (params.hideCols) {
+                                $.each(params.hideCols, function (i, col) {
+                                    if (dataItem[col]) {
                                         header = removeElementArray(col, header);
                                     }
                                 });
                             }
 
-                            for(var i = 0; i < header.length; i++){
+                            for (var i = 0; i < header.length; i++) {
                                 //TODO: Esta printando duas vezes. Arrumar
                                 obj[header[i]] = dataItem[header[i]];
                             }
@@ -510,14 +603,14 @@ action = (function ($, options) {
                  * Evento default de onClick
                  * @param  {Object} suggestion: Resposta do servidor
                  */
-                onSelect: function(response){
+                onSelect: function (response) {
                     //Passo 1: Devolve as respostas nos campos solicitados
-                    $.each(params.responseTo, function(key, value){
+                    $.each(params.responseTo, function (key, value) {
                         console.log(JSON.stringify(params.results));
                         console.log(key);
-                        if(params.results[key]){
+                        if (params.results[key]) {
                             //Para cada input, jogar value
-                            $.each(value, function(i, field){
+                            $.each(value, function (i, field) {
                                 $(field).val(params.results[key]);
                             });
                         }
@@ -537,7 +630,7 @@ action = (function ($, options) {
          * @param  {Object} params: Parametros
          * @return {[type]}         [description]
          */
-        searchTable: function(element, params) {
+        searchTable: function (element, params) {
             var requestServer = this.requestServer;
             //Variaveis locais
             defaults = {
@@ -550,20 +643,12 @@ action = (function ($, options) {
             $.extend(params, params, defaults);
             //Instancia do actionEvents local;
             var ev = actionEvents;
-            
-            /**
-             * [process description]
-             * @return {[type]} [description]
-             */
-            function process(results) {
 
-            }
             /**
              * [search description]
              * @return {[type]} [description]
              */
             function search() {
-                console.log("here");
                 //Faz request no servidor
                 requestServer({
                     url: defaults.url,
@@ -572,7 +657,7 @@ action = (function ($, options) {
                         value: $(element).val()
                     }
 
-                }).success(function(results){
+                }).success(function (results) {
                     //Processa JSON
                     process(JSON.parse(results));
                 });
@@ -581,8 +666,8 @@ action = (function ($, options) {
              * Controla os eventos
              * @return {[type]} [description]
              */
-            function events(){
-                ev.keyup(element, function() {
+            function events() {
+                ev.keyup(element, function () {
                     search();
                 });
             }
