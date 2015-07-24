@@ -273,6 +273,7 @@ return array(
             'Tcmed\Controller\Pais' => 'Tcmed\Controller\PaisController',
             'Tcmed\Controller\Estados' => 'Tcmed\Controller\EstadosController',
             'Tcmed\Controller\Cidades' => 'Tcmed\Controller\CidadesController',
+            'Tcmed\Controller\Bairros' => 'Tcmed\Controller\BairrosController',
         ),
     ),    
     'module_layouts' => array(
