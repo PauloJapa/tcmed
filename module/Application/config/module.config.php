@@ -274,6 +274,9 @@ return array(
             'Tcmed\Controller\Estados' => 'Tcmed\Controller\EstadosController',
             'Tcmed\Controller\Cidades' => 'Tcmed\Controller\CidadesController',
             'Tcmed\Controller\Bairros' => 'Tcmed\Controller\BairrosController',
+            'Tcmed\Controller\Enderecos' => 'Tcmed\Controller\EnderecosController',
+            'Tcmed\Controller\Logradouros' => 'Tcmed\Controller\LogradourosController',
+            'Tcmed\Controller\TipoLogradouros' => 'Tcmed\Controller\TipoLogradourosController',
         ),
     ),    
     'module_layouts' => array(
