@@ -14,7 +14,6 @@ class EstadoFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
         
-        $this->notEmpty('idEstado');  
         $this->notEmpty('nomeEstado');  
         $this->notEmpty('uf');  
         $this->notEmpty('status');  

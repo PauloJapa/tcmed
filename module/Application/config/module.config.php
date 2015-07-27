@@ -271,7 +271,12 @@ return array(
             'Endereco\Controller\Cidades' => 'Endereco\Controller\CidadesController',
             'Endereco\Controller\Enderecos' => 'Endereco\Controller\EnderecosController',
             'Tcmed\Controller\Pais' => 'Tcmed\Controller\PaisController',
-            'Tcmed\Controller\Estado' => 'Tcmed\Controller\EstadoController',
+            'Tcmed\Controller\Estados' => 'Tcmed\Controller\EstadosController',
+            'Tcmed\Controller\Cidades' => 'Tcmed\Controller\CidadesController',
+            'Tcmed\Controller\Bairros' => 'Tcmed\Controller\BairrosController',
+            'Tcmed\Controller\Enderecos' => 'Tcmed\Controller\EnderecosController',
+            'Tcmed\Controller\Logradouros' => 'Tcmed\Controller\LogradourosController',
+            'Tcmed\Controller\TipoLogradouros' => 'Tcmed\Controller\TipoLogradourosController',
         ),
     ),    
     'module_layouts' => array(

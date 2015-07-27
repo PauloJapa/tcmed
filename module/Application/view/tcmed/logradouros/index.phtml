@@ -1,25 +1,26 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
-$controller = 'estado';
-$route = 'end/default';
+$controller = 'logradouros';
+$route = 'tcmed/default';
 ?>
-<h1>Estados</h1>
+<h1>Logradouros</h1>
 <br />
 <p>
     <button class="btn btn-primary" onclick="<?php echo $this->url($route, array('controller' => $controller, 'action' => 'new')); ?>">Novo</button>
 </p>
 <?php
 $table->openTable(TRUE);
-$table->renderThead(['ID', 'nomeEstado', 'uf', 'status', 'pais','Ação']);
-/* @var $entity \Tcmed\Entity\TcmedEstado */
+$table->renderThead(['ID', 'nomeLogradouro', 'status', 'cep', 'bairroBairro', 'tipologradouroTipoLogradouro','Ação']);
+/* @var $entity \Tcmed\Entity\Logradouro */
 foreach ($this->data as $entity) {
     $table->renderLine([
         $entity->getId(),
-        $entity->getEstado(),
-        $entity->getUf(),
+        $entity->getNomeLogradouro(),
         $entity->getStatus(),
-        $entity->getPais(),
+        $entity->getCep(),
+        $entity->getBairroBairro()->getNomeBairro(),
+        $entity->getTipologradouroTipologradouro()->getTipo(),
         $entity->getId(),
     ]);
 }

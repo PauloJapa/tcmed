@@ -7,13 +7,13 @@
 namespace Tcmed\Controller;
 
 /**
- * Description of EstadosController
+ * Description of LogradourosController
  *
  */
-class EstadosController extends \Application\Controller\CrudController {
+class LogradourosController extends \Application\Controller\CrudController {
 
     public function __construct() {
-        parent::__construct('estado','Tcmed');
+        parent::__construct('logradouro','Tcmed');
         $this->route = 'tcmed/default'; 
         $this->routeAjax = "tcmed/ajax"; 
         $this->setFormWithEntityManager(true);
