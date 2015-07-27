@@ -36,9 +36,10 @@ actionEvents = (function ($) {
     /**
      * Private Events
      */
-    function initializeEvents(){
-        
-    };
+    function initializeEvents() {
+
+    }
+    ;
     /**
      * Public Events
      */
@@ -151,7 +152,7 @@ actionEvents = (function ($) {
                 }
             });
         }
-        
+
     };
 
 })(jQuery);
@@ -582,6 +583,8 @@ action = (function ($, options) {
                             //Remove elemento do header
                             header = removeElementArray(params.primary, header);
 
+                            /*=======================================*/
+
                             //Oculta itens
                             if (params.hideCols) {
                                 $.each(params.hideCols, function (i, col) {
@@ -590,6 +593,27 @@ action = (function ($, options) {
                                     }
                                 });
                             }
+
+                            //Parametros de exibicao/exclusao de colunas
+                            if (params.showCols) {
+                                var aux = [];
+                                $.each(params.showCols, function (i, val) {
+                                    if (header.indexOf(val) > -1) {
+                                        aux.push(val);
+                                    }
+                                });
+                                header = aux;
+                            }
+                            else {
+                                if (params.hideCols) {
+                                    $.each(params.hideCols, function (i, val) {
+                                        header = removeElementArray(val, header);
+                                    });
+                                }
+                            }
+
+
+                            /*=======================================*/
 
                             for (var i = 0; i < header.length; i++) {
                                 //TODO: Esta printando duas vezes. Arrumar

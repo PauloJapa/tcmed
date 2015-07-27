@@ -60,5 +60,9 @@ class IndexController extends CrudController {
     public function cadastroAction() {
         return $this->makeView([]);
     }
+    
+    public function limitePageAction(){
+        return $this->makeView([]);
+    }
 
 }

@@ -116,8 +116,9 @@ abstract class CrudController extends AbstractActionController {
         $this->paginator->setDefaultItemCountPerPage($quantPag);
         $this->paginator->setPageRange(20);
         $dataView = $this->getDataView('Exibindo ' . $this->name);
+        $form = new \Application\Form\FormFilter;
         if ($this->render) {
-            return $this->makeView(['data' => $this->paginator, 'page' => $this->page, 'dataView' => $dataView]);
+            return $this->makeView(['data' => $this->paginator, 'page' => $this->page, 'dataView' => $dataView, 'form' => $form]);
         }
     }
 

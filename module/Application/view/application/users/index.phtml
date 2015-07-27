@@ -10,57 +10,50 @@ $controller = 'users';
         <button class="btn btn-primary" onclick="<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'new')); ?>">Novo</button>
     </div>
 
-    <div class="col-md-5">
 
-        <span id="contador" class="select">
-            <!-- =============== -->
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <span class="text">Selecione </span>
-                <span class="caret"></span>
-            </button>
-            <!-- =============== -->
-            <ul class="dropdown-menu" aria-labelledby="menuFind">
-                <li><a dt-get="10">10</a></li>
-                <li><a dt-get="25">25</a></li>
-                <li><a dt-get="50">50</a></li>
-                <li><a dt-get="100">100</a></li>
-            </ul>
-            <!-- =============== -->
-        </span>
+        <?php
+        /* @var $fh \Application\View\Helper\FormHelp */
+        $fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'users', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
+        $fh->setHorizontal(false);
+        $fh->openCol('2')->text('limitePageDesc')->closeCol();
+        ?>
 
+        <!--        <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">Exibir</span>
+                    <select class="form-control" id="pagShow">
+                        
+                    </select>
+        
+                </div>-->
+
+    <div class="col-md-offset-1 col-md-3">
+
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Pesquisar por</span>
+
+            <select class="form-control" id="tableConsult">
+                <option value="idUser">Id</option>
+                <option value="nome">Nome</option>
+                <option value="statusMsg">Mensagem Status</option>
+                <option value="statusChat">Chat Status</option>
+                <option value="statusDatetime">Alteração Status</option>
+                <option value="usuarioId">Usuario_id</option>
+                <option value="status">Status</option>
+            </select>
+
+        </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="input-group">
-
-            <span id="find" class="input-group-btn select">
-                <!-- =============== -->
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="text">Selecione </span>
-                    <span class="caret"></span>
-                </button>
-                <!-- =============== -->
-                <ul class="dropdown-menu" aria-labelledby="menuFind">
-                    <li><a dt-get="id_user">Id</a></li>
-                    <li><a dt-get="nome">Nome</a></li>
-                    <li><a dt-get="status_msg">Mensagem Status</a></li>
-                    <li><a dt-get="status_chat">Chat Status</a></li>
-                    <li><a dt-get="status_datetime">Alteração Status</a></li>
-                    <li><a dt-get="usuario_id">Usuario_id</a></li>
-                    <li><a dt-get="status">Status</a></li>
-                </ul>
-                <!-- =============== -->
-            </span>
-
-
             <input id="value" type="text" class="form-control" placeholder="Pesquisar...">
             <span class="input-group-btn">
                 <button id="pesquisar" class="btn btn-default" type="button">Pesquisar</button>
             </span>
         </div><!-- /input-group -->
     </div><!-- /.col-lg-6 -->
-
 </div>
+
 <br>
 <div class="row">
     <div class="col-md-12">
@@ -102,7 +95,4 @@ $controller = 'users';
         var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'delete'), [], FALSE, FALSE); ?>" + "/" + key};
         processa(data);
     }
-    $(function () {
-
-    });
 </script>
