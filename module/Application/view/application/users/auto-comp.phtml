@@ -1,5 +1,35 @@
 <?php 
+
+/**
+ * Inicia resultados
+ */
 if($this->resultSet){
+    $array = [];
+    /* @var $entity \Application\Entity\User */
+    if($this->subOpcao =='tipo2') {
+        foreach ($this->resultSet as $entity) {
+            $array[] = [
+                "id" => $entity->getId(),
+                "nome" => $entity->getNome(),
+                "Ativo" => $entity->getStatusChat()
+            ];
+        }
+    }
+
+    if($this->subOpcao =='Pesquisar') {
+        foreach ($this->resultSet as $entity) {
+            $array[] = [
+                "id" => $entity->getId(),
+                "nome" => $entity->getNome(),
+                "documento" => $entity->getCpf()
+            ];
+        }
+    }
+
+    echo json_encode($array);
+}
+
+/*
     echo "ok|s|";
     if($this->subOpcao =='Pesquisar'){
         echo 'X|c|',
@@ -36,3 +66,5 @@ if($this->resultSet){
     }
 }else
     echo "vazio|s|";
+
+    */

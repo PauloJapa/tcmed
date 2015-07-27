@@ -155,6 +155,12 @@ module.Pagination = (function (window, document, $, settings) {
                 next.attr("disabled", true);
             }
         });
+
+        $(document).on("click", "#refresh", function(){
+            if (settings.lastRequest) {
+                action.processa(settings.lastRequest);
+            }
+        });
     };
 
     /**
@@ -472,8 +478,8 @@ module.Messenger = (function (window, document, $, options) {
         });
         /**
          * 
-         * @param  {[type]}
-         * @return {[type]}
+         * @param  {}
+         * @return {}
          */
          $click("#changeStatus", function(){
             $("#msgstatus").hide();
@@ -1072,8 +1078,12 @@ module.Cookie = (function (window, document, $, settings) {
         d.setTime(d.getTime() + (val * 24 * 60 * 60 * 1000));
         return d.toGMTString();
     };
-
-    var setCookie = function (cookie) {
+    /**
+     * Seta o cookie (privado)
+     * @param {Object} cookie
+     * @private
+     */
+     var setCookie = function (cookie) {
         var d = new Date();
         cookie.expires = (cookie.expires) ? cookie.expires : defaults.expires;
         if(cookie.expires != '0'){
@@ -1082,12 +1092,12 @@ module.Cookie = (function (window, document, $, settings) {
         }
         cookie.path = (cookie.path) ? cookie.path : '; path=/';
         document.cookie =
-                cookie.name
-                + "="
-                + cookie.value
-                + "; expires="
-                + cookie.expires
-                + cookie.path;
+        cookie.name
+        + "="
+        + cookie.value
+        + "; expires="
+        + cookie.expires
+        + cookie.path;
     };
 
 
@@ -1115,7 +1125,7 @@ module.Cookie = (function (window, document, $, settings) {
          * @param {type} cookie
          * @returns {undefined}
          */
-        set: function (cookie) {
+         set: function (cookie) {
             setCookie(cookie);
         },
         erase: function (name) {
