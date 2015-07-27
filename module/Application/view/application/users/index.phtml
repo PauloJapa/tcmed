@@ -104,31 +104,5 @@ $controller = 'users';
     }
     $(function () {
 
-        // Muda dropdown-menu
-        $(".select").find("a").click(function () {
-            $(this).parent().parent().parent().find(".text").html($(this).html());
-            $(this).parent().parent().parent().find(".text").attr("dt-get", $(this).attr("dt-get"));
-        });
-
-        var getServ = function (e) {
-            action.processa({
-                url: "/app/users/index",
-                type: "POST",
-                data: {
-                    filter: $("#find").find(".text").attr("dt-get") || "",
-                    value: action.getText("#value"),
-                    quantPage: $("#contador").find(".text").attr("dt-get") || "",
-                },
-                showLoader: false, //Desabilitando gif de carregamento
-                savePage: false, //Desabilitando salvamento de pagina
-                last: false, //Desabilitando salvamento de ultimo acesso
-            });
-        }
-
-        //Evento pesquisar
-        actionEvents.oneClick($("#contador"), getServ);
-
-        //Evento pesquisar
-        actionEvents.oneClick("#pesquisar", getServ);
     });
 </script>
