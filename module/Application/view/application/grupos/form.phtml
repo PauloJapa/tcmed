@@ -4,7 +4,7 @@
 /* @var $fh \Application\View\Helper\FormHelp */
 $fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=>'grupos','action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
 $fh->setHorizontal(true);
-$fh->formInit('Cadastro User');
+$fh->formInit('Cadastro Grupo');
     $fh->openCol('12')->text('nome')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->text('statusMsg')->closeCol();

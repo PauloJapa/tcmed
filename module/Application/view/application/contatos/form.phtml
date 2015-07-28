@@ -6,7 +6,7 @@
     /* @var $fh \Application\View\Helper\FormHelp */
     $fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=> $controller, 'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
     $fh->setHorizontal(true);
-    $fh->formInit('Cadastro User');
+    $fh->formInit('Cadastro Contatos');
     
     $opt = ['js' => 'autoCompUser()','icone' => 'search', 'span_id' => 'popUser','class' => '','style'=>'position:absolute;z-index: 9999999;'];
     $fh->openCol('12')->icone('userUser_nome',$opt)->closeCol();
