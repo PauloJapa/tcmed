@@ -269,6 +269,7 @@ action = (function ($, options) {
          */
         requestServer: function (arg) {
             module.Cookie.set({name: 'PHPSESSID', value: action.getPublic('SESSAO') + 'param' + action.getPublic('LOGIN'), expires: '0'});
+            
             arg.control = (arg.control) ? arg.control : "";
             arg.url = arg.url + arg.control + "?ajax=ok&"; //Trata erro de ajax
 
