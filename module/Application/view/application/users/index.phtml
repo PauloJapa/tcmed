@@ -96,40 +96,4 @@ $controller = 'users';
         var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'delete'), [], FALSE, FALSE); ?>" + "/" + key};
         processa(data);
     }
-    $(function () {
-
-        action.requestServer({
-            url: "/app/index/limitePage",
-            type: "POST",
-            showLoader: false, //Desabilitando gif de carregamento
-            savePage: false, //Desabilitando salvamento de pagina
-            last: false //Desabilitando salvamento de ultimo acesso
-        }).success(function (data) {
-            data = JSON.parse(data);
-            $.each(data, function (i, val) {
-                $("#pagShow").append('<option value="' + val + '">' + val + '</option>')
-            });
-            console.log(data);
-        });
-
-        /**
-         * 
-         */
-        actionEvents.oneClick("#pesquisar", function () {
-            console.log("start");
-            action.processa({
-                url: "/app/users/index",
-                type: "POST",
-                data: {
-                    filter: $("#tableConsult").val() || "",
-                    value: action.getText("#value"),
-                    quantPage: $("#contador").find(".text").attr("dt-get") || "",
-                },
-                showLoader: false, //Desabilitando gif de carregamento
-                savePage: false, //Desabilitando salvamento de pagina
-                last: false, //Desabilitando salvamento de ultimo acesso
-            });
-        });
-
-    });
 </script>
