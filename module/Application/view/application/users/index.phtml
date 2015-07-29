@@ -11,22 +11,34 @@ $controller = 'users';
     </div>
 
 
-        <?php
-        /* @var $fh \Application\View\Helper\FormHelp */
-        $fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'users', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
-        $fh->setHorizontal(false);
-        $fh->openCol('2')->text('limitePageDesc')->closeCol();
-        ?>
+    <?php
+    /* @var $fh \Application\View\Helper\FormHelp */
+    $fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'users', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
+    $fh->setHorizontal(false);
+    $fh->openCol('2')->text('limitePageDesc')->closeCol();
+    ?>
 
-        <!--        <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1">Exibir</span>
-                    <select class="form-control" id="pagShow">
-                        
-                    </select>
-        
-                </div>-->
+    <!--        <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Exibir</span>
+                <select class="form-control" id="pagShow">
+                    
+                </select>
+    
+            </div>-->
+    <div class="col-md-2">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+            </span>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+            </span>
+            <input type="text" class="form-control" placeholder="Search for...">
+        </div><!-- /input-group -->
+    </div>
 
-    <div class="col-md-offset-1 col-md-3">
+
+    <div class="col-md-3">
 
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Pesquisar por</span>
