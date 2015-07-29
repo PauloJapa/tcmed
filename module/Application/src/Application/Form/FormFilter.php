@@ -20,5 +20,7 @@ class FormFilter extends AbstractForm{
         $this->setInputHidden('limitePag');
         
         $this->setInputText2('limitePageDesc', 'teste');
+        
+        $this->setInputText2('nome', 'teste');
     }
 }

@@ -6,16 +6,18 @@ $controller = 'users';
 <h1>Users</h1>
 <br />
 <div class="row">
-    <div class="col-md-1">
-        <button class="btn btn-primary" onclick="<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'new')); ?>">Novo</button>
-    </div>
-
+    <?php
+        /* @var $fh \Application\View\Helper\FormHelp */
+        $fh = $this->formHelp($this);
+        $url = $this->url('app/default', array('controller' => $controller, 'action' => 'new'));
+        $fh->openCol('1')->button(["onclick"=>$url], "Novo")->closeCol();
+        
+    ?>
 
     <?php
-    /* @var $fh \Application\View\Helper\FormHelp */
-    $fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'users', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
-    $fh->setHorizontal(false);
-    $fh->openCol('3')->text('limitePageDesc',['spanLabel'=> "false"])->closeCol();
+    //$fh->setHorizontal(false);
+    //$fh->openCol('3')->text('limitePageDesc',['spanLabel'=> "false"])->closeCol();
+    //$fh->openCol('3')->button(["id"=>"danilo", "onclick"=>"ola"], "teste")->closeCol();
     ?>
 
     <!--        <div class="input-group">
@@ -27,7 +29,7 @@ $controller = 'users';
             </div>-->
 
 
-    <div class="col-md-3">
+    <div class="col-md-offset-1 col-md-3">
 
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">Pesquisar por</span>

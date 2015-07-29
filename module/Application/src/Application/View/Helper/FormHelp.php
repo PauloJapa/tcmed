@@ -364,6 +364,105 @@ class FormHelp extends AbstractHelper {
     }
 
     /**
+     * Elemento
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param String $element Nome do elemento (DOM)
+     * @param array $attr Atributos do elemento
+     * -> key => value
+     * @param String $content Valor do elemento
+     * @return string
+     */
+    public function element($element, $attr, $content = "") {
+        if (!isset($element) or ! isset($attr)) {
+            return "";
+        }
+        $aux = "";
+        foreach ($attr as $key => $value) {
+            $aux .= " " . $key . "=\"" . $value . "\"";
+        }
+        return "<" . $element . $aux . ">" . $content . "</" . $element . ">";
+    }
+
+    /**
+     * Gerador de Botao
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param array $attr Atributos do botao (Pode ser Omitido)
+     * @param type $content Conteudo do botao
+     * @param type $extraClass Classes extras do elemento (Pode ser Omitido)
+     * @param type $type Cor do botao [primary|danger|...] (Pode ser Omitido)
+     * @return String
+     */
+    public function buildButton($attr, $content, $extraClass = "", $type = "default") {
+        //Define as classes do botao
+        $attr["class"] = "btn btn-" . $type . " " . $extraClass;
+        //Define (ou sobrescreve) o tipo do botao (button)
+        $attr["type"] = (isset($attr["type"])) ? $attr["type"] : "button";
+        //Gera e devolve o elemento
+        return $this->element("button", $attr, $content);
+    }
+
+    /**
+     * Gerador de Span
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param array $attr Atributos do Span
+     * @param type $content Conteudo do Spano
+     * @return String
+     */
+    public function buildSpan($attr, $content = "") {
+        //Gera e devolve o elemento
+        return $this->element("span", $attr, $content);
+    }
+
+    /**
+     * Gerador de Icone
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param String $icon Icone
+     * @return String
+     */
+    public function buildIcon($icon) {
+        //Se não passar o icone, devolve vazio
+        if (!isset($icon)) {
+            return "";
+        }
+        //Gera a classe do icone
+        $attr["class"] = "fa fa-" . $icon;
+        //Gera e retorna o elemento
+        return $this->element("i", $attr);
+    }
+
+    public function buildDropdown($list, $attr, $buttonParams, $firstVal) {
+        $firstVal = (isset($firstVal)) ? $firstVal : $list[0];
+        $attr["id"] = (isset($attr["id"])) ? $attr["id"] : "drop";
+
+        $a = "";
+        foreach ($list as $value) {
+            $a .= $this->element("a", [], $value);
+        }
+        $li = $this->element("li", [], $a);
+
+        $ul = $this->element("ul", ["class" => "dropdown-menu", "aria-labelledby" => $attr["id"]], $li);
+
+        $span = $this->buildSpan(["class" => "caret"]);
+
+        $button = $this->buildButton([
+            "id" => $attr["id"],
+            "data-toggle" => "dropdown",
+            "aria-haspopup" => "true",
+            "aria-expanded" => "false"
+                ], $firstVal . $span, $buttonParams["extraClass"], $buttonParams["type"]);
+
+        return $this->element("div", [], $button . $ul);
+    }
+
+    /**
      * Renderiza o botao de limpar campo Input
      * 
      * @param type $name Id do Elemento
@@ -373,7 +472,7 @@ class FormHelp extends AbstractHelper {
      * 
      * @author Paulo Watakabe
      * @author Danilo Dorotheu (Modificacoes)
-     * @version 1.2
+     * @version 1.4
      */
     public function iconClean($name, &$element, $options) {
         if (isset($options["clean"]) and ! $options["clean"]) {
@@ -388,11 +487,15 @@ class FormHelp extends AbstractHelper {
         if ($element->getAttribute('disabled')) {
             $jq = '';
         }
+        $middle = "";
         if ((isset($options["extra"]) and ! empty($options["extra"]))) {
-            $jq .= ' middleButton';
+            $middle = ' middleButton';
         }
-        return '<span class="input-group-btn"><button class="btn btn-default' . $jq . '" id="clean_' .
-                $name . '" type="button"><i class="fa fa-remove"></i></button></span>';
+        //Gera botao (com icone)
+        $button = $this->buildButton([], $this->buildIcon("remove"), $jq . $middle);
+        //$button = $this->buildDropdown(["danilo", "joao"], [], ["extraClass"=>$middle,"type"=>"primary"], "");
+        //Envolve o botao acima em um span e devolve
+        return $this->buildSpan(["class" => "input-group-btn"], $button);
     }
 
     /**
@@ -419,7 +522,7 @@ class FormHelp extends AbstractHelper {
         $options = $options["extra"]; //Diminui o caminho
         //Recebe valores de options
         $type = (isset($options["type"])) ? $options["type"] : "label";
-        $icon = (isset($options["icon"])) ? "<i class='fa fa-" . $options["icon"] . "'></i>" : "";
+        $icon = (isset($options["icon"])) ? $options["icon"] : "";
         $text = (isset($options["text"])) ? $options["text"] : "";
         $js = (isset($options["js"])) ? $options["js"] : "";
         $content = "";
@@ -430,41 +533,31 @@ class FormHelp extends AbstractHelper {
         $content = $icon . $text;
 
         if ($type == "button") {
-            $content = '<button class="btn btn-default" id="icon_' .
-                    $name . '" type="button" onClick="'
-                    . $js . '">'
-                    . $content //Adiciona o icone e o texto juntos 
-                    . '</button>';
+            $content = $this->button([
+                "id" => "icon_" . $nome,
+                "func" => $js,
+                "text" => $text,
+                "icon" => $icon
+            ]);
         }
-
-
         return '<span class="input-group-' . $inputGroup . '">' . $content . '</span>';
     }
 
-    /**
-     * 
-     * @param type $name Id do Elemento
-     * @param array $options Opcoes do elemento
-     * @return string
-     * 
-     * @deprecated since version 2.0
-     * @see iconExtra
-     * @author Paulo Watakabe
-     * @version 1.0
-     */
-    public function getIcons($name, array $options) {
-        $options = $options["icons"]; //Diminui o caminho
-
-        if (isset($options) and ! $options) {
+    public function teste($name, array $options) {
+        //TODO: Mudar logica
+        if (!(isset($options["extra"]) and ! empty($options["extra"]))) {
             return "";
         }
 
-        if (!isset($options["icone"]) or ! $options["icone"]) {
-            $options["icone"] = "pencil";
-        }
-
-        return '<span class="input-group-btn"><button class="btn btn-default" id="icon_' .
-                $name . '" type="button" onClick="' . $options['js'] . '"><i class="fa fa-' . $options['icone'] . '"></i></button></span>';
+        $options = $options["extra"]; //Diminui o caminho
+        
+        $attr = (isset($options["attr"])) ? $options["attr"] : "";
+        
+        $type = (isset($options["type"])) ? $options["type"] : "label";
+        $icon = (isset($options["icon"])) ? $options["icon"] : "";
+        $text = (isset($options["text"])) ? $options["text"] : "";
+        
+        
     }
 
     public function getSpan($name, array $attributes = []) {
@@ -486,6 +579,19 @@ class FormHelp extends AbstractHelper {
         return "<div align='" . $align . "'>" .
                 $html_partial .
                 "</div>" . PHP_EOL;
+    }
+
+    /**
+     * Renderiza o gerador de botao
+     * @param type $attr
+     * @param type $content
+     * @param type $extraClass
+     * @param type $type
+     * @return \Application\View\Helper\FormHelp
+     */
+    public function renderInputButton($attr, $content, $extraClass = "", $type = "primary") {
+        echo $this->buildButton($attr, $content, $extraClass, $type);
+        return $this;
     }
 
     /**

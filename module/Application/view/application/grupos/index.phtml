@@ -5,12 +5,26 @@ $controller = 'grupos';
 ?>
 <h1>Grupos</h1>
 <br />
-<p>
-    <button class="btn btn-primary" onclick="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</button>
-</p>
-<?php
 
-    $table->openTable(TRUE)  ; 
+    <?php
+    $fh = $this->formHelp($this, $this->form);
+    $url = $this->url('app/default',array('controller'=>$controller,'action'=>'new'));
+    $fh->openCol('1')->button(["onclick"=>$url], "Novo")->closeCol();
+    $fh->openCol('3')->text('nome', [
+        "spanLabel" => true,
+        "clean" => false,
+        "extra" => [
+            "type" => "button",
+            "icon" => "user"
+        ]
+    ])->closeCol();
+    ?>
+<br>
+<br>
+<div class="col-md-12">
+    
+    <?php
+    $table->openTable(TRUE); 
     $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Status','Ação'])  ;     
     foreach($this->data as $entity){
         $table->renderLine([
@@ -23,7 +37,8 @@ $controller = 'grupos';
         ]);
     } 
     $table->renderCloseTable();
-?>
+    ?>
+</div>
 <br />
 
 <center>
