@@ -367,24 +367,108 @@ class FormHelp extends AbstractHelper {
         }
     }
 
-    public function iconClean($name, &$element) {
+    /**
+     * Renderiza o botao de limpar campo Input
+     * 
+     * @param type $name Id do Elemento
+     * @param type $element Elemento
+     * @param array $options Opcoes definidas no ato de construcao do elemento
+     * @return String
+     * 
+     * @author Paulo Watakabe
+     * @author Danilo Dorotheu (Modificacoes)
+     * @version 1.2
+     */
+    public function iconClean($name, &$element, $options) {
+        if (isset($options["clean"]) and ! $options["clean"]) {
+            return ""; //Se for falso, retorne ""
+        }
+
         $jq = ' clean'; // Classe css que faz ligação com a função cleaninput criada em myscript.js
+
         if ($element->getAttribute('readOnly')) {
             $jq = '';
         }
         if ($element->getAttribute('disabled')) {
             $jq = '';
         }
+        if ((isset($options["extra"]) and ! empty($options["extra"]))) {
+            $jq .= ' middleButton';
+        }
         return '<span class="input-group-btn"><button class="btn btn-default' . $jq . '" id="clean_' .
                 $name . '" type="button"><i class="fa fa-remove"></i></button></span>';
     }
 
-    public function getIcons($name, array $attributes = []) {
-        if (empty($attributes)) {
-            return '';
+    /**
+     * Renderiza [botao | label] dentro do input
+     * 
+     * @param type $name Id do Elemento
+     * @param array $options Opcoes do elemento:
+     * -> String type: [button|span]
+     * -> String text: Texto do elemento
+     * -> String icon: Icone do elemento
+     * -> String js: Funcao a ser executada dentro do onclick 
+     * @return string
+     * 
+     * @see getIcons
+     * @author Danilo Dorotheu 
+     * @version 2.0
+     */
+    public function iconExtra($name, array $options) {
+        //TODO: Mudar logica
+        if (!(isset($options["extra"]) and ! empty($options["extra"]))) {
+            return "";
         }
+
+        $options = $options["extra"]; //Diminui o caminho
+        //Recebe valores de options
+        $type = (isset($options["type"])) ? $options["type"] : "label";
+        $icon = (isset($options["icon"])) ? "<i class='fa fa-" . $options["icon"] . "'></i>" : "";
+        $text = (isset($options["text"])) ? $options["text"] : "";
+        $js = (isset($options["js"])) ? $options["js"] : "";
+        $content = "";
+
+        //Define o tipo do input-group (addon | btn)
+        $inputGroup = ($type == "label") ? "addon" : "btn";
+
+        $content = $icon . $text;
+
+        if ($type == "button") {
+            $content = '<button class="btn btn-default" id="icon_' .
+                    $name . '" type="button" onClick="'
+                    . $js . '">'
+                    . $content //Adiciona o icone e o texto juntos 
+                    . '</button>';
+        }
+
+
+        return '<span class="input-group-' . $inputGroup . '">' . $content . '</span>';
+    }
+
+    /**
+     * 
+     * @param type $name Id do Elemento
+     * @param array $options Opcoes do elemento
+     * @return string
+     * 
+     * @deprecated since version 2.0
+     * @see iconExtra
+     * @author Paulo Watakabe
+     * @version 1.0
+     */
+    public function getIcons($name, array $options) {
+        $options = $options["icons"]; //Diminui o caminho
+
+        if (isset($options) and ! $options) {
+            return "";
+        }
+
+        if (!isset($options["icone"]) or ! $options["icone"]) {
+            $options["icone"] = "pencil";
+        }
+
         return '<span class="input-group-btn"><button class="btn btn-default" id="icon_' .
-                $name . '" type="button" onClick="' . $attributes['js'] . '"><i class="fa fa-' . $attributes['icone'] . '"></i></button></span>';
+                $name . '" type="button" onClick="' . $options['js'] . '"><i class="fa fa-' . $options['icone'] . '"></i></button></span>';
     }
 
     public function getSpan($name, array $attributes = []) {
@@ -445,8 +529,6 @@ class FormHelp extends AbstractHelper {
         }
         echo $this->openDivInput($name, $element, $options),
         $this->formView->formText($element),
-        $this->iconClean($name, $element),
-        $this->getIcons($name, $options),
         $this->closeDivInput();
         echo
         $this->getSpan($name, $options),

@@ -22,14 +22,11 @@ $border-default: 1px solid;
 .autocomplete-group { padding: 2px 5px; }
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 
-.notification{
-    position: absolute;
-    opacity: 0;
-    width: 300px;
-    right: 2%;
-    top: 70px;
-    z-index: 9999999999999;
-    padding:5px;
+//Corrige o erro do botao clean, quando este está acompanhado de 
+//outro botao
+.middleButton{
+    border-radius: 0px;
+    border-left: 0px;
 }
 
 #changMsgStatus{
