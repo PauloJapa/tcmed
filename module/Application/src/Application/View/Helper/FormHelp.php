@@ -238,7 +238,11 @@ class FormHelp extends AbstractHelper {
         }
     }
     
-    public function openDivInput($name, &$element, $css='',$setFormControl = true) {
+public function openDivInput($name, &$element, $css='',$setFormControl = true, $opt=[]) {
+        if(is_array($css)){
+            $opt = $css;
+            $css = '';
+        }
         $this->inputError = $this->getEleErro()->render($element);
         if($this->inputError){
             $css .=  ' has-error';
@@ -248,6 +252,17 @@ class FormHelp extends AbstractHelper {
         }
         if($this->horizontal){            
             $element->setLabelAttributes(['class'=> 'col-md-'. $this->getLargForLabelHorizontal() .' control-label']);
+        }
+        if(isset($opt['spanLabel'])){
+            if ($opt['spanLabel']){
+                return
+                '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .                  
+                '<div class="input-group' . $css . '">' .
+                    '<span class="input-group-addon">' . $element->getLabel() .  '</span>' ;                
+            }
+            return
+            '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .                  
+            '<div class="input-group' . $css . '">' ;
         }
         return 
         '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .                  
@@ -423,7 +438,7 @@ class FormHelp extends AbstractHelper {
         if (!empty($attributes)){
             $element->setAttributes($attributes);
         }
-        echo $this->openDivInput($name, $element),
+        echo $this->openDivInput($name, $element, $options),
             $this->formView->formText($element),
             $this->iconClean($name, $element),
             $this->getIcons($name, $options),            
