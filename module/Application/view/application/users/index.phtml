@@ -9,7 +9,6 @@ $controller = 'users';
         <button class="btn btn-primary" onclick="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</button>
 </p>
 <?php
-
     $table->openTable(TRUE)  ; 
     $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
     foreach($this->data as $entity){
