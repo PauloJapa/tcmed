@@ -1,29 +1,64 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
+
+/* @var $fh \Application\View\Helper\FormHelp */
+$fh = $this->formHelp($this,$this->form);
+
 $controller = 'users';
 ?>
 <h1>Users</h1>
 <br />
-<p>
-        <button class="btn btn-primary" onclick="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</button>
-</p>
+
 <?php
-    $table->openTable(TRUE)  ; 
-    $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
-    foreach($this->data as $entity){
-        $table->renderLine([
-            $entity->getId(),
-            $entity->getNome(),
-            $entity->getStatusMsg(),
-            $entity->getStatusChat(),
-            $entity->getStatusDatetime(),
-            $entity->getUsuarioId(),
-            $entity->getStatus(),
-            $entity->getId(),
-        ]);
-    } 
-    $table->renderCloseTable();
+    $fh->openLine();
+        
+        //Armazena URL em variavel
+        $url = $this->url('app/default',array('controller'=>$controller,'action'=>'new'));
+        //Constroi Botao
+        $fh->openCol("1")->button(["onclick"=>$url],"Novo")->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol("1", "1")->dropdown(
+            ["10", "25", "50", "100"], //Elementos do Dropdown
+            ["id"=>"pagin"], //Atributos do Dropdown
+            ["type"=>"primary"]  //Opcoes do botao
+        )->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol("3", "1")->dropdown(
+            ["ID", "Nome", "Mensagem Status"], //Elementos do Dropdown
+            ["id"=>"opcPesquisa"], //Atributos do Dropdown
+            ["type"=>"primary", "extraClass"=>"pull-right"]  //Opcoes do botao
+        )->closeCol();
+        
+        $fh->openCol("4")->text("Pesquisar", [
+            "spanLabel" => true
+        ])->closeCol();
+        
+    $fh->closeLine();
+    
+    $fh->openLine();
+        $fh->openCol("12");
+            $table->openTable(TRUE)  ; 
+            $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
+            foreach($this->data as $entity){
+                $table->renderLine([
+                    $entity->getId(),
+                    $entity->getNome(),
+                    $entity->getStatusMsg(),
+                    $entity->getStatusChat(),
+                    $entity->getStatusDatetime(),
+                    $entity->getUsuarioId(),
+                    $entity->getStatus(),
+                    $entity->getId(),
+                ]);
+            } 
+            $table->renderCloseTable();
+        $fh->closeCol();
+    $fh->closeLine();
+    
+    
 ?>
 <br />
 

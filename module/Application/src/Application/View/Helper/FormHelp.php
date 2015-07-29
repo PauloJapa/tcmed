@@ -198,7 +198,7 @@ class FormHelp extends AbstractHelper {
     }
 
     public function closeLine() {
-        echo '</div>', PHP_EOL;
+        echo '</div><br>', PHP_EOL;
         return $this;
     }
 
@@ -208,9 +208,11 @@ class FormHelp extends AbstractHelper {
         return $this;
     }
 
-    public function openCol($tamanho = '3') {
+    public function openCol($tamanho = '3', $espaco = "") {
+        $espaco = (!empty($espaco)) ? " col-md-offset-" . $espaco . "": "";
+        
         $this->colLarg = $tamanho;
-        echo '<div class="col-md-', $tamanho, '">', PHP_EOL;
+        echo '<div class="col-md-', $tamanho, $espaco ,' ">', PHP_EOL;
         return $this;
     }
 
@@ -437,9 +439,18 @@ class FormHelp extends AbstractHelper {
         //Gera e retorna o elemento
         return $this->element("i", $attr);
     }
-
-    public function buildDropdown($list, $attr, $buttonParams, $firstVal) {
-        $firstVal = (isset($firstVal)) ? $firstVal : $list[0];
+    /**
+     * 
+     * @param array $list Elementos
+     * @param array $attr Atributos do dropdown
+     * @param array $buttonParams Opcoes do Botao
+     * -> string type [primary|success|...]
+     * -> string extraClass Classes extras
+     * @param string $firstVal Define valor a ser exibido
+     * @return String
+     */
+    public function buildDropdown($list = [], $attr = [], $buttonParams = [], $firstVal = "") {
+        $firstVal = (!empty($firstVal)) ? $firstVal : $list[0];
         $attr["id"] = (isset($attr["id"])) ? $attr["id"] : "drop";
 
         $a = "";
@@ -457,7 +468,7 @@ class FormHelp extends AbstractHelper {
             "data-toggle" => "dropdown",
             "aria-haspopup" => "true",
             "aria-expanded" => "false"
-                ], $firstVal . $span, $buttonParams["extraClass"], $buttonParams["type"]);
+                ], $firstVal . " " . $span, $buttonParams["extraClass"], $buttonParams["type"]);
 
         return $this->element("div", [], $button . $ul);
     }
@@ -591,6 +602,19 @@ class FormHelp extends AbstractHelper {
      */
     public function renderInputButton($attr, $content, $extraClass = "", $type = "primary") {
         echo $this->buildButton($attr, $content, $extraClass, $type);
+        return $this;
+    }
+    /**
+     * Renderiza o gerador de Dropdown
+     * 
+     * @param array $list
+     * @param array $attr
+     * @param array $buttonParams
+     * @param string $firstVal
+     * @return \Application\View\Helper\FormHelp
+     */
+    public function renderInputDropdown($list = [], $attr = [], $buttonParams = [], $firstVal = "") {
+        echo $this->buildDropdown($list, $attr, $buttonParams, $firstVal);
         return $this;
     }
 
