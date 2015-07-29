@@ -15,7 +15,15 @@ $controller = 'users';
     /* @var $fh \Application\View\Helper\FormHelp */
     $fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'users', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
     $fh->setHorizontal(false);
-    $fh->openCol('3')->text('limitePageDesc',['spanLabel'=> "false"])->closeCol();
+    $fh->openCol('3')->text('limitePageDesc',[
+        'spanLabel'=> "Num",
+        'clean' => false,
+        'extra' => [
+            'type' => 'button',
+            'icon' => 'caret-down',
+            'js' => 'numPage()'
+        ]
+        ])->closeCol();
     ?>
 
     <!--        <div class="input-group">
@@ -96,4 +104,9 @@ $controller = 'users';
         var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'delete'), [], FALSE, FALSE); ?>" + "/" + key};
         processa(data);
     }
+    function numPage(){
+        
+        action.autoComp()
+    }
+   
 </script>

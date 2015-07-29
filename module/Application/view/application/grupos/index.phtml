@@ -9,6 +9,8 @@ $controller = 'grupos';
     <button class="btn btn-primary" onclick="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</button>
 </p>
 <?php
+//    $fh = $this->formHelp($this);
+//    $fh->openCol('1')->button(["onclick"=>$url], "NOVO")->closeCol();
 
     $table->openTable(TRUE)  ; 
     $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Status','Ação'])  ;     
