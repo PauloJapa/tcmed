@@ -208,11 +208,9 @@ class FormHelp extends AbstractHelper {
         return $this;
     }
 
-    public function openCol($tamanho = '3', $espaco = "") {
-        $espaco = (!empty($espaco)) ? " col-md-offset-" . $espaco . "": "";
-        
+    public function openCol($tamanho = '3') {
         $this->colLarg = $tamanho;
-        echo '<div class="col-md-', $tamanho, $espaco ,' ">', PHP_EOL;
+        echo '<div class="col-md-', $tamanho, '">', PHP_EOL;
         return $this;
     }
 
@@ -439,17 +437,9 @@ class FormHelp extends AbstractHelper {
         //Gera e retorna o elemento
         return $this->element("i", $attr);
     }
-    /**
-     * 
-     * @param array $list Elementos
-     * @param array $attr Atributos do dropdown
-     * @param array $buttonParams Opcoes do Botao
-     * -> string type [primary|success|...]
-     * -> string extraClass Classes extras
-     * @param string $firstVal Define valor a ser exibido
-     * @return String
-     */
-    public function buildDropdown($list = [], $attr = [], $buttonParams = [], $firstVal = "") {
+
+    public function buildDropdown($list, $attr, $buttonParams, $firstVal) {
+        
         $firstVal = (!empty($firstVal)) ? $firstVal : $list[0];
         $attr["id"] = (isset($attr["id"])) ? $attr["id"] : "drop";
 
@@ -486,9 +476,10 @@ class FormHelp extends AbstractHelper {
      * @version 1.4
      */
     public function iconClean($name, &$element, $options) {
-        if (isset($options["clean"]) and ! $options["clean"]) {
+        
+        //if (isset($options["clean"]) and ! $options["clean"]) {
             return ""; //Se for falso, retorne ""
-        }
+        //}
 
         $jq = ' clean'; // Classe css que faz ligação com a função cleaninput criada em myscript.js
 
@@ -604,15 +595,7 @@ class FormHelp extends AbstractHelper {
         echo $this->buildButton($attr, $content, $extraClass, $type);
         return $this;
     }
-    /**
-     * Renderiza o gerador de Dropdown
-     * 
-     * @param array $list
-     * @param array $attr
-     * @param array $buttonParams
-     * @param string $firstVal
-     * @return \Application\View\Helper\FormHelp
-     */
+    
     public function renderInputDropdown($list = [], $attr = [], $buttonParams = [], $firstVal = "") {
         echo $this->buildDropdown($list, $attr, $buttonParams, $firstVal);
         return $this;

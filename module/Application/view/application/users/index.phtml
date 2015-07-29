@@ -25,16 +25,16 @@ $controller = 'users';
             ["type"=>"primary"]  //Opcoes do botao
         )->closeCol();
         
-        //Constroi o DropDown
-        $fh->openCol("3", "1")->dropdown(
-            ["ID", "Nome", "Mensagem Status"], //Elementos do Dropdown
-            ["id"=>"opcPesquisa"], //Atributos do Dropdown
-            ["type"=>"primary", "extraClass"=>"pull-right"]  //Opcoes do botao
-        )->closeCol();
-        
-        $fh->openCol("4")->text("Pesquisar", [
-            "spanLabel" => true
-        ])->closeCol();
+//        //Constroi o DropDown
+//        $fh->openCol("3", "1")->dropdown(
+//            ["ID", "Nome", "Mensagem Status"], //Elementos do Dropdown
+//            ["id"=>"opcPesquisa"], //Atributos do Dropdown
+//            ["type"=>"primary", "extraClass"=>"pull-right"]  //Opcoes do botao
+//        )->closeCol();
+//        
+//        $fh->openCol("4")->text("pesquisa", [
+//            "spanLabel" => true
+//        ])->closeCol();
         
     $fh->closeLine();
     
