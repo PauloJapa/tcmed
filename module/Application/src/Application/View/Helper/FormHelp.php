@@ -244,7 +244,6 @@ class FormHelp extends AbstractHelper {
             $opt = $css;
             $css = '';
         }
-        
         $this->inputError = $this->getEleErro()->render($element);
         if ($this->inputError) {
             $css .= ' has-error';
@@ -255,24 +254,21 @@ class FormHelp extends AbstractHelper {
         if ($this->horizontal) {
             $element->setLabelAttributes(['class' => 'col-md-' . $this->getLargForLabelHorizontal() . ' control-label']);
         }
-        
-        $html = '<div class="form-group" id="pop' . $name . '">' . PHP_EOL;
-        
         if (isset($opt['spanLabel'])) {
             if ($opt['spanLabel']) {
-                //Com Span
-                $html .='<div class="input-group' . $css . '">' .
+                return
+                        '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
+                        '<div class="input-group' . $css . '">' .
                         '<span class="input-group-addon">' . $element->getLabel() . '</span>';
-            }else{
-                //Sem Span na frente
-                $html .= '<div class="input-group' . $css . '">';
             }
-        }else{
-            $html .= $this->getLabel()->openTag($element) . $element->getLabel() . $this->getLabel()->closeTag() .
-                '<div class="input-group' . $css . '">';
+            return
+                    '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
+                    '<div class="input-group' . $css . '">';
         }
-        
-        return $html;
+        return
+                '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
+                $this->getLabel()->openTag($element) . $element->getLabel() . $this->getLabel()->closeTag() .
+                '<div class="input-group' . $css . '">';
     }
 
     public function closeDivInput() {
@@ -529,6 +525,9 @@ class FormHelp extends AbstractHelper {
         }
         echo $this->openDivInput($name, $element, $options),
         $this->formView->formText($element),
+        $this->iconClean($name, $element, $options),
+        //$this->getIcons($name, $options),
+        $this->iconExtra($name, $options),
         $this->closeDivInput();
         echo
         $this->getSpan($name, $options),
