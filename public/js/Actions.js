@@ -161,7 +161,7 @@ actionEvents = (function ($) {
 /**
  * Actions
  */
-action = (function ($, options) {
+action = (function ($, options, event) {
 
 
     var errors = {
@@ -511,12 +511,14 @@ action = (function ($, options) {
             });
             */
            
-           $(document).on("click", "#inter .dropdown a", function(e){
+           
+           event.click("#inter .dropdown a", function(e){
+               console.log("hello");
                var caret = "<i class='caret'></i>";
                $(this).closest(".dropdown").find("button").html($(this).html() + " " + caret).attr("value",$(this).attr("value"));
            });
            
-           $(document).on("click", ".table th", function(){
+           event.click(".table th", function(){
                var $table = $(this).closest(".table");
                $table.tablesorter();
                if(!$table.hasClass("tablelayout")){
@@ -718,4 +720,4 @@ action = (function ($, options) {
 
     }
 
-})(jQuery, App.SETTINGS);
+})(jQuery, App.SETTINGS, actionEvents);
