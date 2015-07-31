@@ -268,7 +268,7 @@ class FormHelp extends AbstractHelper {
                 return
                         '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
                         '<div class="input-group' . $css . '">' .
-                        $this->buildSpan(["class"=>"input-group-addon"], $element->getLabel());
+                        $this->buildSpan(["class" => "input-group-addon"], $element->getLabel());
             }
             return
                     '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
@@ -406,7 +406,7 @@ class FormHelp extends AbstractHelper {
      * @return String
      */
     public function buildButton($attr, $content, $type = "default") {
-        $attr["class"] = (isset($attr["class"])) ? $attr["class"]: "";
+        $attr["class"] = (isset($attr["class"])) ? $attr["class"] : "";
 
         //Define as classes do botao
         $attr["class"] = $attr["class"] . " btn btn-" . $type;
@@ -450,7 +450,7 @@ class FormHelp extends AbstractHelper {
     }
 
     public function buildDropdown($list, $attr, $firstVal) {
-        
+
         $firstVal = (!empty($firstVal)) ? $firstVal : explode(":", $list[0])[0];
         $attr["id"] = (isset($attr["id"])) ? $attr["id"] : "drop";
         $attr["class"] = (empty($attr["class"])) ? "dropdown" : $attr["class"] . " dropdown";
@@ -458,8 +458,8 @@ class FormHelp extends AbstractHelper {
         $a = "";
         foreach ($list as $item) {
             list($text, $value) = explode(":", $item);
-            $value = (empty($value) or !isset($value)) ? $text: $value;
-            $a .= $this->element("a", ["value"=>$value], $text); 
+            $value = (empty($value) or ! isset($value)) ? $text : $value;
+            $a .= $this->element("a", ["value" => $value], $text);
         }
         $li = $this->element("li", [], $a);
         $ul = $this->element("ul", ["class" => "dropdown-menu", "aria-labelledby" => $attr["id"]], $li);
@@ -467,13 +467,13 @@ class FormHelp extends AbstractHelper {
         $span = $this->buildSpan(["class" => "caret"]);
 
         $button = $this->buildButton([
-            "id" => $attr["id"],
+            "id" => "btn-" . $attr["id"],
             "data-toggle" => "dropdown",
             "aria-haspopup" => "true",
             "aria-expanded" => "false"
                 ], $firstVal . " " . $span);
 
-        return $this->element("div", [], $button . $ul);
+        return $this->element("div", $attr, $button . $ul);
     }
 
     /**
@@ -507,7 +507,7 @@ class FormHelp extends AbstractHelper {
             $middle = ' middleButton';
         }
         //Gera botao (com icone)
-        $button = $this->buildButton(["class"=>$jq . $middle], $this->buildIcon("remove"));
+        $button = $this->buildButton(["class" => $jq . $middle], $this->buildIcon("remove"));
         //$button = $this->buildDropdown(["danilo", "joao"], [], ["extraClass"=>$middle,"type"=>"primary"], "");
         //Envolve o botao acima em um span e devolve
         return $this->buildSpan(["class" => "input-group-btn"], $button);
@@ -605,6 +605,7 @@ class FormHelp extends AbstractHelper {
         echo $this->buildDropdown($list, $attr, $firstVal);
         return $this;
     }
+
     /**
      * Renderiza o input hidden 
      * @param String $name

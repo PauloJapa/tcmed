@@ -93,4 +93,37 @@ $controller = 'users';
         var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'delete'), [], FALSE, FALSE); ?>" + "/" + key};
         processa(data);
     }
+    
+    $(function(){
+        actionEvents.click("#icon_pesquisa", function(){
+            action.processa({
+                url: "/app/users/index",
+                type: "POST",
+                data:{
+                    filter: $("#btn-opcPesquisa").attr("value"),
+                    value:  $("#pesquisa").val(),
+                    quantPage: $("#btn-pagin").attr("value")
+                },
+                last:false,
+                savePage: false,
+                showloader: false
+            });
+        });
+        
+        actionEvents.click("#pagin a", function(){
+            console.log("event");
+            action.processa({
+                url: "/app/users/index",
+                type: "POST",
+                data:{
+                    quantPage: $("#btn-pagin").attr("value")
+                },
+                last:false,
+                savePage: false,
+                showloader: false
+            });
+        });
+        /*
+        */
+    });
 </script>
