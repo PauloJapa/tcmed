@@ -660,7 +660,7 @@ class FormHelp extends AbstractHelper {
      * @param array $attributes
      * @return \Application\View\Helper\FormHelp
      */
-    public function renderInputTextArea($name, array $attributes = []) {
+    public function renderInputTextArea($name, array $attributes = [], $options = []) {
         /* @var $element \Zend\Form\Element\TextArea */
         $element = $this->getEle($name);
         if (!empty($attributes)) {
@@ -668,7 +668,7 @@ class FormHelp extends AbstractHelper {
         }
         echo $this->openDivInput($name, $element),
         $this->formView->formTextarea($element),
-        $this->iconClean($name, $element),
+        $this->iconClean($name, $element, $options),
         $this->closeDivInput(),
         $this->showError();
         return $this;
@@ -724,7 +724,7 @@ class FormHelp extends AbstractHelper {
      * @param String $name
      * @return \Application\View\Helper\FormHelp
      */
-    public function renderInputSelect($name) {
+    public function renderInputSelect($name, $options = []) {
         /* @var $element \Zend\Form\Element\Submit */
         $element = $this->getEle($name);
         $selectHtml = $this->openDivInput($name, $element);
@@ -735,7 +735,7 @@ class FormHelp extends AbstractHelper {
         }
         echo
         $selectHtml,
-        $this->iconClean($name, $element),
+        $this->iconClean($name, $element, $options),
         $this->closeDivInput(),
         $this->showError();
         return $this;

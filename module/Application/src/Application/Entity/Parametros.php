@@ -53,6 +53,23 @@ class Parametros
     public function __construct(array $options = []) {
         (new Hydrator\ClassMethods)->hydrate($options, $this);
     }
+    /**
+     * Alias get para o ID da estidade
+     * @return type
+     * @author Danilo Dorotheu
+     */
+    function getId(){
+        return $this->getIdParame();
+    }
+    /**
+     * Alias set para o ID da estidade
+     * @param type $idParame
+     * @author Danilo Dorotheu
+     */
+    function setId($idParame){
+        $this->setIdParame($idParame);
+    }
+    
     
     function getIdParame() {
         return $this->idParame;

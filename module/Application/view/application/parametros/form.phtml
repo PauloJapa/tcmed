@@ -3,7 +3,7 @@
 <?php
 /* @var $fh \Application\View\Helper\FormHelp */
 
-$fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=>'parametros','action'=>$this->data['action'])));
+$fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=>'parametros','action'=>$this->dataView['action'])));
 $fh->setHorizontal(true);
 $fh->formInit('Cadastro Parametros');
             $fh->openCol('12')->text('chave')->closeCol();
