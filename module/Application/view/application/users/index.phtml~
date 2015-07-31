@@ -13,7 +13,27 @@ $controller = 'users';
 </div>
 <br>
 <br>
+<div class="col-md-12"> 
 
+<?php
+    $table->openTable(TRUE)  ; 
+    $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
+    foreach($this->data as $entity){
+        $table->renderLine([
+            $entity->getId(),
+            $entity->getNome(),
+            $entity->getStatusMsg(),
+            $entity->getStatusChat(),
+            $entity->getStatusDatetime(),
+            $entity->getUsuarioId(),
+            $entity->getStatus(),
+            $entity->getId(),
+        ]);
+    } 
+    $table->renderCloseTable();
+?>
+<br />
+</div>
 
     <?php
     /* @var $fh \Application\View\Helper\FormHelp */
