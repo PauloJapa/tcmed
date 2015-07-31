@@ -1,38 +1,78 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
+
+/* @var $fh \Application\View\Helper\FormHelp */
+$fh = $this->formHelp($this,$this->form);
+
 $controller = 'users';
 ?>
 <h1>Users</h1>
 <br />
-<div class="row">
-    <?php
-        /* @var $fh \Application\View\Helper\FormHelp */
-        $fh = $this->formHelp($this);
-        $url = $this->url('app/default', array('controller' => $controller, 'action' => 'new'));
-        $fh->openCol('1')->button(["onclick"=>$url], "Novo")->closeCol();
+
+<?php
+    $fh->openLine();
         
-    ?>
-
-    <?php
-    //$fh->setHorizontal(false);
-    //$fh->openCol('3')->text('limitePageDesc',['spanLabel'=> "false"])->closeCol();
-    //$fh->openCol('3')->button(["id"=>"danilo", "onclick"=>"ola"], "teste")->closeCol();
-    ?>
-
-    <!--        <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Exibir</span>
-                <select class="form-control" id="pagShow">
-                    
-                </select>
+        //Constroi Botao
+        $fh->openCol(1);
+            $url = $this->url('app/default',array('controller'=>$controller,'action'=>'new'));
+            $fh->button(["onclick"=>$url],"Novo", "primary");
+        $fh->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol(1);
+            $fh->dropdown(
+                ["10", "25", "50", "100"], //Elementos do Dropdown
+                ["id"=>"pagin"] //Atributos do Dropdown
+            );
+        $fh->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol(4, 1);
+        $fh->dropdown(
+            ["ID:id", "Nome:nome", "Mensagem Status"], //Elementos do Dropdown
+            ["id"=>"opcPesquisa", "class"=>"pull-right"] //Atributos do Dropdown
+        );
+        $fh->closeCol();
+        
+        //Input
+        $fh->openCol(5);
+            $fh->text("pesquisa", [
+                'spanLabel' => false,
+                'clean'=> false, 
+                'extra'=>[
+                    'type'=>'btn', 
+                    'text'=>'Pesquisar'
+                    ]
+                ]
+            );
+        $fh->closeCol();
+        
+    $fh->closeLine();
     
-            </div>-->
-
-
-    <div class="col-md-offset-1 col-md-3">
-
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Pesquisar por</span>
+    $fh->openLine();
+        $fh->openCol("12");
+            $table->openTable(TRUE)  ; 
+            $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
+            foreach($this->data as $entity){
+                $table->renderLine([
+                    $entity->getId(),
+                    $entity->getNome(),
+                    $entity->getStatusMsg(),
+                    $entity->getStatusChat(),
+                    $entity->getStatusDatetime(),
+                    $entity->getUsuarioId(),
+                    $entity->getStatus(),
+                    $entity->getId(),
+                ]);
+            } 
+            $table->renderCloseTable();
+        $fh->closeCol();
+    $fh->closeLine();
+    
+    
+?>
+<br />
 
             <select class="form-control" id="tableConsult">
                 <option value="idUser">Id</option>
