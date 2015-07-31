@@ -3,7 +3,6 @@
 /*
  * License
  */
-
 namespace Application\Controller;
 
 /**
@@ -21,17 +20,12 @@ class UsersController extends CrudController {
         $e = $this->getRequest()->getPost()->toArray();
 
         $array = array();
-        $contPage = 10;
 
         if (isset($e['filter']) and ! empty($e['filter'])) {
             $array[$e['filter']] = "%" . $e['value'] . "%";
         }
 
-        if (isset($e['quantPage']) and ! empty($e['quantPage']) and $e['quantPage'] != -1) {
-            $contPage = $e['quantPage'];
-        }
-
-        return parent::indexAction($array, [], [], $contPage);
+        return parent::indexAction($array);
     }
 
     public function parametersAction() {

@@ -84,7 +84,7 @@ abstract class CrudController extends AbstractActionController {
      * @param array $list
      * @return \Zend\View\Model\ViewModel | no return
      */
-    public function indexAction(array $filtro = [],array $orderBy = [], $list = [], $quantPag = 10) {
+    public function indexAction(array $filtro = [],array $orderBy = [], $list = []) {
         if (empty($list)) {
             $list = $this->getEm()
                     ->createQueryBuilder()
@@ -113,6 +113,7 @@ abstract class CrudController extends AbstractActionController {
         $paginatorAdapter = new PaginatorAdapter($doctrinePaginator);
         $this->paginator = new Paginator($paginatorAdapter);
         $this->paginator->setCurrentPageNumber($this->page);
+        $quantPag = $this->getRequest()->getPost('quantPage', '10');
         $this->paginator->setDefaultItemCountPerPage($quantPag);
         $this->paginator->setPageRange(20);
         $dataView = $this->getDataView('Exibindo ' . $this->name);

@@ -27,8 +27,18 @@ $controller = 'users';
             );
         $fh->closeCol();
         
+        //Constroi Botao
+        $fh->openCol(1,1);
+            $fh->button([],"XLS", "success");
+        $fh->closeCol();
+       
+        //Constroi Botao
+        $fh->openCol(1);
+            $fh->button([],"PDF", "danger");
+        $fh->closeCol();
+        
         //Constroi o DropDown
-        $fh->openCol(4, 1);
+        $fh->openCol(1,2);
         $fh->dropdown(
             ["ID:id", "Nome:nome", "Mensagem Status"], //Elementos do Dropdown
             ["id"=>"opcPesquisa", "class"=>"pull-right"] //Atributos do Dropdown
@@ -36,7 +46,7 @@ $controller = 'users';
         $fh->closeCol();
         
         //Input
-        $fh->openCol(5);
+        $fh->openCol(4);
             $fh->text("pesquisa", [
                 'spanLabel' => false,
                 'clean'=> false, 
