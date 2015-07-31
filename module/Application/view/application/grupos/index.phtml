@@ -1,16 +1,39 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
+
+/* @var $fh \Application\View\Helper\FormHelp */
+$fh = $this->formHelp($this,$this->form);
 $controller = 'grupos';
 ?>
 <h1>Grupos</h1>
 <br />
-<p>
-    <button class="btn btn-primary" onclick="<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'new')); ?>">Novo</button>
-</p>
 <?php
 //    $fh = $this->formHelp($this);
 //    $fh->openCol('1')->button(["onclick"=>$url], "NOVO")->closeCol();
+
+    $fh->openLine();
+        
+        //Armazena URL em variavel
+        $url = $this->url('app/default',array('controller'=>$controller,'action'=>'new'));
+        //Constroi Botao
+        $fh->openCol(1)->button(["onclick"=>$url],"Novo", "primary")->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol(1)->dropdown(
+            ["10", "25", "50", "100"], //Elementos do Dropdown
+            ["id"=>"pagin"] //Atributos do Dropdown
+        )->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol(4, 1)->dropdown(
+            ["ID:id", "Nome:nome", "Mensagem Status:statusmsg", "Chat Status", "Status", "Ação"], //Elementos do Dropdown
+            ["id"=>"opcPesquisa", "class"=>"pull-right"] //Atributos do Dropdown
+        )->closeCol();
+        
+        $fh->openCol(5)->text("pesquisa", ['spanLabel' => false,'clean'=> false, 'extra'=>['type'=>'btn', 'text'=>'Pesquisar']])->closeCol();
+        
+    $fh->closeLine();
 
     $table->openTable(TRUE)  ; 
     $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Status','Ação'])  ;     
@@ -25,7 +48,8 @@ $controller = 'grupos';
         ]);
     } 
     $table->renderCloseTable();
-?>
+    ?>
+</div>
 <br />
 
 <center>
@@ -45,4 +69,5 @@ $controller = 'grupos';
         var data = {url : "<?php echo $this->url('app/default',array('controller'=>$controller,'action'=>'delete'),[],FALSE,FALSE);?>" + "/" + key };
         processa(data);
     }    
+
 </script>

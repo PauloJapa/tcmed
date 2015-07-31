@@ -12,7 +12,7 @@ $fh->openCol('12')->text('campo1', [
     'clean' => true,
     'extra' => [
         "type" => "label",
-        "text" => " hello",
+        "text" => " hello ",
         "icon" => "user",
         "js" => "funcao"
     ]
@@ -22,7 +22,7 @@ $fh->openCol('12')->text('campo1', [
 
 $fh->lineDown();
 $fh->openCol('6')->calend('campo2')->closeCol();
-$fh->openCol('6')->text('campo3', ['spanLabel' => false])->closeCol();
+$fh->openCol('6')->text('campo3', ['spanLabel' => true])->closeCol();
 $fh->lineDown();
 $fh->openCol('12')->Submit('submit')->closeCol();
 $fh->closeLine()->formEnd();

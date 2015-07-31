@@ -1,92 +1,77 @@
 <?php
 /* @var $table \Application\View\Helper\Table */
 $table = $this->table();
+
+/* @var $fh \Application\View\Helper\FormHelp */
+$fh = $this->formHelp($this,$this->form);
+
 $controller = 'users';
 ?>
 <h1>Users</h1>
 <br />
 
-<div class="row">
-    <div class="col-md-1">
-        <button class="btn btn-primary" onclick="<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'new')); ?>">Novo</button>
-    </div>
-</div>
-<br>
-<br>
-
-
-    <?php
-    /* @var $fh \Application\View\Helper\FormHelp */
-    $fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'users', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
-    $fh->setHorizontal(false);
-    $fh->openCol('3')->text('limitePageDesc',[
-        'spanLabel'=> "Num",
-        'clean' => false,
-        'extra' => [
-            'type' => 'button',
-            'icon' => 'caret-down',
-            'js' => 'numPage()'
-        ]
-        ])->closeCol();
-    ?>
-
-    <!--        <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Exibir</span>
-                <select class="form-control" id="pagShow">
-                    
-                </select>
+<?php
+    $fh->openLine();
+        
+        //Constroi Botao
+        $fh->openCol(1);
+            $url = $this->url('app/default',array('controller'=>$controller,'action'=>'new'));
+            $fh->button(["onclick"=>$url],"Novo", "primary");
+        $fh->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol(1);
+            $fh->dropdown(
+                ["10", "25", "50", "100"], //Elementos do Dropdown
+                ["id"=>"pagin"] //Atributos do Dropdown
+            );
+        $fh->closeCol();
+        
+        //Constroi o DropDown
+        $fh->openCol(4, 1);
+        $fh->dropdown(
+            ["ID:id", "Nome:nome", "Mensagem Status"], //Elementos do Dropdown
+            ["id"=>"opcPesquisa", "class"=>"pull-right"] //Atributos do Dropdown
+        );
+        $fh->closeCol();
+        
+        //Input
+        $fh->openCol(5);
+            $fh->text("pesquisa", [
+                'spanLabel' => false,
+                'clean'=> false, 
+                'extra'=>[
+                    'type'=>'btn', 
+                    'text'=>'Pesquisar'
+                    ]
+                ]
+            );
+        $fh->closeCol();
+        
+    $fh->closeLine();
     
-            </div>-->
-
-
-    <div class="col-md-3">
-
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Pesquisar por</span>
-
-            <select class="form-control" id="tableConsult">
-                <option value="idUser">Id</option>
-                <option value="nome">Nome</option>
-                <option value="statusMsg">Mensagem Status</option>
-                <option value="statusChat">Chat Status</option>
-                <option value="statusDatetime">Alteração Status</option>
-                <option value="usuarioId">Usuario_id</option>
-                <option value="status">Status</option>
-            </select>
-
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="input-group">
-            <input id="value" type="text" class="form-control" placeholder="Pesquisar...">
-            <span class="input-group-btn">
-                <button id="pesquisar" class="btn btn-default" type="button">Pesquisar</button>
-            </span>
-        </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-</div>
-
-<br>
-<div class="row">
-    <div class="col-md-12">
-        <?php
-        $table->openTable(TRUE);
-        $table->renderThead(['ID', 'Nome', 'Mensagem Status', 'Chat Status', 'Alteração Status', 'Usuario_Id', 'Status', 'Ação']);
-        foreach ($this->data as $entity) {
-            $table->renderLine([
-                $entity->getId(),
-                $entity->getNome(),
-                $entity->getStatusMsg(),
-                $entity->getStatusChat(),
-                $entity->getStatusDatetime(),
-                $entity->getUsuarioId(),
-                $entity->getStatus(),
-                $entity->getId(),
-            ]);
-        }
-        $table->renderCloseTable();
-        ?>
+    $fh->openLine();
+        $fh->openCol("12");
+            $table->openTable(TRUE)  ; 
+            $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
+            foreach($this->data as $entity){
+                $table->renderLine([
+                    $entity->getId(),
+                    $entity->getNome(),
+                    $entity->getStatusMsg(),
+                    $entity->getStatusChat(),
+                    $entity->getStatusDatetime(),
+                    $entity->getUsuarioId(),
+                    $entity->getStatus(),
+                    $entity->getId(),
+                ]);
+            } 
+            $table->renderCloseTable();
+        $fh->closeCol();
+    $fh->closeLine();
+    
+    
+?>
         <br />
 
         <center>
@@ -108,9 +93,37 @@ $controller = 'users';
         var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'delete'), [], FALSE, FALSE); ?>" + "/" + key};
         processa(data);
     }
-    function numPage(){
+    
+    $(function(){
+        actionEvents.click("#icon_pesquisa", function(){
+            action.processa({
+                url: "/app/users/index",
+                type: "POST",
+                data:{
+                    filter: $("#btn-opcPesquisa").attr("value"),
+                    value:  $("#pesquisa").val(),
+                    quantPage: $("#btn-pagin").attr("value")
+                },
+                last:false,
+                savePage: false,
+                showloader: false
+            });
+        });
         
-        action.autoComp()
-    }
-   
+        actionEvents.click("#pagin a", function(){
+            console.log("event");
+            action.processa({
+                url: "/app/users/index",
+                type: "POST",
+                data:{
+                    quantPage: $("#btn-pagin").attr("value")
+                },
+                last:false,
+                savePage: false,
+                showloader: false
+            });
+        });
+        /*
+        */
+    });
 </script>
