@@ -13,28 +13,40 @@ $controller = 'users';
 <?php
     $fh->openLine();
         
-        //Armazena URL em variavel
-        $url = $this->url('app/default',array('controller'=>$controller,'action'=>'new'));
         //Constroi Botao
-        $fh->openCol("1")->button(["onclick"=>$url],"Novo")->closeCol();
+        $fh->openCol(1);
+            $url = $this->url('app/default',array('controller'=>$controller,'action'=>'new'));
+            $fh->button(["onclick"=>$url],"Novo", "primary");
+        $fh->closeCol();
         
         //Constroi o DropDown
-        $fh->openCol("1", "1")->dropdown(
-            ["10", "25", "50", "100"], //Elementos do Dropdown
-            ["id"=>"pagin"], //Atributos do Dropdown
-            ["type"=>"primary"]  //Opcoes do botao
-        )->closeCol();
+        $fh->openCol(1);
+            $fh->dropdown(
+                ["10", "25", "50", "100"], //Elementos do Dropdown
+                ["id"=>"pagin"] //Atributos do Dropdown
+            );
+        $fh->closeCol();
         
-//        //Constroi o DropDown
-//        $fh->openCol("3", "1")->dropdown(
-//            ["ID", "Nome", "Mensagem Status"], //Elementos do Dropdown
-//            ["id"=>"opcPesquisa"], //Atributos do Dropdown
-//            ["type"=>"primary", "extraClass"=>"pull-right"]  //Opcoes do botao
-//        )->closeCol();
-//        
-//        $fh->openCol("4")->text("pesquisa", [
-//            "spanLabel" => true
-//        ])->closeCol();
+        //Constroi o DropDown
+        $fh->openCol(4, 1);
+        $fh->dropdown(
+            ["ID:id", "Nome:nome", "Mensagem Status"], //Elementos do Dropdown
+            ["id"=>"opcPesquisa", "class"=>"pull-right"] //Atributos do Dropdown
+        );
+        $fh->closeCol();
+        
+        //Input
+        $fh->openCol(5);
+            $fh->text("pesquisa", [
+                'spanLabel' => false,
+                'clean'=> false, 
+                'extra'=>[
+                    'type'=>'btn', 
+                    'text'=>'Pesquisar'
+                    ]
+                ]
+            );
+        $fh->closeCol();
         
     $fh->closeLine();
     

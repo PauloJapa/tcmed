@@ -269,6 +269,20 @@ action = (function ($, options) {
                 value: module.Cookie.get("PHPSESSID")
             });
             */
+           
+           $(document).on("click", "#inter .dropdown a", function(e){
+               var caret = "<i class='caret'></i>";
+               $(this).closest(".dropdown").find("button").html($(this).html() + " " + caret).attr("value",$(this).attr("value"));
+           });
+           
+           $(document).on("click", ".table th", function(){
+               var $table = $(this).closest(".table");
+               $table.tablesorter();
+               if(!$table.hasClass("tablelayout")){
+                   $table.addClass("tableLayout");
+                   $(this).click();
+               }
+           });
         },
         nextFocus: function (obj) {
             var inputs = $(obj).closest('form').find(':input:visible');

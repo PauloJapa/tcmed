@@ -22,6 +22,11 @@ $border-default: 1px solid;
 .autocomplete-group { padding: 2px 5px; }
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 
+//Modifica cursor no th
+.table th{
+    cursor: pointer;
+}
+
 //Corrige o erro do botao clean, quando este está acompanhado de 
 //outro botao
 .middleButton{
