@@ -471,7 +471,7 @@ class FormHelp extends AbstractHelper {
             "data-toggle" => "dropdown",
             "aria-haspopup" => "true",
             "aria-expanded" => "false"
-                ], $firstVal . $span, $buttonParams["extraClass"], $buttonParams["type"]);
+                ], $firstVal . " " . $span);
 
         return $this->element("div", [], $button . $ul);
     }

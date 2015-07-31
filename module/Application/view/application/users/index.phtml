@@ -72,51 +72,6 @@ $controller = 'users';
     
     
 ?>
-<br />
-
-            <select class="form-control" id="tableConsult">
-                <option value="idUser">Id</option>
-                <option value="nome">Nome</option>
-                <option value="statusMsg">Mensagem Status</option>
-                <option value="statusChat">Chat Status</option>
-                <option value="statusDatetime">Alteração Status</option>
-                <option value="usuarioId">Usuario_id</option>
-                <option value="status">Status</option>
-            </select>
-
-        </div>
-    </div>
-
-    <div class="col-md-4">
-        <div class="input-group">
-            <input id="value" type="text" class="form-control" placeholder="Pesquisar...">
-            <span class="input-group-btn">
-                <button id="pesquisar" class="btn btn-default" type="button">Pesquisar</button>
-            </span>
-        </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-</div>
-
-<br>
-<div class="row">
-    <div class="col-md-12">
-        <?php
-        $table->openTable(TRUE);
-        $table->renderThead(['ID', 'Nome', 'Mensagem Status', 'Chat Status', 'Alteração Status', 'Usuario_Id', 'Status', 'Ação']);
-        foreach ($this->data as $entity) {
-            $table->renderLine([
-                $entity->getId(),
-                $entity->getNome(),
-                $entity->getStatusMsg(),
-                $entity->getStatusChat(),
-                $entity->getStatusDatetime(),
-                $entity->getUsuarioId(),
-                $entity->getStatus(),
-                $entity->getId(),
-            ]);
-        }
-        $table->renderCloseTable();
-        ?>
         <br />
 
         <center>
