@@ -565,15 +565,17 @@
 
                 $.extend(ajaxSettings, options.ajaxSettings);
 
-                that.currentRequest = $.ajax(ajaxSettings).done(function (data) {
+                //that.currentRequest = $.ajax(ajaxSettings).done(function (data) {
+                that.currentRequest = action.requestServer(ajaxSettings).done(function (data) {
                     var result;
                     that.currentRequest = null;
                     result = options.transformResult(data, q);
                     that.processResponse(result, q, cacheKey);
                     options.onSearchComplete.call(that.element, q, result.suggestions);
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    options.onSearchError.call(that.element, q, jqXHR, textStatus, errorThrown);
                 });
+//                }).fail(function (jqXHR, textStatus, errorThrown) {
+//                    options.onSearchError.call(that.element, q, jqXHR, textStatus, errorThrown);
+//                });
             } else {
                 options.onSearchComplete.call(that.element, q, []);
             }
@@ -685,6 +687,10 @@
             });
             aux += "</table>";
             tbody = aux;
+
+            //TODO: Trata erro de trocar nome real da tabela 
+            //por value.
+            headers[0] = options.primary;
 
             /**
              * Monta THEAD

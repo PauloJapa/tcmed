@@ -5,12 +5,28 @@
  */
 if($this->resultSet){
     $array = [];
-
+    /* @var $entity \Application\Entity\User */
     if($this->subOpcao =='tipo2') {
         foreach ($this->resultSet as $entity) {
             $array[] = [
                 "id" => $entity->getId(),
                 "nome" => $entity->getNome(),
+                "Ativo" => $entity->getStatusChat()
+            ];
+        }
+    }
+    
+    /* 1: Procurar no entity */
+    if($this->subOpcao == 'allInfo') {
+        foreach ($this->resultSet as $entity) {
+            $array[] = [
+                "idUser" => $entity->getId(),
+                "nome" => $entity->getNome(),
+                "statusChat" => $entity->getStatusChat(),
+                "statusDatetime" => $entity->getStatusDatetime(),
+                "accessDatetime" => $entity->getAccessDatetime(),
+                "statusMsg" => $entity->getStatusMsg(),
+                "status" => $entity->getStatus()
             ];
         }
     }

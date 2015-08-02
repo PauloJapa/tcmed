@@ -84,7 +84,7 @@ abstract class CrudController extends AbstractActionController {
      * @param array $list
      * @return \Zend\View\Model\ViewModel | no return
      */
-    public function indexAction(array $filtro = [],array $orderBy = [], $list = []) {
+    public function indexAction(array $filtro = [],array $orderBy = [], $list = [], $quantPag = 10) {
         if (empty($list)) {
             $list = $this->getEm()
                     ->createQueryBuilder()
@@ -95,7 +95,7 @@ abstract class CrudController extends AbstractActionController {
                 $and = '';
                 $where = '';
                 foreach ($filtro as $key => $value) {
-                    $where .= $and . ' e.' . $key . ' = :' . $key ;
+                    $where .= $and . ' e.' . $key . ' LIKE :' . $key ;
                     $and = ' AND';
                 }
                 $list->where($where)
@@ -113,11 +113,12 @@ abstract class CrudController extends AbstractActionController {
         $paginatorAdapter = new PaginatorAdapter($doctrinePaginator);
         $this->paginator = new Paginator($paginatorAdapter);
         $this->paginator->setCurrentPageNumber($this->page);
-        $this->paginator->setDefaultItemCountPerPage(10);
+        $this->paginator->setDefaultItemCountPerPage($quantPag);
         $this->paginator->setPageRange(20);
         $dataView = $this->getDataView('Exibindo ' . $this->name);
+        $form = new \Application\Form\FormFilter;
         if ($this->render) {
-            return $this->makeView(['data' => $this->paginator, 'page' => $this->page, 'dataView' => $dataView]);
+            return $this->makeView(['data' => $this->paginator, 'page' => $this->page, 'dataView' => $dataView, 'form' => $form]);
         }
     }
 

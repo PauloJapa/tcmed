@@ -96,7 +96,7 @@ abstract class AbstractRepository  extends EntityRepository {
         $entities = $this->findAll();
         $array = [];
         foreach ($entities as $entity) {
-            $array[$entity->getId()] = call_user_func($entity, $methd);
+            $array[$entity->getId()] = call_user_method($methd , $entity);
         }
         return $array;
     }
