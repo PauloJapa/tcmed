@@ -118,7 +118,7 @@ abstract class CrudController extends AbstractActionController {
         $dataView = $this->getDataView('Exibindo ' . $this->name);
         $form = new \Application\Form\FormFilter;
         if ($this->render) {
-            return $this->makeView(['data' => $this->paginator, 'page' => $this->page, 'dataView' => $dataView, 'form' => $form]);
+            return $this->makeView(['data' => $this->paginator, 'page' => $this->page, 'dataView' => $dataView,'form'=>$form]);
         }
     }
 

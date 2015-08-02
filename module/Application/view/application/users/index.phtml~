@@ -1,0 +1,136 @@
+<?php
+/* @var $table \Application\View\Helper\Table */
+$table = $this->table();
+$controller = 'users';
+?>
+<h1>Users</h1>
+<br />
+
+<div class="row">
+    <div class="col-md-1">
+        <button class="btn btn-primary" onclick="<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'new')); ?>">Novo</button>
+    </div>
+</div>
+<br>
+<br>
+<div class="col-md-12"> 
+
+<?php
+    $table->openTable(TRUE)  ; 
+    $table->renderThead(['ID','Nome','Mensagem Status','Chat Status','Alteração Status','Usuario_Id','Status','Ação'])  ;     
+    foreach($this->data as $entity){
+        $table->renderLine([
+            $entity->getId(),
+            $entity->getNome(),
+            $entity->getStatusMsg(),
+            $entity->getStatusChat(),
+            $entity->getStatusDatetime(),
+            $entity->getUsuarioId(),
+            $entity->getStatus(),
+            $entity->getId(),
+        ]);
+    } 
+    $table->renderCloseTable();
+?>
+<br />
+</div>
+
+    <?php
+    /* @var $fh \Application\View\Helper\FormHelp */
+    $fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'users', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
+    $fh->setHorizontal(false);
+    $fh->openCol('3')->text('limitePageDesc',[
+        'spanLabel'=> "Num",
+        'clean' => false,
+        'extra' => [
+            'type' => 'button',
+            'icon' => 'caret-down',
+            'js' => 'numPage()'
+        ]
+        ])->closeCol();
+    ?>
+
+    <!--        <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Exibir</span>
+                <select class="form-control" id="pagShow">
+                    
+                </select>
+    
+            </div>-->
+
+
+    <div class="col-md-3">
+
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Pesquisar por</span>
+
+            <select class="form-control" id="tableConsult">
+                <option value="idUser">Id</option>
+                <option value="nome">Nome</option>
+                <option value="statusMsg">Mensagem Status</option>
+                <option value="statusChat">Chat Status</option>
+                <option value="statusDatetime">Alteração Status</option>
+                <option value="usuarioId">Usuario_id</option>
+                <option value="status">Status</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="input-group">
+            <input id="value" type="text" class="form-control" placeholder="Pesquisar...">
+            <span class="input-group-btn">
+                <button id="pesquisar" class="btn btn-default" type="button">Pesquisar</button>
+            </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+</div>
+
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <?php
+        $table->openTable(TRUE);
+        $table->renderThead(['ID', 'Nome', 'Mensagem Status', 'Chat Status', 'Alteração Status', 'Usuario_Id', 'Status', 'Ação']);
+        foreach ($this->data as $entity) {
+            $table->renderLine([
+                $entity->getId(),
+                $entity->getNome(),
+                $entity->getStatusMsg(),
+                $entity->getStatusChat(),
+                $entity->getStatusDatetime(),
+                $entity->getUsuarioId(),
+                $entity->getStatus(),
+                $entity->getId(),
+            ]);
+        }
+        $table->renderCloseTable();
+        ?>
+        <br />
+
+        <center>
+            <?php echo $this->paginationControl($this->data, 'Sliding', 'partials/paginator'); ?>    
+        </center>
+    </div>
+</div>
+
+<script lang="javascript">
+    function edit(key) {
+        var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'edit'), [], FALSE, FALSE); ?>" + "/" + key};
+        processa(data);
+    }
+    function del(key) {
+        var msg = "Deseja mesmo excluir este registro?";
+        if (!confirm(msg)) {
+            return;
+        }
+        var data = {url: "<?php echo $this->url('app/default', array('controller' => $controller, 'action' => 'delete'), [], FALSE, FALSE); ?>" + "/" + key};
+        processa(data);
+    }
+    function numPage(){
+        
+        action.autoComp()
+    }
+   
+</script>

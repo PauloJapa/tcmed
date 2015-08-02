@@ -2,22 +2,36 @@
 <br />
 <?php
 /* @var $fh \Application\View\Helper\FormHelp */
-$fh = $this->formHelp($this,$this->form,$this->url('app/default',array('controller'=>'testes','action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
+$fh = $this->formHelp($this, $this->form, $this->url('app/default', array('controller' => 'testes', 'action' => $this->dataView['action']), [], FALSE, $this->dataView['ajax']));
 $fh->setHorizontal(true);
 $fh->formInit('Cadastro Roles');
-    $fh->openCol('12')->text('campo1',['spanLabel'=> true])->closeCol();
+
+//Insp
+$fh->openCol('12')->text('campo1', [
+    'spanLabel' => true,
+    'clean' => true,
+    'extra' => [
+        "type" => "label",
+        "text" => " hello ",
+        "icon" => "user",
+        "js" => "funcao"
+    ]
+])->closeCol();
+
+
+
 $fh->lineDown();
-    $fh->openCol('6')->calend('campo2')->closeCol();
-    $fh->openCol('6')->text('campo3',['spanLabel'=> false])->closeCol();
+$fh->openCol('6')->calend('campo2')->closeCol();
+$fh->openCol('6')->text('campo3', ['spanLabel' => true])->closeCol();
 $fh->lineDown();
-    $fh->openCol('12')->Submit('submit')->closeCol();
+$fh->openCol('12')->Submit('submit')->closeCol();
 $fh->closeLine()->formEnd();
 ?>
 
-<script lang="javascritp">   
-    
-    function isValid(){
+<script lang="javascritp">
+
+    function isValid() {
         return true;
     }
-    
+
 </script>

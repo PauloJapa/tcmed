@@ -22,7 +22,7 @@ else {
 
 var module = window.App.MODULES;
 
-module.Pagination = (function (window, document, $, settings) {
+module.Pagination = (function (window, document, $, settings, event) {
 
     /**
      * Definiçoes default do Pagination
@@ -122,7 +122,7 @@ module.Pagination = (function (window, document, $, settings) {
         //Eventos do botao back
         $(window).html()
 
-        $(document).on("click", settings.pagin.back, function () {
+        event.click(settings.pagin.back, function () {
             //Habilita o botao next
             next.attr("disabled", false);
             //Salva a pagina atual
@@ -139,7 +139,7 @@ module.Pagination = (function (window, document, $, settings) {
             }
         });
 
-        $(document).on("click", settings.pagin.next, function () {
+        event.click(settings.pagin.next, function () {
             //Habilita o botao back
             back.attr("disabled", false);
             //Salva a pagina atual
@@ -156,7 +156,7 @@ module.Pagination = (function (window, document, $, settings) {
             }
         });
 
-        $(document).on("click", "#refresh", function(){
+        event.click("#refresh", function(){
             if (settings.lastRequest) {
                 action.processa(settings.lastRequest);
             }
@@ -215,9 +215,9 @@ module.Pagination = (function (window, document, $, settings) {
         }
     };
 
-})(window, document, jQuery, App.SETTINGS);
+})(window, document, jQuery, App.SETTINGS, actionEvents);
 
-module.Messenger = (function (window, document, $, options) {
+module.Messenger = (function (window, document, $, options, event) {
 
     var settings = {
         element: "messenger",
@@ -257,51 +257,10 @@ module.Messenger = (function (window, document, $, options) {
      */
      var events = function () {
         /**
-         * @type $
-         */
-         var $doc = $(document);
-        /**
-         * Executa acoes do onClick
-         * @version 1.0
-         * @author Danilo Dorotheu
-         * @param {jQuery|String} attr Elemento DOM que sera observado
-         * @param {function} exec Funcao de execucao quando ocorrencia ocorre
-         */
-         function $click(attr, exec) {
-            return $doc.on("click", attr, exec);
-        }
-        /**
-         * Executa acoes do onKeyUp
-         * @version 1.0
-         * @author Danilo Dorotheu
-         * @param {jQuery|String} attr Elemento DOM que sera observado
-         * @param {function} exec Funcao de execucao quando ocorrencia ocorre
-         */
-         function $keyup(attr, exec) {
-            return $doc.on("keyup", attr, exec);
-        };
-        /**
-         * Executa acoes de clickOut do elemento
-         * @version 1.0
-         * @author Danilo Dorotheu
-         * @param {jQuery|String} $container Elemento DOM que sera observado
-         * @param {function} exec Funcao de execucao quando ocorrencia ocorrer
-         */
-         function $clickOut($container, exec) {
-            $container = $($container);
-            $doc.mouseup(function (e) {
-                if (!$container.is(e.target) // if the target of the click isn't the container...
-                        && $container.has(e.target).length === 0) // ... nor a descendant of the container
-                {
-                    exec();
-                }
-            });
-        };
-        /**
          * Enviar mensagem
          * @author Danilo Dorotheu
          */
-         $click("#chat-send", function () {
+        event.click("#chat-send", function () {
             sendMessage();
         });
         /**
@@ -309,7 +268,7 @@ module.Messenger = (function (window, document, $, options) {
          * @param {type} e
          * @returns {undefined}
          */
-         $keyup("#msg-chat", function (e) {
+        event.keyup("#msg-chat", function (e) {
             if (e.keyCode === 13 && $("#send-enter").prop("checked")) {
                 if ($("#send-enter").is(":checked")) {
                     $("#chat-send").click();
@@ -321,7 +280,7 @@ module.Messenger = (function (window, document, $, options) {
          * Exibe todos os usuarios na tela de contatos
          * @returns {undefined}
          */
-         $click(".view-all", function () {
+         event.click(".view-all", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").show();
@@ -330,7 +289,7 @@ module.Messenger = (function (window, document, $, options) {
          * Exibe apenas os usuarios online na tela de contatos
          * @returns {undefined}
          */
-         $click(".view-online", function () {
+         event.click(".view-online", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").hide();
@@ -342,7 +301,7 @@ module.Messenger = (function (window, document, $, options) {
          * Exibe apenas os grupos na tela de contatos
          * @returns {undefined}
          */
-         $click(".view-groups", function () {
+         event.click(".view-groups", function () {
             $(".show-users").find(".active").removeClass("active");
             $(this).addClass("active");
             $("#chat-contacts").find("button").hide();
@@ -353,7 +312,7 @@ module.Messenger = (function (window, document, $, options) {
          * Gerencia pesquisa de usuarios
          * @returns {undefined}
          */
-         $keyup("#text-search", function () {
+         event.keyup("#text-search", function () {
             $(".view-all").click();
 
             $("#chat-contacts").find("button").hide();
@@ -372,7 +331,7 @@ module.Messenger = (function (window, document, $, options) {
          * Troca status do usuario para online
          * @returns {undefined}
          */
-         $click(".setOnline", function () {
+         event.click(".setOnline", function () {
             changeMeStatus("online");
             sendStatus("online");
         });
@@ -381,7 +340,7 @@ module.Messenger = (function (window, document, $, options) {
          * Troca status do usuario para ocupado
          * @returns {undefined}
          */
-         $click(".setBusy", function () {
+         event.click(".setBusy", function () {
             changeMeStatus("busy");
             sendStatus("busy");
         });
@@ -390,7 +349,7 @@ module.Messenger = (function (window, document, $, options) {
          * Troca status do usuario para offline
          * @returns {undefined}
          */
-         $click(".setOffline", function () {
+         event.click(".setOffline", function () {
             changeMeStatus("offline");
             sendStatus("offline");
         });
@@ -399,7 +358,7 @@ module.Messenger = (function (window, document, $, options) {
          * Abre a conversa com um contato/ grupo
          * @returns {undefined}
          */
-         $click(".btn-get", function () {
+         event.click(".btn-get", function () {
             //Remove o alerta da mensagem
             if($(this).find("i").hasClass('alertMsg')){
                 $(this).find("i").removeClass('alertMsg');
@@ -418,7 +377,7 @@ module.Messenger = (function (window, document, $, options) {
          * Retorna para a lista de contatos
          * @returns {undefined}
          */
-         $click("#chat-back", function () {
+         event.click("#chat-back", function () {
             $(".chat-window").animate({opacity: 0}, "fast").hide();
             $(".chat-list").show().animate({
                 opacity: 1
@@ -431,7 +390,7 @@ module.Messenger = (function (window, document, $, options) {
          * Abre/ fecha a tela do chat
          * @returns {undefined}
          */
-         $click("#messenger", function () {
+         event.click("#messenger", function () {
 
             if($(this).find("i").hasClass('alertMsg')){
                 $(this).find("i").removeClass('alertMsg');
@@ -459,21 +418,21 @@ module.Messenger = (function (window, document, $, options) {
         /**
          * Fecha messenger se usuario clicar fora da tela
          */
-         $clickOut(".messenger", function () {
+         event.clickOut(".messenger", function () {
             if ($(".messenger").is(":visible")) {
                 $("#messenger").click();
             }
         });
 
-         $click("#show-old-today", function () {
+         event.click("#show-old-today", function () {
             getHistory("today", settings.userTo);
         });
 
-         $click("#show-old-week", function () {
+         event.click("#show-old-week", function () {
             getHistory("week", settings.userTo);
         });
 
-         $click("#show-old-month", function () {
+         event.click("#show-old-month", function () {
             getHistory("month", settings.userTo);
         });
         /**
@@ -481,7 +440,7 @@ module.Messenger = (function (window, document, $, options) {
          * @param  {}
          * @return {}
          */
-         $click("#changeStatus", function(){
+         event.click("#changeStatus", function(){
             $("#msgstatus").hide();
             $("#changMsgStatus").val($("#msgstatus").html());
             $("#changMsgStatus").show();
@@ -491,7 +450,7 @@ module.Messenger = (function (window, document, $, options) {
          * @author Danilo Dorotheu
          * @version 1.0
          */
-         $keyup("#changMsgStatus", function (e) {
+         event.keyup("#changMsgStatus", function (e) {
             if (e.keyCode === 13){
 
                 var newStatus = $("#changMsgStatus").val();
@@ -1061,7 +1020,7 @@ module.Messenger = (function (window, document, $, options) {
         }
     };
 
-})(window, document, jQuery, App.SETTINGS);
+})(window, document, jQuery, App.SETTINGS, actionEvents);
 
 module.Cookie = (function (window, document, $, settings) {
 
@@ -1152,9 +1111,10 @@ module.Cookie = (function (window, document, $, settings) {
 
 })(window, document, jQuery, window.App.SETTINGS);
 
-module.Sidemenu = (function (window, document, $, settings) {
+module.Sidemenu = (function (window, document, $, settings, event) {
+    console.log(event);
 
-    $(document).on("click", "#toggle", function (e) {
+    event.click("#toggle", function (e) {
         e.preventDefault();
 
         if ($(".sidebar").is(':visible')) {
@@ -1174,7 +1134,7 @@ module.Sidemenu = (function (window, document, $, settings) {
         }
     });
 
-})(window, document, jQuery, window.App.SETTINGS);
+})(window, document, jQuery, window.App.SETTINGS, actionEvents);
 
 /**
  * Modulo padrao

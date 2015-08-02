@@ -161,7 +161,7 @@ actionEvents = (function ($) {
 /**
  * Actions
  */
-action = (function ($, options) {
+action = (function ($, options, event) {
 
 
     var errors = {
@@ -505,11 +505,27 @@ action = (function ($, options) {
             });
 
             /*
-             module.Cookie.save({
-             key: "PHPSESSID",
-             value: module.Cookie.get("PHPSESSID")
-             });
-             */
+            module.Cookie.save({
+                key: "PHPSESSID",
+                value: module.Cookie.get("PHPSESSID")
+            });
+            */
+           
+           
+           event.click("#inter .dropdown a", function(e){
+               console.log("hello");
+               var caret = "<i class='caret'></i>";
+               $(this).closest(".dropdown").find("button").html($(this).html() + " " + caret).attr("value",$(this).attr("value"));
+           });
+           
+           event.click(".table th", function(){
+               var $table = $(this).closest(".table");
+               $table.tablesorter();
+               if(!$table.hasClass("tablelayout")){
+                   $table.addClass("tableLayout");
+                   $(this).click();
+               }
+           });
         },
         nextFocus: function (obj) {
             var inputs = $(obj).closest('form').find(':input:visible');
@@ -704,4 +720,4 @@ action = (function ($, options) {
 
     }
 
-})(jQuery, App.SETTINGS);
+})(jQuery, App.SETTINGS, actionEvents);

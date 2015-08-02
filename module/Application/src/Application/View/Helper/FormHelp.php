@@ -198,7 +198,7 @@ class FormHelp extends AbstractHelper {
     }
 
     public function closeLine() {
-        echo '</div>', PHP_EOL;
+        echo '</div><br>', PHP_EOL;
         return $this;
     }
 
@@ -208,9 +208,18 @@ class FormHelp extends AbstractHelper {
         return $this;
     }
 
-    public function openCol($tamanho = '3') {
+    /**
+     * Abre uma nova coluna
+     * 
+     * @param string|int $tamanho: Tamanho da Coluna 
+     * @param string|int $espaco: Tamanho do espaco (opcional - 0)
+     * @param String $tam: [md|sl|xs|lg] (opcional - md)
+     * @return \Application\View\Helper\FormHelp
+     */
+    public function openCol($tamanho = '3', $espaco = '', $tam = 'md') {
+        $espaco = (empty($espaco)) ? "" : "col-" . $tam . "-offset-" . $espaco;
         $this->colLarg = $tamanho;
-        echo '<div class="col-md-', $tamanho, '">', PHP_EOL;
+        echo '<div class="col-' . $tam . '-', $tamanho, " ", $espaco, '">', PHP_EOL;
         return $this;
     }
 
@@ -244,7 +253,6 @@ class FormHelp extends AbstractHelper {
             $opt = $css;
             $css = '';
         }
-        
         $this->inputError = $this->getEleErro()->render($element);
         if ($this->inputError) {
             $css .= ' has-error';
@@ -255,24 +263,21 @@ class FormHelp extends AbstractHelper {
         if ($this->horizontal) {
             $element->setLabelAttributes(['class' => 'col-md-' . $this->getLargForLabelHorizontal() . ' control-label']);
         }
-        
-        $html = '<div class="form-group" id="pop' . $name . '">' . PHP_EOL;
-        
         if (isset($opt['spanLabel'])) {
             if ($opt['spanLabel']) {
-                //Com Span
-                $html .='<div class="input-group' . $css . '">' .
-                        '<span class="input-group-addon">' . $element->getLabel() . '</span>';
-            }else{
-                //Sem Span na frente
-                $html .= '<div class="input-group' . $css . '">';
+                return
+                        '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
+                        '<div class="input-group' . $css . '">' .
+                        $this->buildSpan(["class" => "input-group-addon"], $element->getLabel());
             }
-        }else{
-            $html .= $this->getLabel()->openTag($element) . $element->getLabel() . $this->getLabel()->closeTag() .
-                '<div class="input-group' . $css . '">';
+            return
+                    '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
+                    '<div class="input-group' . $css . '">';
         }
-        
-        return $html;
+        return
+                '<div class="form-group" id="pop' . $name . '">' . PHP_EOL .
+                $this->getLabel()->openTag($element) . $element->getLabel() . $this->getLabel()->closeTag() .
+                '<div class="input-group' . $css . '">';
     }
 
     public function closeDivInput() {
@@ -367,24 +372,199 @@ class FormHelp extends AbstractHelper {
         }
     }
 
-    public function iconClean($name, &$element) {
+    /**
+     * Elemento
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param String $element Nome do elemento (DOM)
+     * @param array $attr Atributos do elemento
+     * -> key => value
+     * @param String $content Valor do elemento
+     * @return string
+     */
+    public function element($element, $attr, $content = "") {
+        if (!isset($element) or ! isset($attr)) {
+            return "";
+        }
+        $aux = "";
+        foreach ($attr as $key => $value) {
+            $aux .= " " . $key . "=\"" . $value . "\"";
+        }
+        return "<" . $element . $aux . ">" . $content . "</" . $element . ">";
+    }
+
+    /**
+     * Gerador de Botao
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param array $attr Atributos do botao (Pode ser Omitido)
+     * @param type $content Conteudo do botao
+     * @param type $extraClass Classes extras do elemento (Pode ser Omitido)
+     * @param type $type Cor do botao [primary|danger|...] (Pode ser Omitido)
+     * @return String
+     */
+    public function buildButton($attr, $content, $type = "default") {
+        $attr["class"] = (isset($attr["class"])) ? $attr["class"] : "";
+
+        //Define as classes do botao
+        $attr["class"] = $attr["class"] . " btn btn-" . $type;
+        //Define (ou sobrescreve) o tipo do botao (button)
+        $attr["type"] = (isset($attr["type"])) ? $attr["type"] : "button";
+        //Gera e devolve o elemento
+        return $this->element("button", $attr, $content);
+    }
+
+    /**
+     * Gerador de Span
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param array $attr Atributos do Span
+     * @param type $content Conteudo do Spano
+     * @return String
+     */
+    public function buildSpan($attr, $content = "") {
+        //Gera e devolve o elemento
+        return $this->element("span", $attr, $content);
+    }
+
+    /**
+     * Gerador de Icone
+     * 
+     * @author Danilo Dorotheu
+     * @version 1.0
+     * @param String $icon Icone
+     * @return String
+     */
+    public function buildIcon($icon) {
+        //Se não passar o icone, devolve vazio
+        if (!isset($icon)) {
+            return "";
+        }
+        //Gera a classe do icone
+        $attr["class"] = "fa fa-" . $icon;
+        //Gera e retorna o elemento
+        return $this->element("i", $attr);
+    }
+
+    public function buildDropdown($list, $attr, $firstVal) {
+
+        $firstVal = (!empty($firstVal)) ? $firstVal : explode(":", $list[0])[0];
+        $attr["id"] = (isset($attr["id"])) ? $attr["id"] : "drop";
+        $attr["class"] = (empty($attr["class"])) ? "dropdown" : $attr["class"] . " dropdown";
+
+        $a = "";
+        foreach ($list as $item) {
+            list($text, $value) = explode(":", $item);
+            $value = (empty($value) or ! isset($value)) ? $text : $value;
+            $a .= $this->element("a", ["value" => $value], $text);
+        }
+        $li = $this->element("li", [], $a);
+        $ul = $this->element("ul", ["class" => "dropdown-menu", "aria-labelledby" => $attr["id"]], $li);
+
+        $span = $this->buildSpan(["class" => "caret"]);
+
+        $button = $this->buildButton([
+            "id" => "btn-" . $attr["id"],
+            "data-toggle" => "dropdown",
+            "aria-haspopup" => "true",
+            "aria-expanded" => "false"
+                ], $firstVal . " " . $span);
+
+        return $this->element("div", $attr, $button . $ul);
+    }
+
+    /**
+     * Renderiza o botao de limpar campo Input
+     * 
+     * @param type $name Id do Elemento
+     * @param type $element Elemento
+     * @param array $options Opcoes definidas no ato de construcao do elemento
+     * @return String
+     * 
+     * @author Paulo Watakabe
+     * @author Danilo Dorotheu (Modificacoes)
+     * @version 1.4
+     */
+    public function iconClean($name, &$element, $options) {
+
+        if (isset($options["clean"]) and ! $options["clean"]) {
+            return ""; //Se for falso, retorne ""
+        }
+
         $jq = ' clean'; // Classe css que faz ligação com a função cleaninput criada em myscript.js
+
         if ($element->getAttribute('readOnly')) {
             $jq = '';
         }
         if ($element->getAttribute('disabled')) {
             $jq = '';
         }
-        return '<span class="input-group-btn"><button class="btn btn-default' . $jq . '" id="clean_' .
-                $name . '" type="button"><i class="fa fa-remove"></i></button></span>';
+        $middle = "";
+        if ((isset($options["extra"]) and ! empty($options["extra"]))) {
+            $middle = ' middleButton';
+        }
+        //Gera botao (com icone)
+        $button = $this->buildButton(["class" => $jq . $middle], $this->buildIcon("remove"));
+        //$button = $this->buildDropdown(["danilo", "joao"], [], ["extraClass"=>$middle,"type"=>"primary"], "");
+        //Envolve o botao acima em um span e devolve
+        return $this->buildSpan(["class" => "input-group-btn"], $button);
     }
 
-    public function getIcons($name, array $attributes = []) {
-        if (empty($attributes)) {
-            return '';
+    /**
+     * Renderiza [botao | label] dentro do input
+     * 
+     * @param type $name Id do Elemento
+     * @param array $options Opcoes do elemento:
+     * -> String type: [button|span]
+     * -> String text: Texto do elemento
+     * -> String icon: Icone do elemento
+     * -> String js: Funcao a ser executada dentro do onclick 
+     * @return string
+     * 
+     * @see getIcons
+     * @author Danilo Dorotheu 
+     * @version 2.0
+     */
+    public function iconExtra($name, array $options) {
+        //TODO: Mudar logica
+        if (!(isset($options["extra"]) and ! empty($options["extra"]))) {
+            return "";
         }
-        return '<span class="input-group-btn"><button class="btn btn-default" id="icon_' .
-                $name . '" type="button" onClick="' . $attributes['js'] . '"><i class="fa fa-' . $attributes['icone'] . '"></i></button></span>';
+
+        $options = $options["extra"]; //Diminui o caminho
+        //Recebe valores de options
+        $type = (isset($options["type"]) and $options["type"] == "label") ? "addon" : "btn";
+        $icon = (isset($options["icon"])) ? $options["icon"] : "";
+        $text = (isset($options["text"])) ? $options["text"] : "";
+        $js = (isset($options["js"])) ? $options["js"] : "";
+
+        $content = $this->buildIcon($icon) . " " . $text;
+
+        if ($type == "btn") {
+            $content = $this->buildButton(["id" => "icon_" . $name, "onclick" => $js], $content);
+        }
+
+        return $this->buildSpan(["class" => "input-group-" . $type], $content);
+
+        //return '<span class="input-group-' . $type . '">' . $content . '</span>';
+    }
+
+    public function teste($name, array $options) {
+        //TODO: Mudar logica
+        if (!(isset($options["extra"]) and ! empty($options["extra"]))) {
+            return "";
+        }
+
+        $options = $options["extra"]; //Diminui o caminho
+
+        $attr = (isset($options["attr"])) ? $options["attr"] : "";
+
+        $type = (isset($options["type"])) ? $options["type"] : "label";
+        $icon = (isset($options["icon"])) ? $options["icon"] : "";
+        $text = (isset($options["text"])) ? $options["text"] : "";
     }
 
     public function getSpan($name, array $attributes = []) {
@@ -406,6 +586,24 @@ class FormHelp extends AbstractHelper {
         return "<div align='" . $align . "'>" .
                 $html_partial .
                 "</div>" . PHP_EOL;
+    }
+
+    /**
+     * Renderiza o gerador de botao
+     * @param type $attr
+     * @param type $content
+     * @param type $extraClass
+     * @param type $type
+     * @return \Application\View\Helper\FormHelp
+     */
+    public function renderInputButton($attr, $content, $type = "default") {
+        echo $this->buildButton($attr, $content, $type);
+        return $this;
+    }
+
+    public function renderInputDropdown($list = [], $attr = [], $firstVal = "") {
+        echo $this->buildDropdown($list, $attr, $firstVal);
+        return $this;
     }
 
     /**
@@ -445,8 +643,9 @@ class FormHelp extends AbstractHelper {
         }
         echo $this->openDivInput($name, $element, $options),
         $this->formView->formText($element),
-        $this->iconClean($name, $element),
-        $this->getIcons($name, $options),
+        $this->iconClean($name, $element, $options),
+        //$this->getIcons($name, $options),
+        $this->iconExtra($name, $options),
         $this->closeDivInput();
         echo
         $this->getSpan($name, $options),
@@ -549,13 +748,14 @@ class FormHelp extends AbstractHelper {
      * @param String $name
      * @return \Application\View\Helper\FormHelp
      */
-    public function renderInputCalend($name) {
+    public function renderInputCalend($name, $options) {
         /* @var $element \Zend\Form\Element\Text */
+        $options["extra"] = true;
         $element = $this->getEle($name);
         echo $this->openDivInput($name, $element, ' date');
         $element->setAttribute('onmouseenter', 'loadCalend(this)');
         echo $this->formView->formText($element),
-        $this->iconClean($name, $element),
+        $this->iconClean($name, $element, $options),
         $this->iconCalend($name, $element),
         $this->closeDivInput(),
         PHP_EOL .
