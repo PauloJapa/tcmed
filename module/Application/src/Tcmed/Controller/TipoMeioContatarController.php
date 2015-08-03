@@ -7,7 +7,7 @@
 namespace Tcmed\Controller;
 
 /**
- * Description of CidadesController
+ * Description of TipoMeioContatarController
  *
  */
 class TipoMeioContatarController extends \Application\Controller\CrudController {
@@ -17,7 +17,6 @@ class TipoMeioContatarController extends \Application\Controller\CrudController 
         $this->route = 'tcmed/default'; 
         $this->routeAjax = "tcmed/ajax"; 
         $this->controller = 'tipoMeioContatar';
-        $this->setFormWithEntityManager(true);
     }
 
 }

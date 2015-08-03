@@ -5,10 +5,10 @@ namespace Tcmed\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * EntityTcmedTipoMeioContatar
+ * TipoMeioContatar
  *
  * @ORM\Table(name="tcmed_tipo_meio_contatar")
- * @ORM\Entity(repositoryClass="\modulo\Entity\Repository\TipoMeioContatarRepository")
+ * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\TipoMeioContatarRepository")
  */
 class TipoMeioContatar extends \Application\Entity\AbstractEntity {
 
@@ -67,42 +67,79 @@ class TipoMeioContatar extends \Application\Entity\AbstractEntity {
         $this->setIdTipoMeioContatar($idTipoMeioContatar);
     }
 
+    /**
+     * 
+     * @return integer
+     */
     function getIdTipoMeioContatar() {
         return $this->idTipoMeioContatar;
     }
 
+    /**
+     * 
+     * @return string
+     */
     function getDescricao() {
         return $this->descricao;
     }
-
+    /**
+     * 
+     * @return string
+     */
     function getMascara() {
         return $this->mascara;
     }
-
+    /**
+     * 
+     * @return string
+     */
     function getMascaraAux() {
         return $this->mascaraAux;
     }
-
+    /**
+     * 
+     * @return string
+     */
     function getStatus() {
         return $this->status;
     }
 
+    /**
+     * 
+     * @param integer $idTipoMeioContatar
+     */
     function setIdTipoMeioContatar($idTipoMeioContatar) {
         $this->idTipoMeioContatar = $idTipoMeioContatar;
     }
 
+    /**
+     * 
+     * @param string $descricao
+     */
     function setDescricao($descricao) {
         $this->descricao = $descricao;
     }
 
+    /**
+     * 
+     * @param string $mascara
+     */
     function setMascara($mascara) {
         $this->mascara = $mascara;
     }
 
+    /**
+     * 
+     * @param string $mascaraAux
+     */
     function setMascaraAux($mascaraAux) {
         $this->mascaraAux = $mascaraAux;
     }
 
+    /**
+     * 
+     * @param string $status
+     */
     function setStatus($status) {
         $this->status = $status;
     }

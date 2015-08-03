@@ -8,17 +8,18 @@ namespace Tcmed\Service;
 
 use Doctrine\ORM\EntityManager;
 /**
- * Description of TipoMeioContatar Service
+ * Description of Cid Service
  *
  */
-class TipoMeioContatar extends \Application\Service\AbstractService{
+class Cid extends \Application\Service\AbstractService{
 
     public function __construct(EntityManager $em) {
         parent::__construct($em);
         $this->basePath = 'Tcmed\Entity\\';
         
-        $this->entity = $this->basePath . "TipoMeioContatar";        
-        $this->id = 'idTipoMeioContatar';
+        $this->entity = $this->basePath . "Cid";        
+        $this->id = 'idCid';
+        
     }        
     
 }

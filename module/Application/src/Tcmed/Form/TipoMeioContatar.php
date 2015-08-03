@@ -17,7 +17,7 @@ class TipoMeioContatar extends \Application\Form\AbstractForm{
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Estado', $options);
+        parent::__construct('TipoMeioContato', $options);
         
         $this->moduloName = "Tcmed";  
         
