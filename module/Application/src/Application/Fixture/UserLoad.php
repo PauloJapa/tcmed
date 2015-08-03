@@ -3,8 +3,9 @@
 namespace Application\Fixture;
 
 use 
-Doctrine\Common\DataFixtures\FixtureInterface,
-Doctrine\Common\Persistence\ObjectManager;    
+Doctrine\Common\DataFixtures\AbstractFixture,
+ //Doctrine\Common\DataFixtures\FixtureInterface,
+    Doctrine\Common\Persistence\ObjectManager;    
 
 use Application\Entity\Usuario;
 
