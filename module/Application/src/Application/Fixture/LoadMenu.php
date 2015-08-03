@@ -43,38 +43,6 @@ class LoadMenu extends AbstractFixture {
                 "InMenu"              => null,
             ],
             [
-                "Descricao"           => "roles",
-                "Label"               => "Papeis",
-                "Route"               => "app/default",
-                "Controller"          => "appRoles",
-                "Action"              => "index",
-                "Atributos"           => "",
-                "Icons"               => "fa-pencil",
-                "Class"               => "",
-                "PagesContainerClass" => "",
-                "WrapClass"           => "",
-                "Resource"            => "",
-                "Privilege"           => "",
-                "Ordem"               => "002.001.002",
-                "InMenu"              => 8,
-            ],
-            [
-                "Descricao"           => "resources",
-                "Label"               => "Recursos",
-                "Route"               => "app/default",
-                "Controller"          => "appResources",
-                "Action"              => "index",
-                "Atributos"           => "",
-                "Icons"               => "fa-pencil",
-                "Class"               => "",
-                "PagesContainerClass" => "",
-                "WrapClass"           => "",
-                "Resource"            => "",
-                "Privilege"           => "",
-                "Ordem"               => "002.001.003",
-                "InMenu"              => 8,
-            ],
-            [
                 "Descricao"           => "privileleges",
                 "Label"               => "Privilegios",
                 "Route"               => "app/default",
@@ -88,7 +56,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.001.004",
-                "InMenu"              => 8,
+                "InMenu"              => "8",
             ],
             [
                 "Descricao"           => "parametros",
@@ -152,7 +120,39 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.001",
-                "InMenu"              => 7,
+                "InMenu"              => "7",
+            ],
+            [
+                "Descricao"           => "resources",
+                "Label"               => "Recursos",
+                "Route"               => "app/default",
+                "Controller"          => "appResources",
+                "Action"              => "index",
+                "Atributos"           => "",
+                "Icons"               => "fa-pencil",
+                "Class"               => "",
+                "PagesContainerClass" => "",
+                "WrapClass"           => "",
+                "Resource"            => "",
+                "Privilege"           => "",
+                "Ordem"               => "002.001.003",
+                "InMenu"              => "8",
+            ],
+            [
+                "Descricao"           => "roles",
+                "Label"               => "Papeis",
+                "Route"               => "app/default",
+                "Controller"          => "appRoles",
+                "Action"              => "index",
+                "Atributos"           => "",
+                "Icons"               => "fa-pencil",
+                "Class"               => "",
+                "PagesContainerClass" => "",
+                "WrapClass"           => "",
+                "Resource"            => "",
+                "Privilege"           => "",
+                "Ordem"               => "002.001.002",
+                "InMenu"              => "8",
             ],
             [
                 "Descricao"           => "Crud para Usuario",
@@ -168,7 +168,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.001.001",
-                "InMenu"              => 8,
+                "InMenu"              => "8",
             ],
             [
                 "Descricao"           => "Mensagem do Chat",
@@ -184,7 +184,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.002.004",
-                "InMenu"              => 15,
+                "InMenu"              => "15",
             ],
             [
                 "Descricao"           => "Registrar os envios de mensagem",
@@ -200,7 +200,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.002.005",
-                "InMenu"              => 15,
+                "InMenu"              => "15",
             ],
             [
                 "Descricao"           => "usuario do chat",
@@ -216,7 +216,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.002.001",
-                "InMenu"              => 15,
+                "InMenu"              => "15",
             ],
             [
                 "Descricao"           => "Contatos",
@@ -232,7 +232,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.002.003",
-                "InMenu"              => 15,
+                "InMenu"              => "15",
             ],
             [
                 "Descricao"           => "Grupos",
@@ -248,7 +248,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.002.002",
-                "InMenu"              => 15,
+                "InMenu"              => "15",
             ],
             [
                 "Descricao"           => "Sistema chat",
@@ -264,7 +264,7 @@ class LoadMenu extends AbstractFixture {
                 "Resource"            => "",
                 "Privilege"           => "",
                 "Ordem"               => "002.002",
-                "InMenu"              => 7,
+                "InMenu"              => "7",
             ],
             [
                 "Descricao"           => "Cadastro de estados",
@@ -400,9 +400,9 @@ class LoadMenu extends AbstractFixture {
         $service->setFlush(FALSE);
         foreach ($data as $item) {
             $service->insert($item);
+            $manager->flush();
         }
 
-        $manager->flush();
     }
 
 }

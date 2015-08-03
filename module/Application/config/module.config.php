@@ -279,6 +279,7 @@ return array(
             'Tcmed\Controller\TipoLogradouros' => 'Tcmed\Controller\TipoLogradourosController',
             'Tcmed\Controller\TipoMeioContatar' => 'Tcmed\Controller\TipoMeioContatarController',
             'Tcmed\Controller\Cids' => 'Tcmed\Controller\CidsController',
+            'Tcmed\Controller\Riscos' => 'Tcmed\Controller\RiscosController',
         ),
     ),    
     'module_layouts' => array(

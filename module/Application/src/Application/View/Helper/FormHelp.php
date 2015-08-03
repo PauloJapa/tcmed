@@ -748,7 +748,7 @@ class FormHelp extends AbstractHelper {
      * @param String $name
      * @return \Application\View\Helper\FormHelp
      */
-    public function renderInputCalend($name, $options) {
+    public function renderInputCalend($name, $options = []) {
         /* @var $element \Zend\Form\Element\Text */
         $options["extra"] = true;
         $element = $this->getEle($name);

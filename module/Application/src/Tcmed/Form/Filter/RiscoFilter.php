@@ -7,10 +7,10 @@
 namespace Tcmed\Form\Filter;
 
 /**
- * Validação do form da TipoMeioContatar
+ * Validação do form do Risco
  *
  */
-class TipoMeioContatarFilter extends \Application\Form\Filter\AbstractFilter{
+class RiscoFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
         

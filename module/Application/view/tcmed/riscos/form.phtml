@@ -1,5 +1,5 @@
 <h3><?php echo $this->dataView['titulo']; 
-$controller = 'risco';
+$controller = 'riscos';
 $route = 'tcmed/default';
 ?></h3>
 <br />
@@ -7,10 +7,10 @@ $route = 'tcmed/default';
 /* @var $fh \Application\View\Helper\FormHelp */
 $fh = $this->formHelp($this,$this->form,$this->url($route,array('controller'=>$controller,'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
 $fh->setHorizontal(true);
-$fh->formInit('Tipo Meio Contatar:');
+$fh->formInit('Riscos');
     $fh->openCol('12')->text('descricao')->closeCol();
 $fh->lineDown();
-    $fh->openCol('12')->text('dtInclusao')->closeCol();
+    $fh->openCol('12')->calend('dtInclusao')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->text('status')->closeCol();
 $fh->lineDown();

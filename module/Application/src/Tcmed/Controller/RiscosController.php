@@ -7,7 +7,7 @@
 namespace Tcmed\Controller;
 
 /**
- * Description of riscosController
+ * Description of RiscosController
  *
  */
 class RiscosController extends \Application\Controller\CrudController {
@@ -16,7 +16,6 @@ class RiscosController extends \Application\Controller\CrudController {
         parent::__construct('risco','Tcmed');
         $this->route = 'tcmed/default'; 
         $this->routeAjax = "tcmed/ajax"; 
-        $this->setFormWithEntityManager(true);
     }
 
 }

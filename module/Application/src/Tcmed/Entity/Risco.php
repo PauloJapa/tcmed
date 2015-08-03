@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_risco")
  * @ORM\Entity(repositoryClass="\modulo\Entity\Repository\RiscoRepository")
+ * @author Danilo Dorotheu
  */
 class Risco extends \Application\Entity\AbstractEntity {
 
@@ -68,8 +69,8 @@ class Risco extends \Application\Entity\AbstractEntity {
         return $this->descricao;
     }
 
-    function getDtInclusao() {
-        return $this->dtInclusao;
+    function getDtInclusao($obj = FALSE, $full = FALSE) {
+        return $this->dateToStr($this->dtInclusao, $full, $obj);
     }
 
     function getStatus() {
@@ -84,8 +85,8 @@ class Risco extends \Application\Entity\AbstractEntity {
         $this->descricao = $descricao;
     }
 
-    function setDtInclusao(\DateTime $dtInclusao) {
-        $this->dtInclusao = $dtInclusao;
+    function setDtInclusao($dtInclusao) {
+        $this->dtInclusao = $this->strToDate($dtInclusao);
     }
 
     function setStatus($status) {
