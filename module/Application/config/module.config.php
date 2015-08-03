@@ -277,6 +277,7 @@ return array(
             'Tcmed\Controller\Enderecos' => 'Tcmed\Controller\EnderecosController',
             'Tcmed\Controller\Logradouros' => 'Tcmed\Controller\LogradourosController',
             'Tcmed\Controller\TipoLogradouros' => 'Tcmed\Controller\TipoLogradourosController',
+            'Tcmed\Controller\TipoMeioContatar' => 'Tcmed\Controller\TipoMeioContatarController',
         ),
     ),    
     'module_layouts' => array(
