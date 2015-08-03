@@ -11,7 +11,7 @@ class LoadGrupo extends AbstractFixture {
     
     public function load(ObjectManager $manager) {
         $grupo = new Grupo();
-        $grupo->setNome("AEM Sistemas")
+        $grupo->setNome("Caieiras")
                 ->setStatus("A")
                 ->setStatusChat("online")
                 ->setStatusChat("A galerinha'");
