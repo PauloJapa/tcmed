@@ -178,8 +178,8 @@ class ObjectExists extends AbstractValidator
      */
     public function isValid($value)
     {
-        $cleanedValue = $this->cleanSearchValue($value);
-        $match        = $this->objectRepository->findOneBy($cleanedValue);
+        $value = $this->cleanSearchValue($value);
+        $match = $this->objectRepository->findOneBy($value);
 
         if (is_object($match)) {
             return true;

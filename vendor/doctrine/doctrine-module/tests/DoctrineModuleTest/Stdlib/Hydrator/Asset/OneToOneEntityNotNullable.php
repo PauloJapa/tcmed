@@ -2,6 +2,7 @@
 
 namespace DoctrineModuleTest\Stdlib\Hydrator\Asset;
 
+
 class OneToOneEntityNotNullable
 {
     /**

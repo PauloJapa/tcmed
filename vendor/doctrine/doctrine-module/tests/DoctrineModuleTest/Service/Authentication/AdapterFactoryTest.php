@@ -28,9 +28,11 @@ class AdapterFactoryTest extends BaseTestCase
     public function testWillInstantiateFromFQCN()
     {
 
-        $name           = 'testFactory';
-        $factory        = new AdapterFactory($name);
-        $objectManager  = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $name = 'testFactory';
+        $factory = new AdapterFactory($name);
+
+        $objectManager =  $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+
         $serviceManager = new ServiceManager();
         $serviceManager->setService(
             'Configuration',
