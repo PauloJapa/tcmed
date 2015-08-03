@@ -9,7 +9,8 @@ use Application\Entity\AppMenu;
 class LoadMenu extends AbstractFixture {
 
     public function load(ObjectManager $manager) {
-        echo "ola";
+        
+        
         $menu = new AppMenu();
         $menu->setDescricao("home")
                 ->setLabel("Home")
