@@ -17,7 +17,7 @@ class Pais extends \Application\Form\AbstractForm{
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Pais', $options);
+        parent::__construct("Pais", $options);
         
         $this->setInputFilter(new Filter\PaisFilter);
         
