@@ -7,42 +7,33 @@
 namespace Tcmed\Form;
 
 /**
- * Description of Bairro
+ * Description of Epc
  *
  */
-class Bairro extends \Application\Form\AbstractForm{
+class Epc extends \Application\Form\AbstractForm{
     
     
-    public function __construct($name = 'Bairro', $options = array()) {
+    public function __construct($name = 'Epc', $options = array()) {
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Bairro', $options);
+        parent::__construct('Epc', $options);
         
         $this->moduloName = "Tcmed";  
         
-        $this->setInputFilter(new Filter\BairroFilter);
+        $this->setInputFilter(new Filter\EpcFilter);
         
-        $this->setInputHidden('idBairro');
+        $this->setInputHidden('idEpc');
         
-        $this->setSimpleText('nomeBairro');
+        $this->setSimpleText('epc');
         
         $this->setSimpleText('status');
-        
-        $selectOptionsParent = $this->getAllPairs();
-        $this->setInputSelect('cidadeBairro', 'Cidade: ', $selectOptionsParent);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
         
         $this->setInputSubmit('submit', 'Salvar');
         
-    }
-    
-    public function getAllPairs() {
-        /* @var $repository \Application\Entity\Repository\AppMenuRepository */
-        $repository = $this->em->getRepository($this->moduloName . "\Entity\Cidade");
-        return $repository->fetchPairs('getNomeCidade');
     }
     
 }

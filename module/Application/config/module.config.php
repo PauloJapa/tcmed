@@ -280,6 +280,8 @@ return array(
             'Tcmed\Controller\TipoMeioContatar' => 'Tcmed\Controller\TipoMeioContatarController',
             'Tcmed\Controller\Cids' => 'Tcmed\Controller\CidsController',
             'Tcmed\Controller\Riscos' => 'Tcmed\Controller\RiscosController',
+            'Tcmed\Controller\Descricao' => 'Tcmed\Controller\DescricaoController',
+            'Tcmed\Controller\Epcs' => 'Tcmed\Controller\EpcsController',
         ),
     ),    
     'module_layouts' => array(

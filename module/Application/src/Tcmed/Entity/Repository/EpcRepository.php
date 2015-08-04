@@ -7,10 +7,10 @@
 namespace Tcmed\Entity\Repository;
 
 /**
- * Description of BairroRepository
+ * Description of EpcRepository
  *
  */
-class BairroRepository extends \Application\Entity\Repository\AbstractRepository {
+class EpcRepository extends \Application\Entity\Repository\AbstractRepository {
     
     
 

@@ -7,30 +7,27 @@
 namespace Tcmed\Form;
 
 /**
- * Description of Bairro
+ * Description of Descricao
  *
  */
-class Bairro extends \Application\Form\AbstractForm{
+class Descricao extends \Application\Form\AbstractForm{
     
     
-    public function __construct($name = 'Bairro', $options = array()) {
+    public function __construct($name = 'Descricao', $options = array()) {
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Bairro', $options);
+        parent::__construct('Descricao', $options);
         
         $this->moduloName = "Tcmed";  
         
-        $this->setInputFilter(new Filter\BairroFilter);
+        $this->setInputFilter(new Filter\DescricaoFilter);
         
-        $this->setInputHidden('idBairro');
+        $this->setInputHidden('idDescricao');
         
-        $this->setSimpleText('nomeBairro');
+        $this->setSimpleText('descricao');
         
         $this->setSimpleText('status');
-        
-        $selectOptionsParent = $this->getAllPairs();
-        $this->setInputSelect('cidadeBairro', 'Cidade: ', $selectOptionsParent);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
@@ -38,11 +35,4 @@ class Bairro extends \Application\Form\AbstractForm{
         $this->setInputSubmit('submit', 'Salvar');
         
     }
-    
-    public function getAllPairs() {
-        /* @var $repository \Application\Entity\Repository\AppMenuRepository */
-        $repository = $this->em->getRepository($this->moduloName . "\Entity\Cidade");
-        return $repository->fetchPairs('getNomeCidade');
-    }
-    
 }

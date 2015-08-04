@@ -7,16 +7,15 @@
 namespace Tcmed\Form\Filter;
 
 /**
- * Validação do form da Bairro
+ * Validação do form da Descricao
  *
  */
-class BairroFilter extends \Application\Form\Filter\AbstractFilter{
+class DescricaoFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
         
-        $this->notEmpty('nomeBairro');  
+        $this->notEmpty('descricao');  
         $this->notEmpty('status');  
-        $this->notEmpty('cidadeBairro');  
         
     }
 }
