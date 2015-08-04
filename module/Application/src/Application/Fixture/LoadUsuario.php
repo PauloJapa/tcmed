@@ -1,5 +1,4 @@
 <?php
-
 namespace Application\Fixture;
 
 use Doctrine\Common\DataFixtures\AbstractFixture,
@@ -10,7 +9,7 @@ use Application\Entity\Usuario;
 class LoadUsuario extends AbstractFixture {
     
     public function load(ObjectManager $manager) {
-        return; //EXCLUIR LINHA PARA FUNCIONAR
+        
         $roleAdmin = $manager->getReference("\Application\Entity\AppRole", 1);
         $data = [
 //            [
@@ -30,6 +29,18 @@ class LoadUsuario extends AbstractFixture {
                 "nickname"      => "PauloSis",
                 "senhaUsuario"  => "123",
                 "emailUsuario"  => "watakabe05@gmail.com",
+                "situacao"      => "A",
+                "is_admin"      => true,
+                "lembreteSenha" => "senha padrão",
+                "active"        => true,
+                "tipoUsuario"   => "admin",
+                "role"          => $roleAdmin, 
+            ],
+            [
+                "nomeUsuario"   => "Danilo Dorotheu",
+                "nickname"      => "DaniloSis",
+                "senhaUsuario"  => "123",
+                "emailUsuario"  => "danilo.dorotheu@live.com",
                 "situacao"      => "A",
                 "is_admin"      => true,
                 "lembreteSenha" => "senha padrão",
