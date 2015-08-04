@@ -1,5 +1,5 @@
 <h3><?php echo $this->dataView['titulo']; 
-$controller = 'cidades';
+$controller = 'contatos';
 $route = 'tcmed/default';
 ?></h3>
 <br />
@@ -7,12 +7,16 @@ $route = 'tcmed/default';
 /* @var $fh \Application\View\Helper\FormHelp */
 $fh = $this->formHelp($this,$this->form,$this->url($route,array('controller'=>$controller,'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
 $fh->setHorizontal(true);
-$fh->formInit('Cadastro Cidades:');
-    $fh->openCol('12')->text('nomeCidade')->closeCol();
+$fh->formInit('Cadastro Contatos:');
+    $fh->openCol('12')->text('nomeContato')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->text('status')->closeCol();
 $fh->lineDown();
-    $fh->openCol('12')->select('estadoEstado')->closeCol();
+    $fh->openCol('12')->text('rg')->closeCol();
+$fh->lineDown();
+    $fh->openCol('12')->text('cpf')->closeCol();
+$fh->lineDown();
+    $fh->openCol('12')->select('endereco')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->Submit('submit')->closeCol();
 $fh->closeLine()->formEnd();

@@ -7,30 +7,34 @@
 namespace Tcmed\Form;
 
 /**
- * Description of Cidade
+ * Description of Contato
  *
  */
-class Cidade extends \Application\Form\AbstractForm{
+class Contato extends \Application\Form\AbstractForm{
     
     
-    public function __construct($name = 'Cidade', $options = array()) {
+    public function __construct($name = 'Contato', $options = array()) {
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Cidade', $options);
+        parent::__construct('Contato', $options);
         
         $this->moduloName = "Tcmed";  
         
-        $this->setInputFilter(new Filter\CidadeFilter);
+        $this->setInputFilter(new Filter\ContatoFilter);
         
-        $this->setInputHidden('idCidade');
+        $this->setInputHidden('idContato');
         
-        $this->setSimpleText('nomeCidade');
+        $this->setSimpleText('nomeContato');
         
         $this->setSimpleText('status');
         
+        $this->setSimpleText('rg');
+        
+        $this->setSimpleText('cpf');
+        
         $selectOptionsParent = $this->getAllPairs();
-        $this->setInputSelect('estadoEstado', 'Estado: ', $selectOptionsParent);
+        $this->setInputSelect('endereco', 'Endereco: ', $selectOptionsParent);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
@@ -41,8 +45,8 @@ class Cidade extends \Application\Form\AbstractForm{
     
     public function getAllPairs() {
         /* @var $repository \Application\Entity\Repository\AppMenuRepository */
-        $repository = $this->em->getRepository($this->moduloName . "\Entity\Estado");
-        return $repository->fetchPairs('getNomeEstado');
+        $repository = $this->em->getRepository($this->moduloName . "\Entity\Endereco");
+        return $repository->fetchPairs('getNumero');
     }
     
 }

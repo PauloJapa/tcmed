@@ -7,16 +7,18 @@
 namespace Tcmed\Form\Filter;
 
 /**
- * Validação do form da Cidade
+ * Validação do form da Contato
  *
  */
-class CidadeFilter extends \Application\Form\Filter\AbstractFilter{
+class ContatoFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
         
-        $this->notEmpty('nomeCidade');  
+        $this->notEmpty('nomeContato');  
         $this->notEmpty('status');  
-        $this->notEmpty('estadoEstado');  
+        $this->notEmpty('rg');  
+        $this->notEmpty('cpf');  
+        $this->notEmpty('endereco');  
         
     }
 }

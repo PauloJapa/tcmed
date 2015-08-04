@@ -8,20 +8,20 @@ namespace Tcmed\Service;
 
 use Doctrine\ORM\EntityManager;
 /**
- * Description of Cidade Service
+ * Description of Funcao Service
  *
  */
-class Cidade extends \Application\Service\AbstractService{
+class Funcao extends \Application\Service\AbstractService{
 
     public function __construct(EntityManager $em) {
         parent::__construct($em);
         $this->basePath = 'Tcmed\Entity\\';
         
-        $this->entity = $this->basePath . "Cidade";        
-        $this->id = 'idCidade';
+        $this->entity = $this->basePath . "Funcao";        
+        $this->id = 'idFuncao';
         
         $this->setDataRefArray([
-            'estadoEstado' => $this->basePath . 'Estado'
+            'descricaoDescricao' => $this->basePath . 'Descricao'
         ]);
         
     }        

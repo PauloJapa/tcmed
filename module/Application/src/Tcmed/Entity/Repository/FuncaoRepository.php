@@ -7,10 +7,10 @@
 namespace Tcmed\Entity\Repository;
 
 /**
- * Description of CidadeRepository
+ * Description of FuncaoRepository
  *
  */
-class CidadeRepository extends \Application\Entity\Repository\AbstractRepository {
+class FuncaoRepository extends \Application\Entity\Repository\AbstractRepository {
     
     
 
