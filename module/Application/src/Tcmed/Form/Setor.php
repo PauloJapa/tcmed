@@ -7,24 +7,23 @@
 namespace Tcmed\Form;
 
 /**
- * Description of Risco
+ * Description of Setor
  *
  */
-class Risco extends \Application\Form\AbstractForm {
+class Setor extends \Application\Form\AbstractForm {
 
-    public function __construct($name = 'Risco', $options = array()) {
+    public function __construct($name = 'Setor', $options = array()) {
         if (is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager) {
             $this->em = $name;
         }
-        parent::__construct('Risco', $options);
+        parent::__construct('Setor', $options);
 
         $this->moduloName = "Tcmed";
 
-        $this->setInputFilter(new Filter\RiscoFilter);
+        $this->setInputFilter(new Filter\SetorFilter);
 
-        $this->setInputHidden('idRisco');
-        $this->setSimpleText('descricao');
-        $this->setSimpleText('dtInclusao');
+        $this->setInputHidden('idSetor');
+        $this->setSimpleText('nomeSetor');
         $this->setSimpleText('status');
 
         $csrf = new \Zend\Form\Element\Csrf('security');
