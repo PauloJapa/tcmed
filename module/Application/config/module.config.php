@@ -282,6 +282,7 @@ return array(
             'Tcmed\Controller\Riscos' => 'Tcmed\Controller\RiscosController',
             'Tcmed\Controller\Setores' => 'Tcmed\Controller\SetoresController',
             'Tcmed\Controller\Perguntas' => 'Tcmed\Controller\PerguntasController',
+            'Tcmed\Controller\Epis' => 'Tcmed\Controller\EpisController',
         ),
     ),    
     'module_layouts' => array(
