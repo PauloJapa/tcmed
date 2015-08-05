@@ -3,16 +3,16 @@
 namespace Tcmed\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Application\Entity\AbstractEntity;
 
 /**
- * TcmedClinica
+ * Clinica
  *
  * @ORM\Table(name="tcmed_clinica", indexes={@ORM\Index(name="fk_clinica_contato1_idx", columns={"contato_id"}), @ORM\Index(name="fk_tcmed_clinica_tcmed_endereco1_idx", columns={"endereco_id"})})
-    * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\ClinicaRepository")
+ * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\ClinicaRepository")
+ * @ORM\HasLifecycleCallbacks
  * @author Danilo Dorotheu
  */
-class Clinica extends AbstractEntity {
+class Clinica extends \Application\Entity\AbstractEntity {
 
     /**
      * @var integer
@@ -92,6 +92,7 @@ class Clinica extends AbstractEntity {
     public function __construct(array $options = array()) {
         parent::__construct($options);
         $this->createdAt = new \DateTime("now");
+        $this->updatedAt = new \DateTime("now");
     }
 
     /**
@@ -147,8 +148,8 @@ class Clinica extends AbstractEntity {
      * 
      * @return \DateTime
      */
-    public function getUpdatedAt() {
-        return $this->updatedAt;
+    public function getUpdatedAt($obj = FALSE, $full = FALSE) {
+        return $this->dateToStr($this->updatedAt, $full, $obj);
     }
 
     /**
@@ -236,11 +237,12 @@ class Clinica extends AbstractEntity {
 
     /**
      * 
+     * @ORM\PrePersist
      * @param \DateTime $updatedAt
      * @return \Tcmed\Entity\Clinica
      */
-    public function setUpdatedAt(\DateTime $updatedAt) {
-        $this->updatedAt = $updatedAt;
+    public function setUpdatedAt() {
+        $this->updatedAt = new \DateTime("now");
         return $this;
     }
 

@@ -287,6 +287,8 @@ return array(
             'Tcmed\Controller\Epcs' => 'Tcmed\Controller\EpcsController',
             'Tcmed\Controller\Contatos' => 'Tcmed\Controller\ContatosController',
             'Tcmed\Controller\Funcao' => 'Tcmed\Controller\FuncaoController',
+            'Tcmed\Controller\Clinicas' => 'Tcmed\Controller\ClinicasController',
+            'Tcmed\Controller\holds' => 'Tcmed\Controller\HoldsController',
         ),
     ),    
     'module_layouts' => array(

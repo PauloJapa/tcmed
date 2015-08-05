@@ -7,17 +7,12 @@
 namespace Tcmed\Form\Filter;
 
 /**
- * Validação do form da Funcao
+ * Validação do form da Clinica
  *
  */
-class FuncaoFilter extends \Application\Form\Filter\AbstractFilter{
+class ClinicaFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
-        
-        $this->notEmpty('razaoSocial');  
-        $this->notEmpty('fantasiaClinica');  
-        $this->notEmpty('cnpj');  
-        $this->notEmpty('status');  
         
     }
 }

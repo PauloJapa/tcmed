@@ -16,3 +16,13 @@ node_modules
 gruntfile.js
 package.json
 public/docs
+.csync_journal.*
+.gitmodules
+LICENSE.txt
+README.txt
+srv.sh
+npm-debug.log
+.csync_*
+.owncloudsync.log
+
+
