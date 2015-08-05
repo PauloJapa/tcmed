@@ -9,7 +9,7 @@ use Application\Entity\AbstractEntity;
  * Setor
  *
  * @ORM\Table(name="tcmed_setor")
- * @ORM\Entity(repositoryClass="\modulo\Entity\Repository\SetorRepository")
+ * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\SetorRepository")
  * @name Danilo Dorotheu
  */
 class Setor extends AbstractEntity {
