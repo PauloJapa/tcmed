@@ -17,7 +17,7 @@ abstract class AbstractForm extends Form {
     
     /**
      * Objeto para manipular dados do BD
-     * @var Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     protected $em; 
     
