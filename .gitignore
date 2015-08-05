@@ -16,3 +16,7 @@ node_modules
 gruntfile.js
 package.json
 public/docs
+.csync_journal.*
+.owncloud*
+data
+.*~
