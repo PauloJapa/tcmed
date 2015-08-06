@@ -20,3 +20,7 @@ public/docs
 .owncloud*
 data
 .*~
+.Trash-1000
+.Trash-1000/*
+.sass-cache
+.sass-cache/*

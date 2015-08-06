@@ -24,8 +24,6 @@ class Pergunta extends \Application\Form\AbstractForm {
 
         $this->setInputHidden('idPergunta');
         $this->setSimpleText('pergunta');
-        $this->setSimpleText('resposta');
-        $this->setSimpleText('checkResposta');
         $this->setSimpleText('status');
 
         $csrf = new \Zend\Form\Element\Csrf('security');

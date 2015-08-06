@@ -7,12 +7,8 @@ $route = 'tcmed/default';
 /* @var $fh \Application\View\Helper\FormHelp */
 $fh = $this->formHelp($this,$this->form,$this->url($route,array('controller'=>$controller,'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
 $fh->setHorizontal(true);
-$fh->formInit('Riscos');
+$fh->formInit('Pergunta');
     $fh->openCol('12')->text('pergunta')->closeCol();
-$fh->lineDown();
-    $fh->openCol('12')->text('resposta')->closeCol();
-$fh->lineDown();
-    $fh->openCol('12')->text('checkResposta')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->text('status')->closeCol();
 $fh->lineDown();

@@ -5,10 +5,10 @@ namespace Tcmed\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Application\Entity\AbstractEntity;
 /**
- * TcmedPergunta
+ * Pergunta
  *
  * @ORM\Table(name="tcmed_pergunta")
- * @ORM\Entity(repositoryClass="\modulo\Entity\Repository\PerguntaRepository")
+ * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\PerguntaRepository")
  * @author Danilo Dorotheu
  */
 class Pergunta extends AbstractEntity
@@ -32,20 +32,6 @@ class Pergunta extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="resposta", type="string", length=150, nullable=true)
-     */
-    private $resposta;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="check_resposta", type="string", length=5, nullable=true)
-     */
-    private $checkResposta;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="status", type="string", length=10, nullable=false)
      */
     private $status = 'ativo';
@@ -58,22 +44,26 @@ class Pergunta extends AbstractEntity
         return $this->getIdPergunta();
     }
     
+    /**
+     * 
+     * @return integer
+     */
     public function getIdPergunta() {
         return $this->idPergunta;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getPergunta() {
         return $this->pergunta;
     }
 
-    public function getResposta() {
-        return $this->resposta;
-    }
-
-    public function getCheckResposta() {
-        return $this->checkResposta;
-    }
-
+    /**
+     * 
+     * @return string
+     */
     public function getStatus() {
         return $this->status;
     }
@@ -86,22 +76,26 @@ class Pergunta extends AbstractEntity
         $this->setIdPergunta($idPergunta);
     }
     
+    /**
+     * 
+     * @param integer $idPergunta
+     */
     public function setIdPergunta($idPergunta) {
         $this->idPergunta = $idPergunta;
     }
 
+    /**
+     * 
+     * @param string $pergunta
+     */
     public function setPergunta($pergunta) {
         $this->pergunta = $pergunta;
     }
 
-    public function setResposta($resposta) {
-        $this->resposta = $resposta;
-    }
-
-    public function setCheckResposta($checkResposta) {
-        $this->checkResposta = $checkResposta;
-    }
-
+    /**
+     * 
+     * @param string $status
+     */
     public function setStatus($status) {
         $this->status = $status;
     }

@@ -15,8 +15,6 @@ class PerguntaFilter extends \Application\Form\Filter\AbstractFilter{
     public function __construct() {
         
         $this->notEmpty('pergunta');
-        $this->notEmpty('resposta');
-        $this->notEmpty('checkResposta');
         $this->notEmpty('status');
     }
 }
