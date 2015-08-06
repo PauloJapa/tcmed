@@ -7,26 +7,26 @@
 namespace Tcmed\Form;
 
 /**
- * Description of Clinica
+ * Description of Administradora
  *
  */
-class Clinica extends \Application\Form\AbstractForm{
+class Administradora extends \Application\Form\AbstractForm{
     
-    public function __construct($name = 'Clinica', $options = array()) {
+    public function __construct($name = 'Administradora', $options = array()) {
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Clinica', $options);
+        parent::__construct('Administradora', $options);
         
         $this->moduloName = "Tcmed";  
         
-        $this->setInputFilter(new Filter\ClinicaFilter);
+        $this->setInputFilter(new Filter\AdministradoraFilter);
         
-        $this->setInputHidden('idClinica');
+        $this->setInputHidden('idAdministradora');
         
         $this->setSimpleText('razaoSocial');
  
-        $this->setSimpleText('fantasiaClinica');
+        $this->setSimpleText('fantasiaAdministradora');
         
         $this->setSimpleText('cnpj');
         
@@ -37,12 +37,22 @@ class Clinica extends \Application\Form\AbstractForm{
         $this->setSimpleText('contato');
         
         $this->setSimpleText('endereco');
+
+        $this->setSimpleText('referenciaTcmed');
+        
+        $this->setSimpleText('hold');
+        
+        $this->setSimpleText('holdVirtual');
         
         $selectOptionsContatos = $this->getAllContatos();
         $this->setInputSelect('contato', 'ID do Contato: ', $selectOptionsContatos);
         
         $selectOptionsEnderecos = $this->getAllEnderecos();
         $this->setInputSelect('endereco', 'ID do Endereço: ', $selectOptionsEnderecos);
+        
+        $selectOptionsHold = $this->getAllHold();
+        $this->setInputSelect('hold', 'ID da Hold: ', $selectOptionsHold);
+        $this->setInputSelect('holdVirtual', 'ID da HoldVirtual: ', $selectOptionsHold);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
@@ -60,6 +70,12 @@ class Clinica extends \Application\Form\AbstractForm{
         /* @var $repository \Tcmed\Entity\Repository\EnderecoRepository */
         $repository = $this->em->getRepository($this->moduloName . "\Entity\Endereco");
         return $repository->fetchPairs('getIdEndereco');
+    }
+    
+    public function getAllHold() {
+        /* @var $repository \Tcmed\Entity\Repository\HoldRepository */
+        $repository = $this->em->getRepository($this->moduloName . "\Entity\Hold");
+        return $repository->fetchPairs('getNomeHold');
     }
     
 }

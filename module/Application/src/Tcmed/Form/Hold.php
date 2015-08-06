@@ -7,39 +7,45 @@
 namespace Tcmed\Form;
 
 /**
- * Description of Clinica
+ * Description of Hold
  *
  */
-class Clinica extends \Application\Form\AbstractForm{
+class Hold extends \Application\Form\AbstractForm{
     
-    public function __construct($name = 'Clinica', $options = array()) {
+    
+    public function __construct($name = 'Hold', $options = array()) {
         if(is_object($name) AND $name instanceof \Doctrine\ORM\EntityManager){         
             $this->em = $name;
         }
-        parent::__construct('Clinica', $options);
+        parent::__construct('Hold', $options);
         
         $this->moduloName = "Tcmed";  
         
-        $this->setInputFilter(new Filter\ClinicaFilter);
+        $this->setInputFilter(new Filter\HoldFilter);
         
-        $this->setInputHidden('idClinica');
+        $this->setInputHidden('idHold');
         
-        $this->setSimpleText('razaoSocial');
- 
-        $this->setSimpleText('fantasiaClinica');
+        $this->setSimpleText('nomeHold');
+        
+        $this->setSimpleText('fantasiaHold');
         
         $this->setSimpleText('cnpj');
         
-        $this->setSimpleText('updatedAt');
-        
         $this->setSimpleText('status');
         
-        $this->setSimpleText('contato');
+        $this->setSimpleText('referenciaHold');
+        
+        $this->setSimpleText('referenciaTcmed');
+        
+        $this->setSimpleText('referenciaAdm');
+        
+        $this->setSimpleText('contatoContato');
         
         $this->setSimpleText('endereco');
         
+        
         $selectOptionsContatos = $this->getAllContatos();
-        $this->setInputSelect('contato', 'ID do Contato: ', $selectOptionsContatos);
+        $this->setInputSelect('contatoContato', 'ID do Contato: ', $selectOptionsContatos);
         
         $selectOptionsEnderecos = $this->getAllEnderecos();
         $this->setInputSelect('endereco', 'ID do Endereço: ', $selectOptionsEnderecos);
@@ -50,6 +56,7 @@ class Clinica extends \Application\Form\AbstractForm{
         $this->setInputSubmit('submit', 'Salvar');
         
     }
+    
     public function getAllContatos() {
         /* @var $repository \Tcmed\Entity\Repository\ContatoRepository */
         $repository = $this->em->getRepository($this->moduloName . "\Entity\Contato");

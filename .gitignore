@@ -1,5 +1,6 @@
 nbproject
 ._*
+.*
 .~lock.*
 .buildpath
 .DS_Store
@@ -17,6 +18,7 @@ gruntfile.js
 package.json
 public/docs
 .csync_journal.*
+<<<<<<< HEAD
 .owncloud*
 data
 .*~
@@ -24,3 +26,14 @@ data
 .Trash-1000/*
 .sass-cache
 .sass-cache/*
+=======
+.gitmodules
+LICENSE.txt
+README.txt
+srv.sh
+npm-debug.log
+.csync_*
+.owncloudsync.log
+
+
+>>>>>>> 2514a3c8b47a50ee52a80b442acabb9d6a99733b

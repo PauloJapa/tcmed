@@ -5,16 +5,15 @@
  */
 
 namespace Tcmed\Controller;
-use \Application\Controller\CrudController;
 
 /**
- * Description of ClinicaController
+ * Description of HoldsController
  *
  */
-class ClinicasController extends CrudController {
+class HoldsController extends \Application\Controller\CrudController {
 
     public function __construct() {
-        parent::__construct('clinica','Tcmed');
+        parent::__construct('hold','Tcmed');
         $this->route = 'tcmed/default'; 
         $this->routeAjax = "tcmed/ajax"; 
         $this->setFormWithEntityManager(true);

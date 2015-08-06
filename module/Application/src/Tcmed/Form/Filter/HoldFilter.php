@@ -7,10 +7,10 @@
 namespace Tcmed\Form\Filter;
 
 /**
- * Validação do form da Clinica
+ * Validação do form da Hold
  *
  */
-class ClinicaFilter extends \Application\Form\Filter\AbstractFilter{
+class HoldFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
         
