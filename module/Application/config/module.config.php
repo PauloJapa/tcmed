@@ -288,6 +288,9 @@ return array(
             'Tcmed\Controller\Contatos' => 'Tcmed\Controller\ContatosController',
             'Tcmed\Controller\Funcao' => 'Tcmed\Controller\FuncaoController',
             'Tcmed\Controller\SetorFuncionarios' => 'Tcmed\Controller\SetorFuncionariosController',
+            'Tcmed\Controller\Respostas' => 'Tcmed\Controller\RespostasController',
+            'Tcmed\Controller\Consultas' => 'Tcmed\Controller\ConsultasController',
+            'Tcmed\Controller\Questionarios' => 'Tcmed\Controller\QuestionariosController',
         ),
     ),    
     'module_layouts' => array(
