@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of ConsultasController
- *
+ * @author Allan Davini
  */
 class ConsultasController extends \Application\Controller\CrudController {
 

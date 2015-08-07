@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_pais")
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\PaisRepository")
+ * @author Allan Davini
  */
 class Pais extends \Application\Entity\AbstractEntity
 {

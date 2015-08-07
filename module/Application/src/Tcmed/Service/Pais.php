@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Pais Service
- *
+ * @author Allan Davini
  */
 class Pais extends \Application\Service\AbstractService{
 

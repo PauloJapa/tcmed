@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Funcao
- *
+ * @author Allan Davini
  */
 class FuncaoFilter extends \Application\Form\Filter\AbstractFilter{
     

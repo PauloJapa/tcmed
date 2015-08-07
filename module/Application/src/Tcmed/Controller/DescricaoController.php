@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of DescricaoController
- *
+ * @author Allan Davini
  */
 class DescricaoController extends \Application\Controller\CrudController {
 

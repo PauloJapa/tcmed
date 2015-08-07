@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of TipoLogradouro
- *
+ * @author Allan Davini
  */
 class TipoLogradouro extends \Application\Form\AbstractForm{
     

@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Funcao
- *
+ * @author Allan Davini
  */
 class Funcao extends \Application\Form\AbstractForm{
     

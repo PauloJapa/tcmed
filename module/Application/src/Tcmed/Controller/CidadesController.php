@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of CidadesController
- *
+ * @author Allan Davini
  */
 class CidadesController extends \Application\Controller\CrudController {
 

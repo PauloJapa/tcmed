@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Estado Service
- *
+ * @author Allan Davini
  */
 class Estado extends \Application\Service\AbstractService{
 

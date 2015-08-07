@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of TipoLogradourosController
- *
+ * @author Allan Davini
  */
 class TipoLogradourosController extends \Application\Controller\CrudController {
 

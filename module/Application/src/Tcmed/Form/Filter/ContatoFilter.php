@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Contato
- *
+ * @author Allan Davini
  */
 class ContatoFilter extends \Application\Form\Filter\AbstractFilter{
     

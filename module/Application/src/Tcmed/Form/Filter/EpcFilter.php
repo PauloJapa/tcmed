@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Epc
- *
+ * @author Allan Davini
  */
 class EpcFilter extends \Application\Form\Filter\AbstractFilter{
     

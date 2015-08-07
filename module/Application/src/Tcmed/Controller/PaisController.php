@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of PaisController
- *
+ * @author Allan Davini
  */
 class PaisController extends \Application\Controller\CrudController {
 

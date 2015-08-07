@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Epc
- *
+ * @author Allan Davini
  */
 class Epc extends \Application\Form\AbstractForm{
     

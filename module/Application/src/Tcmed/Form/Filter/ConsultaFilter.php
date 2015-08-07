@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Consulta
- *
+ * @author Allan Davini
  */
 class ConsultaFilter extends \Application\Form\Filter\AbstractFilter{
     

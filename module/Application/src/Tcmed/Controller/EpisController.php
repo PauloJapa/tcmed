@@ -8,7 +8,6 @@ namespace Tcmed\Controller;
 
 /**
  * Description of EpisController
- *
  */
 class EpisController extends \Application\Controller\CrudController {
 

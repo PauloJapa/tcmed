@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of EpcsController
- *
+ * @author Allan Davini
  */
 class EpcsController extends \Application\Controller\CrudController {
 

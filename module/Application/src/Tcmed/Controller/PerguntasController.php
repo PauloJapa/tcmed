@@ -8,7 +8,6 @@ namespace Tcmed\Controller;
 
 /**
  * Description of PerguntasController
- *
  */
 class PerguntasController extends \Application\Controller\CrudController {
 

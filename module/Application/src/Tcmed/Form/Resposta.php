@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Resposta
- *
+ * @author Allan Davini
  */
 class Resposta extends \Application\Form\AbstractForm{
     

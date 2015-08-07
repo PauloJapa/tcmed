@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form do Estado
- *
+ * @author Allan Davini
  */
 class EstadoFilter extends \Application\Form\Filter\AbstractFilter{
     

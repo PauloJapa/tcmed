@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Questionario
- *
+ * @author Allan Davini
  */
 class QuestionarioFilter extends \Application\Form\Filter\AbstractFilter{
     

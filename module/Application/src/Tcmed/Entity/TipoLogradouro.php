@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_tipo_logradouro")
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\TipoLogradouroRepository")
+ * @author Allan Davini
  */
 class TipoLogradouro extends \Application\Entity\AbstractEntity
 {

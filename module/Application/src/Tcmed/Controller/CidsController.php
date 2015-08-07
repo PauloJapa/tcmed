@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of CidsController
- *
+ * @author Allan Davini
  */
 class CidsController extends \Application\Controller\CrudController {
 

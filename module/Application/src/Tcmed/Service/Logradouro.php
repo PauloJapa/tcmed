@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Logradouro Service
- *
+ * @author Allan Davini
  */
 class Logradouro extends \Application\Service\AbstractService{
 

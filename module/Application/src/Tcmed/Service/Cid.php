@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Cid Service
- *
+ * @author Allan Davini
  */
 class Cid extends \Application\Service\AbstractService{
 

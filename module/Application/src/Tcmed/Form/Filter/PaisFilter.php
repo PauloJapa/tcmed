@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form do Pais
- *
+ * @author Allan Davini
  */
 class PaisFilter extends \Application\Form\Filter\AbstractFilter{
     

@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Descricao Service
- *
+ * @author Allan Davini
  */
 class Descricao extends \Application\Service\AbstractService{
 

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_estado", indexes={@ORM\Index(name="fk_estado_pais1_idx", columns={"pais_id"})})
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\EstadoRepository")
+ * @author Allan Davini
  */
 class Estado extends \Application\Entity\AbstractEntity
 {

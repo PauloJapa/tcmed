@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_setor_funcionario", indexes={@ORM\Index(name="fk_setor_funcionario_setor1_idx", columns={"setor_id_setor"}), @ORM\Index(name="fk_setor_funcionario_funcionario1_idx", columns={"funcionario_id_funcionario"})})
  * @ORM\Entity(repositoryClass="\modulo\Entity\Repository\SetorFuncionarioRepository")
+ * @author Allan Davini
  */
 class SetorFuncionario extends \Application\Entity\AbstractEntity
 {

@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da SetorFuncionario
- *
+ * @author Allan Davini
  */
 class SetorFuncionarioFilter extends \Application\Form\Filter\AbstractFilter{
     

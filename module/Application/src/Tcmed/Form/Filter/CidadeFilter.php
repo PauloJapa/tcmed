@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Cidade
- *
+ * @author Allan Davini
  */
 class CidadeFilter extends \Application\Form\Filter\AbstractFilter{
     

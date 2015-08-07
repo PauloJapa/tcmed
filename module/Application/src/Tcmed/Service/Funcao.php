@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Funcao Service
- *
+ * @author Allan Davini
  */
 class Funcao extends \Application\Service\AbstractService{
 

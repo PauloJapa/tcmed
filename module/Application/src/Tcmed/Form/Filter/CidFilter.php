@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Cid
- *
+ * @author Allan Davini
  */
 class CidFilter extends \Application\Form\Filter\AbstractFilter{
     

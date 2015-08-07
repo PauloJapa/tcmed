@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of TipoLogradouro Service
- *
+ * @author Allan Davini
  */
 class TipoLogradouro extends \Application\Service\AbstractService{
 

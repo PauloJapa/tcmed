@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of EnderecosController
- *
+ * @author Allan Davini
  */
 class EnderecosController extends \Application\Controller\CrudController {
 

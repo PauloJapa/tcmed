@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da Endereco
- *
+ * @author Allan Davini
  */
 class EnderecoFilter extends \Application\Form\Filter\AbstractFilter{
     

@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Descricao
- *
+ * @author Allan Davini
  */
 class Descricao extends \Application\Form\AbstractForm{
     

@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Cidade Service
- *
+ * @author Allan Davini
  */
 class Cidade extends \Application\Service\AbstractService{
 

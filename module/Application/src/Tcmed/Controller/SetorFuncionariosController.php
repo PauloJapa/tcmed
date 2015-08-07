@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of SetorFuncionariosController
- *
+ * @author Allan Davini
  */
 class SetorFuncionariosController extends \Application\Controller\CrudController {
 

@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of SetorFuncionario Service
- *
+ * @author Allan Davini
  */
 class SetorFuncionario extends \Application\Service\AbstractService{
 

@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of BairrosController
- *
+ * @author Allan Davini
  */
 class BairrosController extends \Application\Controller\CrudController {
 

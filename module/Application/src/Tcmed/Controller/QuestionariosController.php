@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of QuestionarioController
- *
+ * @author Allan Davini
  */
 class QuestionarioController extends \Application\Controller\CrudController {
 

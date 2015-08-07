@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Epc Service
- *
+ * @author Allan Davini
  */
 class Epc extends \Application\Service\AbstractService{
 

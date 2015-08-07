@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of RespostaController
- *
+ * @author Allan Davini
  */
 class RespostaController extends \Application\Controller\CrudController {
 

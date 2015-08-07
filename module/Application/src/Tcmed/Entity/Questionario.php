@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_questionario", indexes={@ORM\Index(name="fk_tcmed_questionario_tcmed_clinica1_idx", columns={"tcmed_clinica_id"})})
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\QuestionarioRepository")
+ * @author Allan Davini
  */
 class Questionario extends \Application\Entity\AbstractEntity
 {

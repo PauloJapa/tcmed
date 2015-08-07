@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_funcao", indexes={@ORM\Index(name="fk_funcao_descricao1_idx", columns={"descricao_id_descricao"})})
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\FuncaoRepository")
+ * @author Allan Davini
  */
 class Funcao extends \Application\Entity\AbstractEntity
 {

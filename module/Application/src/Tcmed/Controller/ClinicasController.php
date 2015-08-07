@@ -9,7 +9,6 @@ use \Application\Controller\CrudController;
 
 /**
  * Description of ClinicaController
- *
  */
 class ClinicasController extends CrudController {
 

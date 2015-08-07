@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Resposta Service
- *
+ * @author Allan Davini
  */
 class Resposta extends \Application\Service\AbstractService{
 

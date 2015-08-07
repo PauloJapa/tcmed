@@ -8,7 +8,7 @@ namespace Tcmed\Form\Filter;
 
 /**
  * Validação do form da TipoLogradouro
- *
+ * @author Allan Davini
  */
 class TipoLogradouroFilter extends \Application\Form\Filter\AbstractFilter{
     

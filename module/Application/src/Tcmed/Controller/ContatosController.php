@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of ContatosController
- *
+ * @author Allan Davini
  */
 class ContatosController extends \Application\Controller\CrudController {
 

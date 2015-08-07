@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Bairro
- *
+ * @author Allan Davini
  */
 class Bairro extends \Application\Form\AbstractForm{
     

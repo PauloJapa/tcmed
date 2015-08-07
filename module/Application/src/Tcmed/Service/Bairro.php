@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Bairro Service
- *
+ * @author Allan Davini
  */
 class Bairro extends \Application\Service\AbstractService{
 

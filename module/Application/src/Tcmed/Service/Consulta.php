@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Consulta Service
- *
+ * @author Allan Davini
  */
 class Consulta extends \Application\Service\AbstractService{
 

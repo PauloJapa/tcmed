@@ -8,7 +8,6 @@ namespace Tcmed\Controller;
 
 /**
  * Description of RiscosController
- *
  */
 class RiscosController extends \Application\Controller\CrudController {
 

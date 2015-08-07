@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Questionario Service
- *
+ * @author Allan Davini
  */
 class Questionario extends \Application\Service\AbstractService{
 

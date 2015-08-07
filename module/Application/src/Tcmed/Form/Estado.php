@@ -7,8 +7,8 @@
 namespace Tcmed\Form;
 
 /**
- * Description of Estado
- *
+ *  Description of Estado
+ * @author Allan Davini
  */
 class Estado extends \Application\Form\AbstractForm{
     

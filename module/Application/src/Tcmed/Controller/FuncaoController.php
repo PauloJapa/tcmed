@@ -8,7 +8,7 @@ namespace Tcmed\Controller;
 
 /**
  * Description of FuncaoController
- *
+ * @author Allan Davini
  */
 class FuncaoController extends \Application\Controller\CrudController {
 

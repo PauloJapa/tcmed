@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_consulta", indexes={@ORM\Index(name="fk_consulta_clinica1_idx", columns={"clinica_id_clinica"}), @ORM\Index(name="fk_consulta_medico2_idx", columns={"medico_id_medico"}), @ORM\Index(name="fk_consulta_funcionario2_idx", columns={"funcionario_id_funcionario"}), @ORM\Index(name="fk_consulta_cargo1_idx", columns={"cargo_id_cargo"}), @ORM\Index(name="fk_consulta_setor1_idx", columns={"setor_id_setor"}), @ORM\Index(name="fk_tcmed_consulta_tcmed_questionario1_idx", columns={"tcmed_questionario_id"})})
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\ConsultaRepository")
+ * @author Allan Davini
  */
 class Consulta extends \Application\Entity\AbstractEntity
 {

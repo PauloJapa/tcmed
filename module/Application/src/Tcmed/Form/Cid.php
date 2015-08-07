@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Cid
- *
+ * @author Allan Davini
  */
 class Cid extends \Application\Form\AbstractForm{
     

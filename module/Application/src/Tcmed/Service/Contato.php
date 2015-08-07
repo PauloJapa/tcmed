@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Contato Service
- *
+ * @author Allan Davini
  */
 class Contato extends \Application\Service\AbstractService{
 

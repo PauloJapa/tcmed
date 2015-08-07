@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of SetorFuncionario
- *
+ * @author Allan Davini
  */
 class SetorFuncionario extends \Application\Form\AbstractForm{
     

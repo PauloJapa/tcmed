@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Endereco Service
- *
+ * @author Allan Davini
  */
 class Endereco extends \Application\Service\AbstractService{
 

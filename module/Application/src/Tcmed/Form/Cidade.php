@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Cidade
- *
+ * @author Allan Davini
  */
 class Cidade extends \Application\Form\AbstractForm{
     

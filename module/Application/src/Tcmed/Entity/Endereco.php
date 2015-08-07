@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_endereco", indexes={@ORM\Index(name="fk_endereco_logradouro1_idx", columns={"logradouro_id"})})
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\EnderecoRepository")
+ * @author Allan Davini
  */
 class Endereco extends \Application\Entity\AbstractEntity
 {
