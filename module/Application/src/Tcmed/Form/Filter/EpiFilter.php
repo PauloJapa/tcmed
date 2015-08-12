@@ -7,10 +7,10 @@
 namespace Tcmed\Form\Filter;
 
 /**
- * Validação do form da Bairro
+ * Validação do form da Epi
  * @author Allan Davini
  */
-class BairroFilter extends \Application\Form\Filter\AbstractFilter{
+class EpiFilter extends \Application\Form\Filter\AbstractFilter{
     
     public function __construct() {
         

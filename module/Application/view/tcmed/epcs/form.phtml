@@ -1,5 +1,5 @@
 <h3><?php echo $this->dataView['titulo']; 
-$controller = 'epifuncoes';
+$controller = 'epcs';
 $route = 'tcmed/default';
 ?></h3>
 <br />
@@ -8,14 +8,12 @@ $route = 'tcmed/default';
  * @author Allan Davini */
 $fh = $this->formHelp($this,$this->form,$this->url($route,array('controller'=>$controller,'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
 $fh->setHorizontal(true);
-$fh->formInit('Cadastro Epi Funcao:');
-    $fh->openCol('12')->text('eficaz')->closeCol();
+$fh->formInit('Cadastro Epcs:');
+    $fh->openCol('12')->text('epc')->closeCol();
 $fh->lineDown();
-    $fh->openCol('12')->select('idEpi')->closeCol();
+    $fh->openCol('12')->text('status')->closeCol();
 $fh->lineDown();
-    $fh->openCol('12')->select('idFuncao')->closeCol();
-$fh->lineDown();
-    $fh->openCol('12')->select('idRisco')->closeCol();
+    $fh->openCol('12')->select('idModeloseguranca')->closeCol();
 $fh->lineDown();
     $fh->openCol('12')->Submit('submit')->closeCol();
 $fh->closeLine()->formEnd();
