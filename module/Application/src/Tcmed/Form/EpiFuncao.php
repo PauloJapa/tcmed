@@ -46,7 +46,7 @@ class EpiFuncao extends \Application\Form\AbstractForm{
     public function getAllEpis() {
         /* @var $repository \Application\Entity\Repository\EpiRepository */
         $repository = $this->em->getRepository($this->moduloName . "\Entity\Epi");
-        return $repository->fetchPairs('getNomeEpi');
+        return $repository->fetchPairs('getEpi');
     }
     public function getAllFuncao() {
         /* @var $repository \Application\Entity\Repository\FuncaoRepository */
