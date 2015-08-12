@@ -296,6 +296,7 @@ return array(
             'Tcmed\Controller\Questionarios' => 'Tcmed\Controller\QuestionariosController',
             'Tcmed\Controller\EpiFuncoes' => 'Tcmed\Controller\EpiFuncoesController',
             'Tcmed\Controller\FuncaoEpcs' => 'Tcmed\Controller\FuncaoEpcsController',
+            'Tcmed\Controller\EpcOcupacaoFuncaos' => 'Tcmed\Controller\EpcOcupacaoFuncaosController',
         ),
     ),    
     'module_layouts' => array(

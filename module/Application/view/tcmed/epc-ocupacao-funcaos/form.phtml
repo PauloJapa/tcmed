@@ -1,0 +1,28 @@
+<h3><?php echo $this->dataView['titulo']; 
+$controller = 'epcocupacaofuncaos';
+$route = 'tcmed/default';
+?></h3>
+<br />
+<?php
+/* @var $fh \Application\View\Helper\FormHelp
+ * @author Allan Davini */
+$fh = $this->formHelp($this,$this->form,$this->url($route,array('controller'=>$controller,'action'=>$this->dataView['action']),[],FALSE,$this->dataView['ajax']));
+$fh->setHorizontal(true);
+$fh->formInit('Cadastro Ocupacao funcao Epc:');
+    $fh->openCol('12')->text('eficaz')->closeCol();
+$fh->lineDown();
+    $fh->openCol('12')->select('idEpc')->closeCol();
+$fh->lineDown();
+    $fh->openCol('12')->select('idOcupacaoFuncao')->closeCol();
+$fh->lineDown();
+    $fh->openCol('12')->Submit('submit')->closeCol();
+$fh->closeLine()->formEnd();
+?>
+
+<script lang="javascritp">   
+    
+    function isValid(){
+        return true;
+    }
+    
+</script>
