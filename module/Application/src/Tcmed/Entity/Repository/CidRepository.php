@@ -10,7 +10,7 @@ namespace Tcmed\Entity\Repository;
  * Description of Cid
  *
  */
-class Cid extends \Application\Entity\Repository\AbstractRepository {
+class CidRepository extends \Application\Entity\Repository\AbstractRepository {
     
     
 

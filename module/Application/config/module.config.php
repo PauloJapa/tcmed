@@ -277,7 +277,7 @@ return array(
             'Tcmed\Controller\Enderecos' => 'Tcmed\Controller\EnderecosController',
             'Tcmed\Controller\Logradouros' => 'Tcmed\Controller\LogradourosController',
             'Tcmed\Controller\TipoLogradouros' => 'Tcmed\Controller\TipoLogradourosController',
-            'Tcmed\Controller\TipoMeioContatar' => 'Tcmed\Controller\TipoMeioContatarController',
+            'Tcmed\Controller\TipoMeioContatos' => 'Tcmed\Controller\TipoMeioContatosController',
             'Tcmed\Controller\Cids' => 'Tcmed\Controller\CidsController',
             'Tcmed\Controller\Riscos' => 'Tcmed\Controller\RiscosController',
             'Tcmed\Controller\Setores' => 'Tcmed\Controller\SetoresController',

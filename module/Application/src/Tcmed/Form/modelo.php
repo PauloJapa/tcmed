@@ -20,7 +20,7 @@ class modelo extends \Application\Form\AbstractForm{
         
         $this->moduloName = "Tcmed";  
         
-        $this->setInputFilter(new Filter\AdministradoraFilter);
+        $this->setInputFilter(new Filter\modeloFilter);
         
         $this->setInputHidden('idmodelo');
         

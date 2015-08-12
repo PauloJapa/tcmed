@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManager;
  * Description of modelo Service
  *
  */
-class Bairro extends \Application\Service\AbstractService{
+class modelo extends \Application\Service\AbstractService{
 
     public function __construct(EntityManager $em) {
         parent::__construct($em);

@@ -9,10 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="tcmed_cid")
  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\CidRepository")
+ * @ORM\HasLifecycleCallbacks
  * @author Danilo Dorotheu
  */
-class Cid extends \Application\Entity\AbstractEntity
-{
+class Cid extends \Application\Entity\AbstractEntity {
+
     /**
      * @var integer
      *
@@ -72,12 +73,23 @@ class Cid extends \Application\Entity\AbstractEntity
     private $updatedBy;
 
     /**
+     * Construtor
+     * @param array $options
+     */
+    public function __construct(array $options = array()) {
+        parent::__construct($options);
+        $this->createdAt = new \DateTime("now");
+        $this->updatedAt = new \DateTime("now");
+    }
+
+    /**
      * Retorna ID da entidade
      * @return integer
      */
     public function getIdCid() {
         return $this->idCid;
     }
+
     /**
      * Retorna ID da entidade (Alias)
      * @return integer
@@ -85,6 +97,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getId() {
         return $this->getIdCid();
     }
+
     /**
      * Retorna descricao do CID
      * @return string
@@ -92,6 +105,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getDescricaoCid() {
         return $this->descricaoCid;
     }
+
     /**
      * Retorna o número do CID
      * @return string
@@ -99,6 +113,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getNumeroCid() {
         return $this->numeroCid;
     }
+
     /**
      * Retorna o status do CID
      * @return string
@@ -106,6 +121,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getStatus() {
         return $this->status;
     }
+
     /**
      * Retorna nome do usuario que criou a entidade CID
      * @return type
@@ -113,6 +129,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getCreatedBy() {
         return $this->createdBy;
     }
+
     /**
      * Retorna data de desenvolvimento da entidade   
      * @return type
@@ -120,6 +137,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getCreatedAt($obj = FALSE, $full = FALSE) {
         return $this->dateToStr($this->createdAt, $full, $obj);
     }
+
     /**
      * Retorna data de atualizacao da entidade
      * @return type
@@ -127,6 +145,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getUpdatedAt($obj = FALSE, $full = FALSE) {
         return $this->dateToStr($this->updatedAt, $full, $obj);
     }
+
     /**
      * Retorna nome do usuário que alterou a entidade
      * @return type
@@ -134,6 +153,7 @@ class Cid extends \Application\Entity\AbstractEntity
     public function getUpdatedBy() {
         return $this->updatedBy;
     }
+
     /**
      * Seta um novo numero de identificação da entidade CID
      * @param type $idCid
@@ -143,6 +163,7 @@ class Cid extends \Application\Entity\AbstractEntity
         $this->idCid = $idCid;
         return $this;
     }
+
     /**
      * Seta a descricao do CID (Alias)
      * @param type $idCid
@@ -152,6 +173,7 @@ class Cid extends \Application\Entity\AbstractEntity
         $this->setIdCid($idCid);
         return $this;
     }
+
     /**
      * Seta a descricao do CID
      * @param type $descricaoCid
@@ -161,6 +183,7 @@ class Cid extends \Application\Entity\AbstractEntity
         $this->descricaoCid = $descricaoCid;
         return $this;
     }
+
     /**
      * Seta o número do CID
      * @param type $numeroCid
@@ -170,6 +193,7 @@ class Cid extends \Application\Entity\AbstractEntity
         $this->numeroCid = $numeroCid;
         return $this;
     }
+
     /**
      * Seta o status do CID
      * @param type $status
@@ -179,6 +203,7 @@ class Cid extends \Application\Entity\AbstractEntity
         $this->status = $status;
         return $this;
     }
+
     /**
      * Seta nome do usuario que criou o CID
      * @param type $createdBy
@@ -188,24 +213,27 @@ class Cid extends \Application\Entity\AbstractEntity
         $this->createdBy = $createdBy;
         return $this;
     }
+
     /**
      * Seta a data de desenvolvimento desta entidade
      * @param \DateTime $createdAt
      * @return \Cid
      */
-    public function setCreatedAt($createdAt) {
-        $this->createdAt = $this->strToDate($createdAt);
+    public function setCreatedAt() {
+        $this->createdAt = new \DateTime("now");
         return $this;
     }
+
     /**
-     * 
-     * @param \DateTime $updatedAt
+     * Seta data de atualizacao da entidade
+     * @ORM\PrePersist
      * @return \Cid
      */
-    public function setUpdatedAt($updatedAt) {
-        $this->createdAt = $this->strToDate($updatedAt);
+    public function setUpdatedAt() {
+        $this->createdAt = new \DateTime("now");
         return $this;
     }
+
     /**
      * Seta o nomeo do usuário que criou este modelo.
      * @param type $updatedBy
@@ -215,5 +243,5 @@ class Cid extends \Application\Entity\AbstractEntity
         $this->updatedBy = $updatedBy;
         return $this;
     }
-}
 
+}

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPOSIT=$1
-ENTITY=$1
+ENTITY=$3
 FORM=$1
 CONTROL=$1
 FILTER=$1
@@ -13,7 +13,7 @@ cd /var/www/tcmed/module/Application/src/Tcmed/Entity/Repository
 cp modelo.php mod.php
 mv modelo.php $REPOSIT"Repository.php"
 mv mod.php modelo.php
-sed "s/modelo/$REPOSIT/g" $REPOSIT"Repository.php" > "temp.php"
+sed "s/modelo/${REPOSIT}Repository/g" $REPOSIT"Repository.php" > "temp.php"
 mv "temp.php" $REPOSIT"Repository.php"
 
 #trata o entity
@@ -22,7 +22,7 @@ php public/index.php orm:convert-mapping --filter="Tcmed$ENTITY" --from-database
 
 cd /var/www/tcmed/module/Application/src/Tcmed/Entity/
 sed "s/Tcmed//g" "Tcmed"$ENTITY".php" > "temp.php"
-mv "temp.php" $ENTITY".php"
+mv "temp.php" $CONTROL".php"
 rm "Tcmed"$ENTITY".php"
 
 #Trata o form
