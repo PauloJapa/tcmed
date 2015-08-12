@@ -8,7 +8,7 @@ namespace Tcmed\Form;
 
 /**
  * Description of Epi
- *
+ * @author Allan Davini
  */
 class Epi extends \Application\Form\AbstractForm{
     
@@ -24,14 +24,25 @@ class Epi extends \Application\Form\AbstractForm{
         $this->setInputFilter(new Filter\EpiFilter);
         
         $this->setInputHidden('idEpi');
+        
         $this->setSimpleText('epi');
+        
         $this->setSimpleText('status');
+        
+        $selectOptionsParent = $this->getAllPairs();
+        $this->setInputSelect('idModeloseguranca', 'ModeloSeguranca: ', $selectOptionsParent);
         
         $csrf = new \Zend\Form\Element\Csrf('security');
         $this->add($csrf);
         
         $this->setInputSubmit('submit', 'Salvar');
         
+    }
+    
+    public function getAllPairs() {
+        /* @var $repository \Application\Entity\Repository\ModeloSegurancaRepository */
+        $repository = $this->em->getRepository($this->moduloName . "\Entity\ModeloSeguranca");
+        return $repository->fetchPairs('getNomeModeloSeguranca');
     }
     
 }

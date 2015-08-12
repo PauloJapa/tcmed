@@ -7,13 +7,13 @@
 namespace Tcmed\Controller;
 
 /**
- * Description of EpisController
+ * Description of EpiFuncoesController
  * @author Allan Davini
  */
-class EpisController extends \Application\Controller\CrudController {
+class EpiFuncoesController extends \Application\Controller\CrudController {
 
     public function __construct() {
-        parent::__construct('epi','Tcmed');
+        parent::__construct('EpiFuncao','Tcmed');
         $this->route = 'tcmed/default'; 
         $this->routeAjax = "tcmed/ajax"; 
         $this->setFormWithEntityManager(true);

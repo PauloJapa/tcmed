@@ -8,11 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
  * Epi
  *
  * @ORM\Table(name="tcmed_epi")
- * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\EpiRepository")
- * @author Danilo Dorotheu
+  * @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\EpiRepository")
+ * @author Allan Davini
  */
-class Epi extends \Application\Entity\AbstractEntity{
-
+class Epi extends \Application\Entity\AbstractEntity
+{
     /**
      * @var integer
      *
@@ -43,55 +43,129 @@ class Epi extends \Application\Entity\AbstractEntity{
      */
     private $dtCadastro;
 
-    public function __construct(array $options = array()) {
-        parent::__construct($options);
-        $this->dtCadastro = new \DateTime("now");
-    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Modeloseguranca", inversedBy="idEpi")
+     * @ORM\JoinTable(name="tcmed_epi_mod",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="id_epi", referencedColumnName="id_epi")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="id_modeloSeguranca", referencedColumnName="id_modeloSeguranca")
+     *   }
+     * )
+     */
+    private $idModeloseguranca;
 
     /**
-     * Alias getIdEpi
-     * @return integer
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idModeloseguranca = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * 
+     * @return String
      */
     public function getId() {
         return $this->getIdEpi();
     }
     
-    public function getIdEpi() {
+    /**
+     * Metodo padrão para setar o campo key da tabela
+     * @param string $id
+     * @return \Application\Entity\AppMenu
+     */
+    public function setId($id) {
+        return $this->setIdEpi($id);
+    }
+    
+    /**
+     * 
+     * @return integer
+     */
+    function getIdEpi() {
         return $this->idEpi;
     }
 
-    public function getEpi() {
+    /**
+     * 
+     * @return string
+     */
+    function getEpi() {
         return $this->epi;
     }
 
-    public function getStatus() {
+    /**
+     * 
+     * @return string
+     */
+    function getStatus() {
         return $this->status;
     }
 
-    public function getDtCadastro($obj = FALSE, $full = FALSE) {
-        return $this->strToDate($this->dtCadastro, $obj, $full);
-    }
     /**
-     * Alias setIdEpi
-     * @param integer $idEpi
+     * 
+     * @return \DateTime | string
      */
-    public function setId($idEpi) {
-        $this->setIdEpi($idEpi);
+    public function getDtCadastro($obj = FALSE, $full = FALSE) {
+        return $this->dateToStr($this->dtCadastro, $full, $obj);
     }
 
-    public function setIdEpi($idEpi) {
+    /**
+     * 
+     * @return string
+     */
+    function getIdModeloseguranca() {
+        return $this->idModeloseguranca;
+    }
+
+    /**
+     * 
+     * @param integer $idEpi
+     */
+    function setIdEpi($idEpi) {
         $this->idEpi = $idEpi;
     }
 
-    public function setEpi($epi) {
+    /**
+     * 
+     * @param string $epi
+     */
+    function setEpi($epi) {
         $this->epi = $epi;
     }
 
-    public function setStatus($status) {
+    /**
+     * 
+     * @param string $status
+     */
+    function setStatus($status) {
         $this->status = $status;
     }
 
-    public function setDtCadastro($dtCadastro) {
+    /**
+     * 
+     * @param \DateTime $dtCadastro
+     * @return \Tcmed\Entity\Epi
+     */
+    public function setDtCadastro($dtCadastro) {        
         $this->dtCadastro = $this->strToDate($dtCadastro);
+        return $this;
     }
+
+    /**
+     * 
+     * @param \Doctrine\Common\Collections\Collection $idModeloseguranca
+     */
+    function setIdModeloseguranca(\Doctrine\Common\Collections\Collection $idModeloseguranca) {
+        $this->idModeloseguranca = $idModeloseguranca;
+    }
+
+
+
 }
+

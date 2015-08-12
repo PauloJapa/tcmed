@@ -7,8 +7,11 @@
 namespace Tcmed\Entity\Repository;
 
 /**
- * Description of PaisRepository
+ * Description of EpiRepository
+ * @author Allan Davini
  */
 class EpiRepository extends \Application\Entity\Repository\AbstractRepository {
     
+    
+
 }

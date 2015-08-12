@@ -2,24 +2,25 @@
 /* @var $table \Application\View\Helper\Table
  * @author Allan Davini */
 $table = $this->table();
-$controller = 'epis';
+$controller = 'epifuncoes';
 $route = 'tcmed/default';
 ?>
-<h1>Epis</h1>
+<h1>Epi Funcoes</h1>
 <br />
 <p>
     <button class="btn btn-primary" onclick="<?php echo $this->url($route, array('controller' => $controller, 'action' => 'new')); ?>">Novo</button>
 </p>
 <?php
 $table->openTable(TRUE);
-$table->renderThead(['ID', 'epi', 'status', 'idModeloseguranca', 'Ação']);
-/* @var $entity \Tcmed\Entity\Epi */
+$table->renderThead(['ID', 'eficaz', 'idEpi', 'idFuncao', 'idRisco', 'Ação']);
+/* @var $entity \Tcmed\Entity\EpiFuncao */
 foreach ($this->data as $entity) {
     $table->renderLine([
         $entity->getId(),
-        $entity->getEpi(),
-        $entity->getStatus(),
-        $entity->getIdModeloseguranca()->getNomeModeloSeguranca(),
+        $entity->getEficaz(),
+        $entity->getIdEpi()->getNomeEpi(),
+        $entity->getIdFuncao()->getNomeFuncao(),
+        $entity->getIdRisco()->getNomeRisco(),
         $entity->getId(),
     ]);
 }

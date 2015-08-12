@@ -9,7 +9,7 @@ namespace Tcmed\Service;
 use Doctrine\ORM\EntityManager;
 /**
  * Description of Epi Service
- *
+ * @author Allan Davini
  */
 class Epi extends \Application\Service\AbstractService{
 
@@ -19,6 +19,10 @@ class Epi extends \Application\Service\AbstractService{
         
         $this->entity = $this->basePath . "Epi";        
         $this->id = 'idEpi';
+        
+        $this->setDataRefArray([
+            'idModeloseguranca' => $this->basePath . 'ModeloSeguranca'
+        ]);
         
     }        
     
