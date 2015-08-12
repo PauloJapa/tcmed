@@ -1,0 +1,33 @@
+#!/bin/bash
+
+REPOSIT=$2
+ENTITY=$2
+PASTA=$3
+
+SERVICE=$2
+
+#TRATA O REPOSITORY
+cd module/Application/src/Tcmed/Entity/Repository
+cp modelo.php mod.php
+mv modelo.php $REPOSIT"Repository.php"
+mv mod.php modelo.php
+sed "s/modelo/$REPOSIT/g" $REPOSIT"Repository.php" > "temp.php"
+mv "temp.php" $REPOSIT"Repository.php"
+
+#TRATA O ENTITY
+cd /var/www/tcmed
+php public/index.php orm:convert-mapping --filter="Tcmed$ENTITY" --from-database annotation /var/www/tcmed/module/Application/src/Tcmed/Entity/
+
+cd /var/www/tcmed/module/Application/src/Tcmed/Entity/
+#sed 's,@ORM\Entity, @ORM\Entity(repositoryClass="\Tcmed\Entity\Repository\'$REPOSIT'Repository"),g' "Tcmed"$REPOSIT".php" > "teste.php"
+
+#TRATA O SERVICE
+cd /var/www/tcmed/module/Application/src/Tcmed/Form
+cp modelo.php mod.php
+mv modelo.php $SERVICE".php"
+mv mod.php modelo.php
+sed "s/modelo/modelo/$SERVICE/g" $SERVICE".php" > "temp.php"
+mv "temp.php" $SERVICE".php"
+
+
+

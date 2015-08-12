@@ -11,14 +11,14 @@ $route = 'tcmed/default';
 </p>
 <?php
 $table->openTable(TRUE);
-$table->renderThead(['ID', 'descricaoCid', 'numeroCid', 'status', 'Ação']);
+$table->renderThead(['ID', 'Descricao', 'Número', 'status', 'Ação']);
 /* @var $entity \Tcmed\Entity\Cid */
 foreach ($this->data as $entity) {
     $table->renderLine([
         $entity->getId(),
-        $entity->getdescricaoCid(),
-        $entity->getnumeroCid(),
-        $entity->getstatus(),
+        $entity->getDescricaoCid(),
+        $entity->getNumeroCid(),
+        $entity->getStatus(),
         $entity->getId(),
     ]);
 }

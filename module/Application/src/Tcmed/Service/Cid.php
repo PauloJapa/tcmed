@@ -19,7 +19,6 @@ class Cid extends \Application\Service\AbstractService{
         
         $this->entity = $this->basePath . "Cid";        
         $this->id = 'idCid';
-        
     }        
     
 }
